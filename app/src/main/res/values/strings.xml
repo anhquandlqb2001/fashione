@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Fashione</string>
+    <string name="menu_item_home_text">Home</string>
+    <string name="menu_item_profile_text">Profile</string>
+    <string name="menu_item_cart_text">My cart</string>
+    <string name="menu_item_favourite_text">Favourite</string>
+    <string name="content_description_notification_icon">Notification icon</string>
+    <string name="content_description_icon_filter">Icon filter</string>
+    <string name="search_product_text">Tìm kiếm sản phẩm</string>
 </resources>
