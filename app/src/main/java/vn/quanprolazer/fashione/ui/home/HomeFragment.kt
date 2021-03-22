@@ -19,6 +19,8 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater)
 
+        binding.rvCategory.adapter = HomeAdapter()
+
         return binding.root
 
     }
