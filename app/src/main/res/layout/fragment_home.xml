@@ -10,7 +10,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="35dp"
+        android:layout_marginHorizontal="16dp"
         android:hint=" "
         android:textColorHint="@color/text_black"
         app:boxStrokeColor="@color/black_light"
@@ -25,22 +25,106 @@
             android:background="@drawable/shadow_rect"
             android:hint="@string/search_product_text"
             android:maxLines="1"
+            android:lines="1"
+            android:singleLine="true"
             android:textAppearance="@style/TextAppearance.App.Caption" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_category"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintEnd_toStartOf="@+id/end_guideline"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/start_guideline"
+        android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/textField"
-        tools:listitem="@layout/list_item_category" />
+        app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+        app:layout_constraintStart_toStartOf="@+id/start_guideline">
+
+
+<!--        category section -->
+        <RelativeLayout
+            android:id="@+id/relativeLayoutCategory"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_weight="1"
+            android:layout_width="wrap_content">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto"
+                android:text="@string/header_category_text"
+                android:textColor="@color/section_text_color"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_category"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_below="@id/tv_category"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/list_item_category" />
+
+        </RelativeLayout>
+
+
+<!--        featured section -->
+        <RelativeLayout
+            android:id="@+id/relativeLayoutFeatured"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_weight="1"
+            app:layout_constraintEnd_toStartOf="@+id/end_guideline"
+            app:layout_constraintStart_toStartOf="@+id/start_guideline"
+            app:layout_constraintTop_toBottomOf="@+id/textField">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ll_featured"
+                android:baselineAligned="false"
+                android:gravity="center_vertical">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/tv_featured"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto"
+                    android:text="@string/header_featured_text"
+                    android:textColor="@color/section_text_color"
+                    android:textSize="20sp"
+                    android:layout_weight="1"/>
+
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/tv_see_all_color"
+                    android:text="@string/tv_see_all" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_arrow_forward_black_24dp"/>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_featured"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/ll_featured"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/list_item_product" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/start_guideline"
@@ -55,6 +139,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_end="16sp" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

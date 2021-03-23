@@ -15,4 +15,7 @@
     <color name="splash_screen_gradient_start">#667EEA</color>
     <color name="splash_screen_gradient_end">#64B6FF</color>
 
+
+    <color name="section_text_color">#434343</color>
+    <color name="tv_see_all_color">#656565</color>
 </resources>

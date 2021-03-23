@@ -24,7 +24,7 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.Fashione">
-        <item name="android:windowBackground">@drawable/background_splash_screen</item>
+        <item name="android:windowBackground">@drawable/loding_screen</item>
 <!--        <item name="android:navigationBarColor">?attr/colorPrimary</item>-->
 <!--        <item name="android:statusBarColor">?attr/colorPrimary</item>-->
         <item name="android:windowNoTitle">true</item>

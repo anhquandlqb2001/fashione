@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="product"
+            type="vn.quanprolazer.fashione.ui.home.HomeProductInfo" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:id="@+id/iv_product"
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            app:layout_constraintBottom_toTopOf="@id/tv_product_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:src="@drawable/i_shopping_cart_splash_screen" />
+
+        <TextView
+            android:id="@+id/tv_product_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/iv_product"
+            app:layout_constraintTop_toBottomOf="@+id/iv_product"
+            tools:text="Ao quan dep trai"
+            android:text="@{product.name}"/>
+
+        <TextView
+            android:id="@+id/tv_product_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@+id/iv_product"
+            app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
+            tools:text="23.000"
+            android:text="@{product.price}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

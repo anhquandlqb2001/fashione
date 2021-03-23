@@ -7,4 +7,7 @@
     <string name="content_description_notification_icon">Notification icon</string>
     <string name="content_description_icon_filter">Icon filter</string>
     <string name="search_product_text">Tìm kiếm sản phẩm</string>
+    <string name="header_category_text">Danh mục</string>
+    <string name="header_featured_text">Đặc sắc</string>
+    <string name="tv_see_all">Xem tất cả</string>
 </resources>
