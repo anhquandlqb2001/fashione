@@ -12,4 +12,7 @@
     <color name="black_light">#202020</color>
     <color name="text_black">#818181</color>
 
+    <color name="splash_screen_gradient_start">#667EEA</color>
+    <color name="splash_screen_gradient_end">#64B6FF</color>
+
 </resources>

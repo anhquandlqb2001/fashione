@@ -19,10 +19,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        // turn off splash screen
+        setTheme(R.style.Theme_Fashione)
 
-        // Get a support ActionBar corresponding to this toolbar and enable the Up button
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         setupNavigation()
     }

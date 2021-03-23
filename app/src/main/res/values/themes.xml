@@ -23,6 +23,15 @@
         <item name="contentInsetEnd">0dp</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.Fashione">
+        <item name="android:windowBackground">@drawable/background_splash_screen</item>
+<!--        <item name="android:navigationBarColor">?attr/colorPrimary</item>-->
+<!--        <item name="android:statusBarColor">?attr/colorPrimary</item>-->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
     <style name="TextAppearance.App.Caption" parent="TextAppearance.MaterialComponents.Caption">
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/roboto</item>
