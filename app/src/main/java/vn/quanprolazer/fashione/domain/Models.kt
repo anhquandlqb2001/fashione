@@ -28,13 +28,12 @@ data class User(val userId: String, //Document ID is actually the user id
 
 @Parcelize
 data class Category(val categoryId: String,
-                val name: String) : Parcelable {
+                    val name: String) : Parcelable {
 
     companion object {
         fun DocumentSnapshot.toCategory(): Category? {
             return try {
-                val name = getString("name")!!
-                Log.i(TAG, name)
+                val name = requireNotNull(getString("name"))
                 Category(id, name)
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting category profile", e)

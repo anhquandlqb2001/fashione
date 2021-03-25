@@ -35,7 +35,9 @@ class HomeFragment : Fragment() {
         binding.rvFeatured.adapter = productAdapter
 
         homeViewModel.categories.observe(viewLifecycleOwner, Observer {
-            Log.i("HomeFragment", it.toString())
+            it?.let {
+                categoryAdapter.submitList(it)
+            }
         })
 
         return binding.root

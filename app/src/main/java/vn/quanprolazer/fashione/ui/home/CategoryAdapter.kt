@@ -17,6 +17,7 @@ import kotlinx.coroutines.withContext
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
 import vn.quanprolazer.fashione.databinding.ListItemCategoryBinding
+import vn.quanprolazer.fashione.domain.Category
 
 data class CategoryButtonBackground(val startColor: Int, val endColor: Int)
 
@@ -28,7 +29,7 @@ val categories = listOf(
     CategoryInfo("Trẻ em", CategoryButtonBackground(Color.parseColor("#43E97B"), Color.parseColor("#38F9D7")))
 )
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryItemViewHolder>() {
+class CategoryAdapter : ListAdapter<Category, CategoryAdapter.CategoryItemViewHolder>(DiffCallback) {
 
     class CategoryItemViewHolder(private val binding: ListItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
         companion object {
@@ -39,13 +40,13 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryItemViewHol
             }
         }
 
-        fun bind(categoryInfo: CategoryInfo) {
-            binding.category = categoryInfo
-            val backgroundDrawable = binding.ivCategory.background as GradientDrawable
-            backgroundDrawable.run {
-                mutate()
-                colors = intArrayOf(categoryInfo.backgroundColor.startColor.toInt(), categoryInfo.backgroundColor.endColor.toInt())
-            }
+        fun bind(category: Category) {
+            binding.category = category
+//            val backgroundDrawable = binding.ivCategory.background as GradientDrawable
+//            backgroundDrawable.run {
+//                mutate()
+//                colors = intArrayOf(categoryInfo.backgroundColor.startColor.toInt(), categoryInfo.backgroundColor.endColor.toInt())
+//            }
             binding.executePendingBindings()
         }
     }
@@ -58,9 +59,18 @@ class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.CategoryItemViewHol
     }
 
     override fun onBindViewHolder(holder: CategoryItemViewHolder, position: Int) {
-        holder.bind(categories[position])
+        holder.bind(getItem(position))
     }
 
-    override fun getItemCount() = categories.size
+}
+
+object DiffCallback : DiffUtil.ItemCallback<Category>() {
+    override fun areItemsTheSame(oldItem: Category, newItem: Category): Boolean {
+        return oldItem.categoryId == newItem.categoryId
+    }
+
+    override fun areContentsTheSame(oldItem: Category, newItem: Category): Boolean {
+        return oldItem == newItem
+    }
 
 }
