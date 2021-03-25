@@ -1,2 +1,4 @@
+include ':api'
+include ':api'
 include ':app'
 rootProject.name = "Fashione"

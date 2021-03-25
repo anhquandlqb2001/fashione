@@ -2,17 +2,19 @@ package vn.quanprolazer.fashione
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import android.util.Log
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.navigateUp
-import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import vn.quanprolazer.fashione.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    private val TAG = "MainActivity"
 
     private lateinit var binding: ActivityMainBinding
 
