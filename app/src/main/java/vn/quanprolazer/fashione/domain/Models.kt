@@ -7,22 +7,24 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class User(val userId: String, //Document ID is actually the user id
-                val first: String,
-                val last: String) : Parcelable {
+data class Product(val productId: String, //Document ID is actually the user id
+                val productName: String,
+                val productImage: String,
+                val productPrice: String) : Parcelable {
 
     companion object {
-        fun DocumentSnapshot.toUser(): User? {
+        fun DocumentSnapshot.toProduct(): Product? {
             return try {
-                val first = getString("first")!!
-                val last = getString("last")!!
-                User(id, first, last)
+                val productName = getString("productName")!!
+                val productImage = getString("productImageUrl")!!
+                val productPrice = getString("price")!!
+                Product(id, productName, productImage, productPrice)
             } catch (e: Exception) {
-                Log.e(TAG, "Error converting user profile", e)
+                Log.e(TAG, "Error converting product", e)
                 null
             }
         }
-        private const val TAG = "User"
+        private const val TAG = "Product"
     }
 }
 
@@ -33,7 +35,7 @@ data class Category(val categoryId: String,
     companion object {
         fun DocumentSnapshot.toCategory(): Category? {
             return try {
-                val name = requireNotNull(getString("name"))
+                val name = requireNotNull(getString("categoryName"))
                 Category(id, name)
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting category profile", e)

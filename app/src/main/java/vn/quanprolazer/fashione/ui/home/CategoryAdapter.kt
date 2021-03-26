@@ -61,7 +61,6 @@ class CategoryAdapter : ListAdapter<Category, CategoryAdapter.CategoryItemViewHo
     override fun onBindViewHolder(holder: CategoryItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
-
 }
 
 object DiffCallback : DiffUtil.ItemCallback<Category>() {

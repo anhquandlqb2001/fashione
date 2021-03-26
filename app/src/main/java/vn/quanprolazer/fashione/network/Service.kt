@@ -5,19 +5,21 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import vn.quanprolazer.fashione.domain.Category
 import vn.quanprolazer.fashione.domain.Category.Companion.toCategory
-import vn.quanprolazer.fashione.domain.User
-import vn.quanprolazer.fashione.domain.User.Companion.toUser
+import vn.quanprolazer.fashione.domain.Product
+import vn.quanprolazer.fashione.domain.Product.Companion.toProduct
 
-
-object FirebaseProfileService {
-    private const val TAG = "FirebaseProfileService"
-    suspend fun getProfileData(userId: String): User? {
+object FashioneProductService {
+    private const val TAG = "FashioneProductService"
+    suspend fun getProducts(): List<Product>? {
         val db = FirebaseFirestore.getInstance()
         return try {
-            db.collection("users")
-                .document(userId).get().await().toUser()
+            db.collection("products")
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toProduct() }
         } catch (e: Exception) {
-            Log.e(TAG, "Error getting user details", e)
+            Log.e(TAG, "Error getting list products", e)
             null
         }
     }

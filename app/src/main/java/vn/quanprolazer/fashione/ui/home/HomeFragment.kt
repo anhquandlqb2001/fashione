@@ -30,13 +30,19 @@ class HomeFragment : Fragment() {
 
         binding.rvCategory.adapter = categoryAdapter
 
-        val productAdapter = ProductAdapter(arrayListOf())
+        val productAdapter = ProductAdapter()
 
         binding.rvFeatured.adapter = productAdapter
 
         homeViewModel.categories.observe(viewLifecycleOwner, Observer {
             it?.let {
                 categoryAdapter.submitList(it)
+            }
+        })
+
+        homeViewModel.products.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                productAdapter.submitList(it)
             }
         })
 

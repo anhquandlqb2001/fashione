@@ -6,15 +6,16 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListItemProductBinding
+import vn.quanprolazer.fashione.domain.Product
 
 
 data class HomeProductInfo(val id: Long, val image: String, val name: String, val price: String)
 
-class ProductAdapter(val productList: List<HomeProductInfo>) : ListAdapter<HomeProductInfo, RecyclerView.ViewHolder>(ProductDiffUtil()) {
+class ProductAdapter() : ListAdapter<Product, RecyclerView.ViewHolder>(ProductDiffUtil()) {
 
     class ProductViewHolder(private val binding: ListItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(productInfo: HomeProductInfo) {
-            binding.product = productInfo
+        fun bind(product: Product) {
+            binding.product = product
             binding.executePendingBindings()
         }
 
@@ -33,17 +34,17 @@ class ProductAdapter(val productList: List<HomeProductInfo>) : ListAdapter<HomeP
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ProductViewHolder).bind(productList[position])
+        (holder as ProductViewHolder).bind(getItem(position))
     }
 }
 
 
-class ProductDiffUtil : DiffUtil.ItemCallback<HomeProductInfo>() {
-    override fun areItemsTheSame(oldItem: HomeProductInfo, newItem: HomeProductInfo): Boolean {
-        return oldItem.id == newItem.id
+class ProductDiffUtil : DiffUtil.ItemCallback<Product>() {
+    override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+        return oldItem.productId == newItem.productId
     }
 
-    override fun areContentsTheSame(oldItem: HomeProductInfo, newItem: HomeProductInfo): Boolean {
+    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
         return oldItem == newItem
     }
 
