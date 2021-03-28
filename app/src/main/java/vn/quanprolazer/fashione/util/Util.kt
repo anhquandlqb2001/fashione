@@ -1,5 +1,9 @@
 package vn.quanprolazer.fashione.util
 
+import android.util.Log
+import android.view.inputmethod.EditorInfo
+import com.google.android.material.textfield.TextInputEditText
+
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
 
 /**
@@ -30,4 +34,17 @@ fun String.smartTruncate(length: Int): String {
         builder.append("...")
     }
     return builder.toString()
+}
+
+
+fun TextInputEditText.onDone(callback: (() -> Unit)?) {
+    setOnEditorActionListener { _, actionId, _ ->
+        callback?.let {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                Log.i("BindingAdapter", "hey")
+                callback.invoke()
+            }
+        }
+        false
+    }
 }

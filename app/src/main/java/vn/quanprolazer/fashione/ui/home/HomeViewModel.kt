@@ -1,5 +1,8 @@
 package vn.quanprolazer.fashione.ui.home
 
+import android.util.Log
+import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,14 +22,6 @@ class HomeViewModel : ViewModel() {
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> = _products
 
-    init {
-        viewModelScope.launch {
-            _categories.value = FashioneCategoryService.getCategories()
-
-            _products.value = FashioneProductService.getProducts()
-        }
-    }
-
 
     private val _navigateToSearchResult = MutableLiveData<Category>()
     val navigateToSearchResult: LiveData<Category> = _navigateToSearchResult
@@ -37,6 +32,37 @@ class HomeViewModel : ViewModel() {
 
     fun doneNavigate() {
         _navigateToSearchResult.value = null
+        _navigateToSearchResultByText.value = null
     }
 
+
+    private val _navigateToSearchResultByText = MutableLiveData<String>()
+    val navigateToSearchResultByText: LiveData<String> = _navigateToSearchResultByText
+
+
+    val searchText = MutableLiveData<String>()
+
+
+    fun onSearch() {
+        _navigateToSearchResultByText.value = searchText.value
+    }
+
+    init {
+        viewModelScope.launch {
+            _categories.value = FashioneCategoryService.getCategories()
+            searchText.value = ""
+            _products.value = FashioneProductService.getProducts()
+        }
+    }
+
+}
+
+
+class SearchViewModel(private val viewModel: HomeViewModel) : BaseObservable() {
+    @Bindable
+    var searchText = ""
+        set(value) {
+            viewModel.searchText.value = value
+            field = value
+        }
 }

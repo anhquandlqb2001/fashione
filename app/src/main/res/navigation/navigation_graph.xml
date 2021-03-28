@@ -34,10 +34,12 @@
         tools:layout="@layout/fragment_search_result">
         <argument
             android:name="category"
-            app:argType="vn.quanprolazer.fashione.domain.Category" />
+            app:argType="vn.quanprolazer.fashione.domain.Category"
+            app:nullable="true"/>
         <argument
             android:name="query"
-            app:argType="string" />
+            app:argType="string"
+            app:nullable="true"/>
 
 
     </fragment>

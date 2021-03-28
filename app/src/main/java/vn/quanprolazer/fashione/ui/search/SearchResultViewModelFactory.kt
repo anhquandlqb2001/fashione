@@ -6,7 +6,7 @@ import vn.quanprolazer.fashione.domain.Category
 
 
 class SearchResultViewModelFactory(
-    private val category: Category, private val query: String) : ViewModelProvider.Factory {
+    private val category: Category?, private val query: String?) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(SearchResultViewModel::class.java)) {

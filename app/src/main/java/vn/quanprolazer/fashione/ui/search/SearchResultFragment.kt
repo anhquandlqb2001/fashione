@@ -16,7 +16,7 @@ import vn.quanprolazer.fashione.ui.product.ProductAdapter
 class SearchResultFragment : Fragment() {
 
 
-    private lateinit var binding : FragmentSearchResultBinding
+    private lateinit var binding: FragmentSearchResultBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,15 +25,14 @@ class SearchResultFragment : Fragment() {
     ): View {
         binding = FragmentSearchResultBinding.inflate(inflater)
 
-        val category = SearchResultFragmentArgs.fromBundle(requireArguments()).category
-        val query = SearchResultFragmentArgs.fromBundle(requireArguments()).query
+        val category = arguments?.let { SearchResultFragmentArgs.fromBundle(it).category }
+        val query = arguments?.let { SearchResultFragmentArgs.fromBundle(it).query }
+
         val modelFactory = SearchResultViewModelFactory(category, query)
 
         val viewModel = ViewModelProvider(this, modelFactory)[SearchResultViewModel::class.java]
 
         binding.viewModel = viewModel
-
-
 
         val productResultAdapter = ProductAdapter()
 
@@ -50,7 +49,11 @@ class SearchResultFragment : Fragment() {
         val productResultLayoutManager = GridLayoutManager(context, 2)
         binding.rvSearchResult.layoutManager = productResultLayoutManager
 
+
+
+
         return binding.root
     }
+
 
 }
