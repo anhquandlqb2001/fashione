@@ -10,13 +10,13 @@ import vn.quanprolazer.fashione.domain.Product
 import vn.quanprolazer.fashione.network.FashioneCategoryService
 import vn.quanprolazer.fashione.network.FashioneProductService
 
-class SearchResultViewModel(private val categoryId: String, val query: String) : ViewModel() {
+class SearchResultViewModel(val category: Category, val query: String) : ViewModel() {
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> = _products
 
     init {
         viewModelScope.launch {
-            _products.value = FashioneProductService.getProductsByCategoryId(categoryId)
+            _products.value = FashioneProductService.getProductsByCategoryId(category.categoryId)
         }
     }
 }

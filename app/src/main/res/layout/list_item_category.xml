@@ -8,11 +8,16 @@
         <variable
             name="category"
             type="vn.quanprolazer.fashione.domain.Category" />
+        
+        <variable
+            name="clickListener"
+            type="vn.quanprolazer.fashione.ui.home.OnClickCategoryListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="150dp"
-        android:layout_height="80dp">
+        android:layout_height="80dp"
+        android:onClick="@{() -> clickListener.onClick(category)}">
 
         <ImageView
             android:id="@+id/iv_category"

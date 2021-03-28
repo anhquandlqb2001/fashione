@@ -19,17 +19,12 @@ import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
 import vn.quanprolazer.fashione.databinding.ListItemCategoryBinding
 import vn.quanprolazer.fashione.domain.Category
 
-data class CategoryButtonBackground(val startColor: Int, val endColor: Int)
+//data class CategoryButtonBackground(val startColor: Int, val endColor: Int)
+//
+//data class CategoryInfo(val text: String, val backgroundColor: CategoryButtonBackground)
 
-data class CategoryInfo(val text: String, val backgroundColor: CategoryButtonBackground)
 
-val categories = listOf(
-    CategoryInfo("Nữ", CategoryButtonBackground(Color.argb(100, 102, 126, 234), Color.argb(100, 100, 182, 255))),
-    CategoryInfo("Nam", CategoryButtonBackground(Color.parseColor("#FF5858"), Color.parseColor("#FB5895"))),
-    CategoryInfo("Trẻ em", CategoryButtonBackground(Color.parseColor("#43E97B"), Color.parseColor("#38F9D7")))
-)
-
-class CategoryAdapter : ListAdapter<Category, CategoryAdapter.CategoryItemViewHolder>(DiffCallback) {
+class CategoryAdapter(private val clickListener: OnClickCategoryListener) : ListAdapter<Category, CategoryAdapter.CategoryItemViewHolder>(DiffCallback) {
 
     class CategoryItemViewHolder(private val binding: ListItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
         companion object {
@@ -40,8 +35,9 @@ class CategoryAdapter : ListAdapter<Category, CategoryAdapter.CategoryItemViewHo
             }
         }
 
-        fun bind(category: Category) {
+        fun bind(category: Category, clickListener: OnClickCategoryListener) {
             binding.category = category
+            binding.clickListener = clickListener
 //            val backgroundDrawable = binding.ivCategory.background as GradientDrawable
 //            backgroundDrawable.run {
 //                mutate()
@@ -59,7 +55,7 @@ class CategoryAdapter : ListAdapter<Category, CategoryAdapter.CategoryItemViewHo
     }
 
     override fun onBindViewHolder(holder: CategoryItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), clickListener)
     }
 }
 
@@ -72,4 +68,8 @@ object DiffCallback : DiffUtil.ItemCallback<Category>() {
         return oldItem == newItem
     }
 
+}
+
+class OnClickCategoryListener(val clickListener: (category: Category) -> Unit) {
+    fun onClick(category: Category) = clickListener(category)
 }

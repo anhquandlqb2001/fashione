@@ -31,7 +31,10 @@ class HomeFragment : Fragment() {
         val homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         // Category Section
-        val categoryAdapter = CategoryAdapter()
+        val categoryAdapter = CategoryAdapter(OnClickCategoryListener {
+            homeViewModel.onClickCategory(it)
+        })
+
         binding.rvCategory.adapter = categoryAdapter
         homeViewModel.categories.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -78,9 +81,12 @@ class HomeFragment : Fragment() {
         binding.rvSuggestProduct.layoutManager = productSuggestLayoutManager
         // End Product Suggest Section
 
+
+
         homeViewModel.navigateToSearchResult.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(it, ""))
+                homeViewModel.doneNavigate()
             }
         })
 

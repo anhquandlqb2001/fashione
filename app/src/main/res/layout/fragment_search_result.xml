@@ -20,7 +20,8 @@
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/start_guideline"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/header_featured_text" />
+            tools:text="@string/header_featured_text"
+            android:text="@{viewModel.category.name}"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_searchResult"

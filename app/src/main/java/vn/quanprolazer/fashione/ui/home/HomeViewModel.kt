@@ -10,6 +10,7 @@ import vn.quanprolazer.fashione.domain.Product
 import vn.quanprolazer.fashione.network.FashioneCategoryService
 import vn.quanprolazer.fashione.network.FashioneProductService
 
+
 class HomeViewModel : ViewModel() {
 
     private val _categories = MutableLiveData<List<Category>>()
@@ -27,11 +28,11 @@ class HomeViewModel : ViewModel() {
     }
 
 
-    private val _navigateToSearchResult = MutableLiveData<String>()
-    val navigateToSearchResult: LiveData<String> = _navigateToSearchResult
+    private val _navigateToSearchResult = MutableLiveData<Category>()
+    val navigateToSearchResult: LiveData<Category> = _navigateToSearchResult
 
-    fun onClickViewAll(categoryName: String) {
-        _navigateToSearchResult.value = categoryName
+    fun onClickCategory(category: Category) {
+        _navigateToSearchResult.value = category
     }
 
     fun doneNavigate() {
