@@ -23,6 +23,21 @@ object FashioneProductService {
             null
         }
     }
+
+    suspend fun getProductsByCategoryId(categoryId: String): List<Product>? {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            db.collection("products")
+                .whereEqualTo("categoryId", categoryId)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toProduct() }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting list products", e)
+            null
+        }
+    }
 }
 
 

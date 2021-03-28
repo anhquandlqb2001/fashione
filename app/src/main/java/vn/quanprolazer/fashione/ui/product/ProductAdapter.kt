@@ -1,4 +1,4 @@
-package vn.quanprolazer.fashione.ui.home
+package vn.quanprolazer.fashione.ui.product
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,8 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListItemProductBinding
 import vn.quanprolazer.fashione.domain.Product
 
-
-data class HomeProductInfo(val id: Long, val image: String, val name: String, val price: String)
 
 class ProductAdapter() : ListAdapter<Product, RecyclerView.ViewHolder>(ProductDiffUtil()) {
 

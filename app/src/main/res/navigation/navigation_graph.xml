@@ -14,10 +14,27 @@
         <action
             android:id="@+id/action_homeFragment_to_itemDetailFragment"
             app:destination="@id/itemDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemDetailFragment"
         android:name="vn.quanprolazer.fashione.ui.itemDetail.ItemDetailFragment"
         android:label="ItemDetailFragment"
         tools:layout="@layout/fragment_item_detail"/>
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="vn.quanprolazer.fashione.ui.search.SearchResultFragment"
+        android:label="SearchResultFragment"
+        tools:layout="@layout/fragment_search_result">
+        <argument
+            android:name="categoryId"
+            app:argType="string" />
+        <argument
+            android:name="query"
+            app:argType="string" />
+
+
+    </fragment>
 </navigation>
