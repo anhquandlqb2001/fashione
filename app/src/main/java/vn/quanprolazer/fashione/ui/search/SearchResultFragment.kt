@@ -49,9 +49,6 @@ class SearchResultFragment : Fragment() {
         val productResultLayoutManager = GridLayoutManager(context, 2)
         binding.rvSearchResult.layoutManager = productResultLayoutManager
 
-
-
-
         return binding.root
     }
 

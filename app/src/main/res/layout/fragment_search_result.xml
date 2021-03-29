@@ -21,7 +21,7 @@
             app:layout_constraintStart_toStartOf="@+id/start_guideline"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/header_featured_text"
-            android:text="@{viewModel.category.name}"/>
+            android:text="@{viewModel.textToDisplay}"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_searchResult"

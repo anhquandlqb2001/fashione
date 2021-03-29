@@ -39,7 +39,7 @@ class ProductAdapter() : ListAdapter<Product, RecyclerView.ViewHolder>(ProductDi
 
 class ProductDiffUtil : DiffUtil.ItemCallback<Product>() {
     override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem.productId == newItem.productId
+        return oldItem.id == newItem.id
     }
 
     override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {

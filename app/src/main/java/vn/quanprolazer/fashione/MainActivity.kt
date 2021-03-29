@@ -15,6 +15,8 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import vn.quanprolazer.fashione.databinding.ActivityMainBinding
+import vn.quanprolazer.fashione.domain.Product
+//import vn.quanprolazer.fashione.network.FashioneProductAdminService
 
 class MainActivity : AppCompatActivity() {
 

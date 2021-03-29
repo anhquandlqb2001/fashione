@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class Product(val productId: String, //Document ID is actually the user id
+data class Product(val id: String, //Document ID is actually the user id
                 val productName: String,
                 val productImage: String,
                 val productPrice: String) : Parcelable {
