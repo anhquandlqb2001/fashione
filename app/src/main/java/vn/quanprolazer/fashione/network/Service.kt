@@ -1,19 +1,24 @@
 package vn.quanprolazer.fashione.network
 
 import android.util.Log
-import com.algolia.search.saas.RequestOptions
+import com.algolia.search.saas.Query
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.Gson
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import vn.quanprolazer.fashione.domain.Category
-import vn.quanprolazer.fashione.domain.Category.Companion.toCategory
 import vn.quanprolazer.fashione.domain.Product
-import vn.quanprolazer.fashione.domain.Product.Companion.toProduct
 import vn.quanprolazer.fashione.network.Algolia.productIndex
+import vn.quanprolazer.fashione.network.NetworkCategory.Companion.asDomainCategory
+import vn.quanprolazer.fashione.network.NetworkProduct.Companion.asDomainProduct
 
 object FashioneProductService {
     private const val TAG = "FashioneProductService"
+
     suspend fun getProducts(): List<Product>? {
         val db = FirebaseFirestore.getInstance()
         return try {
@@ -21,7 +26,7 @@ object FashioneProductService {
                 .get()
                 .await()
                 .documents
-                .mapNotNull { it.toProduct() }
+                .mapNotNull { it.asDomainProduct() }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting list products", e)
             null
@@ -36,7 +41,7 @@ object FashioneProductService {
                 .get()
                 .await()
                 .documents
-                .mapNotNull { it.toProduct() }
+                .mapNotNull { it.asDomainProduct() }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting list products", e)
             null
@@ -49,10 +54,6 @@ object FashioneProductService {
 //        val algoliaQuery = com.algolia.search.saas.Query()
 //
 //        algoliaQuery.set("productName", query)
-//
-//        val result = productIndex.search(algoliaQuery, RequestOptions())
-//
-//        Log.i("Service", result.toString())
 
         return try {
             db.collection("products")
@@ -62,7 +63,7 @@ object FashioneProductService {
                 .get()
                 .await()
                 .documents
-                .mapNotNull { it.toProduct() }
+                .mapNotNull { it.asDomainProduct() }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting list products", e)
             null
@@ -76,7 +77,11 @@ object FashioneCategoryService {
     suspend fun getCategories(): List<Category>? {
         val db = FirebaseFirestore.getInstance()
         return try {
-            db.collection("categories").get().await().documents.mapNotNull { it.toCategory() }
+            db.collection("categories")
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.asDomainCategory() }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting user details", e)
             null
@@ -84,22 +89,34 @@ object FashioneCategoryService {
     }
 }
 
-//object FashioneProductAdminService {
-//    private const val TAG = "FashioneAdminService"
-//    suspend fun addProduct(product: Product) : Boolean {
-//        return try {
-//
-//            val db = FirebaseFirestore.getInstance()
-//            db.collection("products")
-//                .add(product)
-//                .addOnSuccessListener {
-//                    productIndex.addObjectAsync(JSONObject(Gson().toJson(it)), null)
-//                }
-//            true
-//        } catch (e: Exception) {
-//            Log.e(TAG, "Error getting user details", e)
-//            false
-//        }
-//
-//    }
-//}
+object FashioneProductAdminService {
+    private const val TAG = "FashioneAdminService"
+    suspend fun addProduct(product: NetworkProduct) : Boolean {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            db.collection("products")
+                .add(product)
+                .await()
+                .addSnapshotListener { data, _ ->
+                    data?.let {
+                        val jsonString = Gson().toJson(it.asDomainProduct())
+                        productIndex.addObjectAsync(JSONObject(jsonString), null)
+                    }
+                }
+            true
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting user details", e)
+            false
+        }
+
+    }
+}
+
+object Searcher : CoroutineScope {
+    override val coroutineContext = Job()
+    suspend fun search(query: String): JSONObject? {
+        return withContext(Dispatchers.Default) {
+            productIndex.search(Query(query), null)
+        }
+    }
+}

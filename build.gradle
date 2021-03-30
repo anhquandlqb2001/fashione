@@ -6,6 +6,7 @@ buildscript {
         glide_version = "4.12.0"
         retrofit_version = "2.9.0"
         ktor_version ="1.5.2"
+        moshi_version = "1.9.3"
     }
     repositories {
         google()

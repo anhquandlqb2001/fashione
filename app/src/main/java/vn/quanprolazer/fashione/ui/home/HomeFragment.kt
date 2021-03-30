@@ -18,6 +18,9 @@ import com.google.android.material.textfield.TextInputEditText
 import org.json.JSONObject
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
+import vn.quanprolazer.fashione.domain.Product
+import vn.quanprolazer.fashione.network.FashioneProductAdminService
+import vn.quanprolazer.fashione.network.NetworkProduct
 import vn.quanprolazer.fashione.ui.product.ProductAdapter
 import vn.quanprolazer.fashione.util.onDone
 

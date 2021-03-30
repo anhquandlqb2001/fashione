@@ -7,14 +7,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.Category
 import vn.quanprolazer.fashione.domain.Product
+import vn.quanprolazer.fashione.domain.fromJson
 import vn.quanprolazer.fashione.network.FashioneProductService
-import java.util.*
+import vn.quanprolazer.fashione.network.Searcher
 
 class SearchResultViewModel(val category: Category?, private val query: String?) : ViewModel() {
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> = _products
 
-    val textToDisplay = category?.name ?: "Kết quả cho: $query"
+    val textToDisplay = category?.categoryName ?: "Kết quả cho: $query"
 
     init {
         viewModelScope.launch {
@@ -23,7 +24,8 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
             }
 
             if (!query.isNullOrEmpty()) {
-                _products.value = FashioneProductService.searchProductByQuery(query)
+                val productContainer = fromJson(Searcher.search(query).toString())
+                _products.value = productContainer.products
             }
         }
     }
