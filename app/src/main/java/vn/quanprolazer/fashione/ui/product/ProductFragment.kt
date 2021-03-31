@@ -26,6 +26,11 @@ class ProductFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this, modelFactory)[ProductViewModel::class.java]
 
+        val productImageAdapter = ProductImageAdapter()
+
+        binding.rvProductImage.adapter = productImageAdapter
+
+
         return binding.root
 
     }

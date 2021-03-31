@@ -13,6 +13,10 @@ data class Product(
 ) : Parcelable
 
 
+data class ProductImage(
+    val productImageId: String,
+    val productImageUrl: String)
+
 @Parcelize
 data class Category(
     val categoryId: String,
