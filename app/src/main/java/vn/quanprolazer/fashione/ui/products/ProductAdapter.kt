@@ -9,16 +9,18 @@ import vn.quanprolazer.fashione.databinding.ListItemProductBinding
 import vn.quanprolazer.fashione.domain.Product
 
 
-class ProductAdapter() : ListAdapter<Product, RecyclerView.ViewHolder>(ProductDiffUtil()) {
+class ProductAdapter(private val clickListener: OnClickListener) : ListAdapter<Product, RecyclerView.ViewHolder>(ProductDiffUtil()) {
 
-    class ProductViewHolder(private val binding: ListItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(product: Product) {
+    class ProductViewHolder(private val binding: ListItemProductBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(product: Product, clickListener: OnClickListener) {
             binding.product = product
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
         companion object {
-            fun from(parent: ViewGroup) : ProductViewHolder {
+            fun from(parent: ViewGroup): ProductViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
                 val binding = ListItemProductBinding.inflate(layoutInflater)
                 return ProductViewHolder(binding)
@@ -32,7 +34,7 @@ class ProductAdapter() : ListAdapter<Product, RecyclerView.ViewHolder>(ProductDi
 
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as ProductViewHolder).bind(getItem(position))
+        (holder as ProductViewHolder).bind(getItem(position), clickListener)
     }
 }
 
@@ -46,4 +48,8 @@ class ProductDiffUtil : DiffUtil.ItemCallback<Product>() {
         return oldItem == newItem
     }
 
+}
+
+class OnClickListener(val clickListener: (product: Product) -> Unit) {
+    fun onClick(product: Product) = clickListener(product)
 }

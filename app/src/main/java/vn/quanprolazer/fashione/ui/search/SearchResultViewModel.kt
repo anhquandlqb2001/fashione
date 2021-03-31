@@ -30,4 +30,18 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
             }
         }
     }
+
+    private val _navigateToProductDetail = MutableLiveData<Product>()
+    val navigateToProductDetail: LiveData<Product> = _navigateToProductDetail
+
+    fun onClickProduct(product: Product) {
+        _navigateToProductDetail.value = product
+    }
+
+
+    fun doneNavigate() {
+        _navigateToProductDetail.value = null
+
+    }
+
 }

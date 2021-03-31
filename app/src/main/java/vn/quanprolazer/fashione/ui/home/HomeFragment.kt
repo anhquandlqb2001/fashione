@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
+import vn.quanprolazer.fashione.ui.products.OnClickListener
 import vn.quanprolazer.fashione.ui.products.ProductAdapter
 import vn.quanprolazer.fashione.util.onDone
 
@@ -47,7 +48,10 @@ class HomeFragment : Fragment() {
         // End Category Section
 
         // Product Featured Section
-        val productFeaturedAdapter = ProductAdapter()
+        val productFeaturedAdapter = ProductAdapter(OnClickListener {
+            homeViewModel.onClickProduct(it)
+        })
+
         binding.rvFeatured.adapter = productFeaturedAdapter
         homeViewModel.products.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -58,7 +62,9 @@ class HomeFragment : Fragment() {
 
 
         // Product Best Sell Section
-        val productBestSellAdapter = ProductAdapter()
+        val productBestSellAdapter = ProductAdapter(OnClickListener {
+            homeViewModel.onClickProduct(it)
+        })
         binding.rvBestSell.adapter = productBestSellAdapter
         homeViewModel.products.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -68,7 +74,9 @@ class HomeFragment : Fragment() {
         // End Product Best Sell Section
 
         // Product Suggest Section
-        val productSuggestAdapter = ProductAdapter()
+        val productSuggestAdapter = ProductAdapter(OnClickListener {
+            homeViewModel.onClickProduct(it)
+        })
         binding.rvSuggestProduct.adapter = productBestSellAdapter
         homeViewModel.products.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -83,6 +91,18 @@ class HomeFragment : Fragment() {
         val productSuggestLayoutManager = GridLayoutManager(context, 2)
         binding.rvSuggestProduct.layoutManager = productSuggestLayoutManager
         // End Product Suggest Section
+
+
+        // Product direction
+
+        homeViewModel.navigateToProductDetail.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductFragment(it))
+                homeViewModel.doneNavigate()
+            }
+        })
+
+        // End  Product direction
 
 
 

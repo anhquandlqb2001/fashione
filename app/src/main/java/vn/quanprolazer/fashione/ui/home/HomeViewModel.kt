@@ -28,10 +28,6 @@ class HomeViewModel : ViewModel() {
         _navigateToSearchResult.value = category
     }
 
-    fun doneNavigate() {
-        _navigateToSearchResult.value = null
-        _navigateToSearchResultByText.value = null
-    }
 
 
     private val _navigateToSearchResultByText = MutableLiveData<String>()
@@ -44,6 +40,20 @@ class HomeViewModel : ViewModel() {
         _navigateToSearchResultByText.value = searchText.value
     }
 
+    private val _navigateToProductDetail = MutableLiveData<Product>()
+    val navigateToProductDetail: LiveData<Product> = _navigateToProductDetail
+
+    fun onClickProduct(product: Product) {
+        _navigateToProductDetail.value = product
+    }
+
+
+    fun doneNavigate() {
+        _navigateToSearchResult.value = null
+        _navigateToSearchResultByText.value = null
+        _navigateToProductDetail.value = null
+
+    }
 
     init {
         viewModelScope.launch {

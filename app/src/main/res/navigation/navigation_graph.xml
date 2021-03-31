@@ -12,8 +12,8 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment_to_itemDetailFragment"
-            app:destination="@id/itemDetailFragment" />
+            android:id="@+id/action_homeFragment_to_productFragment"
+            app:destination="@id/productFragment" />
         <action
             android:id="@+id/action_homeFragment_to_searchResultFragment"
             app:destination="@id/searchResultFragment"
@@ -23,10 +23,16 @@
             app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
-        android:id="@+id/itemDetailFragment"
+        android:id="@+id/productFragment"
         android:name="vn.quanprolazer.fashione.ui.product.ProductFragment"
-        android:label="ItemDetailFragment"
-        tools:layout="@layout/fragment_item_detail"/>
+        android:label="ProductFragment"
+        tools:layout="@layout/fragment_product_detail">
+
+        <argument
+            android:name="product"
+            app:argType="vn.quanprolazer.fashione.domain.Product" />
+
+    </fragment>
     <fragment
         android:id="@+id/searchResultFragment"
         android:name="vn.quanprolazer.fashione.ui.search.SearchResultFragment"
@@ -40,6 +46,9 @@
             android:name="query"
             app:argType="string"
             app:nullable="true"/>
+        <action
+            android:id="@+id/action_searchResultFragment_to_productFragment"
+            app:destination="@id/productFragment" />
 
 
     </fragment>

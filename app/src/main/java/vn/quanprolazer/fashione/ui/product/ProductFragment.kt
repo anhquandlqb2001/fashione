@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import vn.quanprolazer.fashione.databinding.FragmentItemDetailBinding
+import androidx.lifecycle.ViewModelProvider
+import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 
 class ProductFragment : Fragment() {
 
-    private lateinit var binding: FragmentItemDetailBinding
+    private lateinit var binding: FragmentProductDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -17,7 +18,13 @@ class ProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentItemDetailBinding.inflate(inflater)
+        binding = FragmentProductDetailBinding.inflate(inflater)
+
+        val product = ProductFragmentArgs.fromBundle(requireArguments()).product
+
+        val modelFactory = ProductViewModelFactory(product)
+
+        val viewModel = ViewModelProvider(this, modelFactory)[ProductViewModel::class.java]
 
         return binding.root
 

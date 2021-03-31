@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
+import vn.quanprolazer.fashione.ui.products.OnClickListener
 import vn.quanprolazer.fashione.ui.products.ProductAdapter
 
 class SearchResultFragment : Fragment() {
@@ -31,7 +33,9 @@ class SearchResultFragment : Fragment() {
 
         binding.viewModel = viewModel
 
-        val productResultAdapter = ProductAdapter()
+        val productResultAdapter = ProductAdapter(OnClickListener {
+            viewModel.onClickProduct(it)
+        })
 
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -42,6 +46,15 @@ class SearchResultFragment : Fragment() {
                 productResultAdapter.submitList(it)
             }
         })
+
+        // navigate to product detail screen
+        viewModel.navigateToProductDetail.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController().navigate(SearchResultFragmentDirections.actionSearchResultFragmentToProductFragment(it))
+                viewModel.doneNavigate()
+            }
+        })
+        // end section
 
         val productResultLayoutManager = GridLayoutManager(context, 2)
         binding.rvSearchResult.layoutManager = productResultLayoutManager
