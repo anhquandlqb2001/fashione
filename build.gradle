@@ -1,3 +1,9 @@
+/*
+ * Author: quanprolazer
+ * Project: Fashione
+ * An android shopping app writing in Kotlin
+ */
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     ext {

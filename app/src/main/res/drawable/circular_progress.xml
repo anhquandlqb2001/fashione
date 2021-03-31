@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Author: quanprolazer
+  ~ Project: Fashione
+  ~ An android shopping app writing in Kotlin
+  -->
+
 <rotate android:fromDegrees="0"
     android:interpolator="@android:anim/linear_interpolator"
     android:toDegrees="360"
