@@ -1,21 +1,10 @@
 package vn.quanprolazer.fashione.ui.home
 
-import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
 import vn.quanprolazer.fashione.databinding.ListItemCategoryBinding
 import vn.quanprolazer.fashione.domain.Category
 

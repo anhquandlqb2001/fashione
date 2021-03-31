@@ -1,21 +1,12 @@
 package vn.quanprolazer.fashione.util
 
-import android.util.Log
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.textfield.TextInputEditText
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.domain.Category
-import vn.quanprolazer.fashione.domain.Product
-import vn.quanprolazer.fashione.ui.home.CategoryAdapter
-import vn.quanprolazer.fashione.ui.product.ProductAdapter
 import java.text.NumberFormat
 import java.util.*
 
@@ -27,7 +18,6 @@ fun setProductPrice(view: TextView, productPrice: String?) {
         val format: NumberFormat = NumberFormat.getCurrencyInstance()
         format.maximumFractionDigits = 0
         format.currency = Currency.getInstance("VND")
-
         view.text = format.format(productPrice.toInt())
     }
 }

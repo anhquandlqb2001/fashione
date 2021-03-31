@@ -2,25 +2,17 @@ package vn.quanprolazer.fashione.ui.home
 
 import android.graphics.Rect
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
-import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.textfield.TextInputEditText
-import org.json.JSONObject
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
-import vn.quanprolazer.fashione.domain.Product
-import vn.quanprolazer.fashione.network.FashioneProductAdminService
-import vn.quanprolazer.fashione.network.NetworkProduct
 import vn.quanprolazer.fashione.ui.product.ProductAdapter
 import vn.quanprolazer.fashione.util.onDone
 

@@ -1,13 +1,11 @@
 package vn.quanprolazer.fashione.ui.home
 
-import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.Category
 import vn.quanprolazer.fashione.domain.Product
@@ -51,11 +49,13 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch {
             _categories.value = FashioneCategoryService.getCategories()
             _products.value = FashioneProductService.getProducts()
+
+            // add product - for test
 //            FashioneProductAdminService.addProduct(
-//                NetworkProduct("HcAe5wPDtBEhd8Ukye2K",
-//                    "Ao dai tay",
-//                "https://dongphucdieplong.com.vn/wp-content/uploads/2019/11/11.jpg",
-//                    "120000"
+//                NetworkProduct(null, "HcAe5wPDtBEhd8Ukye2K",
+//                    "Quần jean cardino",
+//                "https://cardino.vn/wp-content/uploads/quan-jean-QJEA005-xanhtri.jpg",
+//                    "250000"
 //                )
 //            )
         }
