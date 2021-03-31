@@ -1,4 +1,4 @@
-package vn.quanprolazer.fashione.ui.product
+package vn.quanprolazer.fashione.ui.products
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

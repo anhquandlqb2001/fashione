@@ -1,4 +1,4 @@
-package vn.quanprolazer.fashione.ui.itemDetail
+package vn.quanprolazer.fashione.ui.product
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import vn.quanprolazer.fashione.databinding.FragmentItemDetailBinding
 
-class ItemDetailFragment : Fragment() {
+class ProductFragment : Fragment() {
 
     private lateinit var binding: FragmentItemDetailBinding
 

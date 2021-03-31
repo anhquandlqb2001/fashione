@@ -24,7 +24,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemDetailFragment"
-        android:name="vn.quanprolazer.fashione.ui.itemDetail.ItemDetailFragment"
+        android:name="vn.quanprolazer.fashione.ui.product.ProductFragment"
         android:label="ItemDetailFragment"
         tools:layout="@layout/fragment_item_detail"/>
     <fragment

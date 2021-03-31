@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
-import vn.quanprolazer.fashione.ui.product.ProductAdapter
+import vn.quanprolazer.fashione.ui.products.ProductAdapter
 
 class SearchResultFragment : Fragment() {
 

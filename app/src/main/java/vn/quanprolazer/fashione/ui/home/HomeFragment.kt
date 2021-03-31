@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
-import vn.quanprolazer.fashione.ui.product.ProductAdapter
+import vn.quanprolazer.fashione.ui.products.ProductAdapter
 import vn.quanprolazer.fashione.util.onDone
 
 class HomeFragment : Fragment() {
