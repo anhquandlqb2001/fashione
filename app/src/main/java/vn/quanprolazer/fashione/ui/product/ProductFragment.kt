@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 
 class ProductFragment : Fragment() {
@@ -32,10 +34,16 @@ class ProductFragment : Fragment() {
 
         val viewModel = ViewModelProvider(this, modelFactory)[ProductViewModel::class.java]
 
-        val productImageAdapter = ProductImageAdapter()
+        binding.viewModel = viewModel
 
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        val productImageAdapter = ProductImageAdapter()
         binding.rvProductImage.adapter = productImageAdapter
 
+
+        val layoutManager = LinearLayoutManager(context)
+        binding.rvProductImage.layoutManager = layoutManager
 
         return binding.root
 

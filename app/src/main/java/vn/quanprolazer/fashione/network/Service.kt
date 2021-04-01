@@ -17,9 +17,11 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import vn.quanprolazer.fashione.domain.Category
 import vn.quanprolazer.fashione.domain.Product
+import vn.quanprolazer.fashione.domain.ProductDetail
 import vn.quanprolazer.fashione.network.Algolia.productIndex
 import vn.quanprolazer.fashione.network.NetworkCategory.Companion.asDomainCategory
 import vn.quanprolazer.fashione.network.NetworkProduct.Companion.asDomainProduct
+import vn.quanprolazer.fashione.network.NetworkProductDetail.Companion.asDomainProductDetail
 
 object FashioneProductService {
     private const val TAG = "FashioneProductService"
@@ -53,6 +55,21 @@ object FashioneProductService {
         }
     }
 
+    suspend fun getProductDetailByProductId(productId: String) : ProductDetail? {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            db.collection("product_detail")
+                .whereEqualTo("product_id", productId)
+                .limit(1)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.asDomainProductDetail() }[0]
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting list products", e)
+            null
+        }
+    }
 }
 
 object FashioneCategoryService {

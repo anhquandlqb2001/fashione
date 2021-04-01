@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             tools:listitem="@layout/list_image_product"
-            app:listData="@{viewModel.product}"/>
+            app:listData="@{viewModel.productDetail}"/>
 
     </LinearLayout>
 </layout>

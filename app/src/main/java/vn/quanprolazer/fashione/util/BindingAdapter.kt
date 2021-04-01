@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.domain.Product
+import vn.quanprolazer.fashione.domain.ProductDetail
 import vn.quanprolazer.fashione.domain.ProductImage
 import vn.quanprolazer.fashione.ui.product.ProductImageAdapter
 import java.text.NumberFormat
@@ -41,11 +42,11 @@ fun setProductName(view: TextView, productName: String?) {
 
 @BindingAdapter("listData")
 fun bindProductImageRecyclerView(recyclerView: RecyclerView,
-                     data: Product?) {
+                     data: ProductDetail?) {
 
     data?.let {
         val adapter = recyclerView.adapter as ProductImageAdapter
-//        adapter.submitList()
+        adapter.submitList(data.images)
     }
 }
 

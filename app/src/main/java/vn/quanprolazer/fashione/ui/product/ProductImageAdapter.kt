@@ -41,7 +41,7 @@ class ProductImageAdapter : ListAdapter<ProductImage, ProductImageAdapter.ViewHo
 
 object ProductImageDiffCallback : DiffUtil.ItemCallback<ProductImage>() {
     override fun areItemsTheSame(oldItem: ProductImage, newItem: ProductImage): Boolean {
-        return oldItem.productImageId == newItem.productImageId
+        return oldItem.url == newItem.url
     }
 
     override fun areContentsTheSame(oldItem: ProductImage, newItem: ProductImage): Boolean {

@@ -29,13 +29,30 @@ data class Product(
     val price: String
 ) : Parcelable
 
+@Parcelize
+data class ProductDetail(
+    val id: String,
+    val productId: String,
+    val quantity: Number,
+    val description: String,
+    val images: List<ProductImage>,
+    val variants: List<ProductVariant>
+) : Parcelable
+
+
+@Parcelize
+data class ProductVariant(
+    val size: String,
+    val color: String,
+    val qty: Number
+) : Parcelable
 
 /**
  * Contain data for image class in app
  */
+@Parcelize
 data class ProductImage(
-    val productImageId: String,
-    val productImageUrl: String)
+    val url: String) : Parcelable
 
 
 /**
