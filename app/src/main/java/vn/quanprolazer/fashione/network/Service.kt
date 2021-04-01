@@ -42,7 +42,7 @@ object FashioneProductService {
         val db = FirebaseFirestore.getInstance()
         return try {
             db.collection("products")
-                .whereEqualTo("categoryId", categoryId)
+                .whereEqualTo("category_id", categoryId)
                 .get()
                 .await()
                 .documents
@@ -54,7 +54,6 @@ object FashioneProductService {
     }
 
 }
-
 
 object FashioneCategoryService {
     private const val TAG = "FashioneCategoryService"

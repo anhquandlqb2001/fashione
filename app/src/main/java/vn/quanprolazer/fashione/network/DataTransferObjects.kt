@@ -12,21 +12,23 @@ import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
 import vn.quanprolazer.fashione.domain.Category
 import vn.quanprolazer.fashione.domain.Product
-
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerialName
 
 /**
  * Product get from cloud
  */
+@Serializable
 data class NetworkProduct(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String?,
-    @SerializedName("categoryId")
-    val categoryId: String,
-    @SerializedName("name")
+    @SerialName("category_id")
+    val category_id: String,
+    @SerialName("name")
     val name: String,
-    @SerializedName("imgUrl")
-    val imgUrl: String,
-    @SerializedName("price")
+    @SerialName("thumbnail_url")
+    val thumbnail_url: String,
+    @SerialName("price")
     val price: String
 ) {
     companion object {
@@ -35,11 +37,11 @@ data class NetworkProduct(
          */
         fun DocumentSnapshot.asDomainProduct(): Product? {
             return try {
+                val categoryId = getString("category_id")!!
                 val productName = getString("name")!!
-                val productImageUrl = getString("imgUrl")!!
+                val productThumbnailUrl = getString("thumbnail_url")!!
                 val productPrice = getString("price")!!
-                val categoryId = getString("categoryId")!!
-                Product(id, categoryId, productName, productImageUrl, productPrice)
+                Product(id, categoryId, productName, productThumbnailUrl, productPrice)
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting product", e)
                 null
@@ -48,11 +50,11 @@ data class NetworkProduct(
 
         fun DocumentSnapshot.asNetworkProduct(): NetworkProduct? {
             return try {
-                val productName = getString("name")!!
-                val productImageUrl = getString("imgUrl")!!
-                val productPrice = getString("price")!!
-                val categoryId = getString("categoryId")!!
-                NetworkProduct(id, categoryId, productName, productImageUrl, productPrice)
+                val categoryId = getString("category_id")!!
+                val name = getString("name")!!
+                val thumbnailUrl  = getString("thumbnail_url")!!
+                val price = getString("price")!!
+                NetworkProduct(id, categoryId, name, thumbnailUrl, price)
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting to network product", e)
                 null
@@ -69,9 +71,9 @@ data class NetworkProduct(
  */
 fun NetworkProduct.asDomainProduct() = Product(
     this.id!!,
-    categoryId,
+    category_id,
     name,
-    imgUrl,
+    thumbnail_url,
     price
 )
 
@@ -134,7 +136,7 @@ data class NetworkCategory(
          */
         fun DocumentSnapshot.asDomainCategory(): Category? {
             return try {
-                val name = requireNotNull(getString("categoryName"))
+                val name = requireNotNull(getString("name"))
                 Category(id, name)
             } catch (e: Exception) {
                 Log.e(TAG, "Error converting category profile", e)

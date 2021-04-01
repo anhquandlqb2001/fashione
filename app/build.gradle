@@ -11,6 +11,8 @@ plugins {
     id 'com.google.gms.google-services'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
+
+    id 'kotlinx-serialization'
 }
 
 android {
@@ -81,14 +83,9 @@ dependencies {
     implementation 'com.algolia:algoliasearch-android:3.27.0'
     implementation "io.ktor:ktor-client-okhttp:$ktor_version"
 
-    // GSON
-    implementation 'com.google.code.gson:gson:2.8.6'
 
-    // moshi for parsing the JSON format
-    implementation "com.squareup.moshi:moshi:$moshi_version"
-    implementation "com.squareup.moshi:moshi-kotlin:$moshi_version"
-    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
-
+    // kotlin serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
 
 
 }

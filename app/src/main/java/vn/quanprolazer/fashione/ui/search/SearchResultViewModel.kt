@@ -22,12 +22,12 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> = _products
 
-    val textToDisplay = category?.categoryName ?: "Kết quả cho: $query"
+    val textToDisplay = category?.name ?: "Kết quả cho: $query"
 
     init {
         viewModelScope.launch {
             category?.let {
-                _products.value = FashioneProductService.getProductsByCategoryId(category.categoryId)
+                _products.value = FashioneProductService.getProductsByCategoryId(category.id)
             }
 
             if (!query.isNullOrEmpty()) {

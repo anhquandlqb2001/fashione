@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:src="@drawable/i_shopping_cart_splash_screen"
-            app:imageUrl="@{product.productImageUrl}"
+            app:imageUrl="@{product.thumbnailUrl}"
             android:layout_marginEnd="8dp"/>
 
         <TextView
@@ -45,7 +45,7 @@
             app:layout_constraintStart_toStartOf="@+id/iv_product"
             app:layout_constraintTop_toBottomOf="@+id/iv_product"
             tools:text="Ao quan dep trai"
-            app:productName="@{product.productName}"
+            app:productName="@{product.name}"
             android:textSize="15sp"/>
 
         <TextView
@@ -55,7 +55,7 @@
             app:layout_constraintStart_toStartOf="@+id/iv_product"
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
             tools:text="23.000"
-            app:productPrice="@{product.productPrice}"
+            app:productPrice="@{product.price}"
             android:textSize="15sp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

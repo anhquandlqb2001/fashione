@@ -68,10 +68,10 @@ class HomeViewModel : ViewModel() {
 
             // add product - for test
 //            FashioneProductAdminService.addProduct(
-//                NetworkProduct(null, "HcAe5wPDtBEhd8Ukye2K",
-//                    "Quần jean cardino",
-//                "https://cardino.vn/wp-content/uploads/quan-jean-QJEA005-xanhtri.jpg",
-//                    "250000"
+//                NetworkProduct(null, "S5tyAiBWs3BWuZxKdUou",
+//                    "Áo phông dài tay",
+//                "https://cf.shopee.vn/file/3b7d12cd9116ce4be5213fd9171afc41",
+//                    "120000"
 //                )
 //            )
         }
