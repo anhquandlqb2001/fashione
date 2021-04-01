@@ -17,7 +17,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="200dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -26,9 +26,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_woman_category"
-            />
+            app:imageUrl="@{image.url}"/>
 
-        <!--            app:srcCompat="@{image.productImageUrl}"-->
 
         <TextView
             android:layout_width="wrap_content"

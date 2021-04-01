@@ -6,11 +6,9 @@
 
 package vn.quanprolazer.fashione.ui.product
 
+import android.app.Application
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.Product
 import vn.quanprolazer.fashione.domain.ProductDetail
@@ -22,6 +20,10 @@ class ProductViewModel(val product: Product) : ViewModel() {
 
     private val _productDetail = MutableLiveData<ProductDetail>()
     val productDetail : LiveData<ProductDetail> = _productDetail
+
+//    val displayCurrentImage: LiveData<String> = Transformations.map(productDetail) {
+//        "1/${productDetail.value?.images?.size}"
+//    }
 
     init {
         viewModelScope.launch {

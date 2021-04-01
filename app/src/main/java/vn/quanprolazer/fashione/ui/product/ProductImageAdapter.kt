@@ -19,7 +19,7 @@ class ProductImageAdapter : ListAdapter<ProductImage, ProductImageAdapter.ViewHo
         companion object {
             fun from(parent: ViewGroup) : ViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = ListImageProductBinding.inflate(layoutInflater)
+                val binding = ListImageProductBinding.inflate(layoutInflater, parent, false)
                 return ViewHolder(binding)
             }
         }

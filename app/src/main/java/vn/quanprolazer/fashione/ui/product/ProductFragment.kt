@@ -6,15 +6,18 @@
 
 package vn.quanprolazer.fashione.ui.product
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
+
 
 class ProductFragment : Fragment() {
 
@@ -42,10 +45,48 @@ class ProductFragment : Fragment() {
         binding.rvProductImage.adapter = productImageAdapter
 
 
-        val layoutManager = LinearLayoutManager(context)
+        viewModel.productDetail.observe(viewLifecycleOwner, {
+            productImageAdapter.submitList(it.images)
+        })
+
+        snapHelper.attachToRecyclerView(binding.rvProductImage)
+
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvProductImage.layoutManager = layoutManager
 
         return binding.root
 
+    }
+
+
+    // snap scroll for rv
+    private val snapHelper: LinearSnapHelper = object : LinearSnapHelper() {
+        override fun findTargetSnapPosition(
+            layoutManager: RecyclerView.LayoutManager,
+            velocityX: Int,
+            velocityY: Int
+        ): Int {
+            val centerView = findSnapView(layoutManager) ?: return RecyclerView.NO_POSITION
+            val position = layoutManager.getPosition(centerView)
+            var targetPosition = -1
+            if (layoutManager.canScrollHorizontally()) {
+                targetPosition = if (velocityX < 0) {
+                    position - 1
+                } else {
+                    position + 1
+                }
+            }
+            if (layoutManager.canScrollVertically()) {
+                targetPosition = if (velocityY < 0) {
+                    position - 1
+                } else {
+                    position + 1
+                }
+            }
+            val firstItem = 0
+            val lastItem = layoutManager.itemCount - 1
+            targetPosition = Math.min(lastItem, Math.max(targetPosition, firstItem))
+            return targetPosition
+        }
     }
 }
