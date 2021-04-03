@@ -20,46 +20,38 @@ import kotlinx.parcelize.Parcelize
 /**
  * Product class represent a product in app
  */
-@Parcelize
-data class Product(
-    val id: String, //Document ID is actually the user id
-    val categoryId: String,
-    val name: String,
-    val thumbnailUrl: String,
-    val price: String
-) : Parcelable
 
-@Parcelize
-data class ProductDetail(
-    val id: String,
-    val productId: String,
-    val quantity: Number,
-    val description: String,
-    val images: List<ProductImage>,
-    val variants: List<ProductVariant>
-) : Parcelable
+//@Parcelize
+//data class ProductDetail(
+//    val id: String,
+//    val productId: String,
+//    val quantity: Number,
+//    val description: String,
+//    val images: List<ProductImage>,
+//    val variants: List<ProductVariant>
+//) : Parcelable
 
-
-@Parcelize
-data class ProductVariant(
-    val size: String,
-    val color: String,
-    val qty: Number
-) : Parcelable
-
-/**
- * Contain data for image class in app
- */
-@Parcelize
-data class ProductImage(
-    val url: String) : Parcelable
-
-
-/**
- * Category class represent a category in app
- */
-@Parcelize
-data class Category(
-    val id: String,
-    val name: String
-) : Parcelable
+//
+//@Parcelize
+//data class ProductVariant(
+//    val size: String,
+//    val color: String,
+//    val qty: Number
+//) : Parcelable
+//
+///**
+// * Contain data for image class in app
+// */
+//@Parcelize
+//data class ProductImage(
+//    val url: String) : Parcelable
+//
+//
+///**
+// * Category class represent a category in app
+// */
+//@Parcelize
+//data class Category(
+//    val id: String,
+//    val name: String
+//) : Parcelable

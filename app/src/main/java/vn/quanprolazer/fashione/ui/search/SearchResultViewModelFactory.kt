@@ -8,7 +8,7 @@ package vn.quanprolazer.fashione.ui.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import vn.quanprolazer.fashione.domain.Category
+import vn.quanprolazer.fashione.domain.model.Category
 
 
 class SearchResultViewModelFactory(

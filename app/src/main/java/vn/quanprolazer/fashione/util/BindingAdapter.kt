@@ -14,9 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.domain.Product
-import vn.quanprolazer.fashione.domain.ProductDetail
-import vn.quanprolazer.fashione.domain.ProductImage
+import vn.quanprolazer.fashione.domain.model.ProductDetail
 import vn.quanprolazer.fashione.ui.product.ProductImageAdapter
 import java.text.NumberFormat
 import java.util.*

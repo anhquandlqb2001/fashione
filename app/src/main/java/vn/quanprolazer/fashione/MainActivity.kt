@@ -14,6 +14,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -30,10 +31,14 @@ class MainActivity : AppCompatActivity() {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
+        Timber.plant(Timber.DebugTree())
+
+
         setupNavigation()
     }
 
-    override fun onSupportNavigateUp() = navigateUp(findNavController(R.id.nav_host_fragment), binding.drawerLayout)
+    override fun onSupportNavigateUp() =
+        navigateUp(findNavController(R.id.nav_host_fragment), binding.drawerLayout)
 
 
     /**
@@ -52,13 +57,12 @@ class MainActivity : AppCompatActivity() {
 //        supportActionBar?.setDisplayShowTitleEnabled(false);
 
 
-
         // finally setup the left drawer (called a NavigationView)
         binding.navigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
-            when(destination.id) {
+            when (destination.id) {
                 R.id.homeFragment -> {
 //                    toolBar.setDisplayShowTitleEnabled(false)
                     // custom menu icon
@@ -71,6 +75,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 }
 

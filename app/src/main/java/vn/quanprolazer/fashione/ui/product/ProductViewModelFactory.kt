@@ -6,13 +6,13 @@
 
 package vn.quanprolazer.fashione.ui.product
 
-import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import vn.quanprolazer.fashione.domain.Product
+import vn.quanprolazer.fashione.domain.model.Product
 
 class ProductViewModelFactory(
-    private val product: Product) : ViewModelProvider.Factory {
+    private val product: Product
+) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {

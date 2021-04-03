@@ -6,12 +6,10 @@
 
 package vn.quanprolazer.fashione.ui.product
 
-import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import vn.quanprolazer.fashione.domain.Product
-import vn.quanprolazer.fashione.domain.ProductDetail
+import vn.quanprolazer.fashione.domain.model.Product
+import vn.quanprolazer.fashione.domain.model.ProductDetail
 import vn.quanprolazer.fashione.network.FashioneProductService
 
 private const val TAG = "ProductViewModel"

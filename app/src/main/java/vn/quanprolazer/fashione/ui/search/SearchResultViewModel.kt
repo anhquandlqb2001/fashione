@@ -11,8 +11,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
-import vn.quanprolazer.fashione.domain.Category
-import vn.quanprolazer.fashione.domain.Product
+import vn.quanprolazer.fashione.domain.model.Category
+import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.network.FashioneProductService
 import vn.quanprolazer.fashione.network.NetworkAlgoliaProductContainer
 import vn.quanprolazer.fashione.network.Searcher

@@ -12,7 +12,7 @@
     <data>
         <variable
             name="product"
-            type="vn.quanprolazer.fashione.domain.Product" />
+            type="vn.quanprolazer.fashione.domain.model.Product" />
 
         <variable
             name="clickListener"
