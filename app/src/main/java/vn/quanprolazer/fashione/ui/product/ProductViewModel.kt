@@ -10,9 +10,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductDetail
-import vn.quanprolazer.fashione.network.FashioneProductService
-
-private const val TAG = "ProductViewModel"
+import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 
 class ProductViewModel(val product: Product) : ViewModel() {
 
@@ -25,9 +23,7 @@ class ProductViewModel(val product: Product) : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _productDetail.value = FashioneProductService.getProductDetailByProductId(product.id)
-//            Log.i(TAG, FashioneProductService.getProductDetailByProductId(product.id).toString())
-
+            _productDetail.value = ProductRepositoryImpl.getProductDetailByProductId(product.id)
         }
 
     }

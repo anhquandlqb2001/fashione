@@ -36,7 +36,7 @@
 
         <argument
             android:name="product"
-            app:argType="vn.quanprolazer.fashione.domain.Product" />
+            app:argType="vn.quanprolazer.fashione.domain.model.Product" />
 
     </fragment>
     <fragment
@@ -46,7 +46,7 @@
         tools:layout="@layout/fragment_search_result">
         <argument
             android:name="category"
-            app:argType="vn.quanprolazer.fashione.domain.Category"
+            app:argType="vn.quanprolazer.fashione.domain.model.Category"
             app:nullable="true"/>
         <argument
             android:name="query"

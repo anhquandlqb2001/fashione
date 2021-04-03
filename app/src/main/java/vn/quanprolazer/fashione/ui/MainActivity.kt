@@ -4,7 +4,13 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione
+/*
+ * Author: quanprolazer
+ * Project: Fashione
+ * An android shopping app writing in Kotlin
+ */
+
+package vn.quanprolazer.fashione.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,11 +21,10 @@ import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import timber.log.Timber
+import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
-    private val TAG = "MainActivity"
 
     private lateinit var binding: ActivityMainBinding
 
@@ -32,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         Timber.plant(Timber.DebugTree())
-
 
         setupNavigation()
     }

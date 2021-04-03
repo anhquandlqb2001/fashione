@@ -15,7 +15,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
-import vn.quanprolazer.fashione.network.*
+import vn.quanprolazer.fashione.network.repository.CategoryRepositoryImpl
+import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 
 
 class HomeViewModel : ViewModel() {
@@ -33,7 +34,6 @@ class HomeViewModel : ViewModel() {
     fun onClickCategory(category: Category) {
         _navigateToSearchResult.value = category
     }
-
 
 
     private val _navigateToSearchResultByText = MutableLiveData<String>()
@@ -63,17 +63,8 @@ class HomeViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _categories.value = FashioneCategoryService.getCategories()
-            _products.value = FashioneProductService.getProducts()
-
-            // add product - for test
-//            FashioneProductAdminService.addProduct(
-//                NetworkProduct(null, "S5tyAiBWs3BWuZxKdUou",
-//                    "Áo phông dài tay",
-//                "https://cf.shopee.vn/file/3b7d12cd9116ce4be5213fd9171afc41",
-//                    "120000"
-//                )
-//            )
+            _categories.value = CategoryRepositoryImpl.getCategoryList()
+            _products.value = ProductRepositoryImpl.getProducts()
         }
     }
 }

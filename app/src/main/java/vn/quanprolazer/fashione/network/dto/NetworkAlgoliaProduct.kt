@@ -6,15 +6,19 @@
 
 package vn.quanprolazer.fashione.network.dto
 
-import com.google.firebase.firestore.DocumentId
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NetworkCategory(
+data class NetworkAlgoliaProduct(
     @SerialName("id")
-    @DocumentId
-    val id: String = "Invalid id",
+    val id: String = "",
+    @SerialName("category_id")
+    val category_id: String = "",
     @SerialName("name")
-    val name: String = "Invalid category name"
+    val name: String = "",
+    @SerialName("thumbnail_url")
+    val thumbnail_url: String = "",
+    @SerialName("price")
+    val price: String = ""
 )

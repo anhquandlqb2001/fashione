@@ -6,11 +6,10 @@
 
 package vn.quanprolazer.fashione.network.service
 
-import vn.quanprolazer.fashione.domain.model.SimpleResult
 import vn.quanprolazer.fashione.network.dto.NetworkCategory
 
 interface CategoryService {
 
-    suspend fun getCategoryList(): SimpleResult<List<NetworkCategory>>
+    suspend fun getCategoryList(): List<NetworkCategory>
 
 }

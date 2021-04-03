@@ -13,10 +13,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
-import vn.quanprolazer.fashione.network.FashioneProductService
-import vn.quanprolazer.fashione.network.NetworkAlgoliaProductContainer
-import vn.quanprolazer.fashione.network.Searcher
-import vn.quanprolazer.fashione.network.asDomainProduct
+import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 
 class SearchResultViewModel(val category: Category?, private val query: String?) : ViewModel() {
     private val _products = MutableLiveData<List<Product>>()
@@ -27,12 +24,11 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
     init {
         viewModelScope.launch {
             category?.let {
-                _products.value = FashioneProductService.getProductsByCategoryId(category.id)
+                _products.value = ProductRepositoryImpl.getProductsByCategoryId(category.id)
             }
 
             if (!query.isNullOrEmpty()) {
-                val productContainer = NetworkAlgoliaProductContainer.fromJson(Searcher.search(query).toString())
-                _products.value = productContainer.products.map { it.asDomainProduct() }
+                _products.value = ProductRepositoryImpl.findProductsByQuery(query)
             }
         }
     }
