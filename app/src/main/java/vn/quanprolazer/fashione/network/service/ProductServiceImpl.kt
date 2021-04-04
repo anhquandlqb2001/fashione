@@ -7,19 +7,22 @@
 package vn.quanprolazer.fashione.network.service
 
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Source
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.network.dto.*
 
 class ProductServiceImpl : ProductService {
-    override suspend fun getProducts(): List<NetworkProduct> {
+    override suspend fun getProducts(source: Source): List<NetworkProduct> {
         val db = FirebaseFirestore.getInstance()
         return try {
             db.collection("products")
-                .get()
+                .get(source)
                 .await()
                 .documents
-                .mapNotNull { it.toObject((NetworkProduct::class.java)) }
+                .mapNotNull {
+                    it.toObject((NetworkProduct::class.java))
+                }
         } catch (e: Exception) {
             Timber.e(e)
             listOf()

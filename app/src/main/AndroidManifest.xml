@@ -17,8 +17,8 @@
         android:supportsRtl="true">
         <activity
             android:name=".ui.MainActivity">
-<!--            android:theme="@style/SplashTheme"-->
 
+<!--            android:theme="@style/SplashTheme"-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

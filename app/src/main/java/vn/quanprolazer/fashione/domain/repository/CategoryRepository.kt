@@ -18,4 +18,6 @@ interface CategoryRepository {
 
     suspend fun getCategoryList(): List<Category>
 
+    suspend fun getCategoryListFromLocal() : List<Category>
+
 }

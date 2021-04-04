@@ -13,6 +13,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.firestore.Source
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Category
@@ -24,13 +25,6 @@ import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 
 class HomeViewModel : ViewModel() {
-
-    private val _categories = MutableLiveData<List<Category>>()
-    val categories: LiveData<List<Category>> = _categories
-
-    private val _products = MutableLiveData<List<Product>>()
-    val products: LiveData<List<Product>> = _products
-
 
     private val _navigateToSearchResult = MutableLiveData<Category>()
     val navigateToSearchResult: LiveData<Category> = _navigateToSearchResult
@@ -69,10 +63,18 @@ class HomeViewModel : ViewModel() {
 
     private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
 
+    private val _categories = MutableLiveData<List<Category>>()
+    val categories: LiveData<List<Category>> = _categories
+
+    private val _products = MutableLiveData<List<Product>>()
+    val products: LiveData<List<Product>> = _products
+
     init {
         viewModelScope.launch {
+            _categories.value = categoryRepositoryImpl.getCategoryListFromLocal()
+            _products.value = productRepositoryImpl.getProducts(Source.SERVER)
+
             _categories.value = categoryRepositoryImpl.getCategoryList()
-            _products.value = productRepositoryImpl.getProducts()
         }
     }
 }
