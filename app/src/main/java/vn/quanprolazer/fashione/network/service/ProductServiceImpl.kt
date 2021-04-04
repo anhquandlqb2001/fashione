@@ -11,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.network.dto.*
 
-object ProductServiceImpl : ProductService {
+class ProductServiceImpl : ProductService {
     override suspend fun getProducts(): List<NetworkProduct> {
         val db = FirebaseFirestore.getInstance()
         return try {

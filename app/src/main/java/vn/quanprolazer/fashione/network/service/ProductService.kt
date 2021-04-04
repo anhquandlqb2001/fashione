@@ -15,8 +15,6 @@ interface ProductService {
 
     suspend fun getProductsByCategoryId(categoryId: String): List<NetworkProduct>
 
-
     suspend fun getProductDetailByProductId(productId: String): NetworkProductDetail
-
 
 }

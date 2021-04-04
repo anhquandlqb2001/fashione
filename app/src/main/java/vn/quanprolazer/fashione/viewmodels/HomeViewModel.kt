@@ -18,6 +18,8 @@ import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.network.repository.CategoryRepositoryImpl
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
+import vn.quanprolazer.fashione.network.service.CategoryServiceImpl
+import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 
 class HomeViewModel : ViewModel() {
@@ -62,10 +64,14 @@ class HomeViewModel : ViewModel() {
 
     }
 
+    private val categoryRepositoryImpl = CategoryRepositoryImpl(CategoryServiceImpl())
+
+    private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
+
     init {
         viewModelScope.launch {
-            _categories.value = CategoryRepositoryImpl.getCategoryList()
-            _products.value = ProductRepositoryImpl.getProducts()
+            _categories.value = categoryRepositoryImpl.getCategoryList()
+            _products.value = productRepositoryImpl.getProducts()
         }
     }
 }

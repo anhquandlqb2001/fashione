@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductDetail
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
+import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 class ProductViewModel(val product: Product) : ViewModel() {
 
@@ -21,9 +22,11 @@ class ProductViewModel(val product: Product) : ViewModel() {
 //        "1/${productDetail.value?.images?.size}"
 //    }
 
+    private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
+
     init {
         viewModelScope.launch {
-            _productDetail.value = ProductRepositoryImpl.getProductDetailByProductId(product.id)
+            _productDetail.value = productRepositoryImpl.getProductDetailByProductId(product.id)
         }
 
     }

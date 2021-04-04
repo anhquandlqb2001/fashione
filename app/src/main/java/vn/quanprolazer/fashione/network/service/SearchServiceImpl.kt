@@ -15,7 +15,6 @@ import kotlinx.serialization.json.Json
 import timber.log.Timber
 import vn.quanprolazer.fashione.network.Algolia
 import vn.quanprolazer.fashione.network.dto.NetworkAlgoliaProduct
-import vn.quanprolazer.fashione.network.dto.NetworkProduct
 
 object SearchServiceImpl : SearchService {
 
@@ -27,7 +26,7 @@ object SearchServiceImpl : SearchService {
         return withContext(Dispatchers.Default) {
             try {
                 val response = index.search(Query(query), null)
-                Json { ignoreUnknownKeys = true }.decodeFromString<List<NetworkAlgoliaProduct>>(
+                Json { ignoreUnknownKeys = true }.decodeFromString(
                     response!!.get("hits").toString()
                 )
             } catch (e: Exception) {

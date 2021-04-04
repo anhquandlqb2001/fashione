@@ -11,7 +11,7 @@ import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.network.dto.NetworkCategory
 
-object CategoryServiceImpl : CategoryService {
+class CategoryServiceImpl : CategoryService {
     override suspend fun getCategoryList(): List<NetworkCategory> {
         val db = FirebaseFirestore.getInstance()
         return try {

@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
+import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 class SearchResultViewModel(val category: Category?, private val query: String?) : ViewModel() {
     private val _products = MutableLiveData<List<Product>>()
@@ -18,14 +19,16 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
 
     val textToDisplay = category?.name ?: "Kết quả cho: $query"
 
+    private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
+
     init {
         viewModelScope.launch {
             category?.let {
-                _products.value = ProductRepositoryImpl.getProductsByCategoryId(category.id)
+                _products.value = productRepositoryImpl.getProductsByCategoryId(category.id)
             }
 
             if (!query.isNullOrEmpty()) {
-                _products.value = ProductRepositoryImpl.findProductsByQuery(query)
+                _products.value = productRepositoryImpl.findProductsByQuery(query)
             }
         }
     }

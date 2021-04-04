@@ -12,17 +12,18 @@ import vn.quanprolazer.fashione.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.network.mapper.ProductDetailMapper
 import vn.quanprolazer.fashione.network.mapper.ProductListAlgoliaMapper
 import vn.quanprolazer.fashione.network.mapper.ProductListMapper
+import vn.quanprolazer.fashione.network.service.ProductService
 import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 import vn.quanprolazer.fashione.network.service.SearchServiceImpl
 
-object ProductRepositoryImpl : ProductRepository {
+class ProductRepositoryImpl(private val productService: ProductService) : ProductRepository {
 
     override suspend fun getProducts(): List<Product> {
-        return ProductListMapper.map(ProductServiceImpl.getProducts())
+        return ProductListMapper.map(productService.getProducts())
     }
 
     override suspend fun getProductsByCategoryId(categoryId: String): List<Product> {
-        return ProductListMapper.map(ProductServiceImpl.getProductsByCategoryId(categoryId))
+        return ProductListMapper.map(productService.getProductsByCategoryId(categoryId))
     }
 
     override suspend fun findProductsByQuery(query: String): List<Product> {
@@ -30,6 +31,6 @@ object ProductRepositoryImpl : ProductRepository {
     }
 
     override suspend fun getProductDetailByProductId(productId: String): ProductDetail {
-        return ProductDetailMapper.map(ProductServiceImpl.getProductDetailByProductId(productId))
+        return ProductDetailMapper.map(productService.getProductDetailByProductId(productId))
     }
 }
