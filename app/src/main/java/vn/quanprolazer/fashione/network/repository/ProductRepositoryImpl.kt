@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductDetail
+import vn.quanprolazer.fashione.domain.model.Result
 import vn.quanprolazer.fashione.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.network.mapper.ProductDetailMapper
 import vn.quanprolazer.fashione.network.mapper.ProductListAlgoliaMapper
@@ -24,9 +25,15 @@ class ProductRepositoryImpl(
     private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ProductRepository {
 
-    override suspend fun getProducts(source: Source): List<Product> {
-        return withContext(dispatcher) {
-            ProductListMapper.map(productService.getProducts(source))
+    override suspend fun getProducts(source: Source): Result<List<Product>> {
+
+        val response = withContext(dispatcher) {
+            productService.getProducts(source)
+        }
+
+        return when(response) {
+            is Result.Success -> { Result.Success(ProductListMapper.map(response.data)) }
+            is Result.Error -> Result.Error(response.exception)
         }
     }
 

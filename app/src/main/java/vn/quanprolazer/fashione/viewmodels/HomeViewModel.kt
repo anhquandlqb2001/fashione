@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
+import vn.quanprolazer.fashione.domain.model.Result
 import vn.quanprolazer.fashione.network.repository.CategoryRepositoryImpl
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.CategoryServiceImpl
@@ -69,12 +70,27 @@ class HomeViewModel : ViewModel() {
     private val _products = MutableLiveData<List<Product>>()
     val products: LiveData<List<Product>> = _products
 
+    private val _exception = MutableLiveData<Exception>()
+
+    val exception : LiveData<Exception> = _exception
+
     init {
         viewModelScope.launch {
-            _categories.value = categoryRepositoryImpl.getCategoryListFromLocal()
-            _products.value = productRepositoryImpl.getProducts(Source.SERVER)
+            when(val getCategoryResponse = categoryRepositoryImpl.getCategoryListFromLocal()) {
+                is Result.Success -> _categories.value = getCategoryResponse.data
+                is Result.Error -> _exception.value = getCategoryResponse.exception
+            }
 
-            _categories.value = categoryRepositoryImpl.getCategoryList()
+
+            when(val getProductResponse = productRepositoryImpl.getProducts(Source.SERVER)) {
+                is Result.Success -> _products.value = getProductResponse.data
+                is Result.Error -> _exception.value = getProductResponse.exception
+            }
+
+            when(val getCategoryResponse = categoryRepositoryImpl.getCategoryList()) {
+                is Result.Success -> _categories.value = getCategoryResponse.data
+                is Result.Error -> _exception.value = getCategoryResponse.exception
+            }
         }
     }
 }

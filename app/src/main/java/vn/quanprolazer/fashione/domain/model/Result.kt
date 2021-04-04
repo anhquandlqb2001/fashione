@@ -6,17 +6,7 @@
 
 package vn.quanprolazer.fashione.domain.model
 
-sealed class Result<out T, out E> {
-
-    data class Success<out T>(val value: T) : Result<T, Nothing>()
-
-    data class Failure<out E>(val error: E) : Result<Nothing, E>()
-
-    inline fun <C> fold(success: (T) -> C, failure: (E) -> C): C = when (this) {
-        is Success -> success(value)
-        is Failure -> failure(error)
-    }
-
+sealed class Result<out R> {
+    data class Success<out T>(val data: T) : Result<T>()
+    data class Error(val exception: Exception) : Result<Nothing>()
 }
-
-typealias SimpleResult<T> = Result<T, Throwable>

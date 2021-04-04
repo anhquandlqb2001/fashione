@@ -7,12 +7,13 @@
 package vn.quanprolazer.fashione.network.service
 
 import com.google.firebase.firestore.Source
+import vn.quanprolazer.fashione.domain.model.Result
 import vn.quanprolazer.fashione.network.dto.NetworkProduct
 import vn.quanprolazer.fashione.network.dto.NetworkProductDetail
 
 interface ProductService {
 
-    suspend fun getProducts(source: Source = Source.DEFAULT): List<NetworkProduct>
+    suspend fun getProducts(source: Source = Source.DEFAULT): Result<List<NetworkProduct>>
 
     suspend fun getProductsByCategoryId(categoryId: String): List<NetworkProduct>
 
