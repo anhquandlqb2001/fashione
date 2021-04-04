@@ -4,7 +4,7 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.ui.product
+package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
@@ -28,4 +28,16 @@ class ProductViewModel(val product: Product) : ViewModel() {
 
     }
 
+}
+
+class ProductViewModelFactory(
+    private val product: Product
+) : ViewModelProvider.Factory {
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
+            return ProductViewModel(product) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

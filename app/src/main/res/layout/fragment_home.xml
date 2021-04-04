@@ -13,11 +13,11 @@
 
         <variable
             name="viewModel"
-            type="vn.quanprolazer.fashione.ui.home.HomeViewModel" />
+            type="vn.quanprolazer.fashione.viewmodels.HomeViewModel" />
 
         <variable
             name="searchViewModel"
-            type="vn.quanprolazer.fashione.ui.home.SearchViewModel" />
+            type="vn.quanprolazer.fashione.viewmodels.SearchViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -4,7 +4,7 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.ui.product
+package vn.quanprolazer.fashione.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListImageProductBinding
 import vn.quanprolazer.fashione.domain.model.ProductImage
 
-class ProductImageAdapter : ListAdapter<ProductImage, ProductImageAdapter.ViewHolder>(ProductImageDiffCallback) {
+class ProductImageAdapter : ListAdapter<ProductImage, ProductImageAdapter.ViewHolder>(
+    ProductImageDiffCallback
+) {
     class ViewHolder(val binding: ListImageProductBinding) : RecyclerView.ViewHolder(binding.root) {
         companion object {
             fun from(parent: ViewGroup) : ViewHolder {

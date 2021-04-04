@@ -4,7 +4,7 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.util
+package vn.quanprolazer.fashione.utilities
 
 import android.view.inputmethod.EditorInfo
 import com.google.android.material.textfield.TextInputEditText

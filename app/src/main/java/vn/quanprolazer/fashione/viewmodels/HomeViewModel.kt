@@ -4,7 +4,8 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.ui.home
+
+package vn.quanprolazer.fashione.viewmodels
 
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable

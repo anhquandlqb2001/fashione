@@ -16,7 +16,7 @@
 
         <variable
             name="clickListener"
-            type="vn.quanprolazer.fashione.ui.products.OnClickListener" />
+            type="vn.quanprolazer.fashione.adapters.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

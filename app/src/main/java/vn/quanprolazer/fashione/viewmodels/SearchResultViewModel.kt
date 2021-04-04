@@ -4,12 +4,9 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.ui.search
+package vn.quanprolazer.fashione.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
@@ -46,4 +43,15 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
 
     }
 
+}
+
+class SearchResultViewModelFactory(
+    private val category: Category?, private val query: String?) : ViewModelProvider.Factory {
+    @Suppress("unchecked_cast")
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(SearchResultViewModel::class.java)) {
+            return SearchResultViewModel(category, query) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
+    }
 }

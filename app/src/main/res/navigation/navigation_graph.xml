@@ -14,7 +14,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="vn.quanprolazer.fashione.ui.home.HomeFragment"
+        android:name="vn.quanprolazer.fashione.ui.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/productFragment"
-        android:name="vn.quanprolazer.fashione.ui.product.ProductFragment"
+        android:name="vn.quanprolazer.fashione.ui.ProductFragment"
         android:label="ProductFragment"
         tools:layout="@layout/fragment_product_detail">
 
@@ -41,7 +41,7 @@
     </fragment>
     <fragment
         android:id="@+id/searchResultFragment"
-        android:name="vn.quanprolazer.fashione.ui.search.SearchResultFragment"
+        android:name="vn.quanprolazer.fashione.ui.SearchResultFragment"
         android:label="SearchResultFragment"
         tools:layout="@layout/fragment_search_result">
         <argument

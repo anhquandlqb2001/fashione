@@ -4,7 +4,7 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.ui.home
+package vn.quanprolazer.fashione.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -19,7 +19,9 @@ import vn.quanprolazer.fashione.domain.model.Category
 //data class CategoryInfo(val text: String, val backgroundColor: CategoryButtonBackground)
 
 
-class CategoryAdapter(private val clickListener: OnClickCategoryListener) : ListAdapter<Category, CategoryAdapter.CategoryItemViewHolder>(DiffCallback) {
+class CategoryAdapter(private val clickListener: OnClickCategoryListener) : ListAdapter<Category, CategoryAdapter.CategoryItemViewHolder>(
+    DiffCallback
+) {
 
     class CategoryItemViewHolder(private val binding: ListItemCategoryBinding) : RecyclerView.ViewHolder(binding.root) {
         companion object {

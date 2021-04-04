@@ -4,7 +4,7 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.util
+package vn.quanprolazer.fashione.utilities
 
 import android.widget.ImageView
 import android.widget.TextView
@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.domain.model.ProductDetail
-import vn.quanprolazer.fashione.ui.product.ProductImageAdapter
+import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import java.text.NumberFormat
 import java.util.*
 

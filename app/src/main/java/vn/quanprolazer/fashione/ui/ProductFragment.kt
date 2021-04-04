@@ -4,9 +4,8 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.ui.product
+package vn.quanprolazer.fashione.ui
 
-import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
+import vn.quanprolazer.fashione.viewmodels.ProductViewModel
+import vn.quanprolazer.fashione.viewmodels.ProductViewModelFactory
 
 
 class ProductFragment : Fragment() {

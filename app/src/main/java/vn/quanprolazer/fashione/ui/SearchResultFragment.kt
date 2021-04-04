@@ -4,7 +4,8 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.ui.search
+
+package vn.quanprolazer.fashione.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,8 +16,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
-import vn.quanprolazer.fashione.ui.products.OnClickListener
-import vn.quanprolazer.fashione.ui.products.ProductAdapter
+import vn.quanprolazer.fashione.adapters.OnClickListener
+import vn.quanprolazer.fashione.adapters.ProductAdapter
+import vn.quanprolazer.fashione.viewmodels.SearchResultViewModel
+import vn.quanprolazer.fashione.viewmodels.SearchResultViewModelFactory
 
 class SearchResultFragment : Fragment() {
 
@@ -56,7 +59,11 @@ class SearchResultFragment : Fragment() {
         // navigate to product detail screen
         viewModel.navigateToProductDetail.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController().navigate(SearchResultFragmentDirections.actionSearchResultFragmentToProductFragment(it))
+                this.findNavController().navigate(
+                    SearchResultFragmentDirections.actionSearchResultFragmentToProductFragment(
+                        it
+                    )
+                )
                 viewModel.doneNavigate()
             }
         })

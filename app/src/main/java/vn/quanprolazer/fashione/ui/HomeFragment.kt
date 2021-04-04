@@ -4,7 +4,7 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.ui.home
+package vn.quanprolazer.fashione.ui
 
 import android.graphics.Rect
 import android.os.Bundle
@@ -18,10 +18,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.R
+import vn.quanprolazer.fashione.adapters.CategoryAdapter
+import vn.quanprolazer.fashione.adapters.OnClickCategoryListener
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
-import vn.quanprolazer.fashione.ui.products.OnClickListener
-import vn.quanprolazer.fashione.ui.products.ProductAdapter
-import vn.quanprolazer.fashione.util.onDone
+import vn.quanprolazer.fashione.adapters.OnClickListener
+import vn.quanprolazer.fashione.adapters.ProductAdapter
+import vn.quanprolazer.fashione.utilities.onDone
+import vn.quanprolazer.fashione.viewmodels.HomeViewModel
+import vn.quanprolazer.fashione.viewmodels.SearchViewModel
 
 class HomeFragment : Fragment() {
 
@@ -103,7 +107,11 @@ class HomeFragment : Fragment() {
 
         homeViewModel.navigateToProductDetail.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProductFragment(it))
+                this.findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToProductFragment(
+                        it
+                    )
+                )
                 homeViewModel.doneNavigate()
             }
         })
@@ -114,7 +122,12 @@ class HomeFragment : Fragment() {
 
         homeViewModel.navigateToSearchResult.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(it, ""))
+                this.findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(
+                        it,
+                        ""
+                    )
+                )
                 homeViewModel.doneNavigate()
             }
         })
@@ -127,7 +140,12 @@ class HomeFragment : Fragment() {
 
         homeViewModel.navigateToSearchResultByText.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(null, it))
+                this.findNavController().navigate(
+                    HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(
+                        null,
+                        it
+                    )
+                )
                 homeViewModel.doneNavigate()
             }
         })
