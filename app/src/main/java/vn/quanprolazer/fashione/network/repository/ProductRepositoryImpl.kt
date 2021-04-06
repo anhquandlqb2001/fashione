@@ -31,8 +31,10 @@ class ProductRepositoryImpl(
             productService.getProducts(source)
         }
 
-        return when(response) {
-            is Result.Success -> { Result.Success(ProductListMapper.map(response.data)) }
+        return when (response) {
+            is Result.Success -> {
+                Result.Success(ProductListMapper.map(response.data))
+            }
             is Result.Error -> Result.Error(response.exception)
         }
     }

@@ -17,7 +17,7 @@
 
         <variable
             name="searchViewModel"
-            type="vn.quanprolazer.fashione.viewmodels.SearchViewModel" />
+            type="vn.quanprolazer.fashione.viewmodels.HomeViewModel.SearchViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

@@ -28,7 +28,7 @@ class CategoryRepositoryImpl(
             categoryService.getCategoryList()
         }
 
-        return when(result) {
+        return when (result) {
             is Result.Success -> Result.Success(CategoryListMapper.map(result.data))
             is Result.Error -> Result.Error(result.exception)
         }
@@ -39,7 +39,7 @@ class CategoryRepositoryImpl(
             categoryService.getCategoryList(Source.CACHE)
         }
 
-        return when(result) {
+        return when (result) {
             is Result.Success -> Result.Success(CategoryListMapper.map(result.data))
             is Result.Error -> Result.Error(result.exception)
         }

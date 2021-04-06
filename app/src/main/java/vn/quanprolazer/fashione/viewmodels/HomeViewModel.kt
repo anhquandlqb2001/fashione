@@ -72,35 +72,37 @@ class HomeViewModel : ViewModel() {
 
     private val _exception = MutableLiveData<Exception>()
 
-    val exception : LiveData<Exception> = _exception
+    val exception: LiveData<Exception> = _exception
 
     init {
         viewModelScope.launch {
-            when(val getCategoryResponse = categoryRepositoryImpl.getCategoryListFromLocal()) {
+            when (val getCategoryResponse = categoryRepositoryImpl.getCategoryListFromLocal()) {
                 is Result.Success -> _categories.value = getCategoryResponse.data
                 is Result.Error -> _exception.value = getCategoryResponse.exception
             }
 
 
-            when(val getProductResponse = productRepositoryImpl.getProducts(Source.SERVER)) {
+            when (val getProductResponse = productRepositoryImpl.getProducts(Source.SERVER)) {
                 is Result.Success -> _products.value = getProductResponse.data
                 is Result.Error -> _exception.value = getProductResponse.exception
             }
 
-            when(val getCategoryResponse = categoryRepositoryImpl.getCategoryList()) {
+            when (val getCategoryResponse = categoryRepositoryImpl.getCategoryList()) {
                 is Result.Success -> _categories.value = getCategoryResponse.data
                 is Result.Error -> _exception.value = getCategoryResponse.exception
             }
         }
     }
+
+
+    class SearchViewModel(private val viewModel: HomeViewModel) : BaseObservable() {
+        @Bindable
+        var searchText: String? = null
+            set(value) {
+                viewModel.searchText.value = value
+                field = value
+            }
+    }
 }
 
 
-class SearchViewModel(private val viewModel: HomeViewModel) : BaseObservable() {
-    @Bindable
-    var searchText: String? = null
-        set(value) {
-            viewModel.searchText.value = value
-            field = value
-        }
-}

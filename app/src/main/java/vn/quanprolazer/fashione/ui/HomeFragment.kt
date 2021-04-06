@@ -27,7 +27,6 @@ import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
 import vn.quanprolazer.fashione.utilities.onDone
 import vn.quanprolazer.fashione.viewmodels.HomeViewModel
-import vn.quanprolazer.fashione.viewmodels.SearchViewModel
 
 class HomeFragment : Fragment() {
 
@@ -121,7 +120,6 @@ class HomeFragment : Fragment() {
         // End  Product direction
 
 
-
         homeViewModel.navigateToSearchResult.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController().navigate(
@@ -152,7 +150,7 @@ class HomeFragment : Fragment() {
             }
         })
 
-        val searchViewModel = SearchViewModel(homeViewModel)
+        val searchViewModel = HomeViewModel.SearchViewModel(homeViewModel)
 
         binding.searchViewModel = searchViewModel
 

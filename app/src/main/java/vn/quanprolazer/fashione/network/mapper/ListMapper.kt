@@ -6,4 +6,4 @@
 
 package vn.quanprolazer.fashione.network.mapper
 
-interface ListMapper<I, O>: Mapper<List<I>, List<O>>
+interface ListMapper<I, O> : Mapper<List<I>, List<O>>

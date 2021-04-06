@@ -19,7 +19,6 @@ import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
 import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
 import vn.quanprolazer.fashione.viewmodels.SearchResultViewModel
-import vn.quanprolazer.fashione.viewmodels.SearchResultViewModelFactory
 
 class SearchResultFragment : Fragment() {
 
@@ -36,9 +35,11 @@ class SearchResultFragment : Fragment() {
         val category = arguments?.let { SearchResultFragmentArgs.fromBundle(it).category }
         val query = arguments?.let { SearchResultFragmentArgs.fromBundle(it).query }
 
-        val modelFactory = SearchResultViewModelFactory(category, query)
 
-        val viewModel = ViewModelProvider(this, modelFactory)[SearchResultViewModel::class.java]
+        val viewModel = ViewModelProvider(
+            this,
+            SearchResultViewModel.SearchResultViewModelFactory(category, query)
+        )[SearchResultViewModel::class.java]
 
         binding.viewModel = viewModel
 

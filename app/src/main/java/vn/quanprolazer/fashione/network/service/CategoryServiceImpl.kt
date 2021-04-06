@@ -17,7 +17,7 @@ class CategoryServiceImpl : CategoryService {
     override suspend fun getCategoryList(source: Source): Result<List<NetworkCategory>> {
         val db = FirebaseFirestore.getInstance()
         return try {
-                val list = db.collection("categories")
+            val list = db.collection("categories")
                 .get(source)
                 .await()
                 .documents

@@ -7,7 +7,7 @@
 package vn.quanprolazer.fashione.network.mapper
 
 // Nullable to Non-nullable
-interface NullableInputListMapper<I, O>: Mapper<List<I>?, List<O>>
+interface NullableInputListMapper<I, O> : Mapper<List<I>?, List<O>>
 
 class NullableInputListMapperImpl<I, O>(
     private val mapper: Mapper<I, O>

@@ -19,6 +19,6 @@ interface ProductRepository {
 
     suspend fun findProductsByQuery(query: String): List<Product>
 
-    suspend fun getProductDetailByProductId(productId: String) : ProductDetail
+    suspend fun getProductDetailByProductId(productId: String): ProductDetail
 
 }

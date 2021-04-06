@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 import vn.quanprolazer.fashione.viewmodels.ProductViewModel
-import vn.quanprolazer.fashione.viewmodels.ProductViewModelFactory
-
 
 class ProductFragment : Fragment() {
 
@@ -35,9 +33,7 @@ class ProductFragment : Fragment() {
 
         val product = ProductFragmentArgs.fromBundle(requireArguments()).product
 
-        val modelFactory = ProductViewModelFactory(product)
-
-        val viewModel = ViewModelProvider(this, modelFactory)[ProductViewModel::class.java]
+        val viewModel = ViewModelProvider(this, ProductViewModel.ProductViewModelFactory(product))[ProductViewModel::class.java]
 
         binding.viewModel = viewModel
 

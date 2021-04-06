@@ -16,7 +16,7 @@ import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 class ProductViewModel(val product: Product) : ViewModel() {
 
     private val _productDetail = MutableLiveData<ProductDetail>()
-    val productDetail : LiveData<ProductDetail> = _productDetail
+    val productDetail: LiveData<ProductDetail> = _productDetail
 
 //    val displayCurrentImage: LiveData<String> = Transformations.map(productDetail) {
 //        "1/${productDetail.value?.images?.size}"
@@ -31,16 +31,17 @@ class ProductViewModel(val product: Product) : ViewModel() {
 
     }
 
+    class ProductViewModelFactory(
+        private val product: Product
+    ) : ViewModelProvider.Factory {
+        @Suppress("unchecked_cast")
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
+                return ProductViewModel(product) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel class")
+        }
+    }
+
 }
 
-class ProductViewModelFactory(
-    private val product: Product
-) : ViewModelProvider.Factory {
-    @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
-            return ProductViewModel(product) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
