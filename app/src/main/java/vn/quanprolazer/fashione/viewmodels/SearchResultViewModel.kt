@@ -19,6 +19,7 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
 
     val textToDisplay = category?.name ?: "Kết quả cho: $query"
 
+
     private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
 
     init {
@@ -31,6 +32,7 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
                 _products.value = productRepositoryImpl.findProductsByQuery(query)
             }
         }
+
     }
 
     private val _navigateToProductDetail = MutableLiveData<Product>()
@@ -46,8 +48,7 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
 
     }
 
-
-    class SearchResultViewModelFactory(
+    class Factory(
         private val category: Category?, private val query: String?
     ) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")

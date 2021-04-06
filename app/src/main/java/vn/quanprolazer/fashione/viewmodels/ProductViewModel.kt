@@ -31,7 +31,7 @@ class ProductViewModel(val product: Product) : ViewModel() {
 
     }
 
-    class ProductViewModelFactory(
+    class Factory(
         private val product: Product
     ) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")

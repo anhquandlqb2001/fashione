@@ -21,7 +21,9 @@ import vn.quanprolazer.fashione.viewmodels.ProductViewModel
 
 class ProductFragment : Fragment() {
 
-    private lateinit var binding: FragmentProductDetailBinding
+    private var _binding: FragmentProductDetailBinding? = null
+
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,23 +31,28 @@ class ProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentProductDetailBinding.inflate(inflater)
+        _binding = FragmentProductDetailBinding.inflate(inflater)
 
         val product = ProductFragmentArgs.fromBundle(requireArguments()).product
 
-        val viewModel = ViewModelProvider(this, ProductViewModel.ProductViewModelFactory(product))[ProductViewModel::class.java]
-
-        binding.viewModel = viewModel
+        val viewModel = ViewModelProvider(
+            this,
+            ProductViewModel.Factory(product)
+        )[ProductViewModel::class.java]
 
         binding.lifecycleOwner = viewLifecycleOwner
 
+        binding.viewModel = viewModel
+
+
+        // section for setup images slider
         val productImageAdapter = ProductImageAdapter()
         binding.rvProductImage.adapter = productImageAdapter
-
 
         viewModel.productDetail.observe(viewLifecycleOwner, {
             productImageAdapter.submitList(it.images)
         })
+        // end section
 
         snapHelper.attachToRecyclerView(binding.rvProductImage)
 
@@ -57,7 +64,9 @@ class ProductFragment : Fragment() {
     }
 
 
-    // snap scroll for rv
+    /**
+     * Snap scroll product images
+     */
     private val snapHelper: LinearSnapHelper = object : LinearSnapHelper() {
         override fun findTargetSnapPosition(
             layoutManager: RecyclerView.LayoutManager,
@@ -86,5 +95,14 @@ class ProductFragment : Fragment() {
             targetPosition = Math.min(lastItem, Math.max(targetPosition, firstItem))
             return targetPosition
         }
+    }
+
+    /**
+     * Called when the fragment is no longer in use.  This is called
+     * after [.onStop] and before [.onDetach].
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 }

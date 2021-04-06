@@ -35,17 +35,13 @@ class ProductServiceImpl : ProductService {
         val db = FirebaseFirestore.getInstance()
 
         return try {
-            val list = db.collection("product_detail")
+            return db.collection("product_detail")
                 .whereEqualTo("product_id", productId)
                 .limit(1)
                 .get()
                 .await()
                 .documents
                 .mapNotNull { it.toObject(NetworkProductDetail::class.java) }[0]
-
-            Timber.i(list.toString())
-
-            return list
         } catch (e: Exception) {
             Timber.e(e)
             NetworkProductDetail()
