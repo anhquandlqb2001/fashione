@@ -15,21 +15,16 @@ import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 class ProductViewModel(val product: Product) : ViewModel() {
 
-    private val _productDetail = MutableLiveData<ProductDetail>()
-    val productDetail: LiveData<ProductDetail> = _productDetail
-
-//    val displayCurrentImage: LiveData<String> = Transformations.map(productDetail) {
-//        "1/${productDetail.value?.images?.size}"
-//    }
-
     private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
 
-    init {
+    private val _productDetail by lazy {
+        val liveData = MutableLiveData<ProductDetail>()
         viewModelScope.launch {
-            _productDetail.value = productRepositoryImpl.getProductDetailByProductId(product.id)
+            liveData.value = productRepositoryImpl.getProductDetailByProductId(product.id)
         }
-
+        return@lazy liveData
     }
+    val productDetail: LiveData<ProductDetail> = _productDetail
 
     class Factory(
         private val product: Product

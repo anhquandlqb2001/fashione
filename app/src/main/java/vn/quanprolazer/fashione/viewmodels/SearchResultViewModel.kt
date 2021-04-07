@@ -14,26 +14,26 @@ import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 class SearchResultViewModel(val category: Category?, private val query: String?) : ViewModel() {
-    private val _products = MutableLiveData<List<Product>>()
-    val products: LiveData<List<Product>> = _products
 
     val textToDisplay = category?.name ?: "Kết quả cho: $query"
 
-
     private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
 
-    init {
+    private val _products by lazy {
+        val liveData = MutableLiveData<List<Product>>()
         viewModelScope.launch {
             category?.let {
-                _products.value = productRepositoryImpl.getProductsByCategoryId(category.id)
+                liveData.value = productRepositoryImpl.getProductsByCategoryId(category.id)
             }
 
             if (!query.isNullOrEmpty()) {
-                _products.value = productRepositoryImpl.findProductsByQuery(query)
+                liveData.value = productRepositoryImpl.findProductsByQuery(query)
             }
         }
-
+        return@lazy liveData
     }
+    val products: LiveData<List<Product>> = _products
+
 
     private val _navigateToProductDetail = MutableLiveData<Product>()
     val navigateToProductDetail: LiveData<Product> = _navigateToProductDetail
