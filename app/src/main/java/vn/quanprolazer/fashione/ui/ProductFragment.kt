@@ -15,9 +15,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 import vn.quanprolazer.fashione.viewmodels.ProductViewModel
+
 
 class ProductFragment : Fragment() {
 
@@ -59,10 +61,52 @@ class ProductFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvProductImage.layoutManager = layoutManager
 
+
+        // bottom sheet
+        setupBottomSheet()
+        // end section
+
+
         return binding.root
 
     }
 
+    private fun setupBottomSheet() {
+        val bottomSheetBehavior = BottomSheetBehavior.from(binding.flStandardBottomSheet)
+        bottomSheetBehavior.addBottomSheetCallback(object :
+            BottomSheetBehavior.BottomSheetCallback() {
+            /**
+             * Called when the bottom sheet changes its state.
+             *
+             * @param bottomSheet The bottom sheet view.
+             * @param newState The new state. This will be one of [.STATE_DRAGGING], [     ][.STATE_SETTLING], [.STATE_EXPANDED], [.STATE_COLLAPSED], [     ][.STATE_HIDDEN], or [.STATE_HALF_EXPANDED].
+             */
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+
+            }
+
+            /**
+             * Called when the bottom sheet is being dragged.
+             *
+             * @param bottomSheet The bottom sheet view.
+             * @param slideOffset The new offset of this bottom sheet within [-1,1] range. Offset increases
+             * as this bottom sheet is moving upward. From 0 to 1 the sheet is between collapsed and
+             * expanded states and from -1 to 0 it is between hidden and collapsed states.
+             */
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+
+            }
+        })
+        binding.btnBuy.setOnClickListener {
+            if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                it.visibility = View.VISIBLE
+            } else {
+                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                it.visibility = View.GONE
+            }
+        }
+    }
 
     /**
      * Snap scroll product images
