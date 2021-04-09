@@ -96,7 +96,7 @@ data class NetworkProductImage(
 
 @Serializable
 data class NetworkProductVariant(
-    val name: String = "",
+    val color: String = "",
     val size: String = "",
     val qty: Int = -1
 )

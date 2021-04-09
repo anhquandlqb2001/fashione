@@ -12,11 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
@@ -65,13 +67,12 @@ class ProductFragment : Fragment() {
 
 
         // bottom sheet
-
-        binding.btnBuy.setOnClickListener {
-            val view: View = layoutInflater.inflate(R.layout.fragment_modal_bottom_sheet_product_variant, null)
-            val dialog = BottomSheetDialog(requireContext())
-            dialog.setContentView(view)
-            dialog.show()
-        }
+        viewModel.navigateToBottomSheet.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController().navigate(ProductFragmentDirections.actionProductFragmentToBottomSheetProductVariantFragment(it.toTypedArray()))
+                viewModel.doneNavigate()
+            }
+        })
         // end section
 
 
@@ -79,42 +80,6 @@ class ProductFragment : Fragment() {
 
     }
 
-//    private fun setupBottomSheet() {
-//        val bottomSheetBehavior = BottomSheetBehavior.from(binding.flStandardBottomSheet)
-//        bottomSheetBehavior.addBottomSheetCallback(object :
-//            BottomSheetBehavior.BottomSheetCallback() {
-//            /**
-//             * Called when the bottom sheet changes its state.
-//             *
-//             * @param bottomSheet The bottom sheet view.
-//             * @param newState The new state. This will be one of [.STATE_DRAGGING], [     ][.STATE_SETTLING], [.STATE_EXPANDED], [.STATE_COLLAPSED], [     ][.STATE_HIDDEN], or [.STATE_HALF_EXPANDED].
-//             */
-//            override fun onStateChanged(bottomSheet: View, newState: Int) {
-//
-//            }
-//
-//            /**
-//             * Called when the bottom sheet is being dragged.
-//             *
-//             * @param bottomSheet The bottom sheet view.
-//             * @param slideOffset The new offset of this bottom sheet within [-1,1] range. Offset increases
-//             * as this bottom sheet is moving upward. From 0 to 1 the sheet is between collapsed and
-//             * expanded states and from -1 to 0 it is between hidden and collapsed states.
-//             */
-//            override fun onSlide(bottomSheet: View, slideOffset: Float) {
-//
-//            }
-//        })
-//        binding.btnBuy.setOnClickListener {
-//            if (bottomSheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
-//                bottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
-//                it.visibility = View.VISIBLE
-//            } else {
-//                bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
-//                it.visibility = View.GONE
-//            }
-//        }
-//    }
 
     /**
      * Snap scroll product images

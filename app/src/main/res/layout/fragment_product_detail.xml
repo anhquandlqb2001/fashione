@@ -174,7 +174,8 @@
                 android:layout_alignBottom="@id/sv_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginHorizontal="16sp"
-                android:text="Buy now" />
+                android:text="Buy now"
+                android:onClick="@{() -> viewModel.onNavigateToBottomSheet(viewModel.productDetail.variants)}"/>
 
         </RelativeLayout>
 

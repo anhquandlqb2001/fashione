@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
   -->
 
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_graph"
@@ -26,7 +24,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/productFragment"
@@ -50,20 +48,25 @@
         <argument
             android:name="category"
             app:argType="vn.quanprolazer.fashione.domain.model.Category"
-            app:nullable="true"/>
+            app:nullable="true" />
         <argument
             android:name="query"
             app:argType="string"
-            app:nullable="true"/>
+            app:nullable="true" />
         <action
             android:id="@+id/action_searchResultFragment_to_productFragment"
             app:destination="@id/productFragment" />
 
 
     </fragment>
-    <fragment
+
+    <dialog
         android:id="@+id/bottomSheetProductVariantFragment"
         android:name="vn.quanprolazer.fashione.ui.BottomSheetProductVariantFragment"
-        android:label="BottomSheetProductVariantFragment" />
+        android:label="BottomSheetProductVariantFragment">
+        <argument
+            android:name="variants"
+            app:argType="vn.quanprolazer.fashione.domain.model.ProductVariant[]" />
+    </dialog>
 
 </navigation>

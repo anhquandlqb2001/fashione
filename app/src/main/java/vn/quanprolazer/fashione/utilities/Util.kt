@@ -11,6 +11,7 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.textfield.TextInputEditText
 
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
@@ -57,6 +58,10 @@ fun TextInputEditText.onDone(callback: (() -> Unit)?) {
     }
 }
 
+
+/**
+ * GridLayout
+ */
 class MarginItemDecoration(
     private val spaceSize: Int,
     private val spanCount: Int = 1,
@@ -86,5 +91,18 @@ class MarginItemDecoration(
             top = spaceSize
             left = spaceSize
         }
+    }
+}
+
+/**
+ *  LinearLayout single line horizontal
+ */
+class SpacesItemDecoration(private val space: Int) : ItemDecoration() {
+    override fun getItemOffsets(
+        outRect: Rect, view: View,
+        parent: RecyclerView, state: RecyclerView.State
+    ) {
+        outRect.left = space
+        outRect.right = space
     }
 }

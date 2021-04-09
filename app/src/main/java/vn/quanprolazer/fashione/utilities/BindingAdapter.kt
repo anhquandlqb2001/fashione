@@ -10,12 +10,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.domain.model.ProductDetail
-import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import java.text.NumberFormat
 import java.util.*
 
@@ -38,15 +35,6 @@ fun setProductName(view: TextView, productName: String?) {
     }
 }
 
-@BindingAdapter("listData")
-fun bindProductImageRecyclerView(recyclerView: RecyclerView,
-                     data: ProductDetail?) {
-
-    data?.let {
-        val adapter = recyclerView.adapter as ProductImageAdapter
-        adapter.submitList(data.images)
-    }
-}
 
 @BindingAdapter("imageUrl")
 fun bindImage(view: ImageView, imageUrl: String?) {
@@ -67,6 +55,7 @@ fun bindImage(view: ImageView, imageUrl: String?) {
             .into(view)
     }
 }
+
 
 
 

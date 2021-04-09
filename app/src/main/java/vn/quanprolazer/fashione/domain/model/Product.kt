@@ -49,7 +49,7 @@ data class ProductImage(
 
 @Parcelize
 data class ProductVariant(
-    val name: String,
+    val color: String,
     val size: String,
     val qty: Number,
 ) : Parcelable
