@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.utilities
 
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -53,6 +54,19 @@ fun bindImage(view: ImageView, imageUrl: String?) {
                     .error(R.drawable.ic_broken)
             )
             .into(view)
+    }
+}
+
+@BindingAdapter("variantQty")
+fun setProductVariantQty(view: TextView, qty: Number?) {
+    qty?.let {
+        if (qty == -1) {
+            view.visibility = View.INVISIBLE
+        } else {
+            view.visibility = View.VISIBLE
+            view.text = "$qty sản phẩm"
+
+        }
     }
 }
 

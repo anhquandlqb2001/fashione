@@ -16,6 +16,7 @@ import com.google.android.material.chip.Chip
 import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentBottomSheetProductVariantBinding
+import vn.quanprolazer.fashione.utilities.setProductVariantQty
 import vn.quanprolazer.fashione.viewmodels.BottomSheetProductVariantViewModel
 
 
@@ -52,10 +53,14 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                     chip.text = variant.name
                     chip.tag = variant.name
 
-                    chip.setOnCheckedChangeListener { buttonView, isChecked ->
+                    chip.setOnCheckedChangeListener { _, isChecked ->
                         if (!isChecked) {
                             return@setOnCheckedChangeListener
                         }
+
+                        setProductVariantQty(binding.tvVariantQty, -1)
+                        binding.llQtyControl.visibility = View.INVISIBLE
+
                         val optionChipGroup = binding.cgOption
                         val optionInflater = LayoutInflater.from(optionChipGroup.context)
 
@@ -63,8 +68,12 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                             val optionChip = optionInflater.inflate(R.layout.list_item_chip, optionChipGroup, false) as Chip
                             optionChip.text = productVariantOption.value
                             optionChip.tag = productVariantOption.value
-                            optionChip.setOnCheckedChangeListener { optionChipView, isChecked ->
-
+                            optionChip.setOnCheckedChangeListener { _, isOptionChipChecked ->
+                                if (!isOptionChipChecked) {
+                                    return@setOnCheckedChangeListener
+                                }
+                                setProductVariantQty(binding.tvVariantQty, productVariantOption.qty)
+                                binding.llQtyControl.visibility = View.VISIBLE
                             }
                             optionChip
                         }
@@ -73,7 +82,6 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                         for (option in options) {
                             optionChipGroup.addView(option)
                         }
-
                     }
                     chip
                 }

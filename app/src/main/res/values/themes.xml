@@ -47,4 +47,10 @@
     <style name="CategoryButton" parent="TextAppearance.AppCompat.Widget.Button">
         <item name="colorPrimary">@null</item> <!-- HERE -->
     </style>
+
+    <!-- Style for a button in the quantity picker -->
+    <style name="QuantityPickerButtonStyle">
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+    </style>
 </resources>
