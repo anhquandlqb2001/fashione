@@ -96,7 +96,12 @@ data class NetworkProductImage(
 
 @Serializable
 data class NetworkProductVariant(
-    val color: String = "",
-    val size: String = "",
+    val name: String = "",
+    val options: List<NetworkProductVariantOption> = listOf(NetworkProductVariantOption())
+)
+
+@Serializable
+data class NetworkProductVariantOption(
+    val value: String = "",
     val qty: Int = -1
 )

@@ -49,11 +49,16 @@ data class ProductImage(
 
 @Parcelize
 data class ProductVariant(
-    val color: String,
-    val size: String,
-    val qty: Number,
+    val name: String,
+    val options: List<ProductVariantOption>
 ) : Parcelable
 
+
+@Parcelize
+data class ProductVariantOption(
+    val value: String,
+    val qty: Number
+) : Parcelable
 
 //
 //object EmptyProductImage : ProductImage {

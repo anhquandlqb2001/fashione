@@ -6,10 +6,7 @@
 
 package vn.quanprolazer.fashione.network.mapper
 
-import vn.quanprolazer.fashione.domain.model.Product
-import vn.quanprolazer.fashione.domain.model.ProductDetail
-import vn.quanprolazer.fashione.domain.model.ProductImage
-import vn.quanprolazer.fashione.domain.model.ProductVariant
+import vn.quanprolazer.fashione.domain.model.*
 import vn.quanprolazer.fashione.network.dto.*
 
 object ProductListMapper : ListMapper<NetworkProduct, Product> {
@@ -62,5 +59,5 @@ object ProductImagesMapper : ListMapper<NetworkProductImage, ProductImage> {
 
 object ProductVariantsMapper : ListMapper<NetworkProductVariant, ProductVariant> {
     override fun map(input: List<NetworkProductVariant>) =
-        input.map { ProductVariant(it.color, it.size, it.qty) }
+        input.map { ProductVariant(it.name, it.options.mapNotNull { option -> ProductVariantOption(option.value, option.qty) }) }
 }
