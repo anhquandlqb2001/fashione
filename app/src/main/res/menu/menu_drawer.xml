@@ -20,4 +20,8 @@
     <item
         android:title="@string/menu_item_favourite_text"
         android:id="@+id/menu_item_favourite"/>
+
+    <item
+        android:title="@string/login"
+        android:id="@+id/menu_item_login" />
 </menu>

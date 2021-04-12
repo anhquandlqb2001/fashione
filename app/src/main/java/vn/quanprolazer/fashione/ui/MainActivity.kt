@@ -9,8 +9,10 @@ package vn.quanprolazer.fashione.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavDestination
+import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -36,6 +38,24 @@ class MainActivity : AppCompatActivity() {
         Timber.plant(Timber.DebugTree())
 
         setupNavigation()
+
+        setupNavigationItemClick()
+    }
+
+    private fun setupNavigationItemClick() {
+        binding.navigationView.setNavigationItemSelectedListener {
+
+            when (it.itemId) {
+                R.id.menu_item_login -> {
+                    Navigation.findNavController(this, R.id.nav_host_fragment)
+                        .navigate(HomeFragmentDirections.actionHomeFragmentToLoginFragment())
+                }
+                else -> {
+                }
+            }
+            binding.drawerLayout.closeDrawer(GravityCompat.START)
+            true
+        }
     }
 
     override fun onSupportNavigateUp() =
@@ -76,6 +96,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
 
     override fun onDestroy() {
         super.onDestroy()

@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "341792753504-lp1la0oa7j3dv8ap5khoj2s14lf1kqkj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.quanprolazer.fashione",
+            "certificate_hash": "27306ed2e06e3d50e27f162ef4b727954a6b5001"
+          }
+        },
+        {
           "client_id": "341792753504-tq2e03pbsinra8931qqfs9v9qsthk22n.apps.googleusercontent.com",
           "client_type": 3
         }
