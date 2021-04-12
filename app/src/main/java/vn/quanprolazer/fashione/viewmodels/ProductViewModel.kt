@@ -8,10 +8,8 @@ package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductDetail
-import vn.quanprolazer.fashione.domain.model.ProductVariant
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
@@ -29,11 +27,11 @@ class ProductViewModel(val product: Product) : ViewModel() {
     val productDetail: LiveData<ProductDetail> = _productDetail
 
 
-    private val _navigateToBottomSheet = MutableLiveData<List<ProductVariant>>()
-    val navigateToBottomSheet: LiveData<List<ProductVariant>> get() = _navigateToBottomSheet
+    private val _navigateToBottomSheet = MutableLiveData<ProductDetail>()
+    val navigateToBottomSheet: LiveData<ProductDetail> get() = _navigateToBottomSheet
 
-    fun onNavigateToBottomSheet(productVariants: List<ProductVariant>) {
-        _navigateToBottomSheet.value = productVariants
+    fun onNavigateToBottomSheet(productDetail: ProductDetail) {
+        _navigateToBottomSheet.value = productDetail
     }
 
     fun doneNavigate() {

@@ -22,4 +22,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_choose_color">Chọn màu</string>
     <string name="text_choose_size">Chọn kích cỡ</string>
+    <string name="text_add_to_cart">THÊM VÀO GIỎ HÀNG</string>
 </resources>

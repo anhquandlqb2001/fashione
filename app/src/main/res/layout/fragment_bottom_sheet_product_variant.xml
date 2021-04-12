@@ -91,34 +91,35 @@
 
                 <Button
                     style="@style/QuantityPickerButtonStyle"
-                    android:text="-" />
+                    android:text="-"
+                    android:onClick="@{() -> viewModel.onDecreaseQty()}"/>
 
                 <TextView
-                    android:id="@+id/quantity_text_view"
+                    android:id="@+id/tv_qty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:text="1"
+                    orderQty="@{viewModel.orderQty}"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
                 <Button
                     style="@style/QuantityPickerButtonStyle"
-                    android:text="+" />
+                    android:text="+"
+                    android:onClick="@{() -> viewModel.onIncreaseQty()}"/>
 
             </LinearLayout>
-
 
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:background="#000"
-                android:foreground="?attr/selectableItemBackground"
-                android:text="THÊM VÀO GIỎ HÀNG"
-                android:textColor="#fff" />
+                android:text="@string/text_add_to_cart"
+                setClickable="@{viewModel.orderQty}"
+                android:textColor="#fff"
+                android:backgroundTint="@color/teal_700"/>
 
         </LinearLayout>
 

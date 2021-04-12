@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
-import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentBottomSheetProductVariantBinding
 import vn.quanprolazer.fashione.utilities.setProductVariantQty
@@ -35,9 +34,9 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
         _binding = FragmentBottomSheetProductVariantBinding.inflate(inflater, container, false)
 
 
-        val variants = BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).variants
+        val productDetail = BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).productDetail
 
-        val viewModel = ViewModelProvider(this, BottomSheetProductVariantViewModel.Factory(variants.toList()))[BottomSheetProductVariantViewModel::class.java]
+        val viewModel = ViewModelProvider(this, BottomSheetProductVariantViewModel.Factory(productDetail))[BottomSheetProductVariantViewModel::class.java]
 
         binding.lifecycleOwner = viewLifecycleOwner
 
@@ -61,6 +60,8 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                         setProductVariantQty(binding.tvVariantQty, -1)
                         binding.llQtyControl.visibility = View.INVISIBLE
 
+                        viewModel.onChangeVariantName(variant.name)
+
                         val optionChipGroup = binding.cgOption
                         val optionInflater = LayoutInflater.from(optionChipGroup.context)
 
@@ -74,6 +75,10 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                                 }
                                 setProductVariantQty(binding.tvVariantQty, productVariantOption.qty)
                                 binding.llQtyControl.visibility = View.VISIBLE
+
+                                viewModel.onChangeVariantValue(productVariantOption.value)
+                                viewModel.setProductOrderValueLimit(productVariantOption.qty)
+
                             }
                             optionChip
                         }
@@ -92,6 +97,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                 }
             }
         })
+
 
         return binding.root
     }

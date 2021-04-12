@@ -69,7 +69,7 @@ class ProductFragment : Fragment() {
         // bottom sheet
         viewModel.navigateToBottomSheet.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController().navigate(ProductFragmentDirections.actionProductFragmentToBottomSheetProductVariantFragment(it.toTypedArray()))
+                this.findNavController().navigate(ProductFragmentDirections.actionProductFragmentToBottomSheetProductVariantFragment(it))
                 viewModel.doneNavigate()
             }
         })

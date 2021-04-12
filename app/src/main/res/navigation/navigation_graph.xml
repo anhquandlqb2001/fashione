@@ -65,8 +65,8 @@
         android:name="vn.quanprolazer.fashione.ui.BottomSheetProductVariantFragment"
         android:label="BottomSheetProductVariantFragment">
         <argument
-            android:name="variants"
-            app:argType="vn.quanprolazer.fashione.domain.model.ProductVariant[]" />
+            android:name="productDetail"
+            app:argType="vn.quanprolazer.fashione.domain.model.ProductDetail" />
     </dialog>
 
 </navigation>
