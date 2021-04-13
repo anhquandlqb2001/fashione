@@ -16,12 +16,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CategoryAdapter
 import vn.quanprolazer.fashione.adapters.OnClickCategoryListener
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
 import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
+import vn.quanprolazer.fashione.domain.repository.UserRepository
 import vn.quanprolazer.fashione.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.utilities.onDone
 import vn.quanprolazer.fashione.viewmodels.HomeViewModel
@@ -80,6 +82,9 @@ class HomeFragment : Fragment() {
         val searchViewModel = HomeViewModel.SearchViewModel(homeViewModel)
         binding.searchViewModel = searchViewModel
 
+        homeViewModel.user.observe(viewLifecycleOwner, {
+            Timber.i(it?.email)
+        })
 
         // Category Section
         setupCategorySection()

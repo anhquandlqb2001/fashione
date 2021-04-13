@@ -24,4 +24,5 @@
     <string name="text_choose_size">Chọn kích cỡ</string>
     <string name="text_add_to_cart">THÊM VÀO GIỎ HÀNG</string>
     <string name="login">Đăng nhập</string>
+    <string name="sign_out_text">Đăng xuất</string>
 </resources>

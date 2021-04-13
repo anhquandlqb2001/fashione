@@ -27,8 +27,8 @@ class ProductViewModel(val product: Product) : ViewModel() {
     val productDetail: LiveData<ProductDetail> = _productDetail
 
 
-    private val _navigateToBottomSheet = MutableLiveData<ProductDetail>()
-    val navigateToBottomSheet: LiveData<ProductDetail> get() = _navigateToBottomSheet
+    private val _navigateToBottomSheet = MutableLiveData<ProductDetail?>()
+    val navigateToBottomSheet: LiveData<ProductDetail?> get() = _navigateToBottomSheet
 
     fun onNavigateToBottomSheet(productDetail: ProductDetail) {
         _navigateToBottomSheet.value = productDetail

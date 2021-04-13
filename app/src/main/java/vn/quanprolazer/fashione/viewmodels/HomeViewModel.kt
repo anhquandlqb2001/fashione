@@ -15,9 +15,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.Source
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.Result
+import vn.quanprolazer.fashione.domain.repository.UserRepository
 import vn.quanprolazer.fashione.network.repository.CategoryRepositoryImpl
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.CategoryServiceImpl
@@ -37,7 +39,7 @@ class HomeViewModel : ViewModel() {
     val navigateToSearchResultByText: LiveData<String> = _navigateToSearchResultByText
 
 
-    val searchText = MutableLiveData<String>()
+    val searchText = MutableLiveData<String?>()
 
     fun onSearch() {
         _navigateToSearchResultByText.value = searchText.value
@@ -66,7 +68,7 @@ class HomeViewModel : ViewModel() {
         val liveData = MutableLiveData<List<Category>>()
         viewModelScope.launch {
             when (val getCategoryResponse = categoryRepositoryImpl.getCategoryList()) {
-                is Result.Success -> liveData.value = getCategoryResponse.data
+                is Result.Success -> liveData.value = getCategoryResponse.data!!
                 is Result.Error -> _exception.value = getCategoryResponse.exception
             }
         }
@@ -78,7 +80,7 @@ class HomeViewModel : ViewModel() {
         val liveData = MutableLiveData<List<Product>>()
         viewModelScope.launch {
             when (val getProductResponse = productRepositoryImpl.getProducts(Source.SERVER)) {
-                is Result.Success -> liveData.value = getProductResponse.data
+                is Result.Success -> liveData.value = getProductResponse.data!!
                 is Result.Error -> _exception.value = getProductResponse.exception
             }
         }
@@ -89,6 +91,10 @@ class HomeViewModel : ViewModel() {
 
     private val _exception = MutableLiveData<Exception>()
     val exception: LiveData<Exception> = _exception
+
+    private val userRepository = UserRepository()
+
+    val user = userRepository.getUser()
 
     class SearchViewModel(private val viewModel: HomeViewModel) : BaseObservable() {
         @Bindable
