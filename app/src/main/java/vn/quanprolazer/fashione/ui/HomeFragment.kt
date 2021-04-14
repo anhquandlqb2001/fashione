@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -39,11 +38,15 @@ class HomeFragment : Fragment() {
      * lazy. This requires that viewModel not be referenced before onActivityCreated, which we
      * do in this Fragment.
      */
-    private val homeViewModel: HomeViewModel by lazy {
+    private val viewModel: HomeViewModel by lazy {
         ViewModelProvider(this)[HomeViewModel::class.java]
     }
 
-    private var categoryAdapter: CategoryAdapter? = null
+    private val categoryAdapter by lazy {
+        CategoryAdapter(OnClickCategoryListener {
+            viewModel.onClickCategory(it)
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,46 +60,9 @@ class HomeFragment : Fragment() {
         // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.viewModel = homeViewModel
+        binding.rvCategory.adapter = categoryAdapter
 
-        homeViewModel.user.observe(viewLifecycleOwner, {
-            Timber.i(it?.email)
-        })
-
-        // Category Section
-        setupCategorySection()
-        // End Category Section
-
-        // Product Featured Section
-        setupProductFeaturedSection()
-        // End Product Featured Section
-
-
-        // Product Best Sell Section
-        setupProductBestSellSection()
-        // End Product Best Sell Section
-
-        // Product Suggest Section
-        setupProductSuggestSection()
-        // End Product Suggest Section
-
-
-        // Product direction
-        setupProductNavigateEvent()
-        // End  Product direction
-
-
-        setupSearchByCategoryNavigateEvent()
-
-
-        // Search on done event
-        binding.etSearch.onDone {
-            homeViewModel.onSearch()
-        }
-
-        setupSearchByTextNavigateEvent()
-
-        handleException()
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -113,23 +79,56 @@ class HomeFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeViewModel.categories.observe(viewLifecycleOwner, {
-            it?.apply {
-                categoryAdapter?.submitList(it)
-            }
+
+        // test
+        viewModel.user.observe(viewLifecycleOwner, {
+            Timber.i(it?.email)
         })
+
+        observeCategory()
+
+        // Product Featured Section
+        setupProductFeaturedSection()
+        // End Product Featured Section
+
+
+        // Product Best Sell Section
+        setupProductBestSellSection()
+        // End Product Best Sell Section
+
+        // Product Suggest Section
+        setupProductSuggestSection()
+        // End Product Suggest Section
+
+
+        // Product direction
+        observeNavigateToProductDetail()
+        // End  Product direction
+
+
+        observeNavigateToSearchResult()
+
+
+        // Search on done event
+        binding.etSearch.onDone {
+            viewModel.onSearch()
+        }
+
+        setupSearchByTextNavigateEvent()
+
+        handleException()
     }
 
-    private fun handleException() {
-        homeViewModel.exception.observe(viewLifecycleOwner, {
-            it?.let {
-                Snackbar.make(binding.root, "Network error", Snackbar.LENGTH_INDEFINITE).show()
+    private fun observeCategory() {
+        viewModel.categories.observe(viewLifecycleOwner, {
+            it?.apply {
+                categoryAdapter.submitList(it)
             }
         })
     }
 
     private fun setupSearchByTextNavigateEvent() {
-        homeViewModel.navigateToSearchResultByText.observe(viewLifecycleOwner, {
+        viewModel.navigateToSearchResultByText.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(
@@ -137,13 +136,21 @@ class HomeFragment : Fragment() {
                         it
                     )
                 )
-                homeViewModel.doneNavigate()
+                viewModel.doneNavigate()
             }
         })
     }
 
-    private fun setupSearchByCategoryNavigateEvent() {
-        homeViewModel.navigateToSearchResult.observe(viewLifecycleOwner, {
+    private fun handleException() {
+        viewModel.exception.observe(viewLifecycleOwner, {
+            it?.let {
+                Snackbar.make(binding.root, "Network error", Snackbar.LENGTH_INDEFINITE).show()
+            }
+        })
+    }
+
+    private fun observeNavigateToSearchResult() {
+        viewModel.navigateToSearchResultByCategory.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToSearchResultFragment(
@@ -151,30 +158,30 @@ class HomeFragment : Fragment() {
                         ""
                     )
                 )
-                homeViewModel.doneNavigate()
+                viewModel.doneNavigate()
             }
         })
     }
 
-    private fun setupProductNavigateEvent() {
-        homeViewModel.navigateToProductDetail.observe(viewLifecycleOwner, {
+    private fun observeNavigateToProductDetail() {
+        viewModel.navigateToProductDetail.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController().navigate(
                     HomeFragmentDirections.actionHomeFragmentToProductFragment(
                         it
                     )
                 )
-                homeViewModel.doneNavigate()
+                viewModel.doneNavigate()
             }
         })
     }
 
     private fun setupProductSuggestSection() {
         val productSuggestAdapter = ProductAdapter(OnClickListener {
-            homeViewModel.onClickProduct(it)
+            viewModel.onClickProduct(it)
         })
         binding.rvSuggestProduct.adapter = productSuggestAdapter
-        homeViewModel.products.observe(viewLifecycleOwner, Observer {
+        viewModel.products.observe(viewLifecycleOwner, {
             it?.let {
                 productSuggestAdapter.submitList(it)
             }
@@ -190,10 +197,10 @@ class HomeFragment : Fragment() {
 
     private fun setupProductBestSellSection() {
         val productBestSellAdapter = ProductAdapter(OnClickListener {
-            homeViewModel.onClickProduct(it)
+            viewModel.onClickProduct(it)
         })
         binding.rvBestSell.adapter = productBestSellAdapter
-        homeViewModel.products.observe(viewLifecycleOwner, Observer {
+        viewModel.products.observe(viewLifecycleOwner, {
             it?.let {
                 productBestSellAdapter.submitList(it)
             }
@@ -202,29 +209,17 @@ class HomeFragment : Fragment() {
 
     private fun setupProductFeaturedSection() {
         val productFeaturedAdapter = ProductAdapter(OnClickListener {
-            homeViewModel.onClickProduct(it)
+            viewModel.onClickProduct(it)
         })
 
         binding.rvFeatured.adapter = productFeaturedAdapter
-        homeViewModel.products.observe(viewLifecycleOwner, Observer {
+        viewModel.products.observe(viewLifecycleOwner, {
             it?.let {
                 productFeaturedAdapter.submitList(it)
             }
         })
     }
 
-    private fun setupCategorySection() {
-        val categoryAdapter = CategoryAdapter(OnClickCategoryListener {
-            homeViewModel.onClickCategory(it)
-        })
-
-        binding.rvCategory.adapter = categoryAdapter
-        homeViewModel.categories.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                categoryAdapter.submitList(it)
-            }
-        })
-    }
 
     /**
      * Called when the view previously created by [.onCreateView] has

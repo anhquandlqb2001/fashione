@@ -25,25 +25,39 @@ import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 class HomeViewModel : ViewModel() {
 
-    private val _navigateToSearchResult = MutableLiveData<Category>()
-    val navigateToSearchResult: LiveData<Category> = _navigateToSearchResult
-
-    fun onClickCategory(category: Category) {
-        _navigateToSearchResult.value = category
+    private val _navigateToSearchResultByCategory: MutableLiveData<Category> by lazy {
+        MutableLiveData<Category>()
+    }
+    val navigateToSearchResultByCategory: LiveData<Category> by lazy {
+        _navigateToSearchResultByCategory
     }
 
-    private val _navigateToSearchResultByText = MutableLiveData<String>()
-    val navigateToSearchResultByText: LiveData<String> = _navigateToSearchResultByText
+    fun onClickCategory(category: Category) {
+        _navigateToSearchResultByCategory.value = category
+    }
+
+    private val _navigateToSearchResultByText: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+    val navigateToSearchResultByText: LiveData<String> by lazy {
+        _navigateToSearchResultByText
+    }
 
 
-    val searchText = MutableLiveData<String?>()
+    val searchText: MutableLiveData<String?> by lazy {
+        MutableLiveData<String?>()
+    }
 
     fun onSearch() {
         _navigateToSearchResultByText.value = searchText.value
     }
 
-    private val _navigateToProductDetail = MutableLiveData<Product>()
-    val navigateToProductDetail: LiveData<Product> = _navigateToProductDetail
+    private val _navigateToProductDetail: MutableLiveData<Product> by lazy {
+        MutableLiveData<Product>()
+    }
+    val navigateToProductDetail: LiveData<Product> by lazy {
+        _navigateToProductDetail
+    }
 
     fun onClickProduct(product: Product) {
         _navigateToProductDetail.value = product
@@ -51,7 +65,7 @@ class HomeViewModel : ViewModel() {
 
 
     fun doneNavigate() {
-        _navigateToSearchResult.value = null
+        _navigateToSearchResultByCategory.value = null
         _navigateToSearchResultByText.value = null
         _navigateToProductDetail.value = null
 
@@ -71,7 +85,9 @@ class HomeViewModel : ViewModel() {
         }
         return@lazy liveData
     }
-    val categories: LiveData<List<Category>> = _categories
+    val categories: LiveData<List<Category>> by lazy {
+        _categories
+    }
 
     private val _products by lazy {
         val liveData = MutableLiveData<List<Product>>()
@@ -83,11 +99,17 @@ class HomeViewModel : ViewModel() {
         }
         return@lazy liveData
     }
-    val products: LiveData<List<Product>> = _products
+    val products: LiveData<List<Product>> by lazy {
+        _products
+    }
 
 
-    private val _exception = MutableLiveData<Exception>()
-    val exception: LiveData<Exception> = _exception
+    private val _exception: MutableLiveData<Exception> by lazy {
+        MutableLiveData<Exception>()
+    }
+    val exception: LiveData<Exception> by lazy {
+        _exception
+    }
 
     private val userRepository = UserRepository()
 
