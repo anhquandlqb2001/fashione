@@ -6,14 +6,18 @@
 
 package vn.quanprolazer.fashione.viewmodels
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import vn.quanprolazer.fashione.domain.model.AuthenticationState
 import vn.quanprolazer.fashione.domain.repository.UserRepository
 
 class LoginViewModel : ViewModel() {
 
-    private val userRepository = UserRepository()
-
-    val authenticationState = userRepository.getAuthenticateState()
-
+    private val userRepository: UserRepository by lazy {
+        UserRepository()
+    }
+    val authenticationState: LiveData<AuthenticationState> by lazy {
+        userRepository.getAuthenticateState()
+    }
 }
 

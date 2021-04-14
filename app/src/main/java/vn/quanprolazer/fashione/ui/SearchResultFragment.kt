@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
 import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
@@ -37,6 +36,12 @@ class SearchResultFragment : Fragment() {
         )[SearchResultViewModel::class.java]
     }
 
+    private val productResultAdapter: ProductAdapter by lazy {
+        ProductAdapter(OnClickListener {
+            viewModel.onClickProduct(it)
+        })
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,28 +52,23 @@ class SearchResultFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-
         binding.viewModel = viewModel
 
-        setupProductResultSection()
-
-        // navigate to product detail screen
-        setupProductNavigateEvent()
-        // end section
-
-
+        binding.rvSearchResult.adapter = productResultAdapter
         val productResultLayoutManager = GridLayoutManager(context, 2)
         binding.rvSearchResult.layoutManager = productResultLayoutManager
 
         return binding.root
     }
 
-    private fun setupProductResultSection() {
-        val productResultAdapter = ProductAdapter(OnClickListener {
-            viewModel.onClickProduct(it)
-        })
-        binding.rvSearchResult.adapter = productResultAdapter
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        observeProducts()
+        observeNavigateToProductDetail()
+    }
+
+    private fun observeProducts() {
         viewModel.products.observe(viewLifecycleOwner, {
             it?.let {
                 productResultAdapter.submitList(it)
@@ -76,7 +76,7 @@ class SearchResultFragment : Fragment() {
         })
     }
 
-    private fun setupProductNavigateEvent() {
+    private fun observeNavigateToProductDetail() {
         viewModel.navigateToProductDetail.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController().navigate(

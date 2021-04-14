@@ -10,15 +10,28 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
+import vn.quanprolazer.fashione.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 class SearchResultViewModel(val category: Category?, private val query: String?) : ViewModel() {
 
+    /**
+     * Variable to display header text of screen
+     * Eg: Man, Woman, Result for: jean,...
+     */
     val textToDisplay = category?.name ?: "Kết quả cho: $query"
 
-    private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
+    private val productRepositoryImpl: ProductRepository by lazy {
+        ProductRepositoryImpl(ProductServiceImpl())
+    }
 
+    /**
+     * Variable to store list of available product
+     * Data for display Product RecycleView
+     *
+     * Encapsulation
+     */
     private val _products by lazy {
         val liveData = MutableLiveData<List<Product>>()
         viewModelScope.launch {
@@ -32,20 +45,43 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
         }
         return@lazy liveData
     }
-    val products: LiveData<List<Product>> = _products
 
+    /**
+     * Variable to store list of available product
+     * Data for display Product RecycleView
+     */
+    val products: LiveData<List<Product>> by lazy {
+        _products
+    }
 
-    private val _navigateToProductDetail = MutableLiveData<Product?>()
-    val navigateToProductDetail: LiveData<Product?> = _navigateToProductDetail
+    /**
+     * Variable store data pass to SafeArgs when Navigate to ProductFragment
+     * Encapsulation
+     */
+    private val _navigateToProductDetail: MutableLiveData<Product?> by lazy {
+        MutableLiveData<Product?>()
+    }
 
+    /**
+     * Variable store data pass to SafeArgs when Navigate to ProductFragment
+     */
+    val navigateToProductDetail: LiveData<Product?> by lazy {
+        _navigateToProductDetail
+    }
+
+    /**
+     * Function to update [_navigateToProductDetail] when user click to product item
+     */
     fun onClickProduct(product: Product) {
         _navigateToProductDetail.value = product
     }
 
-
+    /**
+     * Function to prevent UI err
+     * Use after navigate to another Fragment
+     */
     fun doneNavigate() {
         _navigateToProductDetail.value = null
-
     }
 
     class Factory(
@@ -59,5 +95,4 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
             throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
-
 }

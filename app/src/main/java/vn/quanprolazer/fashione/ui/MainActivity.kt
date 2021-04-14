@@ -8,9 +8,12 @@
 package vn.quanprolazer.fashione.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -53,12 +56,38 @@ class MainActivity : AppCompatActivity() {
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         setupNavigation()
-
         setupNavigationItemClick()
-
         observeAuthenticationState()
     }
 
+    override fun onSupportNavigateUp() =
+        navigateUp(findNavController(R.id.nav_host_fragment), binding.drawerLayout)
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == SIGN_IN_REQUEST_CODE) {
+            val response = IdpResponse.fromResultIntent(data)
+
+            if (resultCode == Activity.RESULT_OK) {
+                // Successfully signed in
+                successLogin()
+            } else {
+                if (response != null) {
+                    when (response.error?.errorCode) {
+                        ErrorCodes.NO_NETWORK -> errorNetworkLogin()
+                        else -> errorUnHandledLogin()
+                    }
+                }
+
+            }
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
     private fun observeAuthenticationState() {
         loginViewModel.authenticationState.observe(this, { authenticationState ->
@@ -109,31 +138,6 @@ class MainActivity : AppCompatActivity() {
      * Close navigation drawer to START (left side)
      */
     private fun closeDrawerWithAnimation() = binding.drawerLayout.closeDrawer(GravityCompat.START)
-
-
-    override fun onSupportNavigateUp() =
-        navigateUp(findNavController(R.id.nav_host_fragment), binding.drawerLayout)
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SIGN_IN_REQUEST_CODE) {
-            val response = IdpResponse.fromResultIntent(data)
-
-            if (resultCode == Activity.RESULT_OK) {
-                // Successfully signed in
-                successLogin()
-            } else {
-                if (response != null) {
-                    when (response.error?.errorCode) {
-                        ErrorCodes.NO_NETWORK -> errorNetworkLogin()
-                        else -> errorUnHandledLogin()
-                    }
-                }
-
-            }
-        }
-    }
 
 
     /**
@@ -221,10 +225,5 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun logoutSuccess() = Toast.makeText(this, "Đã đăng xuất", Toast.LENGTH_SHORT).show()
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 }
 
