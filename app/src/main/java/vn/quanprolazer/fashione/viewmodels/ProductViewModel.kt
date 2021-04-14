@@ -10,13 +10,20 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductDetail
+import vn.quanprolazer.fashione.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
 class ProductViewModel(val product: Product) : ViewModel() {
 
-    private val productRepositoryImpl = ProductRepositoryImpl(ProductServiceImpl())
+    private val productRepositoryImpl: ProductRepository by lazy {
+        ProductRepositoryImpl(ProductServiceImpl())
+    }
 
+    /**
+     * Variable to store data about product
+     * Encapsulation
+     */
     private val _productDetail by lazy {
         val liveData = MutableLiveData<ProductDetail>()
         viewModelScope.launch {
@@ -24,20 +31,41 @@ class ProductViewModel(val product: Product) : ViewModel() {
         }
         return@lazy liveData
     }
-    val productDetail: LiveData<ProductDetail> = _productDetail
+    /**
+     * Variable to store data about product
+     */
+    val productDetail: LiveData<ProductDetail> by lazy {
+        _productDetail
+    }
 
+    /**
+     * Variable store data pass to SafeArgs when open BottomSheetFragmentDialog
+     * Encapsulation
+     */
+    private val _navigateToBottomSheet: MutableLiveData<ProductDetail?> by lazy {
+        MutableLiveData<ProductDetail?>()
+    }
+    /**
+     * Variable store data pass to SafeArgs when open BottomSheetFragmentDialog
+     */
+    val navigateToBottomSheet: LiveData<ProductDetail?> by lazy {
+        _navigateToBottomSheet
+    }
 
-    private val _navigateToBottomSheet = MutableLiveData<ProductDetail?>()
-    val navigateToBottomSheet: LiveData<ProductDetail?> get() = _navigateToBottomSheet
-
+    /**
+     * Function to update [_navigateToBottomSheet] when user click Buy button
+     */
     fun onNavigateToBottomSheet(productDetail: ProductDetail) {
         _navigateToBottomSheet.value = productDetail
     }
 
+    /**
+     * Function to prevent UI error after navigate to another Fragment
+     * Fire after navigate Fragment
+     */
     fun doneNavigate() {
         _navigateToBottomSheet.value = null
     }
-
 
     class Factory(
         private val product: Product

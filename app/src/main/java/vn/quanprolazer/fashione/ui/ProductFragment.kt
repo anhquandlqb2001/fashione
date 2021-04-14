@@ -31,53 +31,61 @@ class ProductFragment : Fragment() {
 
     private val binding get() = _binding!!
 
+    private val viewModel: ProductViewModel by lazy {
+        ViewModelProvider(
+            this,
+            ProductViewModel.Factory(ProductFragmentArgs.fromBundle(requireArguments()).product)
+        )[ProductViewModel::class.java]
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentProductDetailBinding.inflate(inflater)
-
-        val product = ProductFragmentArgs.fromBundle(requireArguments()).product
-
-        val viewModel = ViewModelProvider(
-            this,
-            ProductViewModel.Factory(product)
-        )[ProductViewModel::class.java]
 
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.viewModel = viewModel
 
+        return binding.root
+    }
 
-        // section for setup images slider
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
         val productImageAdapter = ProductImageAdapter()
         binding.rvProductImage.adapter = productImageAdapter
 
-        viewModel.productDetail.observe(viewLifecycleOwner, {
-            productImageAdapter.submitList(it.images)
-        })
-        // end section
+        observeProductDetail(productImageAdapter)
 
+        // snap scroll image slider
         snapHelper.attachToRecyclerView(binding.rvProductImage)
 
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvProductImage.layoutManager = layoutManager
 
+        observeNavigateToBottomSheet()
+    }
 
-        // bottom sheet
+    private fun observeNavigateToBottomSheet() {
         viewModel.navigateToBottomSheet.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController().navigate(ProductFragmentDirections.actionProductFragmentToBottomSheetProductVariantFragment(it))
+                this.findNavController().navigate(
+                    ProductFragmentDirections.actionProductFragmentToBottomSheetProductVariantFragment(
+                        it
+                    )
+                )
                 viewModel.doneNavigate()
             }
         })
-        // end section
+    }
 
-
-        return binding.root
-
+    private fun observeProductDetail(productImageAdapter: ProductImageAdapter) {
+        viewModel.productDetail.observe(viewLifecycleOwner, {
+            productImageAdapter.submitList(it.images)
+        })
     }
 
 
