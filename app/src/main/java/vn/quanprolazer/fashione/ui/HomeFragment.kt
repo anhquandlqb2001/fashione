@@ -111,7 +111,7 @@ class HomeFragment : Fragment() {
 
         // Search on done event
         binding.etSearch.onDone {
-            viewModel.onSearch()
+            viewModel.onSearchByText()
         }
 
         setupSearchByTextNavigateEvent()
