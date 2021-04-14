@@ -80,11 +80,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // test
-        viewModel.user.observe(viewLifecycleOwner, {
-            Timber.i(it?.email)
-        })
-
         observeCategory()
 
         // Product Featured Section

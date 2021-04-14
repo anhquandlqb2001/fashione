@@ -18,7 +18,6 @@ import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.Result
 import vn.quanprolazer.fashione.domain.repository.CategoryRepository
 import vn.quanprolazer.fashione.domain.repository.ProductRepository
-import vn.quanprolazer.fashione.domain.repository.UserRepository
 import vn.quanprolazer.fashione.network.repository.CategoryRepositoryImpl
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.CategoryServiceImpl
@@ -102,11 +101,6 @@ class HomeViewModel : ViewModel() {
     val exception: LiveData<Exception> by lazy {
         _exception
     }
-
-    // for test
-    private val userRepository = UserRepository()
-    val user = userRepository.getUser()
-
 
     /*------------------------------------FOR NAVIGATION----------------------------------*/
 
