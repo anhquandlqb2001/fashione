@@ -23,7 +23,6 @@ import vn.quanprolazer.fashione.adapters.OnClickCategoryListener
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
 import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
-import vn.quanprolazer.fashione.domain.repository.UserRepository
 import vn.quanprolazer.fashione.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.utilities.onDone
 import vn.quanprolazer.fashione.viewmodels.HomeViewModel
@@ -46,25 +45,6 @@ class HomeFragment : Fragment() {
 
     private var categoryAdapter: CategoryAdapter? = null
 
-    /**
-     * Called immediately after [.onCreateView]
-     * has returned, but before any saved state has been restored in to the view.
-     * This gives subclasses a chance to initialize themselves once
-     * they know their view hierarchy has been completely created.  The fragment's
-     * view hierarchy is not however attached to its parent at this point.
-     * @param view The View returned by [.onCreateView].
-     * @param savedInstanceState If non-null, this fragment is being re-constructed
-     * from a previous saved state as given here.
-     */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        homeViewModel.categories.observe(viewLifecycleOwner, {
-            it?.apply {
-                categoryAdapter?.submitList(it)
-            }
-        })
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -78,9 +58,6 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.viewModel = homeViewModel
-
-        val searchViewModel = HomeViewModel.SearchViewModel(homeViewModel)
-        binding.searchViewModel = searchViewModel
 
         homeViewModel.user.observe(viewLifecycleOwner, {
             Timber.i(it?.email)
@@ -122,6 +99,25 @@ class HomeFragment : Fragment() {
         handleException()
 
         return binding.root
+    }
+
+    /**
+     * Called immediately after [.onCreateView]
+     * has returned, but before any saved state has been restored in to the view.
+     * This gives subclasses a chance to initialize themselves once
+     * they know their view hierarchy has been completely created.  The fragment's
+     * view hierarchy is not however attached to its parent at this point.
+     * @param view The View returned by [.onCreateView].
+     * @param savedInstanceState If non-null, this fragment is being re-constructed
+     * from a previous saved state as given here.
+     */
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        homeViewModel.categories.observe(viewLifecycleOwner, {
+            it?.apply {
+                categoryAdapter?.submitList(it)
+            }
+        })
     }
 
     private fun handleException() {

@@ -6,7 +6,6 @@
 
 package vn.quanprolazer.fashione.utilities
 
-import android.graphics.Color
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
@@ -16,9 +15,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import timber.log.Timber
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.domain.model.ProductOrder
 import java.text.NumberFormat
 import java.util.*
 
@@ -92,5 +89,3 @@ fun addToCartVisible(view: Button, orderQty: LiveData<Number>?) {
         }
     }
 }
-
-

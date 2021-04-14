@@ -7,15 +7,12 @@
 
 package vn.quanprolazer.fashione.viewmodels
 
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.Source
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.quanprolazer.fashione.domain.model.Category
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.Result
@@ -68,7 +65,7 @@ class HomeViewModel : ViewModel() {
         val liveData = MutableLiveData<List<Category>>()
         viewModelScope.launch {
             when (val getCategoryResponse = categoryRepositoryImpl.getCategoryList()) {
-                is Result.Success -> liveData.value = getCategoryResponse.data!!
+                is Result.Success -> liveData.value = getCategoryResponse.data
                 is Result.Error -> _exception.value = getCategoryResponse.exception
             }
         }
@@ -80,7 +77,7 @@ class HomeViewModel : ViewModel() {
         val liveData = MutableLiveData<List<Product>>()
         viewModelScope.launch {
             when (val getProductResponse = productRepositoryImpl.getProducts(Source.SERVER)) {
-                is Result.Success -> liveData.value = getProductResponse.data!!
+                is Result.Success -> liveData.value = getProductResponse.data
                 is Result.Error -> _exception.value = getProductResponse.exception
             }
         }
@@ -96,14 +93,6 @@ class HomeViewModel : ViewModel() {
 
     val user = userRepository.getUser()
 
-    class SearchViewModel(private val viewModel: HomeViewModel) : BaseObservable() {
-        @Bindable
-        var searchText: String? = null
-            set(value) {
-                viewModel.searchText.value = value
-                field = value
-            }
-    }
 }
 
 
