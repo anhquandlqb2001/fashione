@@ -82,15 +82,13 @@ fun setOrderQty(view: TextView, orderQty: LiveData<Number>?) {
     }
 }
 
-@BindingAdapter("setClickable")
-fun setClickable(view: Button, orderQty: LiveData<Number>?) {
+@BindingAdapter("addToCartVisible")
+fun addToCartVisible(view: Button, orderQty: LiveData<Number>?) {
     orderQty?.value?.let {
         if (orderQty.value!!.toInt() > 0) {
-            view.isClickable = true
-            view.setBackgroundColor(Color.parseColor("#FF018786"))
+            view.visibility = View.VISIBLE
         } else {
-            view.isClickable = false
-            view.setBackgroundColor(Color.parseColor("#808080"))
+            view.visibility = View.INVISIBLE
         }
     }
 }

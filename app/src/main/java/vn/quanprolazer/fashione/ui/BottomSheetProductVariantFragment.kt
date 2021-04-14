@@ -25,6 +25,10 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
 
     private val binding get() = _binding!!
 
+    private val viewModel: BottomSheetProductVariantViewModel by lazy {
+        val productDetail = BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).productDetail
+        ViewModelProvider(this, BottomSheetProductVariantViewModel.Factory(productDetail))[BottomSheetProductVariantViewModel::class.java]
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,22 +37,30 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
     ): View {
         _binding = FragmentBottomSheetProductVariantBinding.inflate(inflater, container, false)
 
-
-        val productDetail = BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).productDetail
-
-        val viewModel = ViewModelProvider(this, BottomSheetProductVariantViewModel.Factory(productDetail))[BottomSheetProductVariantViewModel::class.java]
-
         binding.lifecycleOwner = viewLifecycleOwner
 
         binding.viewModel = viewModel
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        observeProductVariant()
+    }
+
+    private fun observeProductVariant() {
         viewModel.productVariants.observe(viewLifecycleOwner, {
             it?.let {
                 val colorChipGroup = binding.cgName
                 val colorInflater = LayoutInflater.from(colorChipGroup.context)
 
                 val children = it.map { variant ->
-                    val chip = colorInflater.inflate(R.layout.list_item_chip, colorChipGroup, false) as Chip
+                    val chip = colorInflater.inflate(
+                        R.layout.list_item_chip,
+                        colorChipGroup,
+                        false
+                    ) as Chip
                     chip.text = variant.name
                     chip.tag = variant.name
 
@@ -58,7 +70,9 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                         }
 
                         setProductVariantQty(binding.tvVariantQty, -1)
+                        viewModel.resetOrderQty()
                         binding.llQtyControl.visibility = View.INVISIBLE
+
 
                         viewModel.onChangeVariantName(variant.name)
 
@@ -66,7 +80,11 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                         val optionInflater = LayoutInflater.from(optionChipGroup.context)
 
                         val options = variant.options.map { productVariantOption ->
-                            val optionChip = optionInflater.inflate(R.layout.list_item_chip, optionChipGroup, false) as Chip
+                            val optionChip = optionInflater.inflate(
+                                R.layout.list_item_chip,
+                                optionChipGroup,
+                                false
+                            ) as Chip
                             optionChip.text = productVariantOption.value
                             optionChip.tag = productVariantOption.value
                             optionChip.setOnCheckedChangeListener { _, isOptionChipChecked ->
@@ -74,6 +92,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                                     return@setOnCheckedChangeListener
                                 }
                                 setProductVariantQty(binding.tvVariantQty, productVariantOption.qty)
+                                viewModel.resetOrderQty()
                                 binding.llQtyControl.visibility = View.VISIBLE
 
                                 viewModel.onChangeVariantValue(productVariantOption.value)
@@ -97,9 +116,6 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                 }
             }
         })
-
-
-        return binding.root
     }
 
     override fun onDestroy() {

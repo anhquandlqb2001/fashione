@@ -117,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="@string/text_add_to_cart"
-                setClickable="@{viewModel.orderQty}"
+                addToCartVisible="@{viewModel.orderQty}"
                 android:textColor="#fff"
                 android:backgroundTint="@color/teal_700"/>
 
