@@ -113,7 +113,7 @@ class ProductFragment : Fragment() {
             }
             val firstItem = 0
             val lastItem = layoutManager.itemCount - 1
-            targetPosition = Math.min(lastItem, Math.max(targetPosition, firstItem))
+            targetPosition = lastItem.coerceAtMost(targetPosition.coerceAtLeast(firstItem))
             return targetPosition
         }
     }
