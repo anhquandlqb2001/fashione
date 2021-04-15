@@ -6,13 +6,17 @@
 
 package vn.quanprolazer.fashione.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import timber.log.Timber
 import vn.quanprolazer.fashione.domain.model.ProductDetail
 import vn.quanprolazer.fashione.domain.model.CartItem
 import vn.quanprolazer.fashione.domain.model.ProductVariant
+import vn.quanprolazer.fashione.domain.repository.UserRepository
+import vn.quanprolazer.fashione.network.service.OrderServiceImpl
 
 class BottomSheetProductVariantViewModel(private val productDetail: ProductDetail) : ViewModel() {
 
@@ -142,7 +146,24 @@ class BottomSheetProductVariantViewModel(private val productDetail: ProductDetai
      * Call api to save cart item -> cart
      */
     fun onClickAddToCart() {
+        updateCartItemPrice()
+        Timber.i(cartItem.value.toString())
 
+        viewModelScope.launch(Dispatchers.Default) {
+            try {
+                OrderServiceImpl().addToCart(cartItem.value!!, UserRepository().getUser().value?.uid!!)
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
+    }
+
+    /**
+     * Function to call when user click Add to cart button
+     * Update [_cartItem] price value
+     */
+    fun updateCartItemPrice() {
+        _cartItem.value?.price = _variantPrice.value.toString()
     }
 
 

@@ -66,7 +66,7 @@ data class CartItem(
     var variantName: String = "",
     var variantValue: String = "",
     var qty: Number = 0,
-    val price: String = "0"
+    var price: String = "0"
 )
 
 //
