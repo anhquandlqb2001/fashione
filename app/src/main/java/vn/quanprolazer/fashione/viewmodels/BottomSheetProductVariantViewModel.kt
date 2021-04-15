@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import vn.quanprolazer.fashione.domain.model.ProductDetail
-import vn.quanprolazer.fashione.domain.model.ProductOrder
+import vn.quanprolazer.fashione.domain.model.CartItem
 import vn.quanprolazer.fashione.domain.model.ProductVariant
 
 class BottomSheetProductVariantViewModel(private val productDetail: ProductDetail) : ViewModel() {
@@ -23,6 +23,7 @@ class BottomSheetProductVariantViewModel(private val productDetail: ProductDetai
     private val _productVariants: MutableLiveData<List<ProductVariant>> by lazy {
         MutableLiveData<List<ProductVariant>>(productDetail.variants)
     }
+
     /**
      * Variable to store available Product Variants
      */
@@ -35,36 +36,38 @@ class BottomSheetProductVariantViewModel(private val productDetail: ProductDetai
      * Variable to store ProductOrder to send to Cart
      * Encapsulation
      */
-    private val _productOrder: MutableLiveData<ProductOrder> by lazy {
-        MutableLiveData(ProductOrder(productDetail.productId))
+    private val _cartItem: MutableLiveData<CartItem> by lazy {
+        MutableLiveData(CartItem(productDetail.productId))
     }
+
     /**
      * Variable to store Product Order to send to Cart
      */
-    val productOrder: LiveData<ProductOrder> by lazy {
-        _productOrder
+    val cartItem: LiveData<CartItem> by lazy {
+        _cartItem
     }
 
     /**
-     * Function to update [_productOrder] when user change variant
+     * Function to update [_cartItem] when user change variant
      * To Update VariantName
      */
     fun onChangeVariantName(name: String) {
-        _productOrder.value?.variantName = name
+        _cartItem.value?.variantName = name
     }
 
     /**
-     * Function to update [_productOrder]] when user change variant
+     * Function to update [_cartItem]] when user change variant
      * To Update VariantValue (Eg: size M, L,...)
      */
     fun onChangeVariantValue(value: String) {
-        _productOrder.value?.variantValue = value
+        _cartItem.value?.variantValue = value
     }
 
     /**
      * Limit order quantity value
      */
     private var orderLimit = 0
+
     /**
      * Function to set [orderLimit]
      */
@@ -92,20 +95,56 @@ class BottomSheetProductVariantViewModel(private val productDetail: ProductDetai
     fun onDecreaseQty() {
         if (orderQty.value!!.toInt() > 0) {
             val t = orderQty.value!!.toInt() - 1
-            _productOrder.value?.qty = t
+            _cartItem.value?.qty = t
             orderQty.value = t
         }
     }
+
     /**
      * Function to set [orderQty] when user click increment button
      */
     fun onIncreaseQty() {
         if (orderQty.value!!.toInt() < orderLimit) {
             val t = orderQty.value!!.toInt() + 1
-            _productOrder.value?.qty = t
+            _cartItem.value?.qty = t
             orderQty.value = t
         }
     }
+
+    /**
+     * Variable to store current price of variant
+     * To store to [_cartItem]
+     *
+     * Encapsulation
+     */
+    private val _variantPrice: MutableLiveData<String> by lazy {
+        MutableLiveData("0")
+    }
+
+    /**
+     * Variable to store current price of variant
+     * To store to [_cartItem]
+     */
+    val variantPrice: LiveData<String> by lazy {
+        _variantPrice
+    }
+
+    /**
+     * Function to update variant price, when user choose variant value
+     */
+    fun setVariantPrice(price: String) {
+        _variantPrice.value = price
+    }
+
+
+    /**
+     * Function to call when user click Add to cart button
+     * Call api to save cart item -> cart
+     */
+    fun onClickAddToCart() {
+
+    }
+
 
     class Factory(
         private val productDetail: ProductDetail

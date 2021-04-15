@@ -91,35 +91,46 @@
 
                 <Button
                     style="@style/QuantityPickerButtonStyle"
-                    android:text="-"
-                    android:onClick="@{() -> viewModel.onDecreaseQty()}"/>
+                    android:onClick="@{() -> viewModel.onDecreaseQty()}"
+                    android:text="-" />
 
                 <TextView
                     android:id="@+id/tv_qty"
+                    orderQty="@{viewModel.orderQty}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    orderQty="@{viewModel.orderQty}"
                     android:textAlignment="center"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
 
                 <Button
                     style="@style/QuantityPickerButtonStyle"
-                    android:text="+"
-                    android:onClick="@{() -> viewModel.onIncreaseQty()}"/>
+                    android:onClick="@{() -> viewModel.onIncreaseQty()}"
+                    android:text="+" />
 
             </LinearLayout>
 
+            <TextView
+                variantPrice="@{viewModel.variantPrice}"
+                variantQty="@{viewModel.orderQty}"
+                android:layout_marginTop="16dp"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                tools:text="32000"/>
+
             <Button
+                addToCartVisible="@{viewModel.orderQty}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
+                android:backgroundTint="@color/teal_700"
                 android:text="@string/text_add_to_cart"
-                addToCartVisible="@{viewModel.orderQty}"
-                android:textColor="#fff"
-                android:backgroundTint="@color/teal_700"/>
+                android:textColor="#fff" />
 
         </LinearLayout>
 

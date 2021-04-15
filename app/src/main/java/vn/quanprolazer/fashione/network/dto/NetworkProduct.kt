@@ -39,30 +39,6 @@ data class NetworkProduct(
     val detail: NetworkProductDetail = NetworkProductDetail()
 )
 
-//@Serializable
-//data class NetworkProductDetail (
-//    val detailId: String = "",
-//    val productId: String = "",
-//    val qty: Int = -1,
-//    val description: String = "",
-//    val images: List<NetworkProductImage> = listOf(
-//        EmptyNetworkProductImage
-//    ),
-//    val variants: List<NetworkProductVariant> = listOf(
-//        EmptyNetworkProductVariant
-//    )
-//)
-
-
-//interface NetworkProductDetail {
-//    val detailId: String
-//    val productId: String
-//    val qty: Int
-//    val description: String
-//    val images: List<NetworkProductImage>
-//    val variants: List<NetworkProductVariant>
-//}
-
 
 @Serializable
 data class NetworkProductDetail(
@@ -80,14 +56,6 @@ data class NetworkProductDetail(
     val variants: List<NetworkProductVariant> = listOf(NetworkProductVariant())
 )
 
-//object EmptyNetworkProductDetail : NetworkProductDetail {
-//    override val detailId: String = ""
-//    override val productId: String = ""
-//    override val qty: Int = -1
-//    override val description: String = ""
-//    override val images: List<NetworkProductImage> = listOf(EmptyNetworkProductImage)
-//    override val variants: List<NetworkProductVariant> = listOf(EmptyNetworkProductVariant)
-//}
 
 @Serializable
 data class NetworkProductImage(
@@ -103,5 +71,6 @@ data class NetworkProductVariant(
 @Serializable
 data class NetworkProductVariantOption(
     val value: String = "",
-    val qty: Int = -1
+    val qty: Int = -1,
+    val price: String = "0"
 )

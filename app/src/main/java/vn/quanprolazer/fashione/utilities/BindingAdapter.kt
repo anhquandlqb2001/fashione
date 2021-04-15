@@ -16,18 +16,14 @@ import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.R
-import java.text.NumberFormat
-import java.util.*
 
 private const val PRODUCT_NAME_LIMIT = 10
+
 
 @BindingAdapter("productPrice")
 fun setProductPrice(view: TextView, productPrice: String?) {
     productPrice?.let {
-        val format: NumberFormat = NumberFormat.getCurrencyInstance()
-        format.maximumFractionDigits = 0
-        format.currency = Currency.getInstance("VND")
-        view.text = format.format(productPrice.toInt())
+        view.text = convertPriceStringToCurrencyString(productPrice)
     }
 }
 
@@ -87,5 +83,19 @@ fun addToCartVisible(view: Button, orderQty: LiveData<Number>?) {
         } else {
             view.visibility = View.INVISIBLE
         }
+    }
+}
+
+@BindingAdapter(value = ["variantQty", "variantPrice"], requireAll = false)
+fun setTotalPrice(
+    view: TextView,
+    orderQty: LiveData<Number>?,
+    variantPrice: LiveData<String>?
+) {
+    if (orderQty?.value != 0 && variantPrice?.value != "0") {
+        view.text = "Tổng tiền: " + convertPriceStringToCurrencyString((variantPrice?.value!!.toInt() * orderQty?.value!!.toInt()).toString())
+        view.visibility = View.VISIBLE
+    } else {
+        view.visibility = View.INVISIBLE
     }
 }

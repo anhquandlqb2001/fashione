@@ -74,6 +74,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                         binding.llQtyControl.visibility = View.INVISIBLE
 
 
+
                         viewModel.onChangeVariantName(variant.name)
 
                         val optionChipGroup = binding.cgOption
@@ -93,6 +94,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                                 }
                                 setProductVariantQty(binding.tvVariantQty, productVariantOption.qty)
                                 viewModel.resetOrderQty()
+                                viewModel.setVariantPrice(productVariantOption.price)
                                 binding.llQtyControl.visibility = View.VISIBLE
 
                                 viewModel.onChangeVariantValue(productVariantOption.value)

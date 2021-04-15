@@ -57,8 +57,17 @@ data class ProductVariant(
 @Parcelize
 data class ProductVariantOption(
     val value: String,
-    val qty: Number
+    val qty: Number,
+    val price: String
 ) : Parcelable
+
+data class CartItem(
+    val productId: String,
+    var variantName: String = "",
+    var variantValue: String = "",
+    var qty: Number = 0,
+    val price: String = "0"
+)
 
 //
 //object EmptyProductImage : ProductImage {

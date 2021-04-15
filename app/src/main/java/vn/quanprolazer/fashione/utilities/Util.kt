@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.textfield.TextInputEditText
+import java.text.NumberFormat
+import java.util.*
 
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
 
@@ -105,4 +107,14 @@ class SpacesItemDecoration(private val space: Int) : ItemDecoration() {
         outRect.left = space
         outRect.right = space
     }
+}
+
+/**
+ * Function to convert raw price string to formatted price follow currency
+ */
+fun convertPriceStringToCurrencyString(text: String, currencyCode: String = "VND"): String? {
+    val format: NumberFormat = NumberFormat.getCurrencyInstance()
+    format.maximumFractionDigits = 0
+    format.currency = Currency.getInstance(currencyCode)
+    return format.format(text.toInt())
 }
