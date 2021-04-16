@@ -25,9 +25,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
-        <action
-            android:id="@+id/action_homeFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_homeFragment_to_loginFragment"-->
+<!--            app:destination="@id/loginFragment" />-->
     </fragment>
     <fragment
         android:id="@+id/productFragment"
@@ -68,13 +68,13 @@
         android:name="vn.quanprolazer.fashione.ui.BottomSheetProductVariantFragment"
         android:label="BottomSheetProductVariantFragment">
         <argument
-            android:name="productDetail"
-            app:argType="vn.quanprolazer.fashione.domain.model.ProductDetail" />
+            android:name="product"
+            app:argType="vn.quanprolazer.fashione.domain.model.Product" />
     </dialog>
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="vn.quanprolazer.fashione.ui.LoginFragment"
-        android:label="login_fragment"
-        tools:layout="@layout/fragment_login" />
+<!--    <fragment-->
+<!--        android:id="@+id/loginFragment"-->
+<!--        android:name="vn.quanprolazer.fashione.ui.LoginFragment"-->
+<!--        android:label="login_fragment"-->
+<!--        tools:layout="@layout/fragment_login" />-->
 
 </navigation>

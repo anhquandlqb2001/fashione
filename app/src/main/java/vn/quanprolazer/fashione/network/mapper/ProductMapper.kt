@@ -18,7 +18,8 @@ object ProductListMapper : ListMapper<NetworkProduct, Product> {
                 it.name,
                 it.thumbnailUrl,
                 it.price,
-                ProductDetailMapper.map(it.detail)
+                ProductDetail(),
+                listOf(ProductVariant())
             )
         }
     }
@@ -33,7 +34,8 @@ object ProductListAlgoliaMapper : ListMapper<NetworkAlgoliaProduct, Product> {
                 it.name,
                 it.thumbnail_url,
                 it.price,
-                ProductDetail()
+                ProductDetail(),
+                listOf(ProductVariant())
             )
         }
     }
@@ -44,11 +46,9 @@ object ProductDetailMapper : Mapper<NetworkProductDetail, ProductDetail> {
     override fun map(input: NetworkProductDetail): ProductDetail {
         return ProductDetail(
             input.id,
-            input.product_id,
-            input.qty,
+            input.productId,
             input.description,
-            ProductImagesMapper.map(input.images),
-            ProductVariantsMapper.map(input.variants)
+            ProductImagesMapper.map(input.images)
         )
     }
 }
@@ -57,7 +57,12 @@ object ProductImagesMapper : ListMapper<NetworkProductImage, ProductImage> {
     override fun map(input: List<NetworkProductImage>) = input.map { ProductImage(it.url) }
 }
 
-object ProductVariantsMapper : ListMapper<NetworkProductVariant, ProductVariant> {
-    override fun map(input: List<NetworkProductVariant>) =
-        input.map { ProductVariant(it.name, it.options.mapNotNull { option -> ProductVariantOption(option.value, option.qty, option.price) }) }
+object ProductVariantOptionsMapper : ListMapper<NetworkProductVariantOption, ProductVariantOption> {
+    override fun map(input: List<NetworkProductVariantOption>) =
+        input.map { ProductVariantOption(it.id, it.value, it.quantity, it.price) }
 }
+
+//object ProductVariantsMapper : ListMapper<NetworkProductVariant, ProductVariant> {
+//    override fun map(input: List<NetworkProductVariant>) =
+//        input.map { ProductVariant(it.id, it.name, it.options.map { option -> ProductVariantOption(option.id, option.value, option.quantity, option.price) }) }
+//}

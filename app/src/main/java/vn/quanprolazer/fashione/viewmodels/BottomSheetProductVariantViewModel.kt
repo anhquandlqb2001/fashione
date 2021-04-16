@@ -14,18 +14,32 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import vn.quanprolazer.fashione.domain.model.ProductDetail
 import vn.quanprolazer.fashione.domain.model.CartItem
+import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductVariant
+import vn.quanprolazer.fashione.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.domain.repository.UserRepository
+import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.OrderServiceImpl
+import vn.quanprolazer.fashione.network.service.ProductServiceImpl
 
-class BottomSheetProductVariantViewModel(private val productDetail: ProductDetail) : ViewModel() {
+class BottomSheetProductVariantViewModel(private val product: Product) : ViewModel() {
+
+    private val productRepositoryImpl: ProductRepository by lazy {
+        ProductRepositoryImpl(ProductServiceImpl())
+    }
 
     /**
      * Variable to store available Product Variants
      * Encapsulation
      */
     private val _productVariants: MutableLiveData<List<ProductVariant>> by lazy {
-        MutableLiveData<List<ProductVariant>>(productDetail.variants)
+        val liveData = MutableLiveData<List<ProductVariant>>()
+        viewModelScope.launch {
+            liveData.value =
+                productRepositoryImpl.getProductVariantsAndOptionsByProductId(product.id)
+
+        }
+        return@lazy liveData
     }
 
     /**
@@ -41,7 +55,7 @@ class BottomSheetProductVariantViewModel(private val productDetail: ProductDetai
      * Encapsulation
      */
     private val _cartItem: MutableLiveData<CartItem> by lazy {
-        MutableLiveData(CartItem(productDetail.productId))
+        MutableLiveData(CartItem(product.id))
     }
 
     /**
@@ -136,8 +150,16 @@ class BottomSheetProductVariantViewModel(private val productDetail: ProductDetai
     /**
      * Function to update variant price, when user choose variant value
      */
-    fun setVariantPrice(price: String) {
+    fun updateVariantPrice(price: String) {
         _variantPrice.value = price
+    }
+
+    /**
+     * Function to update variant id, when user choose variant value
+     */
+    fun updateCartItemVariantId(variantId: String, variantOptionId: String) {
+        _cartItem.value?.variantId = variantId
+        _cartItem.value?.variantOptionId = variantOptionId
     }
 
 
@@ -151,7 +173,10 @@ class BottomSheetProductVariantViewModel(private val productDetail: ProductDetai
 
         viewModelScope.launch(Dispatchers.Default) {
             try {
-                OrderServiceImpl().addToCart(cartItem.value!!, UserRepository().getUser().value?.uid!!)
+                OrderServiceImpl().addToCart(
+                    cartItem.value!!,
+                    UserRepository().getUser().value?.uid!!
+                )
             } catch (e: Exception) {
                 Timber.e(e)
             }
@@ -162,18 +187,18 @@ class BottomSheetProductVariantViewModel(private val productDetail: ProductDetai
      * Function to call when user click Add to cart button
      * Update [_cartItem] price value
      */
-    fun updateCartItemPrice() {
+    private fun updateCartItemPrice() {
         _cartItem.value?.price = _variantPrice.value.toString()
     }
 
 
     class Factory(
-        private val productDetail: ProductDetail
+        private val product: Product
     ) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(BottomSheetProductVariantViewModel::class.java)) {
-                return BottomSheetProductVariantViewModel(productDetail) as T
+                return BottomSheetProductVariantViewModel(product) as T
             }
             throw IllegalArgumentException("Unknown ViewModel class")
         }

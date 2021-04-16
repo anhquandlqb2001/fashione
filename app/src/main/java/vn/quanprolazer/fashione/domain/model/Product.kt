@@ -27,7 +27,8 @@ data class Product(
     val name: String,
     val thumbnailUrl: String,
     val price: String,
-    val detail: ProductDetail
+    var detail: ProductDetail,
+    val variants: List<ProductVariant>
 ) : Parcelable
 
 
@@ -35,10 +36,8 @@ data class Product(
 data class ProductDetail(
     val id: String = "",
     val productId: String = "",
-    val qty: Int = -1,
     val description: String = "",
     val images: List<ProductImage> = listOf(),
-    val variants: List<ProductVariant> = listOf(),
 ) : Parcelable
 
 
@@ -49,44 +48,27 @@ data class ProductImage(
 
 @Parcelize
 data class ProductVariant(
-    val name: String,
-    val options: List<ProductVariantOption>
+    val id: String = "",
+    val name: String = "",
+    var options: List<ProductVariantOption> = listOf()
 ) : Parcelable
 
 
 @Parcelize
 data class ProductVariantOption(
+    val id: String,
     val value: String,
-    val qty: Number,
+    val quantity: Number,
     val price: String
 ) : Parcelable
 
+
 data class CartItem(
     val productId: String,
+    var variantId: String = "",
+    var variantOptionId: String = "",
     var variantName: String = "",
     var variantValue: String = "",
     var qty: Number = 0,
     var price: String = "0"
 )
-
-//
-//object EmptyProductImage : ProductImage {
-//    override val id: String = ""
-//    override val url: String = ""
-//}
-//
-//object EmptyProductVariant : ProductVariant {
-//    override val name: String = ""
-//    override val size: String = ""
-//    override val qty: Number = -1
-//}
-//
-//object EmptyProductDetail : ProductDetail() {
-//    override val id: String = "-1"
-//    override val productId: String = "-1"
-//    override val quantity: Number = 1
-//    override val description: String = ""
-//    override val images: List<ProductImage> = listOf()
-//    override val variants: List<ProductVariant> = listOf()
-//}
-//

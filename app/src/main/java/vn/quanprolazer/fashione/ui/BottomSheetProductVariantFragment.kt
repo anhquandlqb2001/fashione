@@ -26,8 +26,12 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
     private val binding get() = _binding!!
 
     private val viewModel: BottomSheetProductVariantViewModel by lazy {
-        val productDetail = BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).productDetail
-        ViewModelProvider(this, BottomSheetProductVariantViewModel.Factory(productDetail))[BottomSheetProductVariantViewModel::class.java]
+        ViewModelProvider(
+            this,
+            BottomSheetProductVariantViewModel.Factory(
+                BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).product
+            )
+        )[BottomSheetProductVariantViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -92,13 +96,20 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                                 if (!isOptionChipChecked) {
                                     return@setOnCheckedChangeListener
                                 }
-                                setProductVariantQty(binding.tvVariantQty, productVariantOption.qty)
+                                setProductVariantQty(
+                                    binding.tvVariantQty,
+                                    productVariantOption.quantity
+                                )
                                 viewModel.resetOrderQty()
-                                viewModel.setVariantPrice(productVariantOption.price)
+                                viewModel.updateVariantPrice(productVariantOption.price)
+                                viewModel.updateCartItemVariantId(
+                                    variant.id,
+                                    productVariantOption.id
+                                )
                                 binding.llQtyControl.visibility = View.VISIBLE
 
                                 viewModel.onChangeVariantValue(productVariantOption.value)
-                                viewModel.setProductOrderValueLimit(productVariantOption.qty)
+                                viewModel.setProductOrderValueLimit(productVariantOption.quantity)
 
                             }
                             optionChip

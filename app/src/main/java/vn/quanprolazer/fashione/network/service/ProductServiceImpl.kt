@@ -48,6 +48,38 @@ class ProductServiceImpl : ProductService {
         }
     }
 
+    override suspend fun getProductVariantsByProductId(productId: String): List<NetworkProductVariant> {
+        val db = FirebaseFirestore.getInstance()
+
+        return try {
+            return db.collection("product_variants")
+                .whereEqualTo("product_id", productId)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toObject(NetworkProductVariant::class.java) }
+        } catch (e: Exception) {
+            Timber.e(e)
+            listOf(NetworkProductVariant())
+        }
+    }
+
+    override suspend fun getProductVariantOptionsByProductVariantId(variantId: String): List<NetworkProductVariantOption> {
+        val db = FirebaseFirestore.getInstance()
+
+        return try {
+            return db.collection("product_variant_options")
+                .whereEqualTo("variant_id", variantId)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toObject(NetworkProductVariantOption::class.java) }
+        } catch (e: Exception) {
+            Timber.e(e)
+            listOf(NetworkProductVariantOption())
+        }
+    }
+
     override suspend fun getProductsByCategoryId(categoryId: String): List<NetworkProduct> {
         val db = FirebaseFirestore.getInstance()
         return try {

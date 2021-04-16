@@ -42,21 +42,23 @@ class ProductViewModel(val product: Product) : ViewModel() {
      * Variable store data pass to SafeArgs when open BottomSheetFragmentDialog
      * Encapsulation
      */
-    private val _navigateToBottomSheet: MutableLiveData<ProductDetail?> by lazy {
-        MutableLiveData<ProductDetail?>()
+    private val _navigateToBottomSheet: MutableLiveData<Product?> by lazy {
+        MutableLiveData<Product?>()
     }
     /**
      * Variable store data pass to SafeArgs when open BottomSheetFragmentDialog
      */
-    val navigateToBottomSheet: LiveData<ProductDetail?> by lazy {
+    val navigateToBottomSheet: LiveData<Product?> by lazy {
         _navigateToBottomSheet
     }
 
     /**
      * Function to update [_navigateToBottomSheet] when user click Buy button
      */
-    fun onNavigateToBottomSheet(productDetail: ProductDetail) {
-        _navigateToBottomSheet.value = productDetail
+    fun onNavigateToBottomSheet(product: Product) {
+        product.detail = productDetail.value!!
+
+        _navigateToBottomSheet.value = product
     }
 
     /**

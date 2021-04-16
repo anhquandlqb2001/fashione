@@ -18,6 +18,10 @@ import kotlinx.serialization.Serializable
  *
  */
 
+
+/**
+ * Model name: products
+ */
 @Serializable
 data class NetworkProduct(
     @SerialName("id")
@@ -35,42 +39,64 @@ data class NetworkProduct(
     var thumbnailUrl: String = "",
     @SerialName("price")
     val price: String = "",
-    @SerialName("detail")
-    val detail: NetworkProductDetail = NetworkProductDetail()
+//    @SerialName("detail")
+//    val detail: NetworkProductDetail = NetworkProductDetail()
 )
 
 
+/**
+ * Model name: product_details
+ */
 @Serializable
 data class NetworkProductDetail(
+    @DocumentId
     @SerialName("id")
     val id: String = "",
+    @set:PropertyName("product_id")
+    @get:PropertyName("product_id")
     @SerialName("product_id")
-    val product_id: String = "",
-    @SerialName("qty")
-    val qty: Int = -1,
+    var productId: String = "",
     @SerialName("description")
     val description: String = "",
     @SerialName("images")
     val images: List<NetworkProductImage> = listOf(NetworkProductImage()),
-    @SerialName("variants")
-    val variants: List<NetworkProductVariant> = listOf(NetworkProductVariant())
 )
 
 
+/**
+ * Sub field of model product_details
+ * Field of [NetworkProductDetail]
+ */
 @Serializable
 data class NetworkProductImage(
     val url: String = ""
 )
 
+
+/**
+ * Model name: product_variants
+ */
 @Serializable
 data class NetworkProductVariant(
+    @DocumentId
+    val id: String = "",
+    @set:PropertyName("product_id")
+    @get:PropertyName("product_id")
+    var productId: String = "",
     val name: String = "",
-    val options: List<NetworkProductVariantOption> = listOf(NetworkProductVariantOption())
 )
 
+/**
+ * Model name: product_variant_options
+ */
 @Serializable
 data class NetworkProductVariantOption(
+    @DocumentId
+    val id: String = "",
+    @set:PropertyName("variant_id")
+    @get:PropertyName("variant_id")
+    var variantId: String = "",
     val value: String = "",
-    val qty: Int = -1,
+    val quantity: Int = -1,
     val price: String = "0"
 )

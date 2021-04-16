@@ -10,13 +10,13 @@ import com.google.firebase.firestore.Source
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductDetail
+import vn.quanprolazer.fashione.domain.model.ProductVariant
 import vn.quanprolazer.fashione.domain.model.Result
 import vn.quanprolazer.fashione.domain.repository.ProductRepository
-import vn.quanprolazer.fashione.network.mapper.ProductDetailMapper
-import vn.quanprolazer.fashione.network.mapper.ProductListAlgoliaMapper
-import vn.quanprolazer.fashione.network.mapper.ProductListMapper
+import vn.quanprolazer.fashione.network.mapper.*
 import vn.quanprolazer.fashione.network.service.ProductService
 import vn.quanprolazer.fashione.network.service.SearchServiceImpl
 
@@ -54,6 +54,22 @@ class ProductRepositoryImpl(
     override suspend fun getProductDetailByProductId(productId: String): ProductDetail {
         return withContext(dispatcher) {
             ProductDetailMapper.map(productService.getProductDetailByProductId(productId))
+        }
+    }
+
+    override suspend fun getProductVariantsAndOptionsByProductId(productId: String): List<ProductVariant> {
+        return withContext(dispatcher) {
+            val productVariants = mutableListOf<ProductVariant>()
+            val networkProductVariants = productService.getProductVariantsByProductId(productId)
+
+            for (networkVariant in networkProductVariants) {
+                val productVariant = ProductVariant(networkVariant.id, networkVariant.name)
+                productVariant.options = ProductVariantOptionsMapper.map(
+                    productService.getProductVariantOptionsByProductVariantId(networkVariant.id)
+                )
+                productVariants.add(productVariant)
+            }
+            productVariants
         }
     }
 }

@@ -9,6 +9,7 @@ package vn.quanprolazer.fashione.domain.repository
 import com.google.firebase.firestore.Source
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductDetail
+import vn.quanprolazer.fashione.domain.model.ProductVariant
 import vn.quanprolazer.fashione.domain.model.Result
 
 interface ProductRepository {
@@ -20,5 +21,7 @@ interface ProductRepository {
     suspend fun findProductsByQuery(query: String): List<Product>
 
     suspend fun getProductDetailByProductId(productId: String): ProductDetail
+
+    suspend fun getProductVariantsAndOptionsByProductId(productId: String): List<ProductVariant>
 
 }
