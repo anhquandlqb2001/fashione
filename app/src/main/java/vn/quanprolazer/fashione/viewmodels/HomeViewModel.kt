@@ -13,15 +13,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.Source
 import kotlinx.coroutines.launch
-import vn.quanprolazer.fashione.domain.model.Category
-import vn.quanprolazer.fashione.domain.model.Product
-import vn.quanprolazer.fashione.domain.model.Result
-import vn.quanprolazer.fashione.domain.repository.CategoryRepository
-import vn.quanprolazer.fashione.domain.repository.ProductRepository
-import vn.quanprolazer.fashione.network.repository.CategoryRepositoryImpl
-import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
-import vn.quanprolazer.fashione.network.service.CategoryServiceImpl
-import vn.quanprolazer.fashione.network.service.ProductServiceImpl
+import vn.quanprolazer.fashione.data.domain.model.Category
+import vn.quanprolazer.fashione.data.domain.model.Product
+import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.repository.CategoryRepository
+import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
+import vn.quanprolazer.fashione.data.network.repository.CategoryRepositoryImpl
+import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
+import vn.quanprolazer.fashione.data.network.service.CategoryServiceImpl
+import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
 
 
 class HomeViewModel : ViewModel() {

@@ -8,12 +8,9 @@
 package vn.quanprolazer.fashione.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.View
 import android.widget.Toast
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -29,7 +26,7 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.ActivityMainBinding
-import vn.quanprolazer.fashione.domain.model.AuthenticationState
+import vn.quanprolazer.fashione.data.domain.model.AuthenticationState
 import vn.quanprolazer.fashione.viewmodels.LoginViewModel
 
 

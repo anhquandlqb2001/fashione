@@ -8,11 +8,11 @@ package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.launch
-import vn.quanprolazer.fashione.domain.model.Product
-import vn.quanprolazer.fashione.domain.model.ProductDetail
-import vn.quanprolazer.fashione.domain.repository.ProductRepository
-import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
-import vn.quanprolazer.fashione.network.service.ProductServiceImpl
+import vn.quanprolazer.fashione.data.domain.model.Product
+import vn.quanprolazer.fashione.data.domain.model.ProductDetail
+import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
+import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
+import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
 
 class ProductViewModel(val product: Product) : ViewModel() {
 

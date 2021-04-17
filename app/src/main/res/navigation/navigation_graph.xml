@@ -37,7 +37,7 @@
 
         <argument
             android:name="product"
-            app:argType="vn.quanprolazer.fashione.domain.model.Product" />
+            app:argType="vn.quanprolazer.fashione.data.domain.model.Product" />
         <action
             android:id="@+id/action_productFragment_to_bottomSheetProductVariantFragment"
             app:destination="@id/bottomSheetProductVariantFragment" />
@@ -50,7 +50,7 @@
         tools:layout="@layout/fragment_search_result">
         <argument
             android:name="category"
-            app:argType="vn.quanprolazer.fashione.domain.model.Category"
+            app:argType="vn.quanprolazer.fashione.data.domain.model.Category"
             app:nullable="true" />
         <argument
             android:name="query"
@@ -69,7 +69,7 @@
         android:label="BottomSheetProductVariantFragment">
         <argument
             android:name="product"
-            app:argType="vn.quanprolazer.fashione.domain.model.Product" />
+            app:argType="vn.quanprolazer.fashione.data.domain.model.Product" />
     </dialog>
 <!--    <fragment-->
 <!--        android:id="@+id/loginFragment"-->

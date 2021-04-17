@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListItemProductBinding
-import vn.quanprolazer.fashione.domain.model.Product
+import vn.quanprolazer.fashione.data.domain.model.Product
 
 
 class ProductAdapter(private val clickListener: OnClickListener) : ListAdapter<Product, RecyclerView.ViewHolder>(

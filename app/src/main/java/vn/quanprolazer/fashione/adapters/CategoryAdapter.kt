@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListItemCategoryBinding
-import vn.quanprolazer.fashione.domain.model.Category
+import vn.quanprolazer.fashione.data.domain.model.Category
 
 //data class CategoryButtonBackground(val startColor: Int, val endColor: Int)
 //

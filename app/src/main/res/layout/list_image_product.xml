@@ -12,7 +12,7 @@
     <data>
         <variable
             name="image"
-            type="vn.quanprolazer.fashione.domain.model.ProductImage" />
+            type="vn.quanprolazer.fashione.data.domain.model.ProductImage" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

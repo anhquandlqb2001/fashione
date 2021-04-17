@@ -8,8 +8,8 @@ package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import vn.quanprolazer.fashione.domain.model.AuthenticationState
-import vn.quanprolazer.fashione.domain.repository.UserRepository
+import vn.quanprolazer.fashione.data.domain.model.AuthenticationState
+import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 
 class LoginViewModel : ViewModel() {
 

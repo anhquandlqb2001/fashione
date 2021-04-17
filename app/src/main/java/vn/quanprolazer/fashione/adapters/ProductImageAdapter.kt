@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListImageProductBinding
-import vn.quanprolazer.fashione.domain.model.ProductImage
+import vn.quanprolazer.fashione.data.domain.model.ProductImage
 
 class ProductImageAdapter : ListAdapter<ProductImage, ProductImageAdapter.ViewHolder>(
     ProductImageDiffCallback

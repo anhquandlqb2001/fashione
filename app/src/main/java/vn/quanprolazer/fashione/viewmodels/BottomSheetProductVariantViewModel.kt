@@ -8,20 +8,17 @@ package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import timber.log.Timber
-import vn.quanprolazer.fashione.domain.model.ProductDetail
-import vn.quanprolazer.fashione.domain.model.CartItem
-import vn.quanprolazer.fashione.domain.model.Product
-import vn.quanprolazer.fashione.domain.model.ProductVariant
-import vn.quanprolazer.fashione.domain.repository.ProductRepository
-import vn.quanprolazer.fashione.domain.repository.UserRepository
-import vn.quanprolazer.fashione.network.repository.OrderRepositoryImpl
-import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
-import vn.quanprolazer.fashione.network.service.OrderServiceImpl
-import vn.quanprolazer.fashione.network.service.ProductServiceImpl
+import vn.quanprolazer.fashione.data.domain.model.CartItem
+import vn.quanprolazer.fashione.data.domain.model.Product
+import vn.quanprolazer.fashione.data.domain.model.ProductVariant
+import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
+import vn.quanprolazer.fashione.data.domain.repository.UserRepository
+import vn.quanprolazer.fashione.data.network.repository.OrderRepositoryImpl
+import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
+import vn.quanprolazer.fashione.data.network.service.OrderServiceImpl
+import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
 
 class BottomSheetProductVariantViewModel(private val product: Product) : ViewModel() {
 
