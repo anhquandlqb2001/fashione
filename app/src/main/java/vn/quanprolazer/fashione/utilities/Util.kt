@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.textfield.TextInputEditText
+import org.json.JSONArray
+import org.json.JSONObject
 import java.text.NumberFormat
 import java.util.*
 
@@ -117,4 +119,20 @@ fun convertPriceStringToCurrencyString(text: String, currencyCode: String = "VND
     format.maximumFractionDigits = 0
     format.currency = Currency.getInstance(currencyCode)
     return format.format(text.toInt())
+}
+
+/**
+ * Extension function to convert JSONObject to Map
+ *
+ */
+fun JSONObject.toMap(): Map<String, *> = keys().asSequence().associateWith {
+    when (val value = this[it]) {
+        is JSONArray -> {
+            val map = (0 until value.length()).associate { Pair(it.toString(), value[it]) }
+            JSONObject(map).toMap().values.toList()
+        }
+        is JSONObject -> value.toMap()
+        JSONObject.NULL -> null
+        else -> value
+    }
 }

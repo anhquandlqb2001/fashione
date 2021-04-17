@@ -9,6 +9,7 @@ package vn.quanprolazer.fashione.data.network.repository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import vn.quanprolazer.fashione.data.domain.mapper.CartItemMapper
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
@@ -20,7 +21,7 @@ class OrderRepositoryImpl(
 ) : OrderRepository {
     override suspend fun addToCart(cartItem: CartItem, userId: String): Result<Boolean> {
         val result = withContext(defaultDispatcher) {
-            orderService.addToCart(cartItem, userId)
+            orderService.addToCart(CartItemMapper.map(cartItem), userId)
         }
 
         return when (result) {

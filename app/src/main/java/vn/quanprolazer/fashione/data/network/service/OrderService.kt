@@ -8,9 +8,10 @@ package vn.quanprolazer.fashione.data.network.service
 
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.network.dto.NetworkCartItem
 
 interface OrderService {
 
-    suspend fun addToCart(cartItem: CartItem, userId: String): Result<Boolean>
+    suspend fun addToCart(networkCartItem: NetworkCartItem, userId: String): Result<Boolean>
 
 }
