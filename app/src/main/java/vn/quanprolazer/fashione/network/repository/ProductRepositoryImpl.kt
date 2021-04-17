@@ -10,7 +10,6 @@ import com.google.firebase.firestore.Source
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductDetail
 import vn.quanprolazer.fashione.domain.model.ProductVariant
@@ -33,7 +32,7 @@ class ProductRepositoryImpl(
 
         return when (response) {
             is Result.Success -> {
-                Result.Success(ProductListMapper.map(response.data))
+                Result.Success(NetworkProductListMapper.map(response.data))
             }
             is Result.Error -> Result.Error(response.exception)
         }
@@ -41,19 +40,19 @@ class ProductRepositoryImpl(
 
     override suspend fun getProductsByCategoryId(categoryId: String): List<Product> {
         return withContext(dispatcher) {
-            ProductListMapper.map(productService.getProductsByCategoryId(categoryId))
+            NetworkProductListMapper.map(productService.getProductsByCategoryId(categoryId))
         }
     }
 
     override suspend fun findProductsByQuery(query: String): List<Product> {
         return withContext(dispatcher) {
-            ProductListAlgoliaMapper.map(SearchServiceImpl.findProductsByQuery(query))
+            NetworkProductListAlgoliaMapper.map(SearchServiceImpl.findProductsByQuery(query))
         }
     }
 
     override suspend fun getProductDetailByProductId(productId: String): ProductDetail {
         return withContext(dispatcher) {
-            ProductDetailMapper.map(productService.getProductDetailByProductId(productId))
+            NetworkProductDetailMapper.map(productService.getProductDetailByProductId(productId))
         }
     }
 
@@ -64,7 +63,7 @@ class ProductRepositoryImpl(
 
             for (networkVariant in networkProductVariants) {
                 val productVariant = ProductVariant(networkVariant.id, networkVariant.name)
-                productVariant.options = ProductVariantOptionsMapper.map(
+                productVariant.options = NetworkProductVariantOptionsMapper.map(
                     productService.getProductVariantOptionsByProductVariantId(networkVariant.id)
                 )
                 productVariants.add(productVariant)

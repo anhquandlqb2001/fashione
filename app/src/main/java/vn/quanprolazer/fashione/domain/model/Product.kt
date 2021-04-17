@@ -63,12 +63,3 @@ data class ProductVariantOption(
 ) : Parcelable
 
 
-data class CartItem(
-    val productId: String,
-    var variantId: String = "",
-    var variantOptionId: String = "",
-    var variantName: String = "",
-    var variantValue: String = "",
-    var qty: Number = 0,
-    var price: String = "0"
-)

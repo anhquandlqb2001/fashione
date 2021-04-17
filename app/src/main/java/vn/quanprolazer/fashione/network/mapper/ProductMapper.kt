@@ -9,7 +9,7 @@ package vn.quanprolazer.fashione.network.mapper
 import vn.quanprolazer.fashione.domain.model.*
 import vn.quanprolazer.fashione.network.dto.*
 
-object ProductListMapper : ListMapper<NetworkProduct, Product> {
+object NetworkProductListMapper : ListMapper<NetworkProduct, Product> {
     override fun map(input: List<NetworkProduct>): List<Product> {
         return input.map {
             Product(
@@ -25,7 +25,7 @@ object ProductListMapper : ListMapper<NetworkProduct, Product> {
     }
 }
 
-object ProductListAlgoliaMapper : ListMapper<NetworkAlgoliaProduct, Product> {
+object NetworkProductListAlgoliaMapper : ListMapper<NetworkAlgoliaProduct, Product> {
     override fun map(input: List<NetworkAlgoliaProduct>): List<Product> {
         return input.map {
             Product(
@@ -42,27 +42,22 @@ object ProductListAlgoliaMapper : ListMapper<NetworkAlgoliaProduct, Product> {
 }
 
 
-object ProductDetailMapper : Mapper<NetworkProductDetail, ProductDetail> {
+object NetworkProductDetailMapper : Mapper<NetworkProductDetail, ProductDetail> {
     override fun map(input: NetworkProductDetail): ProductDetail {
         return ProductDetail(
             input.id,
             input.productId,
             input.description,
-            ProductImagesMapper.map(input.images)
+            NetworkProductImagesMapper.map(input.images)
         )
     }
 }
 
-object ProductImagesMapper : ListMapper<NetworkProductImage, ProductImage> {
+object NetworkProductImagesMapper : ListMapper<NetworkProductImage, ProductImage> {
     override fun map(input: List<NetworkProductImage>) = input.map { ProductImage(it.url) }
 }
 
-object ProductVariantOptionsMapper : ListMapper<NetworkProductVariantOption, ProductVariantOption> {
+object NetworkProductVariantOptionsMapper : ListMapper<NetworkProductVariantOption, ProductVariantOption> {
     override fun map(input: List<NetworkProductVariantOption>) =
         input.map { ProductVariantOption(it.id, it.value, it.quantity, it.price) }
 }
-
-//object ProductVariantsMapper : ListMapper<NetworkProductVariant, ProductVariant> {
-//    override fun map(input: List<NetworkProductVariant>) =
-//        input.map { ProductVariant(it.id, it.name, it.options.map { option -> ProductVariantOption(option.id, option.value, option.quantity, option.price) }) }
-//}

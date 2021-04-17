@@ -18,6 +18,7 @@ import vn.quanprolazer.fashione.domain.model.Product
 import vn.quanprolazer.fashione.domain.model.ProductVariant
 import vn.quanprolazer.fashione.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.domain.repository.UserRepository
+import vn.quanprolazer.fashione.network.repository.OrderRepositoryImpl
 import vn.quanprolazer.fashione.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.network.service.OrderServiceImpl
 import vn.quanprolazer.fashione.network.service.ProductServiceImpl
@@ -26,6 +27,14 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
 
     private val productRepositoryImpl: ProductRepository by lazy {
         ProductRepositoryImpl(ProductServiceImpl())
+    }
+
+    private val userRepositoryImpl: UserRepository by lazy {
+        UserRepository()
+    }
+
+    private val _user: UserRepository.FirebaseUserLiveData by lazy {
+        userRepositoryImpl.getUser()
     }
 
     /**
@@ -55,7 +64,7 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
      * Encapsulation
      */
     private val _cartItem: MutableLiveData<CartItem> by lazy {
-        MutableLiveData(CartItem(product.id))
+        MutableLiveData(CartItem(product.id, _user.value?.uid!!))
     }
 
     /**
@@ -113,7 +122,7 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
     fun onDecreaseQty() {
         if (orderQty.value!!.toInt() > 0) {
             val t = orderQty.value!!.toInt() - 1
-            _cartItem.value?.qty = t
+            _cartItem.value?.quantity = t
             orderQty.value = t
         }
     }
@@ -124,7 +133,7 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
     fun onIncreaseQty() {
         if (orderQty.value!!.toInt() < orderLimit) {
             val t = orderQty.value!!.toInt() + 1
-            _cartItem.value?.qty = t
+            _cartItem.value?.quantity = t
             orderQty.value = t
         }
     }
@@ -173,10 +182,7 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
 
         viewModelScope.launch(Dispatchers.Default) {
             try {
-                OrderServiceImpl().addToCart(
-                    cartItem.value!!,
-                    UserRepository().getUser().value?.uid!!
-                )
+                OrderRepositoryImpl(OrderServiceImpl()).addToCart(cartItem.value!!, _user.value?.uid!!)
             } catch (e: Exception) {
                 Timber.e(e)
             }

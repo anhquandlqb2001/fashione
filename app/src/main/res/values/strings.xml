@@ -25,4 +25,5 @@
     <string name="text_add_to_cart">THÊM VÀO GIỎ HÀNG</string>
     <string name="login">Đăng nhập</string>
     <string name="sign_out_text">Đăng xuất</string>
+    <string name="text_buy_now">Mua ngay</string>
 </resources>
