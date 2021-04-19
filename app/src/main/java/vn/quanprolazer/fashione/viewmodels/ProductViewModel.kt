@@ -7,18 +7,17 @@
 package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductDetail
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
-import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
-import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
 
-class ProductViewModel(val product: Product) : ViewModel() {
 
-    private val productRepositoryImpl: ProductRepository by lazy {
-        ProductRepositoryImpl(ProductServiceImpl())
-    }
+class ProductViewModel @AssistedInject constructor(private val productRepositoryImpl: ProductRepository,
+                                                   @Assisted val product: Product
+) : ViewModel() {
 
     /**
      * Variable to store data about product
@@ -31,6 +30,7 @@ class ProductViewModel(val product: Product) : ViewModel() {
         }
         return@lazy liveData
     }
+
     /**
      * Variable to store data about product
      */
@@ -49,6 +49,7 @@ class ProductViewModel(val product: Product) : ViewModel() {
     private val _navigateToBottomSheet: MutableLiveData<Product?> by lazy {
         MutableLiveData<Product?>()
     }
+
     /**
      * Variable store data pass to SafeArgs when open BottomSheetFragmentDialog
      */
@@ -65,7 +66,6 @@ class ProductViewModel(val product: Product) : ViewModel() {
     }
 
 
-
     /**
      * Function to prevent UI error after navigate to another Fragment
      * Fire after navigate Fragment
@@ -74,17 +74,19 @@ class ProductViewModel(val product: Product) : ViewModel() {
         _navigateToBottomSheet.value = null
     }
 
-    class Factory(
-        private val product: Product
-    ) : ViewModelProvider.Factory {
-        @Suppress("unchecked_cast")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ProductViewModel::class.java)) {
-                return ProductViewModel(product) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
+    @AssistedInject.Factory
+    interface AssistedFactory {
+        fun create(product: Product): ProductViewModel
     }
 
+    companion object {
+        fun provideFactory(assistedFactory: AssistedFactory, product: Product
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return assistedFactory.create(product) as T
+            }
+        }
+    }
 }
 

@@ -11,11 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CategoryAdapter
 import vn.quanprolazer.fashione.adapters.OnClickCategoryListener
@@ -26,6 +26,7 @@ import vn.quanprolazer.fashione.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.utilities.onDone
 import vn.quanprolazer.fashione.viewmodels.HomeViewModel
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
@@ -33,14 +34,7 @@ class HomeFragment : Fragment() {
     /** This property is only valid between onCreateView and onDestroyView. */
     private val binding get() = _binding!!
 
-    /**
-     * One way to delay creation of the viewModel until an appropriate lifecycle method is to use
-     * lazy. This requires that viewModel not be referenced before onActivityCreated, which we
-     * do in this Fragment.
-     */
-    private val viewModel: HomeViewModel by lazy {
-        ViewModelProvider(this)[HomeViewModel::class.java]
-    }
+    private val viewModel: HomeViewModel by viewModels()
 
     private val categoryAdapter by lazy {
         CategoryAdapter(OnClickCategoryListener {
@@ -56,6 +50,8 @@ class HomeFragment : Fragment() {
 
         // Inflate layout
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        context ?: binding.root
 
         // Set the lifecycleOwner so DataBinding can observe LiveData
         binding.lifecycleOwner = viewLifecycleOwner

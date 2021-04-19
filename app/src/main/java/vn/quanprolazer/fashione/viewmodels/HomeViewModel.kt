@@ -12,27 +12,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.firestore.Source
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.Category
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.data.domain.repository.CategoryRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
-import vn.quanprolazer.fashione.data.network.repository.CategoryRepositoryImpl
-import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
-import vn.quanprolazer.fashione.data.network.service.CategoryServiceImpl
-import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
+import javax.inject.Inject
 
-
-class HomeViewModel : ViewModel() {
-
-
-    private val categoryRepositoryImpl: CategoryRepository by lazy {
-        CategoryRepositoryImpl(CategoryServiceImpl())
-    }
-    private val productRepositoryImpl: ProductRepository by lazy {
-        ProductRepositoryImpl(ProductServiceImpl())
-    }
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val categoryRepositoryImpl: CategoryRepository,
+    private val productRepositoryImpl: ProductRepository
+) : ViewModel() {
 
     /**
      * Variable to store list of available category

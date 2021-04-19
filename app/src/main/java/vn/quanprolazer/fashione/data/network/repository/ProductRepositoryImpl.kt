@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.data.network.repository
 
+import androidx.hilt.Assisted
 import com.google.firebase.firestore.Source
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -18,10 +19,11 @@ import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.network.mapper.*
 import vn.quanprolazer.fashione.data.network.service.ProductService
 import vn.quanprolazer.fashione.data.network.service.SearchServiceImpl
+import javax.inject.Inject
 
-class ProductRepositoryImpl(
+class ProductRepositoryImpl @Inject constructor(
     private val productService: ProductService,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Default
+    @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ProductRepository {
 
     override suspend fun getProducts(source: Source): Result<List<Product>> {

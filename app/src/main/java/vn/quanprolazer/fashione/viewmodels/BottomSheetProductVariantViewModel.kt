@@ -7,6 +7,8 @@
 package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
+import com.squareup.inject.assisted.Assisted
+import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Product
@@ -15,19 +17,13 @@ import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 import vn.quanprolazer.fashione.data.network.repository.OrderRepositoryImpl
-import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.data.network.service.OrderServiceImpl
-import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
 
-class BottomSheetProductVariantViewModel(private val product: Product) : ViewModel() {
+class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted private val product: Product,
+                                                                     private val productRepositoryImpl: ProductRepository,
+                                                                     private val userRepositoryImpl: UserRepository
 
-    private val productRepositoryImpl: ProductRepository by lazy {
-        ProductRepositoryImpl(ProductServiceImpl())
-    }
-
-    private val userRepositoryImpl: UserRepository by lazy {
-        UserRepository()
-    }
+) : ViewModel() {
 
     private val _user: UserRepository.FirebaseUserLiveData by lazy {
         userRepositoryImpl.getUser()
@@ -203,15 +199,18 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
         _cartItem.value?.price = _variantPrice.value.toString()
     }
 
+    @AssistedInject.Factory
+    interface AssistedFactory {
+        fun create(product: Product): BottomSheetProductVariantViewModel
+    }
 
-    class Factory(private val product: Product
-    ) : ViewModelProvider.Factory {
-        @Suppress("unchecked_cast")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(BottomSheetProductVariantViewModel::class.java)) {
-                return BottomSheetProductVariantViewModel(product) as T
+    companion object {
+        fun provideFactory(assistedFactory: AssistedFactory, product: Product
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return assistedFactory.create(product) as T
             }
-            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }

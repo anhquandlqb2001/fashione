@@ -12,33 +12,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 import vn.quanprolazer.fashione.viewmodels.ProductSharedViewModel
 import vn.quanprolazer.fashione.viewmodels.ProductViewModel
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class ProductFragment : Fragment() {
 
     private var _binding: FragmentProductDetailBinding? = null
 
     private val binding get() = _binding!!
 
-    private val viewModel: ProductViewModel by lazy {
-        ViewModelProvider(
-            this,
-            ProductViewModel.Factory(ProductFragmentArgs.fromBundle(requireArguments()).product)
-        )[ProductViewModel::class.java]
+    @Inject
+    lateinit var productViewModelFactory: ProductViewModel.AssistedFactory
+
+    private val viewModel: ProductViewModel by viewModels {
+        ProductViewModel.provideFactory(productViewModelFactory, ProductFragmentArgs.fromBundle(requireArguments()).product)
     }
 
     private val sharedViewModel: ProductSharedViewModel by activityViewModels()
-
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,

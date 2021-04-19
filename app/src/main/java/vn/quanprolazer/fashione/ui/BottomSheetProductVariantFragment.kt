@@ -11,30 +11,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
-import com.google.android.material.snackbar.Snackbar
-import timber.log.Timber
+import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentBottomSheetProductVariantBinding
 import vn.quanprolazer.fashione.utilities.setProductVariantQty
 import vn.quanprolazer.fashione.viewmodels.BottomSheetProductVariantViewModel
 import vn.quanprolazer.fashione.viewmodels.ProductSharedViewModel
+import javax.inject.Inject
 
-
+@AndroidEntryPoint
 class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
 
     private var _binding: FragmentBottomSheetProductVariantBinding? = null
 
     private val binding get() = _binding!!
 
-    private val viewModel: BottomSheetProductVariantViewModel by lazy {
-        ViewModelProvider(
-            this, BottomSheetProductVariantViewModel.Factory(
-                BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).product
-            )
-        )[BottomSheetProductVariantViewModel::class.java]
+    @Inject
+    lateinit var bottomSheetProductVariantViewModelFactory: BottomSheetProductVariantViewModel.AssistedFactory
+
+    private val viewModel: BottomSheetProductVariantViewModel by viewModels {
+        BottomSheetProductVariantViewModel.provideFactory(
+            bottomSheetProductVariantViewModelFactory,
+            BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).product
+        )
     }
 
     private val sharedViewModel: ProductSharedViewModel by activityViewModels()

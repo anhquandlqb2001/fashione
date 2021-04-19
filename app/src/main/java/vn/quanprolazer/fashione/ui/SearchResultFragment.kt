@@ -15,11 +15,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
 import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
 import vn.quanprolazer.fashione.viewmodels.SearchResultViewModel
 
+@AndroidEntryPoint
 class SearchResultFragment : Fragment() {
 
     private var _binding: FragmentSearchResultBinding? = null
