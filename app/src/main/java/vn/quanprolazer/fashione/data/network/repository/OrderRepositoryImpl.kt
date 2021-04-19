@@ -25,7 +25,7 @@ class OrderRepositoryImpl(
         }
 
         return when (result) {
-            is Result.Success -> Result.Success(true)
+            is Result.Success -> Result.Success(data = true)
             is Result.Error -> Result.Error(result.exception)
         }
     }

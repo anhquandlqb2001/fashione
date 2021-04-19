@@ -15,6 +15,7 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.snackbar.Snackbar
 import vn.quanprolazer.fashione.R
 
 private const val PRODUCT_NAME_LIMIT = 10

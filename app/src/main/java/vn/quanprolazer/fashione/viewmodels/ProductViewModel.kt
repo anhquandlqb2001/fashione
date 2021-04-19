@@ -38,6 +38,10 @@ class ProductViewModel(val product: Product) : ViewModel() {
         _productDetail
     }
 
+    private fun updateProductDetail() {
+        product.detail = productDetail.value!!
+    }
+
     /**
      * Variable store data pass to SafeArgs when open BottomSheetFragmentDialog
      * Encapsulation
@@ -56,10 +60,11 @@ class ProductViewModel(val product: Product) : ViewModel() {
      * Function to update [_navigateToBottomSheet] when user click Buy button
      */
     fun onNavigateToBottomSheet(product: Product) {
-        product.detail = productDetail.value!!
-
+        updateProductDetail()
         _navigateToBottomSheet.value = product
     }
+
+
 
     /**
      * Function to prevent UI error after navigate to another Fragment

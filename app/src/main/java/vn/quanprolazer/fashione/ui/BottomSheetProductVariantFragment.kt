@@ -10,13 +10,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentBottomSheetProductVariantBinding
 import vn.quanprolazer.fashione.utilities.setProductVariantQty
 import vn.quanprolazer.fashione.viewmodels.BottomSheetProductVariantViewModel
+import vn.quanprolazer.fashione.viewmodels.ProductSharedViewModel
 
 
 class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
@@ -27,17 +31,17 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
 
     private val viewModel: BottomSheetProductVariantViewModel by lazy {
         ViewModelProvider(
-            this,
-            BottomSheetProductVariantViewModel.Factory(
+            this, BottomSheetProductVariantViewModel.Factory(
                 BottomSheetProductVariantFragmentArgs.fromBundle(requireArguments()).product
             )
         )[BottomSheetProductVariantViewModel::class.java]
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+    private val sharedViewModel: ProductSharedViewModel by activityViewModels()
+
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBottomSheetProductVariantBinding.inflate(inflater, container, false)
 
@@ -50,8 +54,34 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         observeProductVariant()
+        observeException()
+        observeSuccess()
     }
+
+    private fun observeSuccess() {
+        viewModel.successMessage.observe(viewLifecycleOwner, {
+            it?.let {
+                dismissDialog()
+                sharedViewModel.setSuccessMessage(it)
+            }
+        })
+    }
+
+    private fun observeException() {
+        viewModel.exceptionMessage.observe(viewLifecycleOwner, {
+            it?.let {
+                dismissDialog()
+                sharedViewModel.setExceptionMessage(it)
+            }
+        })
+    }
+
+    /**
+     * Dismiss the fragment and its dialog
+     */
+    private fun dismissDialog() = this.dismiss()
 
     private fun observeProductVariant() {
         viewModel.productVariants.observe(viewLifecycleOwner, {
@@ -61,9 +91,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
 
                 val children = it.map { variant ->
                     val chip = colorInflater.inflate(
-                        R.layout.list_item_chip,
-                        colorChipGroup,
-                        false
+                        R.layout.list_item_chip, colorChipGroup, false
                     ) as Chip
                     chip.text = variant.name
                     chip.tag = variant.name
@@ -86,9 +114,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
 
                         val options = variant.options.map { productVariantOption ->
                             val optionChip = optionInflater.inflate(
-                                R.layout.list_item_chip,
-                                optionChipGroup,
-                                false
+                                R.layout.list_item_chip, optionChipGroup, false
                             ) as Chip
                             optionChip.text = productVariantOption.value
                             optionChip.tag = productVariantOption.value
@@ -97,14 +123,12 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                                     return@setOnCheckedChangeListener
                                 }
                                 setProductVariantQty(
-                                    binding.tvVariantQty,
-                                    productVariantOption.quantity
+                                    binding.tvVariantQty, productVariantOption.quantity
                                 )
                                 viewModel.resetOrderQty()
                                 viewModel.updateVariantPrice(productVariantOption.price)
                                 viewModel.updateCartItemVariantId(
-                                    variant.id,
-                                    productVariantOption.id
+                                    variant.id, productVariantOption.id
                                 )
                                 binding.llQtyControl.visibility = View.VISIBLE
 

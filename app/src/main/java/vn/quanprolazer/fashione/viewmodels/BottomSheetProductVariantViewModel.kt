@@ -7,12 +7,11 @@
 package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductVariant
+import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 import vn.quanprolazer.fashione.data.network.repository.OrderRepositoryImpl
@@ -64,12 +63,6 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
         MutableLiveData(CartItem(product.id, _user.value?.uid!!))
     }
 
-    /**
-     * Variable to store Product Order to send to Cart
-     */
-    val cartItem: LiveData<CartItem> by lazy {
-        _cartItem
-    }
 
     /**
      * Function to update [_cartItem] when user change variant
@@ -168,6 +161,22 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
         _cartItem.value?.variantOptionId = variantOptionId
     }
 
+    /**
+     * Variable to store exception
+     */
+    private val _exceptionMessage: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+    val exceptionMessage: LiveData<String> get() = _exceptionMessage
+
+    /**
+     * Variable to store success message
+     */
+    private val _successMessage: MutableLiveData<String> by lazy {
+        MutableLiveData()
+    }
+    val successMessage: LiveData<String> get() = _successMessage
+
 
     /**
      * Function to call when user click Add to cart button
@@ -175,16 +184,16 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
      */
     fun onClickAddToCart() {
         updateCartItemPrice()
-        Timber.i(cartItem.value.toString())
-
-        viewModelScope.launch(Dispatchers.Default) {
-            try {
-                OrderRepositoryImpl(OrderServiceImpl()).addToCart(cartItem.value!!, _user.value?.uid!!)
-            } catch (e: Exception) {
-                Timber.e(e)
+        viewModelScope.launch {
+            when (OrderRepositoryImpl(OrderServiceImpl()).addToCart(
+                _cartItem.value!!, _user.value?.uid!!
+            )) {
+                is Result.Success -> _successMessage.value = "Thêm sản phẩm thành công"
+                is Result.Error -> _exceptionMessage.value = "Thêm sản phẩm thất bại"
             }
         }
     }
+
 
     /**
      * Function to call when user click Add to cart button
@@ -195,8 +204,7 @@ class BottomSheetProductVariantViewModel(private val product: Product) : ViewMod
     }
 
 
-    class Factory(
-        private val product: Product
+    class Factory(private val product: Product
     ) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

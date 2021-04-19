@@ -11,13 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
+import vn.quanprolazer.fashione.viewmodels.ProductSharedViewModel
 import vn.quanprolazer.fashione.viewmodels.ProductViewModel
 
 
@@ -34,10 +37,12 @@ class ProductFragment : Fragment() {
         )[ProductViewModel::class.java]
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+    private val sharedViewModel: ProductSharedViewModel by activityViewModels()
+
+
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProductDetailBinding.inflate(inflater)
 
@@ -63,7 +68,29 @@ class ProductFragment : Fragment() {
         binding.rvProductImage.layoutManager = layoutManager
 
         observeNavigateToBottomSheet()
+        observeException()
+        observeSuccess()
     }
+
+    private fun observeSuccess() {
+        sharedViewModel.successMessage.observe(viewLifecycleOwner, {
+            it?.let {
+                makeSnackBar(it)
+            }
+        })
+    }
+
+    private fun observeException() {
+        sharedViewModel.exceptionMessage.observe(viewLifecycleOwner, {
+            it?.let {
+                makeSnackBar(it)
+            }
+        })
+    }
+
+    private fun makeSnackBar(text: String, duration: Int = Snackbar.LENGTH_SHORT) =
+        Snackbar.make(binding.root, text, duration).show()
+
 
     private fun observeNavigateToBottomSheet() {
         viewModel.navigateToBottomSheet.observe(viewLifecycleOwner, {
@@ -89,10 +116,9 @@ class ProductFragment : Fragment() {
      * Snap scroll product images
      */
     private val snapHelper: LinearSnapHelper = object : LinearSnapHelper() {
-        override fun findTargetSnapPosition(
-            layoutManager: RecyclerView.LayoutManager,
-            velocityX: Int,
-            velocityY: Int
+        override fun findTargetSnapPosition(layoutManager: RecyclerView.LayoutManager,
+                                            velocityX: Int,
+                                            velocityY: Int
         ): Int {
             val centerView = findSnapView(layoutManager) ?: return RecyclerView.NO_POSITION
             val position = layoutManager.getPosition(centerView)
@@ -126,5 +152,6 @@ class ProductFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
 
 }
