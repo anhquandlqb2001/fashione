@@ -6,9 +6,9 @@
 
 <resources>
     <string name="app_name">Fashione</string>
-    <string name="menu_item_home_text">Home</string>
-    <string name="menu_item_profile_text">Profile</string>
-    <string name="menu_item_cart_text">My cart</string>
+    <string name="menu_item_home_text">Trang chủ</string>
+    <string name="menu_item_profile_text">Hồ sơ</string>
+    <string name="menu_item_cart_text">Giỏ hàng</string>
     <string name="menu_item_favourite_text">Favourite</string>
     <string name="content_description_notification_icon">Notification icon</string>
     <string name="content_description_icon_filter">Icon filter</string>
@@ -26,4 +26,5 @@
     <string name="login">Đăng nhập</string>
     <string name="sign_out_text">Đăng xuất</string>
     <string name="text_buy_now">Mua ngay</string>
+    <string name="menu_item_personal_sub_title">Cá nhân</string>
 </resources>

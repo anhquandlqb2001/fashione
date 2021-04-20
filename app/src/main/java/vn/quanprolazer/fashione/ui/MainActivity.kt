@@ -123,6 +123,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_item_login -> {
                     launchSignInFlow()
                 }
+                R.id.menu_item_cart -> {
+                    this.findNavController(R.id.nav_host_fragment).navigate(HomeFragmentDirections.actionHomeFragmentToCartFragment())
+                }
                 else -> {
                 }
             }
