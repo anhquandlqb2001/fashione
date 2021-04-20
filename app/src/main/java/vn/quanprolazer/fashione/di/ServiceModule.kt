@@ -10,10 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import vn.quanprolazer.fashione.data.network.service.CategoryService
-import vn.quanprolazer.fashione.data.network.service.CategoryServiceImpl
-import vn.quanprolazer.fashione.data.network.service.ProductService
-import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
+import vn.quanprolazer.fashione.data.network.service.*
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -24,5 +21,8 @@ class ServiceModule {
 
     @Provides
     fun provideProductService() : ProductService = ProductServiceImpl()
+
+    @Provides
+    fun provideOrderService() : OrderService = OrderServiceImpl()
 
 }

@@ -11,6 +11,8 @@ import vn.quanprolazer.fashione.data.domain.model.Result
 
 interface OrderRepository {
 
-    suspend fun addToCart(cartItem: CartItem, userId: String): Result<Boolean>
+    suspend fun addToCart(cartItem: CartItem): Result<Boolean>
+
+    suspend fun getCartItems(): Result<List<CartItem>>
 
 }

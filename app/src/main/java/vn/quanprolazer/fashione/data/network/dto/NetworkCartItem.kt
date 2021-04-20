@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.data.network.dto
 
+import com.google.firebase.firestore.PropertyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -13,18 +14,34 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NetworkCartItem(
     @SerialName("product_id")
-    val productId: String,
+    @set:PropertyName("product_id")
+    @get:PropertyName("product_id")
+    var productId: String = "",
     @SerialName("user_id")
-    val userId: String,
+    @set:PropertyName("user_id")
+    @get:PropertyName("user_id")
+    var userId: String = "",
     @SerialName("variant_id")
+    @set:PropertyName("variant_id")
+    @get:PropertyName("variant_id")
     var variantId: String = "",
     @SerialName("variant_option_id")
+    @set:PropertyName("variant_option_id")
+    @get:PropertyName("variant_option_id")
     var variantOptionId: String = "",
     @SerialName("variant_name")
+    @set:PropertyName("variant_name")
+    @get:PropertyName("variant_name")
     var variantName: String = "",
     @SerialName("variant_value")
+    @set:PropertyName("variant_value")
+    @get:PropertyName("variant_value")
     var variantValue: String = "",
+    @set:PropertyName("quantity")
+    @get:PropertyName("quantity")
     var quantity: Int = 0,
+    @set:PropertyName("price")
+    @get:PropertyName("price")
     var price: String = "0"
 )
 

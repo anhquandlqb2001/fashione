@@ -26,5 +26,22 @@ class OrderServiceImpl : OrderService {
             Result.Error(e)
         }
     }
+
+    override suspend fun getCartItems(userId: String): Result<List<NetworkCartItem>> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val response = db.collection("carts")
+                .whereEqualTo("user_id", userId)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toObject(NetworkCartItem::class.java) }
+
+            Result.Success(response)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Result.Error(e)
+        }
+    }
 }
 

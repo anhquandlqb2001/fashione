@@ -7,21 +7,22 @@
 package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductVariant
 import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
-import vn.quanprolazer.fashione.data.network.repository.OrderRepositoryImpl
 import vn.quanprolazer.fashione.data.network.service.OrderServiceImpl
 
 class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted private val product: Product,
                                                                      private val productRepositoryImpl: ProductRepository,
-                                                                     private val userRepositoryImpl: UserRepository
+                                                                     private val userRepositoryImpl: UserRepository,
+                                                                     private val orderRepository: OrderRepository
 
 ) : ViewModel() {
 
@@ -181,9 +182,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
     fun onClickAddToCart() {
         updateCartItemPrice()
         viewModelScope.launch {
-            when (OrderRepositoryImpl(OrderServiceImpl()).addToCart(
-                _cartItem.value!!, _user.value?.uid!!
-            )) {
+            when (orderRepository.addToCart(_cartItem.value!!)) {
                 is Result.Success -> _successMessage.value = "Thêm sản phẩm thành công"
                 is Result.Error -> _exceptionMessage.value = "Thêm sản phẩm thất bại"
             }
@@ -199,7 +198,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
         _cartItem.value?.price = _variantPrice.value.toString()
     }
 
-    @AssistedInject.Factory
+    @dagger.assisted.AssistedFactory
     interface AssistedFactory {
         fun create(product: Product): BottomSheetProductVariantViewModel
     }

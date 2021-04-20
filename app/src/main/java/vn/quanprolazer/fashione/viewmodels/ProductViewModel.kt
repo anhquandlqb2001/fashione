@@ -7,8 +7,8 @@
 package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductDetail
@@ -74,7 +74,7 @@ class ProductViewModel @AssistedInject constructor(private val productRepository
         _navigateToBottomSheet.value = null
     }
 
-    @AssistedInject.Factory
+    @dagger.assisted.AssistedFactory
     interface AssistedFactory {
         fun create(product: Product): ProductViewModel
     }

@@ -6,8 +6,8 @@
 
 package vn.quanprolazer.fashione.data.network.repository
 
-import androidx.hilt.Assisted
 import com.google.firebase.firestore.Source
+import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
@@ -17,10 +17,9 @@ import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.data.domain.repository.CategoryRepository
 import vn.quanprolazer.fashione.data.network.mapper.NetworkCategoryListMapper
 import vn.quanprolazer.fashione.data.network.service.CategoryService
-import javax.inject.Inject
 
 
-class CategoryRepositoryImpl @Inject constructor(
+class CategoryRepositoryImpl @AssistedInject constructor(
     private val categoryService: CategoryService,
     @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CategoryRepository {

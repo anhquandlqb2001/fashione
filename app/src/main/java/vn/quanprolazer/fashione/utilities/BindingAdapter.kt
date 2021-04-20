@@ -13,10 +13,13 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.google.android.material.snackbar.Snackbar
 import vn.quanprolazer.fashione.R
+import vn.quanprolazer.fashione.adapters.CartItemAdapter
+import vn.quanprolazer.fashione.data.domain.model.CartItem
+import vn.quanprolazer.fashione.data.domain.model.Result
 
 private const val PRODUCT_NAME_LIMIT = 10
 
@@ -98,5 +101,15 @@ fun setTotalPrice(
         view.visibility = View.VISIBLE
     } else {
         view.visibility = View.INVISIBLE
+    }
+}
+
+@BindingAdapter("cartItems")
+fun setCartItems(view: RecyclerView, cartItems: LiveData<Result<List<CartItem>>>?) {
+    cartItems?.let {
+        when(cartItems.value) {
+            is Result.Success -> (view.adapter as CartItemAdapter).submitList((cartItems.value as Result.Success<List<CartItem>>).data)
+            else -> {}
+        }
     }
 }
