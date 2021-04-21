@@ -94,4 +94,19 @@ class ProductServiceImpl : ProductService {
             listOf()
         }
     }
+
+    override suspend fun getProductImagesByProductId(productId: String): List<NetworkProductImage> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            db.collection("product_images")
+                .whereEqualTo("product_id", productId)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toObject(NetworkProductImage::class.java) }
+        } catch (e: Exception) {
+            Timber.e(e)
+            listOf()
+        }
+    }
 }

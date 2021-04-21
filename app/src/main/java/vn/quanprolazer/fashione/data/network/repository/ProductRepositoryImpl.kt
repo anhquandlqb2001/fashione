@@ -12,10 +12,8 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import vn.quanprolazer.fashione.data.domain.model.Product
-import vn.quanprolazer.fashione.data.domain.model.ProductDetail
-import vn.quanprolazer.fashione.data.domain.model.ProductVariant
-import vn.quanprolazer.fashione.data.domain.model.Result
+import timber.log.Timber
+import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.network.mapper.*
 import vn.quanprolazer.fashione.data.network.service.ProductService
@@ -71,6 +69,12 @@ class ProductRepositoryImpl @AssistedInject constructor(
                 productVariants.add(productVariant)
             }
             productVariants
+        }
+    }
+
+    override suspend fun getProductImagesByProductId(productId: String): List<ProductImage> {
+        return withContext(dispatcher) {
+            NetworkProductImagesMapper.map(productService.getProductImagesByProductId(productId))
         }
     }
 }

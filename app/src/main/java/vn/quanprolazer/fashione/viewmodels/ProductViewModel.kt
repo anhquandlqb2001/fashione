@@ -12,12 +12,24 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductDetail
+import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 
 
 class ProductViewModel @AssistedInject constructor(private val productRepositoryImpl: ProductRepository,
                                                    @Assisted val product: Product
 ) : ViewModel() {
+
+
+    private val _productImages by lazy {
+        val liveData = MutableLiveData<List<ProductImage>>()
+        viewModelScope.launch {
+            liveData.value = productRepositoryImpl.getProductImagesByProductId(product.id)
+        }
+        return@lazy liveData
+    }
+
+    val productImages: LiveData<List<ProductImage>> get() = _productImages
 
     /**
      * Variable to store data about product

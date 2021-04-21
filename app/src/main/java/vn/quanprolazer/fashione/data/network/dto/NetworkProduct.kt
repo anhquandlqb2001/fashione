@@ -57,9 +57,7 @@ data class NetworkProductDetail(
     @SerialName("product_id")
     var productId: String = "",
     @SerialName("description")
-    val description: String = "",
-    @SerialName("images")
-    val images: List<NetworkProductImage> = listOf(NetworkProductImage()),
+    val description: String = ""
 )
 
 
@@ -69,6 +67,17 @@ data class NetworkProductDetail(
  */
 @Serializable
 data class NetworkProductImage(
+    @DocumentId
+    val id: String = "",
+    @set:PropertyName("product_id")
+    @get:PropertyName("product_id")
+    var productId: String = "",
+    @set:PropertyName("variant_id")
+    @get:PropertyName("variant_id")
+    var variantId: String = "",
+    @set:PropertyName("variant_option_id")
+    @get:PropertyName("variant_option_id")
+    var variantOptionId: String = "",
     val url: String = ""
 )
 

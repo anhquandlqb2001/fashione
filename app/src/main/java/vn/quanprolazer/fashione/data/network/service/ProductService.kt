@@ -8,10 +8,7 @@ package vn.quanprolazer.fashione.data.network.service
 
 import com.google.firebase.firestore.Source
 import vn.quanprolazer.fashione.data.domain.model.Result
-import vn.quanprolazer.fashione.data.network.dto.NetworkProduct
-import vn.quanprolazer.fashione.data.network.dto.NetworkProductDetail
-import vn.quanprolazer.fashione.data.network.dto.NetworkProductVariant
-import vn.quanprolazer.fashione.data.network.dto.NetworkProductVariantOption
+import vn.quanprolazer.fashione.data.network.dto.*
 
 interface ProductService {
 
@@ -25,5 +22,6 @@ interface ProductService {
 
     suspend fun getProductVariantOptionsByProductVariantId(variantId: String): List<NetworkProductVariantOption>
 
+    suspend fun getProductImagesByProductId(productId: String): List<NetworkProductImage>
 
 }

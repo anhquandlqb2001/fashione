@@ -37,12 +37,15 @@ data class ProductDetail(
     val id: String = "",
     val productId: String = "",
     val description: String = "",
-    val images: List<ProductImage> = listOf(),
 ) : Parcelable
 
 
 @Parcelize
 data class ProductImage(
+    val id: String,
+    val productId: String,
+    val variantId: String,
+    val variantOptionId: String,
     val url: String,
 ) : Parcelable
 

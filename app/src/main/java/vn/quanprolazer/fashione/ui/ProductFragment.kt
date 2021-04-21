@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 import vn.quanprolazer.fashione.viewmodels.ProductSharedViewModel
@@ -29,6 +30,9 @@ import javax.inject.Inject
 class ProductFragment : Fragment() {
 
     private var _binding: FragmentProductDetailBinding? = null
+
+    private val productImageAdapter = ProductImageAdapter()
+
 
     private val binding get() = _binding!!
 
@@ -57,10 +61,9 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val productImageAdapter = ProductImageAdapter()
         binding.rvProductImage.adapter = productImageAdapter
 
-        observeProductDetail(productImageAdapter)
+        observeProductImages(productImageAdapter)
 
         // snap scroll image slider
         snapHelper.attachToRecyclerView(binding.rvProductImage)
@@ -106,9 +109,9 @@ class ProductFragment : Fragment() {
         })
     }
 
-    private fun observeProductDetail(productImageAdapter: ProductImageAdapter) {
-        viewModel.productDetail.observe(viewLifecycleOwner, {
-            productImageAdapter.submitList(it.images)
+    private fun observeProductImages(productImageAdapter: ProductImageAdapter) {
+        viewModel.productImages.observe(viewLifecycleOwner, {
+            productImageAdapter.submitList(it)
         })
     }
 
