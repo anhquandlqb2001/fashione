@@ -23,8 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val categoryRepositoryImpl: CategoryRepository,
-    private val productRepositoryImpl: ProductRepository
+    private val categoryRepository: CategoryRepository,
+    private val productRepository: ProductRepository
 ) : ViewModel() {
 
     /**
@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
     private val _categories by lazy {
         val liveData = MutableLiveData<List<Category>>()
         viewModelScope.launch {
-            when (val getCategoryResponse = categoryRepositoryImpl.getCategoryList()) {
+            when (val getCategoryResponse = categoryRepository.getCategoryList()) {
                 is Result.Success -> liveData.value = getCategoryResponse.data
                 is Result.Error -> _exception.value = getCategoryResponse.exception
             }
@@ -61,7 +61,7 @@ class HomeViewModel @Inject constructor(
     private val _products by lazy {
         val liveData = MutableLiveData<List<Product>>()
         viewModelScope.launch {
-            when (val getProductResponse = productRepositoryImpl.getProducts(Source.SERVER)) {
+            when (val getProductResponse = productRepository.getProducts(Source.SERVER)) {
                 is Result.Success -> liveData.value = getProductResponse.data
                 is Result.Error -> _exception.value = getProductResponse.exception
             }

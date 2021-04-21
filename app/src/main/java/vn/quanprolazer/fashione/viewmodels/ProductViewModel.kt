@@ -16,7 +16,7 @@ import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 
 
-class ProductViewModel @AssistedInject constructor(private val productRepositoryImpl: ProductRepository,
+class ProductViewModel @AssistedInject constructor(private val productRepository: ProductRepository,
                                                    @Assisted val product: Product
 ) : ViewModel() {
 
@@ -24,7 +24,7 @@ class ProductViewModel @AssistedInject constructor(private val productRepository
     private val _productImages by lazy {
         val liveData = MutableLiveData<List<ProductImage>>()
         viewModelScope.launch {
-            liveData.value = productRepositoryImpl.getProductImagesByProductId(product.id)
+            liveData.value = productRepository.getProductImagesByProductId(product.id)
         }
         return@lazy liveData
     }
@@ -38,7 +38,7 @@ class ProductViewModel @AssistedInject constructor(private val productRepository
     private val _productDetail by lazy {
         val liveData = MutableLiveData<ProductDetail>()
         viewModelScope.launch {
-            liveData.value = productRepositoryImpl.getProductDetailByProductId(product.id)
+            liveData.value = productRepository.getProductDetailByProductId(product.id)
         }
         return@lazy liveData
     }

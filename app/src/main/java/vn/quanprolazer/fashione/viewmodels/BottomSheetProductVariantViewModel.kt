@@ -16,14 +16,14 @@ import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 
 class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted private val product: Product,
-                                                                     private val productRepositoryImpl: ProductRepository,
-                                                                     private val userRepositoryImpl: UserRepository,
+                                                                     private val productRepository: ProductRepository,
+                                                                     private val userRepository: UserRepository,
                                                                      private val orderRepository: OrderRepository
 
 ) : ViewModel() {
 
     private val _user: UserRepository.FirebaseUserLiveData by lazy {
-        userRepositoryImpl.getUser()
+        userRepository.getUser()
     }
 
     /**
@@ -34,7 +34,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
         val liveData = MutableLiveData<List<ProductVariant>>()
         viewModelScope.launch {
             liveData.value =
-                productRepositoryImpl.getProductVariantsAndOptionsByProductId(product.id)
+                productRepository.getProductVariantsAndOptionsByProductId(product.id)
 
         }
         return@lazy liveData
