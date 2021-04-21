@@ -13,13 +13,10 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import timber.log.Timber
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.adapters.CartItemAdapter
-import vn.quanprolazer.fashione.data.domain.model.CartItem
+import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.model.Result
 
 private const val PRODUCT_NAME_LIMIT = 10
@@ -43,20 +40,10 @@ fun setProductName(view: TextView, productName: String?) {
 @BindingAdapter("imageUrl")
 fun bindImage(view: ImageView, imageUrl: String?) {
     imageUrl?.let {
-        val imgUri =
-            imageUrl
-                .toUri()
-                .buildUpon()
-                .scheme("https")
-                .build()
-        Glide.with(view.context)
-            .load(imgUri)
-            .apply(
-                RequestOptions()
-                    .placeholder(R.drawable.loading_anim)
-                    .error(R.drawable.ic_broken)
-            )
-            .into(view)
+        val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
+        Glide.with(view.context).load(imgUri).apply(
+            RequestOptions().placeholder(R.drawable.loading_anim).error(R.drawable.ic_broken)
+        ).into(view)
     }
 }
 
@@ -92,31 +79,28 @@ fun addToCartVisible(view: Button, orderQty: LiveData<Number>?) {
 }
 
 @BindingAdapter(value = ["variantQty", "variantPrice"], requireAll = false)
-fun setTotalPrice(
-    view: TextView,
-    orderQty: LiveData<Number>?,
-    variantPrice: LiveData<String>?
+fun setTotalPrice(view: TextView, orderQty: LiveData<Number>?, variantPrice: LiveData<String>?
 ) {
     if (orderQty?.value != 0 && variantPrice?.value != "0") {
-        view.text = "Tổng tiền: " + convertPriceStringToCurrencyString((variantPrice?.value!!.toInt() * orderQty?.value!!.toInt()).toString())
+        view.text =
+            "Tổng tiền: " + convertPriceStringToCurrencyString((variantPrice?.value!!.toInt() * orderQty?.value!!.toInt()).toString())
         view.visibility = View.VISIBLE
     } else {
         view.visibility = View.INVISIBLE
     }
 }
 
-@BindingAdapter("cartItems")
-fun setCartItems(view: RecyclerView, cartItems: LiveData<Result<List<CartItem>>>?) {
-    cartItems?.value?.let {
-        when(cartItems.value) {
+@BindingAdapter("cartImage")
+fun cartImage(view: ImageView, cartImage: Result<ProductImage>?) {
+    cartImage?.let {
+        when (cartImage) {
             is Result.Success -> {
-                (view.adapter as CartItemAdapter).submitList((cartItems.value as Result.Success<List<CartItem>>).data)
-                view.visibility = View.VISIBLE
+                bindImage(view, cartImage.data.url)
             }
             is Result.Loading -> {
-                view.visibility = View.INVISIBLE
             }
-            else -> {}
+            else -> {
+            }
         }
     }
 }

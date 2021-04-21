@@ -14,6 +14,6 @@ interface OrderRepository {
 
     suspend fun addToCart(addToCartItem: AddToCartItem): Result<Boolean>
 
-    suspend fun getCartItems(): Result<List<CartItem>>
+    suspend fun getCartItems(): Result<MutableList<CartItem>>
 
 }

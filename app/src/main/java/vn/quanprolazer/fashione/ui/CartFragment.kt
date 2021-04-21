@@ -17,12 +17,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
-import java.util.*
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
@@ -33,7 +31,7 @@ class CartFragment : Fragment() {
 
     private val viewModel: CartViewModel by viewModels()
 
-    private val adapter = CartItemAdapter()
+    private val adapter: CartItemAdapter by lazy { CartItemAdapter() }
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -50,14 +48,18 @@ class CartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding.rvCart.adapter = adapter
         binding.rvCart.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-        viewModel.cartItem.observe(viewLifecycleOwner, {
+        observeCartItems()
+    }
+
+    private fun observeCartItems() {
+        viewModel.cartItems.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
                     is Result.Success -> {
+                        viewModel.updateCartItemsImage()
                         Handler(Looper.getMainLooper()).postDelayed({
                             adapter.submitList(it.data)
                             binding.rvCart.visibility = View.VISIBLE
@@ -71,6 +73,8 @@ class CartFragment : Fragment() {
                         // Error handler
                     }
                 }
+
+
             }
         })
     }

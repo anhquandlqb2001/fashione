@@ -46,7 +46,7 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
         }
     }
 
-    override suspend fun getCartItems(): Result<List<CartItem>> {
+    override suspend fun getCartItems(): Result<MutableList<CartItem>> {
         //        if (userRepository.getAuthenticateState().value != AuthenticationState.AUTHENTICATED) {
         //            return Result.Error(Exception("User not login yet"))
         //        }
@@ -56,48 +56,10 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
         }
 
 
-
         return when (result) {
-            is Result.Success -> Result.Success(NetworkCartItemsMapper.map(result.data))
+            is Result.Success -> Result.Success(NetworkCartItemsMapper.map(result.data).toMutableList())
             is Result.Error -> Result.Error(result.exception)
             else -> Result.Loading(null)
         }
     }
 }
-
-//    Result.Success(result.data.map {
-//        when (val img = withContext(Dispatchers.IO) {
-//            productRepository.getProductImageByProductVariantId(it.variantId)
-//        }) {
-//            is Result.Success -> {
-//                CartItem(
-//                    it.id,
-//                    it.productId,
-//                    it.userId,
-//                    it.variantId,
-//                    it.variantOptionId,
-//                    it.variantName,
-//                    it.variantValue,
-//                    it.quantity,
-//                    it.price,
-//                    img.data
-//                )
-//            }
-//            else -> {
-//                CartItem(
-//                    it.id,
-//                    it.productId,
-//                    it.userId,
-//                    it.variantId,
-//                    it.variantOptionId,
-//                    it.variantName,
-//                    it.variantValue,
-//                    it.quantity,
-//                    it.price,
-//                    ProductImage("", "", "", "", "")
-//                )
-//            }
-//        }
-//
-//    })
-//}

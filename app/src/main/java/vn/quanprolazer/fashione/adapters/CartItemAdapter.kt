@@ -8,10 +8,14 @@ package vn.quanprolazer.fashione.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.data.domain.model.CartItem
+import vn.quanprolazer.fashione.data.domain.model.Category
+import vn.quanprolazer.fashione.data.domain.model.ProductImage
+import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.databinding.ListItemCartBinding
 
 
@@ -19,7 +23,6 @@ import vn.quanprolazer.fashione.databinding.ListItemCartBinding
 class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder>(
     CartItemDiffCallback
 ) {
-
     class CartItemViewHolder(private val binding: ListItemCartBinding) : RecyclerView.ViewHolder(binding.root) {
         companion object {
             fun from(parent: ViewGroup): CartItemViewHolder {
@@ -35,9 +38,6 @@ class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder
         }
     }
 
-
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemViewHolder {
         return CartItemViewHolder.from(parent)
     }
@@ -46,6 +46,7 @@ class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder
         holder.bind(getItem(position))
     }
 }
+
 
 object CartItemDiffCallback : DiffUtil.ItemCallback<CartItem>() {
     override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
