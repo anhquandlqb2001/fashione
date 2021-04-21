@@ -23,4 +23,6 @@ interface ProductRepository {
 
     suspend fun getProductImagesByProductId(productId: String): List<ProductImage>
 
+    suspend fun getProductImageByProductVariantId(variantId: String): Result<ProductImage>
+
 }

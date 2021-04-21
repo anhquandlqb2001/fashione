@@ -16,6 +16,7 @@ import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.CartItem
@@ -106,7 +107,7 @@ fun setTotalPrice(
 
 @BindingAdapter("cartItems")
 fun setCartItems(view: RecyclerView, cartItems: LiveData<Result<List<CartItem>>>?) {
-    cartItems?.let {
+    cartItems?.value?.let {
         when(cartItems.value) {
             is Result.Success -> (view.adapter as CartItemAdapter).submitList((cartItems.value as Result.Success<List<CartItem>>).data)
             else -> {}

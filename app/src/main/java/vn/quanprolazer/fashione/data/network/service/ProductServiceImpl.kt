@@ -109,4 +109,21 @@ class ProductServiceImpl : ProductService {
             listOf()
         }
     }
+
+    override suspend fun getProductImageByVariantId(variantId: String): Result<NetworkProductImage> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val response = db.collection("product_images")
+                .whereEqualTo("variant_id", variantId)
+                .get()
+                .await()
+                .documents
+                .mapNotNull { it.toObject(NetworkProductImage::class.java) }
+
+            Result.Success(response[0])
+        } catch (e: Exception) {
+            Timber.e(e)
+            Result.Error(e)
+        }
+    }
 }

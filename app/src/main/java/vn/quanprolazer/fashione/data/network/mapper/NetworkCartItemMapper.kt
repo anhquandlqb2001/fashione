@@ -11,7 +11,7 @@ import vn.quanprolazer.fashione.data.mapper.ListMapper
 import vn.quanprolazer.fashione.data.network.dto.NetworkCartItem
 
 
-object NetworkCartItemMapper : ListMapper<NetworkCartItem, CartItem> {
+object NetworkCartItemsMapper : ListMapper<NetworkCartItem, CartItem> {
     override fun map(input: List<NetworkCartItem>): List<CartItem> {
         return input.map {
             CartItem(
@@ -23,7 +23,8 @@ object NetworkCartItemMapper : ListMapper<NetworkCartItem, CartItem> {
                 it.variantName,
                 it.variantValue,
                 it.quantity,
-                it.price
+                it.price,
+                null
             )
         }
     }

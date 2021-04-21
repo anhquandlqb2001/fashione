@@ -24,4 +24,5 @@ interface ProductService {
 
     suspend fun getProductImagesByProductId(productId: String): List<NetworkProductImage>
 
+    suspend fun getProductImageByVariantId(variantId: String): Result<NetworkProductImage>
 }

@@ -15,11 +15,7 @@ object NetworkProductListMapper : ListMapper<NetworkProduct, Product> {
     override fun map(input: List<NetworkProduct>): List<Product> {
         return input.map {
             Product(
-                it.id.orEmpty(),
-                it.categoryId,
-                it.name,
-                it.thumbnailUrl,
-                it.price
+                it.id.orEmpty(), it.categoryId, it.name, it.thumbnailUrl, it.price
             )
         }
     }
@@ -29,11 +25,7 @@ object NetworkProductListAlgoliaMapper : ListMapper<NetworkAlgoliaProduct, Produ
     override fun map(input: List<NetworkAlgoliaProduct>): List<Product> {
         return input.map {
             Product(
-                it.id,
-                it.category_id,
-                it.name,
-                it.thumbnail_url,
-                it.price
+                it.id, it.category_id, it.name, it.thumbnail_url, it.price
             )
         }
     }
@@ -51,6 +43,11 @@ object NetworkProductDetailMapper : Mapper<NetworkProductDetail, ProductDetail> 
 object NetworkProductImagesMapper : ListMapper<NetworkProductImage, ProductImage> {
     override fun map(input: List<NetworkProductImage>) =
         input.map { ProductImage(it.id, it.productId, it.variantId, it.variantOptionId, it.url) }
+}
+
+object NetworkProductImageMapper : Mapper<NetworkProductImage, ProductImage> {
+    override fun map(input: NetworkProductImage) =
+        ProductImage(input.id, input.productId, input.variantId, input.variantOptionId, input.url)
 }
 
 object NetworkProductVariantOptionsMapper :

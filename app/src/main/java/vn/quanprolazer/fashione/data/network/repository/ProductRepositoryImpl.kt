@@ -15,13 +15,13 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
+import vn.quanprolazer.fashione.data.network.dto.NetworkProductImage
 import vn.quanprolazer.fashione.data.network.mapper.*
 import vn.quanprolazer.fashione.data.network.service.ProductService
 import vn.quanprolazer.fashione.data.network.service.SearchServiceImpl
 
-class ProductRepositoryImpl @AssistedInject constructor(
-    private val productService: ProductService,
-    @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.Default
+class ProductRepositoryImpl @AssistedInject constructor(private val productService: ProductService,
+                                                        @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : ProductRepository {
 
     override suspend fun getProducts(source: Source): Result<List<Product>> {
@@ -75,6 +75,17 @@ class ProductRepositoryImpl @AssistedInject constructor(
     override suspend fun getProductImagesByProductId(productId: String): List<ProductImage> {
         return withContext(dispatcher) {
             NetworkProductImagesMapper.map(productService.getProductImagesByProductId(productId))
+        }
+    }
+
+    override suspend fun getProductImageByProductVariantId(variantId: String): Result<ProductImage> {
+        val result = withContext(dispatcher) {
+            (productService.getProductImageByVariantId(variantId))
+        }
+
+        return when (result) {
+            is Result.Success -> Result.Success(NetworkProductImageMapper.map(result.data))
+            is Result.Error -> Result.Error(result.exception)
         }
     }
 }

@@ -15,5 +15,6 @@ data class CartItem(
     val variantName: String,
     val variantValue: String,
     val quantity: Int,
-    val price: String
+    val price: String,
+    val cartItemImg: ProductImage?
 )
