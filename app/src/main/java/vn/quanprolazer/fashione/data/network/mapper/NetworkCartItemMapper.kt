@@ -15,6 +15,7 @@ object NetworkCartItemMapper : ListMapper<NetworkCartItem, CartItem> {
     override fun map(input: List<NetworkCartItem>): List<CartItem> {
         return input.map {
             CartItem(
+                it.id,
                 it.productId,
                 it.userId,
                 it.variantId,

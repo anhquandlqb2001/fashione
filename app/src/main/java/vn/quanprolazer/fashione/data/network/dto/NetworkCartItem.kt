@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.data.network.dto
 
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -13,6 +14,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NetworkCartItem(
+    @DocumentId
+    val id: String = "",
     @SerialName("product_id")
     @set:PropertyName("product_id")
     @get:PropertyName("product_id")

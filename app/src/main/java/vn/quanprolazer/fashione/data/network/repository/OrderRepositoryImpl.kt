@@ -11,9 +11,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
-import vn.quanprolazer.fashione.data.domain.mapper.CartItemMapper
-import vn.quanprolazer.fashione.data.domain.model.AuthenticationState
+import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
@@ -25,14 +23,14 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
                                                       private val userRepository: UserRepository,
                                                       @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : OrderRepository {
-    override suspend fun addToCart(cartItem: CartItem): Result<Boolean> {
+    override suspend fun addToCart(addToCartItem: AddToCartItem): Result<Boolean> {
 
 //        if (userRepository.getAuthenticateState().value != AuthenticationState.AUTHENTICATED) {
 //            return Result.Error(Exception("User not login yet"))
 //        }
 
         val result = withContext(defaultDispatcher) {
-            orderService.addToCart(CartItemMapper.map(cartItem), userRepository.getUser().value!!.uid)
+            orderService.addToCart(addToCartItem, userRepository.getUser().value!!.uid)
         }
 
 

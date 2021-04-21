@@ -10,14 +10,10 @@ import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import vn.quanprolazer.fashione.data.domain.model.CartItem
-import vn.quanprolazer.fashione.data.domain.model.Product
-import vn.quanprolazer.fashione.data.domain.model.ProductVariant
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
-import vn.quanprolazer.fashione.data.network.service.OrderServiceImpl
 
 class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted private val product: Product,
                                                                      private val productRepositoryImpl: ProductRepository,
@@ -56,25 +52,25 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
      * Variable to store ProductOrder to send to Cart
      * Encapsulation
      */
-    private val _cartItem: MutableLiveData<CartItem> by lazy {
-        MutableLiveData(CartItem(product.id, _user.value?.uid!!))
+    private val _addToCartItem: MutableLiveData<AddToCartItem> by lazy {
+        MutableLiveData(AddToCartItem(product.id, _user.value?.uid!!))
     }
 
 
     /**
-     * Function to update [_cartItem] when user change variant
+     * Function to update [_addToCartItem] when user change variant
      * To Update VariantName
      */
     fun onChangeVariantName(name: String) {
-        _cartItem.value?.variantName = name
+        _addToCartItem.value?.variantName = name
     }
 
     /**
-     * Function to update [_cartItem]] when user change variant
+     * Function to update [_addToCartItem]] when user change variant
      * To Update VariantValue (Eg: size M, L,...)
      */
     fun onChangeVariantValue(value: String) {
-        _cartItem.value?.variantValue = value
+        _addToCartItem.value?.variantValue = value
     }
 
     /**
@@ -109,7 +105,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
     fun onDecreaseQty() {
         if (orderQty.value!!.toInt() > 0) {
             val t = orderQty.value!!.toInt() - 1
-            _cartItem.value?.quantity = t
+            _addToCartItem.value?.quantity = t
             orderQty.value = t
         }
     }
@@ -120,14 +116,14 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
     fun onIncreaseQty() {
         if (orderQty.value!!.toInt() < orderLimit) {
             val t = orderQty.value!!.toInt() + 1
-            _cartItem.value?.quantity = t
+            _addToCartItem.value?.quantity = t
             orderQty.value = t
         }
     }
 
     /**
      * Variable to store current price of variant
-     * To store to [_cartItem]
+     * To store to [_addToCartItem]
      *
      * Encapsulation
      */
@@ -137,7 +133,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
 
     /**
      * Variable to store current price of variant
-     * To store to [_cartItem]
+     * To store to [_addToCartItem]
      */
     val variantPrice: LiveData<String> by lazy {
         _variantPrice
@@ -154,8 +150,8 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
      * Function to update variant id, when user choose variant value
      */
     fun updateCartItemVariantId(variantId: String, variantOptionId: String) {
-        _cartItem.value?.variantId = variantId
-        _cartItem.value?.variantOptionId = variantOptionId
+        _addToCartItem.value?.variantId = variantId
+        _addToCartItem.value?.variantOptionId = variantOptionId
     }
 
     /**
@@ -182,7 +178,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
     fun onClickAddToCart() {
         updateCartItemPrice()
         viewModelScope.launch {
-            when (orderRepository.addToCart(_cartItem.value!!)) {
+            when (orderRepository.addToCart(_addToCartItem.value!!)) {
                 is Result.Success -> _successMessage.value = "Thêm sản phẩm thành công"
                 is Result.Error -> _exceptionMessage.value = "Thêm sản phẩm thất bại"
             }
@@ -192,10 +188,10 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
 
     /**
      * Function to call when user click Add to cart button
-     * Update [_cartItem] price value
+     * Update [_addToCartItem] price value
      */
     private fun updateCartItemPrice() {
-        _cartItem.value?.price = _variantPrice.value.toString()
+        _addToCartItem.value?.price = _variantPrice.value.toString()
     }
 
     @dagger.assisted.AssistedFactory
