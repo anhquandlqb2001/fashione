@@ -26,9 +26,7 @@ data class Product(
     val categoryId: String,
     val name: String,
     val thumbnailUrl: String,
-    val price: String,
-    var detail: ProductDetail,
-    val variants: List<ProductVariant>
+    val price: String
 ) : Parcelable
 
 

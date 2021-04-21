@@ -19,9 +19,7 @@ object NetworkProductListMapper : ListMapper<NetworkProduct, Product> {
                 it.categoryId,
                 it.name,
                 it.thumbnailUrl,
-                it.price,
-                ProductDetail(),
-                listOf(ProductVariant())
+                it.price
             )
         }
     }
@@ -35,9 +33,7 @@ object NetworkProductListAlgoliaMapper : ListMapper<NetworkAlgoliaProduct, Produ
                 it.category_id,
                 it.name,
                 it.thumbnail_url,
-                it.price,
-                ProductDetail(),
-                listOf(ProductVariant())
+                it.price
             )
         }
     }

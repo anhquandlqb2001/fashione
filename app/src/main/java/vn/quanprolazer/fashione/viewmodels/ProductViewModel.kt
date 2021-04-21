@@ -46,13 +46,8 @@ class ProductViewModel @AssistedInject constructor(private val productRepository
     /**
      * Variable to store data about product
      */
-    val productDetail: LiveData<ProductDetail> by lazy {
-        _productDetail
-    }
+    val productDetail: LiveData<ProductDetail> get() = _productDetail
 
-    private fun updateProductDetail() {
-        product.detail = productDetail.value!!
-    }
 
     /**
      * Variable store data pass to SafeArgs when open BottomSheetFragmentDialog
@@ -73,7 +68,6 @@ class ProductViewModel @AssistedInject constructor(private val productRepository
      * Function to update [_navigateToBottomSheet] when user click Buy button
      */
     fun onNavigateToBottomSheet(product: Product) {
-        updateProductDetail()
         _navigateToBottomSheet.value = product
     }
 

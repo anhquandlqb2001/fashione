@@ -43,9 +43,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
     /**
      * Variable to store available Product Variants
      */
-    val productVariants: LiveData<List<ProductVariant>> by lazy {
-        _productVariants
-    }
+    val productVariants: LiveData<List<ProductVariant>> get() = _productVariants
 
 
     /**
