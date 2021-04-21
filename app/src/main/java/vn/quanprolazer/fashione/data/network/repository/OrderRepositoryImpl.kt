@@ -26,7 +26,7 @@ import java.lang.Exception
 class OrderRepositoryImpl @AssistedInject constructor(private val orderService: OrderService,
                                                       private val userRepository: UserRepository,
                                                       private val productRepository: ProductRepository,
-                                                      @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
+                                                      @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : OrderRepository {
     override suspend fun addToCart(addToCartItem: AddToCartItem): Result<Boolean> {
 
@@ -42,6 +42,7 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
         return when (result) {
             is Result.Success -> Result.Success(true)
             is Result.Error -> Result.Error(result.exception)
+            else -> Result.Loading(null)
         }
     }
 
@@ -59,6 +60,7 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
         return when (result) {
             is Result.Success -> Result.Success(NetworkCartItemsMapper.map(result.data))
             is Result.Error -> Result.Error(result.exception)
+            else -> Result.Loading(null)
         }
     }
 }

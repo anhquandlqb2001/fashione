@@ -33,6 +33,7 @@ class CategoryRepositoryImpl @AssistedInject constructor(
         return when (result) {
             is Result.Success -> Result.Success(NetworkCategoryListMapper.map(result.data))
             is Result.Error -> Result.Error(result.exception)
+            else -> Result.Loading(null)
         }
     }
 
@@ -44,6 +45,8 @@ class CategoryRepositoryImpl @AssistedInject constructor(
         return when (result) {
             is Result.Success -> Result.Success(NetworkCategoryListMapper.map(result.data))
             is Result.Error -> Result.Error(result.exception)
+            else -> Result.Loading(null)
+
         }
     }
 }

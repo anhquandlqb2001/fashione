@@ -31,10 +31,9 @@ class ProductRepositoryImpl @AssistedInject constructor(private val productServi
         }
 
         return when (response) {
-            is Result.Success -> {
-                Result.Success(NetworkProductListMapper.map(response.data))
-            }
+            is Result.Success -> Result.Success(NetworkProductListMapper.map(response.data))
             is Result.Error -> Result.Error(response.exception)
+            is Result.Loading -> Result.Loading(null)
         }
     }
 
@@ -86,6 +85,7 @@ class ProductRepositoryImpl @AssistedInject constructor(private val productServi
         return when (result) {
             is Result.Success -> Result.Success(NetworkProductImageMapper.map(result.data))
             is Result.Error -> Result.Error(result.exception)
+            else -> Result.Loading(null)
         }
     }
 }

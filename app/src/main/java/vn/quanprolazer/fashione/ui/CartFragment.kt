@@ -7,6 +7,8 @@
 package vn.quanprolazer.fashione.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,7 @@ import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
+import java.util.*
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
@@ -53,9 +56,20 @@ class CartFragment : Fragment() {
 
         viewModel.cartItem.observe(viewLifecycleOwner, {
             it?.let {
-                when(it) {
-                    is Result.Success -> { adapter.submitList(it.data) }
-                    else -> {}
+                when (it) {
+                    is Result.Success -> {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            adapter.submitList(it.data)
+                            binding.rvCart.visibility = View.VISIBLE
+                            binding.cpLoading.visibility = View.INVISIBLE
+                        }, 1000)
+                    }
+                    is Result.Loading -> {
+                        binding.cpLoading.visibility = View.VISIBLE
+                    }
+                    else -> {
+                        // Error handler
+                    }
                 }
             }
         })

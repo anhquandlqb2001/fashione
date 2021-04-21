@@ -109,7 +109,13 @@ fun setTotalPrice(
 fun setCartItems(view: RecyclerView, cartItems: LiveData<Result<List<CartItem>>>?) {
     cartItems?.value?.let {
         when(cartItems.value) {
-            is Result.Success -> (view.adapter as CartItemAdapter).submitList((cartItems.value as Result.Success<List<CartItem>>).data)
+            is Result.Success -> {
+                (view.adapter as CartItemAdapter).submitList((cartItems.value as Result.Success<List<CartItem>>).data)
+                view.visibility = View.VISIBLE
+            }
+            is Result.Loading -> {
+                view.visibility = View.INVISIBLE
+            }
             else -> {}
         }
     }
