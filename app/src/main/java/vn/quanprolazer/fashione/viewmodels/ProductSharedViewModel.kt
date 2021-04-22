@@ -33,4 +33,9 @@ class ProductSharedViewModel : ViewModel() {
         _successMessage.value = message
     }
 
+    fun doneObserve() {
+        _successMessage.value = null
+        _exceptionMessage.value = null
+    }
+
 }

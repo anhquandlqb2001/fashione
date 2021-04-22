@@ -81,6 +81,7 @@ class ProductFragment : Fragment() {
         sharedViewModel.successMessage.observe(viewLifecycleOwner, {
             it?.let {
                 makeSnackBar(it)
+                sharedViewModel.doneObserve()
             }
         })
     }
@@ -89,6 +90,7 @@ class ProductFragment : Fragment() {
         sharedViewModel.exceptionMessage.observe(viewLifecycleOwner, {
             it?.let {
                 makeSnackBar(it)
+                sharedViewModel.doneObserve()
             }
         })
     }
