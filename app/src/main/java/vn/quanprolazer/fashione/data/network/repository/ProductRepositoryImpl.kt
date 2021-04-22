@@ -19,7 +19,7 @@ import vn.quanprolazer.fashione.data.network.service.ProductService
 import vn.quanprolazer.fashione.data.network.service.SearchServiceImpl
 
 class ProductRepositoryImpl @AssistedInject constructor(private val productService: ProductService,
-                                                        @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.Default
+                                                        @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
     override suspend fun getProducts(source: Source): Result<List<Product>> {
