@@ -120,11 +120,14 @@ class MainActivity : AppCompatActivity() {
         binding.navigationView.setNavigationItemSelectedListener {
 
             when (it.itemId) {
+                R.id.menu_item_home -> {
+                    navigateToFragment(R.id.homeFragment)
+                }
                 R.id.menu_item_login -> {
                     launchSignInFlow()
                 }
                 R.id.menu_item_cart -> {
-                    this.findNavController(R.id.nav_host_fragment).navigate(HomeFragmentDirections.actionHomeFragmentToCartFragment())
+                    navigateToFragment(R.id.cartFragment)
                 }
                 else -> {
                 }
@@ -133,6 +136,10 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
+
+    private fun navigateToFragment(resId: Int) =
+        this.findNavController(R.id.nav_host_fragment).navigate(resId)
 
 
     /**
@@ -154,7 +161,7 @@ class MainActivity : AppCompatActivity() {
         setupActionBarWithNavController(navController, binding.drawerLayout)
 
         // remove toolbar title
-//        supportActionBar?.setDisplayShowTitleEnabled(false);
+        //        supportActionBar?.setDisplayShowTitleEnabled(false);
 
 
         // finally setup the left drawer (called a NavigationView)
@@ -164,7 +171,7 @@ class MainActivity : AppCompatActivity() {
             val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
             when (destination.id) {
                 R.id.homeFragment -> {
-//                    toolBar.setDisplayShowTitleEnabled(false)
+                    //                    toolBar.setDisplayShowTitleEnabled(false)
                     // custom menu icon
                     toolBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_36dp)
                 }
@@ -195,12 +202,8 @@ class MainActivity : AppCompatActivity() {
         // We listen to the response of this activity with the
         // SIGN_IN_REQUEST_CODE.
         startActivityForResult(
-            AuthUI.getInstance()
-                .createSignInIntentBuilder()
-                .setAvailableProviders(providers)
-                .setTheme(R.style.LoginTheme)
-                .build(),
-            SIGN_IN_REQUEST_CODE
+            AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers)
+                .setTheme(R.style.LoginTheme).build(), SIGN_IN_REQUEST_CODE
         )
     }
 
