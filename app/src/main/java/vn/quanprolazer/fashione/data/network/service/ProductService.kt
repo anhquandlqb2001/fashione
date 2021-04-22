@@ -14,15 +14,15 @@ interface ProductService {
 
     suspend fun getProducts(source: Source = Source.DEFAULT): Result<List<NetworkProduct>>
 
-    suspend fun getProductsByCategoryId(categoryId: String): List<NetworkProduct>
+    suspend fun getProductsByCategoryId(categoryId: String): Result<List<NetworkProduct>>
 
-    suspend fun getProductDetailByProductId(productId: String): NetworkProductDetail
+    suspend fun getProductDetailByProductId(productId: String): Result<NetworkProductDetail>
 
-    suspend fun getProductVariantsByProductId(productId: String): List<NetworkProductVariant>
+    suspend fun getProductVariantsByProductId(productId: String): Result<List<NetworkProductVariant>>
 
-    suspend fun getProductVariantOptionsByProductVariantId(variantId: String): List<NetworkProductVariantOption>
+    suspend fun getProductVariantOptionsByVariantId(variantId: String): Result<List<NetworkProductVariantOption>>
 
-    suspend fun getProductImagesByProductId(productId: String): List<NetworkProductImage>
+    suspend fun getProductImagesByProductId(productId: String): Result<List<NetworkProductImage>>
 
     suspend fun getProductImageByVariantId(variantId: String): Result<NetworkProductImage>
 }

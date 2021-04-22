@@ -13,6 +13,7 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import timber.log.Timber
+import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.data.network.Algolia
 import vn.quanprolazer.fashione.data.network.dto.NetworkAlgoliaProduct
 
@@ -22,16 +23,17 @@ object SearchServiceImpl : SearchService {
 
     override val coroutineContext = Job()
 
-    override suspend fun findProductsByQuery(query: String): List<NetworkAlgoliaProduct> {
+    override suspend fun findProductsByQuery(query: String): Result<List<NetworkAlgoliaProduct>> {
         return withContext(Dispatchers.Default) {
             try {
                 val response = index.search(Query(query), null)
-                Json { ignoreUnknownKeys = true }.decodeFromString(
+                val decodedResponse: List<NetworkAlgoliaProduct> = Json { ignoreUnknownKeys = true }.decodeFromString(
                     response!!.get("hits").toString()
                 )
+                Result.Success(decodedResponse)
             } catch (e: Exception) {
                 Timber.e(e)
-                listOf()
+                Result.Error(e)
             }
         }
     }

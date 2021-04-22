@@ -17,11 +17,7 @@ class ProductServiceImpl : ProductService {
     override suspend fun getProducts(source: Source): Result<List<NetworkProduct>> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            val list = db.collection("products")
-                .get(source)
-                .await()
-                .documents
-                .mapNotNull {
+            val list = db.collection("products").get(source).await().documents.mapNotNull {
                     it.toObject((NetworkProduct::class.java))
                 }
             Result.Success(list)
@@ -31,94 +27,83 @@ class ProductServiceImpl : ProductService {
         }
     }
 
-    override suspend fun getProductDetailByProductId(productId: String): NetworkProductDetail {
+    override suspend fun getProductDetailByProductId(productId: String): Result<NetworkProductDetail> {
         val db = FirebaseFirestore.getInstance()
 
         return try {
-            return db.collection("product_detail")
-                .whereEqualTo("product_id", productId)
-                .limit(1)
-                .get()
-                .await()
-                .documents
-                .mapNotNull { it.toObject(NetworkProductDetail::class.java) }[0]
+            val response =
+                db.collection("product_detail").whereEqualTo("product_id", productId).limit(1).get()
+                    .await().documents.mapNotNull { it.toObject(NetworkProductDetail::class.java) }[0]
+
+            Result.Success(response)
         } catch (e: Exception) {
             Timber.e(e)
-            NetworkProductDetail()
+            Result.Error(e)
         }
     }
 
-    override suspend fun getProductVariantsByProductId(productId: String): List<NetworkProductVariant> {
+    override suspend fun getProductVariantsByProductId(productId: String): Result<List<NetworkProductVariant>> {
         val db = FirebaseFirestore.getInstance()
 
         return try {
-            return db.collection("product_variants")
-                .whereEqualTo("product_id", productId)
-                .get()
-                .await()
-                .documents
-                .mapNotNull { it.toObject(NetworkProductVariant::class.java) }
+            val response =
+                db.collection("product_variants").whereEqualTo("product_id", productId).get()
+                    .await().documents.mapNotNull { it.toObject(NetworkProductVariant::class.java) }
+
+            Result.Success(response)
         } catch (e: Exception) {
             Timber.e(e)
-            listOf(NetworkProductVariant())
+            Result.Error(e)
         }
     }
 
-    override suspend fun getProductVariantOptionsByProductVariantId(variantId: String): List<NetworkProductVariantOption> {
+    override suspend fun getProductVariantOptionsByVariantId(variantId: String): Result<List<NetworkProductVariantOption>> {
         val db = FirebaseFirestore.getInstance()
-
         return try {
-            return db.collection("product_variant_options")
-                .whereEqualTo("variant_id", variantId)
-                .get()
-                .await()
-                .documents
-                .mapNotNull { it.toObject(NetworkProductVariantOption::class.java) }
+            val response =
+                db.collection("product_variant_options").whereEqualTo("variant_id", variantId).get()
+                    .await().documents.mapNotNull { it.toObject(NetworkProductVariantOption::class.java) }
+
+            Result.Success(response)
         } catch (e: Exception) {
             Timber.e(e)
-            listOf(NetworkProductVariantOption())
+            Result.Error(e)
         }
     }
 
-    override suspend fun getProductsByCategoryId(categoryId: String): List<NetworkProduct> {
+    override suspend fun getProductsByCategoryId(categoryId: String): Result<List<NetworkProduct>> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            db.collection("products")
-                .whereEqualTo("category_id", categoryId)
-                .get()
-                .await()
-                .documents
-                .mapNotNull { it.toObject(NetworkProduct::class.java) }
+            val response = db.collection("products").whereEqualTo("category_id", categoryId).get()
+                .await().documents.mapNotNull { it.toObject(NetworkProduct::class.java) }
+
+            Result.Success(response)
         } catch (e: Exception) {
             Timber.e(e)
-            listOf()
+            Result.Error(e)
         }
     }
 
-    override suspend fun getProductImagesByProductId(productId: String): List<NetworkProductImage> {
+    override suspend fun getProductImagesByProductId(productId: String): Result<List<NetworkProductImage>> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            db.collection("product_images")
-                .whereEqualTo("product_id", productId)
-                .get()
-                .await()
-                .documents
-                .mapNotNull { it.toObject(NetworkProductImage::class.java) }
+            val response =
+                db.collection("product_images").whereEqualTo("product_id", productId).get()
+                    .await().documents.mapNotNull { it.toObject(NetworkProductImage::class.java) }
+
+            Result.Success(response)
         } catch (e: Exception) {
             Timber.e(e)
-            listOf()
+            Result.Error(e)
         }
     }
 
     override suspend fun getProductImageByVariantId(variantId: String): Result<NetworkProductImage> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            val response = db.collection("product_images")
-                .whereEqualTo("variant_id", variantId)
-                .get()
-                .await()
-                .documents
-                .mapNotNull { it.toObject(NetworkProductImage::class.java) }
+            val response =
+                db.collection("product_images").whereEqualTo("variant_id", variantId).get()
+                    .await().documents.mapNotNull { it.toObject(NetworkProductImage::class.java) }
 
             Result.Success(response[0])
         } catch (e: Exception) {

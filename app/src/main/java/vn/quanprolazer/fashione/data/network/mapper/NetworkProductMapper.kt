@@ -55,3 +55,9 @@ object NetworkProductVariantOptionsMapper :
     override fun map(input: List<NetworkProductVariantOption>) =
         input.map { ProductVariantOption(it.id, it.value, it.quantity, it.price) }
 }
+
+
+object NetworkProductVariantsMapper : ListMapper<NetworkProductVariant, ProductVariant> {
+    override fun map(input: List<NetworkProductVariant>) =
+        input.map { ProductVariant(it.id, it.name) }
+}

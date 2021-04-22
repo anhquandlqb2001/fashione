@@ -13,15 +13,17 @@ interface ProductRepository {
 
     suspend fun getProducts(source: Source = Source.DEFAULT): Result<List<Product>>
 
-    suspend fun getProductsByCategoryId(categoryId: String): List<Product>
+    suspend fun getProductsByCategoryId(categoryId: String): Result<List<Product>>
 
-    suspend fun findProductsByQuery(query: String): List<Product>
+    suspend fun findProductsByQuery(query: String): Result<List<Product>>
 
-    suspend fun getProductDetailByProductId(productId: String): ProductDetail
+    suspend fun getProductDetailByProductId(productId: String): Result<ProductDetail>
 
-    suspend fun getProductVariantsAndOptionsByProductId(productId: String): List<ProductVariant>
+    suspend fun getProductVariantsByProductId(productId: String): Result<List<ProductVariant>>
 
-    suspend fun getProductImagesByProductId(productId: String): List<ProductImage>
+    suspend fun getProductVariantOptionsByVariantId(variantId: String): Result<List<ProductVariantOption>>
+
+    suspend fun getProductImagesByProductId(productId: String): Result<List<ProductImage>>
 
     suspend fun getProductImageByProductVariantId(variantId: String): Result<ProductImage>
 
