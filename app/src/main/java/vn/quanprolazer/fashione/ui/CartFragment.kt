@@ -17,6 +17,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Result
@@ -80,6 +81,7 @@ class CartFragment : Fragment() {
 
     private fun observeCartItemsSuccess(it: Result.Success<MutableList<CartItem>>) {
         viewModel.updateCartItemsImage()
+        viewModel.updateCartItemsProductName()
         Handler(Looper.getMainLooper()).postDelayed({
             if (it.data.size == 0) {
                 shouldDisplayBlankCart(View.VISIBLE)
@@ -87,8 +89,8 @@ class CartFragment : Fragment() {
                 return@postDelayed
             }
             shouldDisplayBlankCart(View.GONE)
-            adapter.submitList(it.data)
             shouldDisplayLoadingProgress(View.GONE)
+            adapter.submitList(it.data)
             binding.rvCart.visibility = View.VISIBLE
         }, 1000)
     }

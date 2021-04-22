@@ -47,4 +47,18 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
             it
         }
     }
+
+    fun updateCartItemsProductName() {
+        (_cartItems.value as Result.Success).data.mapInPlace {
+            viewModelScope.launch {
+                when (val product =
+                    productRepository.getProductByProductId(it.productId)) {
+                    is Result.Success -> it.product = Result.Success(product.data)
+                    is Result.Error -> Result.Error(product.exception)
+                    is Result.Loading -> it.product = Result.Loading(null)
+                }
+            }
+            it
+        }
+    }
 }

@@ -76,21 +76,13 @@ class ProductRepositoryImpl @AssistedInject constructor(private val productServi
 
     override suspend fun getProductVariantsByProductId(productId: String): Result<MutableList<ProductVariant>> {
         val response = withContext(dispatcher) {
-            //            val productVariants = mutableListOf<ProductVariant>()
             productService.getProductVariantsByProductId(productId)
-
-            //            for (networkVariant in networkProductVariants) {
-            //                val productVariant = ProductVariant(networkVariant.id, networkVariant.name)
-            //                productVariant.options = NetworkProductVariantOptionsMapper.map(
-            //                    productService.getProductVariantOptionsByProductVariantId(networkVariant.id)
-            //                )
-            //                productVariants.add(productVariant)
-            //            }
-            //            productVariants
         }
 
         return when (response) {
-            is Result.Success -> Result.Success(NetworkProductVariantsMapper.map(response.data).toMutableList())
+            is Result.Success -> Result.Success(
+                NetworkProductVariantsMapper.map(response.data).toMutableList()
+            )
             is Result.Loading -> Result.Loading(null)
             is Result.Error -> Result.Error(response.exception)
         }
@@ -126,6 +118,18 @@ class ProductRepositoryImpl @AssistedInject constructor(private val productServi
 
         return when (result) {
             is Result.Success -> Result.Success(NetworkProductImageMapper.map(result.data))
+            is Result.Error -> Result.Error(result.exception)
+            else -> Result.Loading(null)
+        }
+    }
+
+    override suspend fun getProductByProductId(productId: String): Result<Product> {
+        val result = withContext(dispatcher) {
+            (productService.getProductByProductId(productId))
+        }
+
+        return when (result) {
+            is Result.Success -> Result.Success(NetworkProductMapper.map(result.data))
             is Result.Error -> Result.Error(result.exception)
             else -> Result.Loading(null)
         }

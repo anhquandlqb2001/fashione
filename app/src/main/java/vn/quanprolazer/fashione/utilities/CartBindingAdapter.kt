@@ -11,6 +11,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.model.Result
 
@@ -47,5 +48,19 @@ fun TextView.variantOptionName(variantName: String?, variantValue: String?) {
     val texToDisplay = "Loại: $variantName - $variantValue"
 
     text = texToDisplay.smartTruncate(20)
+
+}
+
+@BindingAdapter("cartItemName")
+fun TextView.cartItemName(product: Result<Product>?) {
+    product?.let {
+        when(product) {
+            is Result.Success -> {
+                setProductName(product.data.name)
+            }
+            else -> {}
+        }
+    }
+
 
 }

@@ -18,9 +18,23 @@ class ProductServiceImpl : ProductService {
         val db = FirebaseFirestore.getInstance()
         return try {
             val list = db.collection("products").get(source).await().documents.mapNotNull {
-                    it.toObject((NetworkProduct::class.java))
-                }
+                it.toObject((NetworkProduct::class.java))
+            }
             Result.Success(list)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Result.Error(e)
+        }
+    }
+
+    override suspend fun getProductByProductId(productId: String): Result<NetworkProduct> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val response =
+                db.collection("products").document(productId).get()
+                    .await()
+
+            Result.Success(response.toObject(NetworkProduct::class.java)!!)
         } catch (e: Exception) {
             Timber.e(e)
             Result.Error(e)

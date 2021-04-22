@@ -11,6 +11,15 @@ import vn.quanprolazer.fashione.data.mapper.ListMapper
 import vn.quanprolazer.fashione.data.mapper.Mapper
 import vn.quanprolazer.fashione.data.network.dto.*
 
+object NetworkProductMapper : Mapper<NetworkProduct, Product> {
+    override fun map(input: NetworkProduct): Product {
+        return Product(
+            input.id.orEmpty(), input.categoryId, input.name, input.thumbnailUrl, input.price
+        )
+    }
+}
+
+
 object NetworkProductListMapper : ListMapper<NetworkProduct, Product> {
     override fun map(input: List<NetworkProduct>): List<Product> {
         return input.map {
