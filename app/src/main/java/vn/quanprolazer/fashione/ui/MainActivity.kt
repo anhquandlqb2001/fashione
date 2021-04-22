@@ -12,6 +12,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -32,10 +33,6 @@ import vn.quanprolazer.fashione.viewmodels.LoginViewModel
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
-    companion object {
-        const val SIGN_IN_REQUEST_CODE = 1
-    }
 
     private var _binding: ActivityMainBinding? = null
 
@@ -61,26 +58,6 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp() =
         navigateUp(findNavController(R.id.nav_host_fragment), binding.drawerLayout)
 
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SIGN_IN_REQUEST_CODE) {
-            val response = IdpResponse.fromResultIntent(data)
-
-            if (resultCode == Activity.RESULT_OK) {
-                // Successfully signed in
-                successLogin()
-            } else {
-                if (response != null) {
-                    when (response.error?.errorCode) {
-                        ErrorCodes.NO_NETWORK -> errorNetworkLogin()
-                        else -> errorUnHandledLogin()
-                    }
-                }
-
-            }
-        }
-    }
 
     override fun onDestroy() {
         super.onDestroy()
@@ -160,10 +137,6 @@ class MainActivity : AppCompatActivity() {
         // then setup the action bar, tell it about the DrawerLayout
         setupActionBarWithNavController(navController, binding.drawerLayout)
 
-        // remove toolbar title
-        //        supportActionBar?.setDisplayShowTitleEnabled(false);
-
-
         // finally setup the left drawer (called a NavigationView)
         binding.navigationView.setupWithNavController(navController)
 
@@ -171,7 +144,6 @@ class MainActivity : AppCompatActivity() {
             val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
             when (destination.id) {
                 R.id.homeFragment -> {
-                    //                    toolBar.setDisplayShowTitleEnabled(false)
                     // custom menu icon
                     toolBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_36dp)
                 }
@@ -193,20 +165,32 @@ class MainActivity : AppCompatActivity() {
         // they will need to create a password as well.
         val providers = arrayListOf(
             AuthUI.IdpConfig.EmailBuilder().build(), AuthUI.IdpConfig.GoogleBuilder().build()
-
-            // This is where you can provide more ways for users to register and
-            // sign in.
         )
 
-        // Create and launch the sign-in intent.
-        // We listen to the response of this activity with the
-        // SIGN_IN_REQUEST_CODE.
-        startActivityForResult(
+        resultLauncher.launch(
             AuthUI.getInstance().createSignInIntentBuilder().setAvailableProviders(providers)
-                .setTheme(R.style.LoginTheme).build(), SIGN_IN_REQUEST_CODE
+                .setTheme(R.style.LoginTheme).build()
         )
     }
 
+    var resultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val data: Intent? = result.data
+            val response = IdpResponse.fromResultIntent(data)
+
+            if (result.resultCode == Activity.RESULT_OK) {
+                // Successfully signed in
+                successLogin()
+            } else {
+                if (response != null) {
+                    when (response.error?.errorCode) {
+                        ErrorCodes.NO_NETWORK -> errorNetworkLogin()
+                        else -> errorUnHandledLogin()
+                    }
+                }
+
+            }
+        }
 
     /**
      * Function to control UI when success login
