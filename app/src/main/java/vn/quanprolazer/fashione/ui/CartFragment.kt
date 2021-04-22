@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
+import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
@@ -59,15 +60,10 @@ class CartFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Result.Success -> {
-                        viewModel.updateCartItemsImage()
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            adapter.submitList(it.data)
-                            binding.rvCart.visibility = View.VISIBLE
-                            binding.cpLoading.visibility = View.INVISIBLE
-                        }, 1000)
+                        observeCartItemsSuccess(it)
                     }
                     is Result.Loading -> {
-                        binding.cpLoading.visibility = View.VISIBLE
+                        observeCartItemLoading()
                     }
                     else -> {
                         // Error handler
@@ -75,6 +71,34 @@ class CartFragment : Fragment() {
                 }
             }
         })
+    }
+
+    private fun observeCartItemLoading() {
+        shouldDisplayBlankCart(View.GONE)
+        shouldDisplayLoadingProgress()
+    }
+
+    private fun observeCartItemsSuccess(it: Result.Success<MutableList<CartItem>>) {
+        viewModel.updateCartItemsImage()
+        Handler(Looper.getMainLooper()).postDelayed({
+            if (it.data.size == 0) {
+                shouldDisplayBlankCart(View.VISIBLE)
+                shouldDisplayLoadingProgress(View.GONE)
+                return@postDelayed
+            }
+            shouldDisplayBlankCart(View.GONE)
+            adapter.submitList(it.data)
+            shouldDisplayLoadingProgress(View.GONE)
+            binding.rvCart.visibility = View.VISIBLE
+        }, 1000)
+    }
+
+    private fun shouldDisplayLoadingProgress(visibility: Int = View.VISIBLE) {
+        binding.cpLoading.visibility = visibility
+    }
+
+    private fun shouldDisplayBlankCart(visibility: Int) {
+        binding.fBlankCart.visibility = visibility
     }
 
     override fun onDestroy() {
