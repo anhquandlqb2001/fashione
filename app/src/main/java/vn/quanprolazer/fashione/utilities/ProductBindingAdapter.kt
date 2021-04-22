@@ -14,7 +14,6 @@ import vn.quanprolazer.fashione.data.domain.model.Result
 
 private const val PRODUCT_NAME_LIMIT = 10
 
-
 @BindingAdapter("productPrice")
 fun TextView.setProductPrice(productPrice: String?) {
     productPrice?.let {

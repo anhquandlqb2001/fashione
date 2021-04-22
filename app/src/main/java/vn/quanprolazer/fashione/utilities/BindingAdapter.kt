@@ -7,21 +7,16 @@
 package vn.quanprolazer.fashione.utilities
 
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.data.domain.model.ProductDetail
-import vn.quanprolazer.fashione.data.domain.model.ProductImage
-import vn.quanprolazer.fashione.data.domain.model.Result
 
 @BindingAdapter("imageUrl")
-fun ImageView.bindImage(imageUrl: String?) {
+fun ImageView.loadImage(imageUrl: String?) {
     imageUrl?.let {
         val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
         GlideApp.with(context).load(imgUri).apply(
@@ -31,18 +26,18 @@ fun ImageView.bindImage(imageUrl: String?) {
 }
 
 @BindingAdapter("orderQty")
-fun TextView.setOrderQty(orderQty: LiveData<Number>?) {
-    orderQty?.value?.let {
-        text = orderQty.value?.toString()
+fun TextView.setOrderQty(orderQty: Number?) {
+    orderQty?.let {
+        text = orderQty.toString()
     }
 }
 
 @BindingAdapter(value = ["variantQty", "variantPrice"], requireAll = false)
-fun TextView.setTotalPrice(orderQty: LiveData<Number>?, variantPrice: LiveData<String>?
-) {
-    if (orderQty?.value != 0 && variantPrice?.value != "0") {
+fun TextView.setTotalPrice(orderQty: Number?, variantPrice: String?) {
+    if (orderQty == null || variantPrice == null) return
+    if (orderQty != 0 && variantPrice != "0") {
         text =
-            "Tổng tiền: " + convertPriceStringToCurrencyString((variantPrice?.value!!.toInt() * orderQty?.value!!.toInt()).toString())
+            "Tổng tiền: " + convertPriceStringToCurrencyString((variantPrice.toInt() * orderQty.toInt()).toString())
         visibility = View.VISIBLE
     } else {
         visibility = View.INVISIBLE

@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
 import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.model.Result
 
@@ -19,7 +18,7 @@ fun ImageView.cartImage(cartImage: Result<ProductImage>?) {
     cartImage?.let {
         when (cartImage) {
             is Result.Success -> {
-                this.bindImage(cartImage.data.url)
+                this.loadImage(cartImage.data.url)
             }
             is Result.Loading -> {
             }
@@ -30,9 +29,9 @@ fun ImageView.cartImage(cartImage: Result<ProductImage>?) {
 }
 
 @BindingAdapter("addToCartVisible")
-fun Button.addToCartVisible(orderQty: LiveData<Number>?) {
-    orderQty?.value?.let {
-        visibility = if (orderQty.value!!.toInt() > 0) {
+fun Button.addToCartVisible(orderQty: Number?) {
+    orderQty?.let {
+        visibility = if (orderQty.toInt() > 0) {
             View.VISIBLE
         } else {
             View.INVISIBLE
