@@ -8,22 +8,20 @@ package vn.quanprolazer.fashione.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.data.domain.model.CartItem
-import vn.quanprolazer.fashione.data.domain.model.Category
-import vn.quanprolazer.fashione.data.domain.model.ProductImage
-import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.databinding.ListItemCartBinding
-
 
 
 class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder>(
     CartItemDiffCallback
 ) {
-    class CartItemViewHolder(private val binding: ListItemCartBinding) : RecyclerView.ViewHolder(binding.root) {
+    class CartItemViewHolder(private val binding: ListItemCartBinding) : RecyclerView.ViewHolder(
+        binding.root
+    ) {
+
         companion object {
             fun from(parent: ViewGroup): CartItemViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -33,6 +31,7 @@ class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder
         }
 
         fun bind(cartItem: CartItem) {
+            binding.cbBuy.setOnCheckedChangeListener(null)
             binding.cartItem = cartItem
             binding.executePendingBindings()
         }
@@ -45,6 +44,7 @@ class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder
     override fun onBindViewHolder(holder: CartItemViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+
 }
 
 

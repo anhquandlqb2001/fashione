@@ -13,8 +13,8 @@ import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
-import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.model.Result
@@ -41,7 +41,7 @@ fun setProductName(view: TextView, productName: String?) {
 fun bindImage(view: ImageView, imageUrl: String?) {
     imageUrl?.let {
         val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
-        Glide.with(view.context).load(imgUri).apply(
+        GlideApp.with(view.context).load(imgUri).apply(
             RequestOptions().placeholder(R.drawable.loading_anim).error(R.drawable.ic_broken)
         ).into(view)
     }

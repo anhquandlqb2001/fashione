@@ -73,8 +73,6 @@ class CartFragment : Fragment() {
                         // Error handler
                     }
                 }
-
-
             }
         })
     }

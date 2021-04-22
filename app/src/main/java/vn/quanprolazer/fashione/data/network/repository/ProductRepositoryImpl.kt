@@ -12,10 +12,8 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
-import vn.quanprolazer.fashione.data.network.dto.NetworkProductImage
 import vn.quanprolazer.fashione.data.network.mapper.*
 import vn.quanprolazer.fashione.data.network.service.ProductService
 import vn.quanprolazer.fashione.data.network.service.SearchServiceImpl
