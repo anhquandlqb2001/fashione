@@ -14,6 +14,7 @@ import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
+import vn.quanprolazer.fashione.utilities.mapInPlace
 
 class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted private val product: Product,
                                                                      private val productRepository: ProductRepository,
@@ -30,11 +31,10 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
      * Variable to store available Product Variants
      * Encapsulation
      */
-    private val _productVariants: MutableLiveData<List<ProductVariant>> by lazy {
-        val liveData = MutableLiveData<List<ProductVariant>>()
+    private val _productVariants: MutableLiveData<Result<MutableList<ProductVariant>>> by lazy {
+        val liveData = MutableLiveData<Result<MutableList<ProductVariant>>>()
         viewModelScope.launch {
-            liveData.value =
-                productRepository.getProductVariantsAndOptionsByProductId(product.id)
+            liveData.value = productRepository.getProductVariantsByProductId(product.id)
 
         }
         return@lazy liveData
@@ -43,8 +43,20 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
     /**
      * Variable to store available Product Variants
      */
-    val productVariants: LiveData<List<ProductVariant>> get() = _productVariants
+    val productVariants: LiveData<Result<MutableList<ProductVariant>>> get() = _productVariants
 
+    fun updateProductVariantOptions() {
+        (_productVariants.value as Result.Success).data.mapInPlace {
+            viewModelScope.launch {
+                when (val productVariantOptions = productRepository.getProductVariantOptionsByVariantId(it.id)) {
+                    is Result.Success -> it.options = Result.Success(productVariantOptions.data)
+                    is Result.Error -> Result.Error(productVariantOptions.exception)
+                    is Result.Loading -> it.options = Result.Loading(null)
+                }
+            }
+            it
+        }
+    }
 
     /**
      * Variable to store ProductOrder to send to Cart

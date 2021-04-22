@@ -16,6 +16,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.R
+import vn.quanprolazer.fashione.data.domain.model.ProductVariantOption
+import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.databinding.FragmentBottomSheetProductVariantBinding
 import vn.quanprolazer.fashione.utilities.setProductVariantQty
 import vn.quanprolazer.fashione.viewmodels.BottomSheetProductVariantViewModel
@@ -88,71 +90,86 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
     private fun observeProductVariant() {
         viewModel.productVariants.observe(viewLifecycleOwner, {
             it?.let {
-                val colorChipGroup = binding.cgName
-                val colorInflater = LayoutInflater.from(colorChipGroup.context)
 
-                val children = it.map { variant ->
-                    val chip = colorInflater.inflate(
-                        R.layout.list_item_chip, colorChipGroup, false
-                    ) as Chip
-                    chip.text = variant.name
-                    chip.tag = variant.name
+                viewModel.updateProductVariantOptions()
 
-                    chip.setOnCheckedChangeListener { _, isChecked ->
-                        if (!isChecked) {
-                            return@setOnCheckedChangeListener
-                        }
-
-                        setProductVariantQty(binding.tvVariantQty, -1)
-                        viewModel.resetOrderQty()
-                        binding.llQtyControl.visibility = View.INVISIBLE
-
-
-
-                        viewModel.onChangeVariantName(variant.name)
-
-                        val optionChipGroup = binding.cgOption
-                        val optionInflater = LayoutInflater.from(optionChipGroup.context)
-
-                        val options = variant.options.map { productVariantOption ->
-                            val optionChip = optionInflater.inflate(
-                                R.layout.list_item_chip, optionChipGroup, false
+                when(it) {
+                    is Result.Success -> {
+                        val colorChipGroup = binding.cgName
+                        val colorInflater = LayoutInflater.from(colorChipGroup.context)
+                        val children = it.data.map { variant ->
+                            val chip = colorInflater.inflate(
+                                R.layout.list_item_chip, colorChipGroup, false
                             ) as Chip
-                            optionChip.text = productVariantOption.value
-                            optionChip.tag = productVariantOption.value
-                            optionChip.setOnCheckedChangeListener { _, isOptionChipChecked ->
-                                if (!isOptionChipChecked) {
+                            chip.text = variant.name
+                            chip.tag = variant.name
+
+                            chip.setOnCheckedChangeListener { _, isChecked ->
+                                if (!isChecked) {
                                     return@setOnCheckedChangeListener
                                 }
-                                setProductVariantQty(
-                                    binding.tvVariantQty, productVariantOption.quantity
-                                )
-                                viewModel.resetOrderQty()
-                                viewModel.updateVariantPrice(productVariantOption.price)
-                                viewModel.updateCartItemVariantId(
-                                    variant.id, productVariantOption.id
-                                )
-                                binding.llQtyControl.visibility = View.VISIBLE
 
-                                viewModel.onChangeVariantValue(productVariantOption.value)
-                                viewModel.setProductOrderValueLimit(productVariantOption.quantity)
+                                setProductVariantQty(binding.tvVariantQty, -1)
+                                viewModel.resetOrderQty()
+                                binding.llQtyControl.visibility = View.INVISIBLE
+
+
+
+                                viewModel.onChangeVariantName(variant.name)
+
+                                val optionChipGroup = binding.cgOption
+                                val optionInflater = LayoutInflater.from(optionChipGroup.context)
+
+                                when(variant.options) {
+                                    is Result.Success -> {
+                                        val options = (variant.options as Result.Success<List<ProductVariantOption>>).data.map { productVariantOption ->
+                                            val optionChip = optionInflater.inflate(
+                                                R.layout.list_item_chip, optionChipGroup, false
+                                            ) as Chip
+                                            optionChip.text = productVariantOption.value
+                                            optionChip.tag = productVariantOption.value
+                                            optionChip.setOnCheckedChangeListener { _, isOptionChipChecked ->
+                                                if (!isOptionChipChecked) {
+                                                    return@setOnCheckedChangeListener
+                                                }
+                                                setProductVariantQty(
+                                                    binding.tvVariantQty, productVariantOption.quantity
+                                                )
+                                                viewModel.resetOrderQty()
+                                                viewModel.updateVariantPrice(productVariantOption.price)
+                                                viewModel.updateCartItemVariantId(
+                                                    variant.id, productVariantOption.id
+                                                )
+                                                binding.llQtyControl.visibility = View.VISIBLE
+
+                                                viewModel.onChangeVariantValue(productVariantOption.value)
+                                                viewModel.setProductOrderValueLimit(productVariantOption.quantity)
+
+                                            }
+                                            optionChip
+                                        }
+
+                                        optionChipGroup.removeAllViews()
+                                        for (option in options) {
+                                            optionChipGroup.addView(option)
+                                        }
+                                    }
+                                }
+
 
                             }
-                            optionChip
+                            chip
                         }
 
-                        optionChipGroup.removeAllViews()
-                        for (option in options) {
-                            optionChipGroup.addView(option)
+                        colorChipGroup.removeAllViews()
+                        for (chip in children) {
+                            colorChipGroup.addView(chip)
                         }
                     }
-                    chip
+                    else -> {}
                 }
 
-                colorChipGroup.removeAllViews()
-                for (chip in children) {
-                    colorChipGroup.addView(chip)
-                }
+
             }
         })
     }

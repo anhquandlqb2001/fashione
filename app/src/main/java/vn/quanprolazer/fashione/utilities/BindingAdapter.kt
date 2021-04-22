@@ -16,6 +16,7 @@ import androidx.lifecycle.LiveData
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
+import vn.quanprolazer.fashione.data.domain.model.ProductDetail
 import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.model.Result
 
@@ -101,6 +102,17 @@ fun cartImage(view: ImageView, cartImage: Result<ProductImage>?) {
             }
             else -> {
             }
+        }
+    }
+}
+
+
+@BindingAdapter("productDescription")
+fun setProductDescription(view: TextView, productDetail: Result<ProductDetail>?) {
+    productDetail?.let {
+        when(productDetail) {
+            is Result.Success -> view.text = productDetail.data.description
+            else -> {}
         }
     }
 }

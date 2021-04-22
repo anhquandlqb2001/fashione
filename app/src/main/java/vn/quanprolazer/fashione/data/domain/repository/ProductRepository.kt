@@ -19,7 +19,7 @@ interface ProductRepository {
 
     suspend fun getProductDetailByProductId(productId: String): Result<ProductDetail>
 
-    suspend fun getProductVariantsByProductId(productId: String): Result<List<ProductVariant>>
+    suspend fun getProductVariantsByProductId(productId: String): Result<MutableList<ProductVariant>>
 
     suspend fun getProductVariantOptionsByVariantId(variantId: String): Result<List<ProductVariantOption>>
 

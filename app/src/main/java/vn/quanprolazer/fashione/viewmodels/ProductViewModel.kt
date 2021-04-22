@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductDetail
 import vn.quanprolazer.fashione.data.domain.model.ProductImage
+import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 
 
@@ -22,21 +23,21 @@ class ProductViewModel @AssistedInject constructor(private val productRepository
 
 
     private val _productImages by lazy {
-        val liveData = MutableLiveData<List<ProductImage>>()
+        val liveData = MutableLiveData<Result<List<ProductImage>>>()
         viewModelScope.launch {
             liveData.value = productRepository.getProductImagesByProductId(product.id)
         }
         return@lazy liveData
     }
 
-    val productImages: LiveData<List<ProductImage>> get() = _productImages
+    val productImages: LiveData<Result<List<ProductImage>>> get() = _productImages
 
     /**
      * Variable to store data about product
      * Encapsulation
      */
     private val _productDetail by lazy {
-        val liveData = MutableLiveData<ProductDetail>()
+        val liveData = MutableLiveData<Result<ProductDetail>>()
         viewModelScope.launch {
             liveData.value = productRepository.getProductDetailByProductId(product.id)
         }
@@ -46,7 +47,7 @@ class ProductViewModel @AssistedInject constructor(private val productRepository
     /**
      * Variable to store data about product
      */
-    val productDetail: LiveData<ProductDetail> get() = _productDetail
+    val productDetail: LiveData<Result<ProductDetail>> get() = _productDetail
 
 
     /**

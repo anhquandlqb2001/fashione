@@ -19,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
 import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
+import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.viewmodels.SearchResultViewModel
 
 @AndroidEntryPoint
@@ -33,8 +34,7 @@ class SearchResultFragment : Fragment() {
         val query = arguments?.let { SearchResultFragmentArgs.fromBundle(it).query }
 
         ViewModelProvider(
-            this,
-            SearchResultViewModel.Factory(category, query)
+            this, SearchResultViewModel.Factory(category, query)
         )[SearchResultViewModel::class.java]
     }
 
@@ -45,10 +45,9 @@ class SearchResultFragment : Fragment() {
     }
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater,
+                              container: ViewGroup?,
+                              savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchResultBinding.inflate(inflater, container, false)
 
@@ -73,7 +72,11 @@ class SearchResultFragment : Fragment() {
     private fun observeProducts() {
         viewModel.products.observe(viewLifecycleOwner, {
             it?.let {
-                productResultAdapter.submitList(it)
+                when (it) {
+                    is Result.Success -> productResultAdapter.submitList(it.data)
+                    else -> {
+                    }
+                }
             }
         })
     }

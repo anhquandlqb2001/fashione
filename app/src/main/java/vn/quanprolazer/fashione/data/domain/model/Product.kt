@@ -46,11 +46,10 @@ data class ProductImage(
     val url: String,
 ) : Parcelable
 
-@Parcelize
 data class ProductVariant(val id: String = "",
                           val name: String = "",
-                          var options: List<ProductVariantOption>? = null
-) : Parcelable
+                          var options: Result<List<ProductVariantOption>>? = null
+)
 
 
 @Parcelize

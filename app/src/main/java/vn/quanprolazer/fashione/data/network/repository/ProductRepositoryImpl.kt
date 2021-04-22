@@ -74,7 +74,7 @@ class ProductRepositoryImpl @AssistedInject constructor(private val productServi
 
     }
 
-    override suspend fun getProductVariantsByProductId(productId: String): Result<List<ProductVariant>> {
+    override suspend fun getProductVariantsByProductId(productId: String): Result<MutableList<ProductVariant>> {
         val response = withContext(dispatcher) {
             //            val productVariants = mutableListOf<ProductVariant>()
             productService.getProductVariantsByProductId(productId)
@@ -90,7 +90,7 @@ class ProductRepositoryImpl @AssistedInject constructor(private val productServi
         }
 
         return when (response) {
-            is Result.Success -> Result.Success(NetworkProductVariantsMapper.map(response.data))
+            is Result.Success -> Result.Success(NetworkProductVariantsMapper.map(response.data).toMutableList())
             is Result.Loading -> Result.Loading(null)
             is Result.Error -> Result.Error(response.exception)
         }
