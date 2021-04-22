@@ -109,7 +109,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                                     return@setOnCheckedChangeListener
                                 }
 
-                                setProductVariantQty(binding.tvVariantQty, -1)
+                                binding.tvVariantQty.setProductVariantQty(-1)
                                 viewModel.resetOrderQty()
                                 binding.llQtyControl.visibility = View.INVISIBLE
 
@@ -132,8 +132,8 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                                                 if (!isOptionChipChecked) {
                                                     return@setOnCheckedChangeListener
                                                 }
-                                                setProductVariantQty(
-                                                    binding.tvVariantQty, productVariantOption.quantity
+                                                binding.tvVariantQty.setProductVariantQty(
+                                                    productVariantOption.quantity
                                                 )
                                                 viewModel.resetOrderQty()
                                                 viewModel.updateVariantPrice(productVariantOption.price)
