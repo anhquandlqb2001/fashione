@@ -6,18 +6,27 @@
 
 package vn.quanprolazer.fashione.adapters
 
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.databinding.ListItemCartBinding
 
 
-abstract class SwipeableAdapter<T, VH: RecyclerView.ViewHolder>(diffCallback: DiffUtil.ItemCallback<T>) : ListAdapter<T, VH>(diffCallback) {
+abstract class SwipeableAdapter<T, VH : RecyclerView.ViewHolder>(diffCallback: DiffUtil.ItemCallback<T>) :
+    ListAdapter<T, VH>(
+        diffCallback
+    ) {
     private var removedItems = mutableListOf<T>()
 
     fun removeItem(position: Int): T? {
@@ -42,10 +51,11 @@ abstract class SwipeableAdapter<T, VH: RecyclerView.ViewHolder>(diffCallback: Di
     }
 }
 
-class ItemSwipeHandler<T>(
-    private val adapter: SwipeableAdapter<T, *>,
-    private val onItemRemoved: ((item: T) -> Unit)? = null
-): ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
+class ItemSwipeHandler<T>(private val adapter: SwipeableAdapter<T, *>,
+                          private val icon: Drawable? = null,
+                          private val background: ColorDrawable = ColorDrawable(Color.RED),
+                          private val onItemRemoved: ((item: T) -> Unit)? = null
+) : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
     override fun onMove(recyclerView: RecyclerView,
                         viewHolder: RecyclerView.ViewHolder,
@@ -56,6 +66,47 @@ class ItemSwipeHandler<T>(
         val position = viewHolder.adapterPosition
         val item = adapter.removeItem(position) ?: return
         onItemRemoved?.invoke(item)
+    }
+
+    override fun onChildDraw(c: Canvas,
+                             recyclerView: RecyclerView,
+                             viewHolder: RecyclerView.ViewHolder,
+                             dX: Float,
+                             dY: Float,
+                             actionState: Int,
+                             isCurrentlyActive: Boolean
+    ) {
+        super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        val itemView: View = viewHolder.itemView
+        val backgroundCornerOffset = 20
+
+        val iconMargin = (itemView.height - icon!!.intrinsicHeight) / 2
+        val iconTop = itemView.top + (itemView.height - icon.intrinsicHeight) / 2
+        val iconBottom = iconTop + icon.intrinsicHeight
+        Timber.i(dX.toString())
+        when { // Swiping to the right
+            (dX < 0) -> { // Swiping to the left
+                val iconLeft = itemView.right - iconMargin - icon.intrinsicWidth
+                val iconRight = itemView.right - iconMargin
+
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+
+                background.setBounds(
+                    itemView.right + dX.toInt() - backgroundCornerOffset,
+                    itemView.top,
+                    itemView.right,
+                    itemView.bottom
+                )
+            }
+            else -> { // view is unSwiped
+                background.setBounds(0, 0, 0, 0)
+                icon.setBounds(0, 0, 0, 0)
+            }
+        }
+        background.draw(c)
+        if (dX < -250) {
+            icon.draw(c)
+        }
     }
 }
 
@@ -91,24 +142,24 @@ class CartItemAdapter(private val clickListener: CartItemQuantityControlClick) :
         recentlyDeleteItemPosition = position
         currentList.removeAt(position)
         notifyItemRemoved(position)
-//        showUndoSnackbar()
+        //        showUndoSnackbar()
     }
 
-//    private fun showUndoSnackbar() {
-//        val view: View = mActivity.findViewById(R.id.coordinator_layout)
-//        val snackbar: Snackbar = Snackbar.make(
-//            view, R.string.snack_bar_text, Snackbar.LENGTH_LONG
-//        )
-//        snackbar.setAction(R.string.snack_bar_undo) { v -> undoDelete() }
-//        snackbar.show()
-//    }
-//
-//    private fun undoDelete() {
-//        mListItems.add(
-//            mRecentlyDeletedItemPosition, mRecentlyDeletedItem
-//        )
-//        notifyItemInserted(mRecentlyDeletedItemPosition)
-//    }
+    //    private fun showUndoSnackbar() {
+    //        val view: View = mActivity.findViewById(R.id.coordinator_layout)
+    //        val snackbar: Snackbar = Snackbar.make(
+    //            view, R.string.snack_bar_text, Snackbar.LENGTH_LONG
+    //        )
+    //        snackbar.setAction(R.string.snack_bar_undo) { v -> undoDelete() }
+    //        snackbar.show()
+    //    }
+    //
+    //    private fun undoDelete() {
+    //        mListItems.add(
+    //            mRecentlyDeletedItemPosition, mRecentlyDeletedItem
+    //        )
+    //        notifyItemInserted(mRecentlyDeletedItemPosition)
+    //    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartItemViewHolder {
         return CartItemViewHolder.from(parent)

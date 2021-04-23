@@ -6,18 +6,21 @@
 
 package vn.quanprolazer.fashione.ui
 
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
+import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.adapters.CartItemQuantityControlClick
 import vn.quanprolazer.fashione.adapters.ItemSwipeHandler
@@ -58,7 +61,7 @@ class CartFragment : Fragment() {
             viewModel.onQuantityControlClick(cartItem, value)
         })
 
-        ItemTouchHelper(ItemSwipeHandler(adapter) {
+        ItemTouchHelper(ItemSwipeHandler(adapter, ContextCompat.getDrawable(requireContext(), R.drawable.baseline_delete_black_36dp)) {
             viewModel.removeCartItem(it.id)
         }).attachToRecyclerView(binding.rvCart)
 
