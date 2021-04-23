@@ -13,7 +13,6 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.CartItem
-import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import javax.inject.Inject
 import vn.quanprolazer.fashione.data.domain.model.Resource
@@ -78,8 +77,14 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
             orderRepository.updateCartItem(cartItem.id, value)
         }
         cartItem.quantity = value
-        updateList()
+        refreshList()
     }
 
-    private fun updateList() = _cartItems.notifyUpdate()
+    fun removeCartItem(cartItemId: String) {
+        viewModelScope.launch {
+            orderRepository.removeCartItem(cartItemId)
+        }
+    }
+
+    private fun refreshList() = _cartItems.notifyUpdate()
 }

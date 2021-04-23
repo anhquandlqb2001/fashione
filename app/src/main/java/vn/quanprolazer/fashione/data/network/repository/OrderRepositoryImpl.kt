@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.model.fromResult
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
@@ -58,5 +59,13 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
             is Resource.Error -> Resource.Error(result.exception)
             else -> Resource.Loading(null)
         }
+    }
+
+    override suspend fun removeCartItem(cartItemId: String): Resource<Boolean> {
+        val result = withContext(defaultDispatcher) {
+            orderService.removeCartItem(cartItemId)
+        }
+
+        return fromResult(result)
     }
 }

@@ -64,5 +64,16 @@ class OrderServiceImpl : OrderService {
             Resource.Error(e)
         }
     }
+
+    override suspend fun removeCartItem(cartItemId: String): Resource<Boolean> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            db.collection("carts").document(cartItemId).delete().await()
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
 }
 

@@ -9,21 +9,23 @@ package vn.quanprolazer.fashione.ui
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.adapters.CartItemQuantityControlClick
+import vn.quanprolazer.fashione.adapters.ItemSwipeHandler
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
+
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
@@ -56,11 +58,16 @@ class CartFragment : Fragment() {
             viewModel.onQuantityControlClick(cartItem, value)
         })
 
+        ItemTouchHelper(ItemSwipeHandler(adapter) {
+            viewModel.removeCartItem(it.id)
+        }).attachToRecyclerView(binding.rvCart)
+
         binding.rvCart.adapter = adapter
         binding.rvCart.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
         observeCartItems()
     }
+
 
     private fun observeCartItems() {
         viewModel.cartItems.observe(viewLifecycleOwner, {
@@ -86,7 +93,7 @@ class CartFragment : Fragment() {
     }
 
     private fun observeCartItemsSuccess(it: Resource.Success<MutableList<CartItem>>) {
-        if(viewModel.flagFirstTime.value == null) return
+        if (viewModel.flagFirstTime.value == null) return
         viewModel.updateCartItemsImage()
         viewModel.updateCartItemsProductName()
         Handler(Looper.getMainLooper()).postDelayed({

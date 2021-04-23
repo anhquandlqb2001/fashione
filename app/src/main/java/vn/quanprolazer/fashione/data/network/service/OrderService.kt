@@ -17,4 +17,6 @@ interface OrderService {
     suspend fun updateCartItem(cartItemId: String, quantity: Int): Resource<Boolean>
 
     suspend fun getCartItems(userId: String): Resource<List<NetworkCartItem>>
+
+    suspend fun removeCartItem(cartItemId: String): Resource<Boolean>
 }
