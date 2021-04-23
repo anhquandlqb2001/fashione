@@ -47,6 +47,11 @@ class CartItemAdapter(private val clickListener: CartItemQuantityControlClick) :
         holder.bind(getItem(position), clickListener)
     }
 
+    override fun submitList(list: MutableList<CartItem>?) {
+        super.submitList(list)
+        notifyDataSetChanged()
+    }
+
 }
 
 class CartItemQuantityControlClick(val quantityControlClickListener: (cartItem: CartItem, value: Int) -> Unit

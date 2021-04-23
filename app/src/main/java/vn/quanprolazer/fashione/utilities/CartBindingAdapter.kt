@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Product
@@ -75,10 +76,10 @@ fun TextView.cartItemQuantity(cartItem: CartItem?) {
 }
 
 @BindingAdapter("cartItems")
-fun RecyclerView.setCartItems(cartItems: LiveData<Resource<List<CartItem>>>?) {
+fun RecyclerView.setCartItems(cartItems: Resource<List<CartItem>>?) {
     cartItems?.let {
-        when(it.value) {
-            is Resource.Success -> (this.adapter as CartItemAdapter).submitList((cartItems.value as Resource.Success).data)
+        when(it) {
+            is Resource.Success -> (this.adapter as CartItemAdapter).submitList(it.data.toMutableList())
             else -> {}
         }
     }

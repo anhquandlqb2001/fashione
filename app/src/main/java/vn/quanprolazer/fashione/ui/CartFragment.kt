@@ -67,7 +67,6 @@ class CartFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        Timber.i("loading cart items")
                         observeCartItemsSuccess(it)
                     }
                     is Resource.Loading -> {
@@ -87,6 +86,7 @@ class CartFragment : Fragment() {
     }
 
     private fun observeCartItemsSuccess(it: Resource.Success<MutableList<CartItem>>) {
+        if(viewModel.flagFirstTime.value == null) return
         viewModel.updateCartItemsImage()
         viewModel.updateCartItemsProductName()
         Handler(Looper.getMainLooper()).postDelayed({
@@ -100,6 +100,7 @@ class CartFragment : Fragment() {
             adapter.submitList(it.data)
             binding.rvCart.visibility = View.VISIBLE
         }, 1000)
+        viewModel.offFlagFirstTime()
     }
 
     private fun shouldDisplayLoadingProgress(visibility: Int = View.VISIBLE) {

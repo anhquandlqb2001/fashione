@@ -34,6 +34,14 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
         return@lazy liveData
     }
 
+    private val _flagFirstTime = MutableLiveData(true)
+
+    val flagFirstTime: LiveData<Boolean> get() = _flagFirstTime
+
+    fun offFlagFirstTime() {
+        _flagFirstTime.value = null
+    }
+
     val cartItems: LiveData<Resource<MutableList<CartItem>>> get() = _cartItems
 
     fun updateCartItemsImage() {
@@ -70,7 +78,8 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
             orderRepository.updateCartItem(cartItem.id, value)
         }
         cartItem.quantity = value
-        _cartItems.notifyUpdate()
-
+        updateList()
     }
+
+    private fun updateList() = _cartItems.notifyUpdate()
 }
