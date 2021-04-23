@@ -14,6 +14,8 @@ interface OrderRepository {
 
     suspend fun addToCart(addToCartItem: AddToCartItem): Resource<Boolean>
 
+    suspend fun undoDeleteCartItem(cartItem: CartItem): Resource<Boolean>
+
     suspend fun updateCartItem(cartItemId: String, quantity: Int): Resource<Boolean>
 
     suspend fun getCartItems(): Resource<MutableList<CartItem>>

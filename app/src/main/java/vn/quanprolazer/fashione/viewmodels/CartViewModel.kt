@@ -84,6 +84,14 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
         viewModelScope.launch {
             orderRepository.removeCartItem(cartItemId)
         }
+//        refreshList()
+    }
+
+    fun undoDeleteCartItem(cartItem: CartItem) {
+        viewModelScope.launch {
+            orderRepository.undoDeleteCartItem(cartItem)
+        }
+        refreshList()
     }
 
     private fun refreshList() = _cartItems.notifyUpdate()

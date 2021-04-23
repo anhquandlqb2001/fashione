@@ -6,7 +6,7 @@
 
 package vn.quanprolazer.fashione.ui
 
-import android.graphics.drawable.ColorDrawable
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -19,7 +19,10 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.Recycler
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.adapters.CartItemQuantityControlClick
@@ -61,16 +64,43 @@ class CartFragment : Fragment() {
             viewModel.onQuantityControlClick(cartItem, value)
         })
 
-        ItemTouchHelper(ItemSwipeHandler(adapter, ContextCompat.getDrawable(requireContext(), R.drawable.baseline_delete_black_36dp)) {
-            viewModel.removeCartItem(it.id)
+        ItemTouchHelper(ItemSwipeHandler(
+            adapter,
+            ContextCompat.getDrawable(requireContext(), R.drawable.baseline_delete_black_36dp)
+        ) { position, item ->
+            viewModel.removeCartItem(item.id)
+            showUndoSnackbar(position, item)
         }).attachToRecyclerView(binding.rvCart)
 
         binding.rvCart.adapter = adapter
-        binding.rvCart.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        binding.rvCart.layoutManager =
+            WrapContentLinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
 
         observeCartItems()
     }
 
+    class WrapContentLinearLayoutManager(context: Context, orient: Int, attachToRoot: Boolean
+    ) : LinearLayoutManager(context, orient, attachToRoot) {
+        override fun onLayoutChildren(recycler: Recycler, state: RecyclerView.State) {
+            try {
+                super.onLayoutChildren(recycler, state)
+            } catch (e: IndexOutOfBoundsException) {
+                Timber.e(e)
+            }
+        }
+    }
+
+    private fun showUndoSnackbar(position: Int, cartItem: CartItem) {
+        val snackbar: Snackbar = Snackbar.make(
+            binding.root, R.string.delete_success_text, Snackbar.LENGTH_LONG
+        )
+        snackbar.setAction(R.string.snack_bar_undo_text) { _ ->
+            viewModel.undoDeleteCartItem(
+                cartItem
+            )
+        }
+        snackbar.show()
+    }
 
     private fun observeCartItems() {
         viewModel.cartItems.observe(viewLifecycleOwner, {

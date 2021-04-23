@@ -11,6 +11,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import vn.quanprolazer.fashione.data.domain.mapper.CartItemMapper
 import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Resource
@@ -64,6 +65,14 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
     override suspend fun removeCartItem(cartItemId: String): Resource<Boolean> {
         val result = withContext(defaultDispatcher) {
             orderService.removeCartItem(cartItemId)
+        }
+
+        return fromResult(result)
+    }
+
+    override suspend fun undoDeleteCartItem(cartItem: CartItem): Resource<Boolean> {
+        val result = withContext(defaultDispatcher) {
+            orderService.addToCart(CartItemMapper.map(cartItem), userRepository.getUser().value!!.uid, cartItem.id)
         }
 
         return fromResult(result)

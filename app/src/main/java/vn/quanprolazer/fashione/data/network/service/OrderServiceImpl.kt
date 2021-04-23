@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.data.network.service
 
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -17,7 +18,7 @@ import vn.quanprolazer.fashione.data.network.mapper.toHashMap
 
 
 class OrderServiceImpl : OrderService {
-    override suspend fun addToCart(addToCartItem: AddToCartItem, userId: String): Resource<Boolean> {
+    override suspend fun addToCart(addToCartItem: AddToCartItem, userId: String, documentId: String?): Resource<Boolean> {
         val db = FirebaseFirestore.getInstance()
         return try {
             val existCartItem = db.collection("carts").whereEqualTo(
@@ -30,6 +31,12 @@ class OrderServiceImpl : OrderService {
                 washingtonRef.update(
                     "quantity", FieldValue.increment(addToCartItem.quantity.toLong())
                 )
+                return Resource.Success(true)
+            }
+
+            // if this is undo delete
+            documentId?.let {
+                db.collection("carts").document(documentId).set(addToCartItem.toHashMap()).await()
                 return Resource.Success(true)
             }
 

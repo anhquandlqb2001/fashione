@@ -76,10 +76,11 @@ fun TextView.cartItemQuantity(cartItem: CartItem?) {
 }
 
 @BindingAdapter("cartItems")
-fun RecyclerView.setCartItems(cartItems: Resource<List<CartItem>>?) {
+fun RecyclerView.setCartItems(cartItems: LiveData<Resource<List<CartItem>>>?) {
     cartItems?.let {
-        when(it) {
-            is Resource.Success -> (this.adapter as CartItemAdapter).submitList(it.data.toMutableList())
+        Timber.i(cartItems.value.toString())
+        when(it.value) {
+            is Resource.Success -> (this.adapter as CartItemAdapter).submitList((it.value as Resource.Success<List<CartItem>>).data.toMutableList())
             else -> {}
         }
     }
