@@ -12,19 +12,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
+import androidx.recyclerview.widget.RecyclerView
+import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductImage
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 
 @BindingAdapter("cartImage")
-fun ImageView.cartImage(cartImage: Result<ProductImage>?) {
+fun ImageView.cartImage(cartImage: Resource<ProductImage>?) {
     cartImage?.let {
         when (cartImage) {
-            is Result.Success -> {
+            is Resource.Success -> {
                 this.loadImage(cartImage.data.url)
             }
-            is Result.Loading -> {
+            is Resource.Loading -> {
             }
             else -> {
             }
@@ -54,10 +56,10 @@ fun TextView.variantOptionName(variantName: String?, variantValue: String?) {
 }
 
 @BindingAdapter("cartItemName")
-fun TextView.cartItemName(product: Result<Product>?) {
+fun TextView.cartItemName(product: Resource<Product>?) {
     product?.let {
         when(product) {
-            is Result.Success -> {
+            is Resource.Success -> {
                 setProductName(product.data.name)
             }
             else -> {}
@@ -69,5 +71,15 @@ fun TextView.cartItemName(product: Result<Product>?) {
 fun TextView.cartItemQuantity(cartItem: CartItem?) {
     cartItem?.let {
         text = cartItem.quantity.toString()
+    }
+}
+
+@BindingAdapter("cartItems")
+fun RecyclerView.setCartItems(cartItems: LiveData<Resource<List<CartItem>>>?) {
+    cartItems?.let {
+        when(it.value) {
+            is Resource.Success -> (this.adapter as CartItemAdapter).submitList((cartItems.value as Resource.Success).data)
+            else -> {}
+        }
     }
 }

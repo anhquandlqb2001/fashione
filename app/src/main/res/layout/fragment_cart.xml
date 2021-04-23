@@ -45,7 +45,7 @@
             android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/list_item_cart" />
+            tools:listitem="@layout/list_item_cart"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

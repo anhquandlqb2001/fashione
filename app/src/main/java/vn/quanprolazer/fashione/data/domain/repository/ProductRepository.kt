@@ -11,22 +11,22 @@ import vn.quanprolazer.fashione.data.domain.model.*
 
 interface ProductRepository {
 
-    suspend fun getProducts(source: Source = Source.DEFAULT): Result<List<Product>>
+    suspend fun getProducts(source: Source = Source.DEFAULT): Resource<List<Product>>
 
-    suspend fun getProductsByCategoryId(categoryId: String): Result<List<Product>>
+    suspend fun getProductsByCategoryId(categoryId: String): Resource<List<Product>>
 
-    suspend fun findProductsByQuery(query: String): Result<List<Product>>
+    suspend fun findProductsByQuery(query: String): Resource<List<Product>>
 
-    suspend fun getProductDetailByProductId(productId: String): Result<ProductDetail>
+    suspend fun getProductDetailByProductId(productId: String): Resource<ProductDetail>
 
-    suspend fun getProductVariantsByProductId(productId: String): Result<MutableList<ProductVariant>>
+    suspend fun getProductVariantsByProductId(productId: String): Resource<MutableList<ProductVariant>>
 
-    suspend fun getProductVariantOptionsByVariantId(variantId: String): Result<List<ProductVariantOption>>
+    suspend fun getProductVariantOptionsByVariantId(variantId: String): Resource<List<ProductVariantOption>>
 
-    suspend fun getProductImagesByProductId(productId: String): Result<List<ProductImage>>
+    suspend fun getProductImagesByProductId(productId: String): Resource<List<ProductImage>>
 
-    suspend fun getProductImageByProductVariantId(variantId: String): Result<ProductImage>
+    suspend fun getProductImageByProductVariantId(variantId: String): Resource<ProductImage>
 
-    suspend fun getProductByProductId(productId: String): Result<Product>
+    suspend fun getProductByProductId(productId: String): Resource<Product>
 
 }

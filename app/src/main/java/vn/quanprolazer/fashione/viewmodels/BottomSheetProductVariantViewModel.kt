@@ -31,8 +31,8 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
      * Variable to store available Product Variants
      * Encapsulation
      */
-    private val _productVariants: MutableLiveData<Result<MutableList<ProductVariant>>> by lazy {
-        val liveData = MutableLiveData<Result<MutableList<ProductVariant>>>()
+    private val _productVariants: MutableLiveData<Resource<MutableList<ProductVariant>>> by lazy {
+        val liveData = MutableLiveData<Resource<MutableList<ProductVariant>>>()
         viewModelScope.launch {
             liveData.value = productRepository.getProductVariantsByProductId(product.id)
 
@@ -43,15 +43,15 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
     /**
      * Variable to store available Product Variants
      */
-    val productVariants: LiveData<Result<MutableList<ProductVariant>>> get() = _productVariants
+    val productVariants: LiveData<Resource<MutableList<ProductVariant>>> get() = _productVariants
 
     fun updateProductVariantOptions() {
-        (_productVariants.value as Result.Success).data.mapInPlace {
+        (_productVariants.value as Resource.Success).data.mapInPlace {
             viewModelScope.launch {
                 when (val productVariantOptions = productRepository.getProductVariantOptionsByVariantId(it.id)) {
-                    is Result.Success -> it.options = Result.Success(productVariantOptions.data)
-                    is Result.Error -> Result.Error(productVariantOptions.exception)
-                    is Result.Loading -> it.options = Result.Loading(null)
+                    is Resource.Success -> it.options = Resource.Success(productVariantOptions.data)
+                    is Resource.Error -> Resource.Error(productVariantOptions.exception)
+                    is Resource.Loading -> it.options = Resource.Loading(null)
                 }
             }
             it
@@ -189,8 +189,8 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
         updateCartItemPrice()
         viewModelScope.launch {
             when (orderRepository.addToCart(_addToCartItem.value!!)) {
-                is Result.Success -> _successMessage.value = "Thêm sản phẩm thành công"
-                is Result.Error -> _exceptionMessage.value = "Thêm sản phẩm thất bại"
+                is Resource.Success -> _successMessage.value = "Thêm sản phẩm thành công"
+                is Resource.Error -> _exceptionMessage.value = "Thêm sản phẩm thất bại"
             }
         }
     }

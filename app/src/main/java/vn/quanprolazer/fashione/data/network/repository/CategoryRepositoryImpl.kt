@@ -13,7 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import vn.quanprolazer.fashione.data.domain.model.Category
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.domain.repository.CategoryRepository
 import vn.quanprolazer.fashione.data.network.mapper.NetworkCategoryListMapper
 import vn.quanprolazer.fashione.data.network.service.CategoryService
@@ -24,29 +24,29 @@ class CategoryRepositoryImpl @AssistedInject constructor(
     @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : CategoryRepository {
 
-    override suspend fun getCategoryList(): Result<List<Category>> {
+    override suspend fun getCategoryList(): Resource<List<Category>> {
 
         val result = withContext(defaultDispatcher) {
             categoryService.getCategoryList()
         }
 
         return when (result) {
-            is Result.Success -> Result.Success(NetworkCategoryListMapper.map(result.data))
-            is Result.Error -> Result.Error(result.exception)
-            else -> Result.Loading(null)
+            is Resource.Success -> Resource.Success(NetworkCategoryListMapper.map(result.data))
+            is Resource.Error -> Resource.Error(result.exception)
+            else -> Resource.Loading(null)
         }
     }
 
-    override suspend fun getCategoryListFromLocal(): Result<List<Category>> {
+    override suspend fun getCategoryListFromLocal(): Resource<List<Category>> {
         val result = withContext(defaultDispatcher) {
             categoryService.getCategoryList(Source.CACHE)
         }
 
         return when (result) {
-            is Result.Success -> Result.Success(NetworkCategoryListMapper.map(result.data))
-            is Result.Error -> Result.Error(result.exception)
-            else -> Result.Loading(null)
-
+            is Resource.Success -> Resource.Success(NetworkCategoryListMapper.map(result.data))
+            is Resource.Error -> Resource.Error(result.exception)
+            else -> Resource.Loading(null)
         }
     }
+
 }

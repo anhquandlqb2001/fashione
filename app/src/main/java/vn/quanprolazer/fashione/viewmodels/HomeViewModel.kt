@@ -16,7 +16,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.Category
 import vn.quanprolazer.fashione.data.domain.model.Product
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.domain.repository.CategoryRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import javax.inject.Inject
@@ -37,8 +37,8 @@ class HomeViewModel @Inject constructor(
         val liveData = MutableLiveData<List<Category>>()
         viewModelScope.launch {
             when (val getCategoryResponse = categoryRepository.getCategoryList()) {
-                is Result.Success -> liveData.value = getCategoryResponse.data
-                is Result.Error -> _exception.value = getCategoryResponse.exception
+                is Resource.Success -> liveData.value = getCategoryResponse.data
+                is Resource.Error -> _exception.value = getCategoryResponse.exception
             }
         }
         return@lazy liveData
@@ -62,8 +62,8 @@ class HomeViewModel @Inject constructor(
         val liveData = MutableLiveData<List<Product>>()
         viewModelScope.launch {
             when (val getProductResponse = productRepository.getProducts(Source.SERVER)) {
-                is Result.Success -> liveData.value = getProductResponse.data
-                is Result.Error -> _exception.value = getProductResponse.exception
+                is Resource.Success -> liveData.value = getProductResponse.data
+                is Resource.Error -> _exception.value = getProductResponse.exception
             }
         }
         return@lazy liveData

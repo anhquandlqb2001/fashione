@@ -10,7 +10,7 @@ import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.Category
 import vn.quanprolazer.fashione.data.domain.model.Product
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
@@ -34,7 +34,7 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
      * Encapsulation
      */
     private val _products by lazy {
-        val liveData = MutableLiveData<Result<List<Product>>>()
+        val liveData = MutableLiveData<Resource<List<Product>>>()
         viewModelScope.launch {
             category?.let {
                 liveData.value = productRepositoryImpl.getProductsByCategoryId(category.id)
@@ -51,7 +51,7 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
      * Variable to store list of available product
      * Data for display Product RecycleView
      */
-    val products: LiveData<Result<List<Product>>> get() = _products
+    val products: LiveData<Resource<List<Product>>> get() = _products
 
     /**
      * Variable store data pass to SafeArgs when Navigate to ProductFragment

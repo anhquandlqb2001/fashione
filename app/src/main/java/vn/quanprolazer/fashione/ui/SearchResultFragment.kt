@@ -19,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
 import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.viewmodels.SearchResultViewModel
 
 @AndroidEntryPoint
@@ -73,7 +73,7 @@ class SearchResultFragment : Fragment() {
         viewModel.products.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
-                    is Result.Success -> productResultAdapter.submitList(it.data)
+                    is Resource.Success -> productResultAdapter.submitList(it.data)
                     else -> {
                     }
                 }

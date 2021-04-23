@@ -17,7 +17,7 @@ import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.data.domain.model.ProductVariantOption
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentBottomSheetProductVariantBinding
 import vn.quanprolazer.fashione.utilities.setProductVariantQty
 import vn.quanprolazer.fashione.viewmodels.BottomSheetProductVariantViewModel
@@ -94,7 +94,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                 viewModel.updateProductVariantOptions()
 
                 when(it) {
-                    is Result.Success -> {
+                    is Resource.Success -> {
                         val colorChipGroup = binding.cgName
                         val colorInflater = LayoutInflater.from(colorChipGroup.context)
                         val children = it.data.map { variant ->
@@ -121,8 +121,8 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
                                 val optionInflater = LayoutInflater.from(optionChipGroup.context)
 
                                 when(variant.options) {
-                                    is Result.Success -> {
-                                        val options = (variant.options as Result.Success<List<ProductVariantOption>>).data.map { productVariantOption ->
+                                    is Resource.Success -> {
+                                        val options = (variant.options as Resource.Success<List<ProductVariantOption>>).data.map { productVariantOption ->
                                             val optionChip = optionInflater.inflate(
                                                 R.layout.list_item_chip, optionChipGroup, false
                                             ) as Chip

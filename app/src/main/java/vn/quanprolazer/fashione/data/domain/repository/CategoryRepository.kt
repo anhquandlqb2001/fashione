@@ -8,12 +8,12 @@
 package vn.quanprolazer.fashione.data.domain.repository
 
 import vn.quanprolazer.fashione.data.domain.model.Category
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 
 interface CategoryRepository {
 
-    suspend fun getCategoryList(): Result<List<Category>>
+    suspend fun getCategoryList(): Resource<List<Category>>
 
-    suspend fun getCategoryListFromLocal(): Result<List<Category>>
+    suspend fun getCategoryListFromLocal(): Resource<List<Category>>
 
 }

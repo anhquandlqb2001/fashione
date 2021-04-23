@@ -8,12 +8,12 @@ package vn.quanprolazer.fashione.data.network.service
 
 import com.algolia.search.saas.Index
 import kotlinx.coroutines.CoroutineScope
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.network.dto.NetworkAlgoliaProduct
 
 interface SearchService : CoroutineScope {
 
     val index: Index
 
-    suspend fun findProductsByQuery(query: String): Result<List<NetworkAlgoliaProduct>>
+    suspend fun findProductsByQuery(query: String): Resource<List<NetworkAlgoliaProduct>>
 }

@@ -12,37 +12,39 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.CartItem
+import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import javax.inject.Inject
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.utilities.mapInPlace
+import vn.quanprolazer.fashione.utilities.notifyUpdate
 
 @HiltViewModel
 class CartViewModel @Inject constructor(private val orderRepository: OrderRepository,
                                         private val productRepository: ProductRepository
 ) : ViewModel() {
 
-    private val _cartItems: MutableLiveData<Result<MutableList<CartItem>>> by lazy {
-        val liveData = MutableLiveData<Result<MutableList<CartItem>>>(Result.Loading(null))
+    private val _cartItems: MutableLiveData<Resource<MutableList<CartItem>>> by lazy {
+        val liveData = MutableLiveData<Resource<MutableList<CartItem>>>(Resource.Loading(null))
         viewModelScope.launch {
             liveData.value = orderRepository.getCartItems()
         }
         return@lazy liveData
     }
 
-    val cartItems: LiveData<Result<MutableList<CartItem>>> get() = _cartItems
+    val cartItems: LiveData<Resource<MutableList<CartItem>>> get() = _cartItems
 
     fun updateCartItemsImage() {
-        (_cartItems.value as Result.Success).data.mapInPlace {
+        (_cartItems.value as Resource.Success).data.mapInPlace {
+            if (it.cartItemImg != null) return
             viewModelScope.launch {
                 when (val cartItemImage =
                     productRepository.getProductImageByProductVariantId(it.variantId)) {
-                    is Result.Success -> it.cartItemImg = Result.Success(cartItemImage.data)
-                    is Result.Error -> Result.Error(cartItemImage.exception)
-                    is Result.Loading -> it.cartItemImg = Result.Loading(null)
+                    is Resource.Success -> it.cartItemImg = Resource.Success(cartItemImage.data)
+                    is Resource.Error -> Resource.Error(cartItemImage.exception)
+                    is Resource.Loading -> it.cartItemImg = Resource.Loading(null)
                 }
             }
             it
@@ -50,12 +52,13 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
     }
 
     fun updateCartItemsProductName() {
-        (_cartItems.value as Result.Success).data.mapInPlace {
+        (_cartItems.value as Resource.Success).data.mapInPlace {
+            if (it.product != null) return
             viewModelScope.launch {
                 when (val product = productRepository.getProductByProductId(it.productId)) {
-                    is Result.Success -> it.product = Result.Success(product.data)
-                    is Result.Error -> Result.Error(product.exception)
-                    is Result.Loading -> it.product = Result.Loading(null)
+                    is Resource.Success -> it.product = Resource.Success(product.data)
+                    is Resource.Error -> Resource.Error(product.exception)
+                    is Resource.Loading -> it.product = Resource.Loading(null)
                 }
             }
             it
@@ -66,8 +69,8 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
         viewModelScope.launch {
             orderRepository.updateCartItem(cartItem.id, value)
         }
-
         cartItem.quantity = value
+        _cartItems.notifyUpdate()
 
     }
 }

@@ -11,10 +11,10 @@ import com.google.firebase.firestore.Source
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.dto.NetworkCategory
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 
 class CategoryServiceImpl : CategoryService {
-    override suspend fun getCategoryList(source: Source): Result<List<NetworkCategory>> {
+    override suspend fun getCategoryList(source: Source): Resource<List<NetworkCategory>> {
         val db = FirebaseFirestore.getInstance()
         return try {
             val list = db.collection("categories")
@@ -25,10 +25,10 @@ class CategoryServiceImpl : CategoryService {
                     it.toObject((NetworkCategory::class.java))
                 }
 
-            return Result.Success(list)
+            return Resource.Success(list)
         } catch (e: Exception) {
             Timber.e(e)
-            Result.Error(e)
+            Resource.Error(e)
         }
     }
 }

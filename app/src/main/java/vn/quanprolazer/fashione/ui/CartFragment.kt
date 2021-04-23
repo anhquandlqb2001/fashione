@@ -21,7 +21,7 @@ import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.adapters.CartItemQuantityControlClick
 import vn.quanprolazer.fashione.data.domain.model.CartItem
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
 
@@ -66,10 +66,11 @@ class CartFragment : Fragment() {
         viewModel.cartItems.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
-                    is Result.Success -> {
+                    is Resource.Success -> {
+                        Timber.i("loading cart items")
                         observeCartItemsSuccess(it)
                     }
-                    is Result.Loading -> {
+                    is Resource.Loading -> {
                         observeCartItemLoading()
                     }
                     else -> {
@@ -85,7 +86,7 @@ class CartFragment : Fragment() {
         shouldDisplayLoadingProgress()
     }
 
-    private fun observeCartItemsSuccess(it: Result.Success<MutableList<CartItem>>) {
+    private fun observeCartItemsSuccess(it: Resource.Success<MutableList<CartItem>>) {
         viewModel.updateCartItemsImage()
         viewModel.updateCartItemsProductName()
         Handler(Looper.getMainLooper()).postDelayed({

@@ -159,9 +159,8 @@ fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
     this.value = oldValue
 }
 
-fun <T> MutableLiveData<MutableList<T>>.notifyUpdate(item: T) {
-    val oldValue = this.value ?: mutableListOf()
-    this.value = oldValue
+fun <T> MutableLiveData<T>.notifyUpdate() {
+    this.value = this.value
 }
 
 fun <T> MutableLiveData<MutableList<T>>.addNewItemAt(index: Int, item: T) {

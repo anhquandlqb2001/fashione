@@ -19,9 +19,8 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 import vn.quanprolazer.fashione.viewmodels.ProductSharedViewModel
 import vn.quanprolazer.fashione.viewmodels.ProductViewModel
@@ -115,9 +114,9 @@ class ProductFragment : Fragment() {
     private fun observeProductImages(productImageAdapter: ProductImageAdapter) {
         viewModel.productImages.observe(viewLifecycleOwner, {
             when(it) {
-                is Result.Success -> productImageAdapter.submitList(it.data)
-                is Result.Loading -> {}
-                is Result.Error -> {}
+                is Resource.Success -> productImageAdapter.submitList(it.data)
+                is Resource.Loading -> {}
+                is Resource.Error -> {}
             }
 
         })

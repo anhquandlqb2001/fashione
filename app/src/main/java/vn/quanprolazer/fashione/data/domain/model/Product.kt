@@ -48,7 +48,7 @@ data class ProductImage(
 
 data class ProductVariant(val id: String = "",
                           val name: String = "",
-                          var options: Result<List<ProductVariantOption>>? = null
+                          var options: Resource<List<ProductVariantOption>>? = null
 )
 
 

@@ -16,6 +16,6 @@ data class CartItem(
     val variantValue: String,
     var quantity: Int,
     val price: String,
-    var cartItemImg: Result<ProductImage>?,
-    var product: Result<Product>? = null
+    var cartItemImg: Resource<ProductImage>?,
+    var product: Resource<Product>? = null
 )

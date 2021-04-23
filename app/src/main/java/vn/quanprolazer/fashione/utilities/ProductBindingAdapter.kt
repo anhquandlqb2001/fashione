@@ -10,7 +10,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import vn.quanprolazer.fashione.data.domain.model.ProductDetail
-import vn.quanprolazer.fashione.data.domain.model.Result
+import vn.quanprolazer.fashione.data.domain.model.Resource
 
 private const val PRODUCT_NAME_LIMIT = 10
 
@@ -29,10 +29,10 @@ fun TextView.setProductName(productName: String?) {
 }
 
 @BindingAdapter("productDescription")
-fun TextView.setProductDescription(productDetail: Result<ProductDetail>?) {
+fun TextView.setProductDescription(productDetail: Resource<ProductDetail>?) {
     productDetail?.let {
         when (productDetail) {
-            is Result.Success -> text = productDetail.data.description
+            is Resource.Success -> text = productDetail.data.description
             else -> {
             }
         }
