@@ -13,6 +13,10 @@
         <variable
             name="cartItem"
             type="vn.quanprolazer.fashione.data.domain.model.CartItem" />
+
+        <variable
+            name="clickListener"
+            type="vn.quanprolazer.fashione.adapters.CartItemQuantityControlClick" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -86,6 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
+                android:onClick="@{() -> clickListener.quantityControlClick(cartItem, cartItem.quantity - 1)}"
                 style="@style/QuantityPickerButtonStyleSmall" />
 
             <TextView
@@ -93,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="8dp"
-                android:text="@{String.valueOf(cartItem.quantity)}"
+                cartItemQuantity="@{cartItem}"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="16sp"
@@ -103,6 +108,7 @@
                 style="@style/QuantityPickerButtonStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{() -> clickListener.quantityControlClick(cartItem, cartItem.quantity + 1)}"
                 android:text="+"/>
 
         </LinearLayout>

@@ -29,15 +29,9 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
                                                       @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : OrderRepository {
     override suspend fun addToCart(addToCartItem: AddToCartItem): Result<Boolean> {
-
-        //        if (userRepository.getAuthenticateState().value != AuthenticationState.AUTHENTICATED) {
-        //            return Result.Error(Exception("User not login yet"))
-        //        }
-
         val result = withContext(defaultDispatcher) {
             orderService.addToCart(addToCartItem, userRepository.getUser().value!!.uid)
         }
-
 
         return when (result) {
             is Result.Success -> Result.Success(true)
@@ -47,17 +41,23 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
     }
 
     override suspend fun getCartItems(): Result<MutableList<CartItem>> {
-        //        if (userRepository.getAuthenticateState().value != AuthenticationState.AUTHENTICATED) {
-        //            return Result.Error(Exception("User not login yet"))
-        //        }
-
         val result = withContext(defaultDispatcher) {
             orderService.getCartItems(userRepository.getUser().value!!.uid)
         }
 
-
         return when (result) {
             is Result.Success -> Result.Success(NetworkCartItemsMapper.map(result.data).toMutableList())
+            is Result.Error -> Result.Error(result.exception)
+            else -> Result.Loading(null)
+        }
+    }
+
+    override suspend fun updateCartItem(cartItemId: String, quantity: Int): Result<Boolean> {
+        val result = withContext(defaultDispatcher) {
+            orderService.updateCartItem(cartItemId, quantity)
+        }
+        return when (result) {
+            is Result.Success -> Result.Success(result.data)
             is Result.Error -> Result.Error(result.exception)
             else -> Result.Loading(null)
         }

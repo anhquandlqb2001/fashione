@@ -9,6 +9,7 @@ package vn.quanprolazer.fashione.utilities
 import android.graphics.Rect
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
@@ -148,5 +149,33 @@ inline fun <T> MutableList<T>.mapInPlace(mutator: (T) -> T) {
         if (newValue !== oldValue) {
             iterate.set(newValue)
         }
+    }
+}
+
+
+fun <T> MutableLiveData<MutableList<T>>.addNewItem(item: T) {
+    val oldValue = this.value ?: mutableListOf()
+    oldValue.add(item)
+    this.value = oldValue
+}
+
+fun <T> MutableLiveData<MutableList<T>>.notifyUpdate(item: T) {
+    val oldValue = this.value ?: mutableListOf()
+    this.value = oldValue
+}
+
+fun <T> MutableLiveData<MutableList<T>>.addNewItemAt(index: Int, item: T) {
+    val oldValue = this.value ?: mutableListOf()
+    oldValue.add(index, item)
+    this.value = oldValue
+}
+
+fun <T> MutableLiveData<MutableList<T>>.removeItemAt(index: Int) {
+    if (!this.value.isNullOrEmpty()) {
+        val oldValue = this.value
+        oldValue?.removeAt(index)
+        this.value = oldValue
+    } else {
+        this.value = mutableListOf()
     }
 }

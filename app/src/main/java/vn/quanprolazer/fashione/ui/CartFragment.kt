@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
+import vn.quanprolazer.fashione.adapters.CartItemQuantityControlClick
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Result
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
@@ -33,7 +34,7 @@ class CartFragment : Fragment() {
 
     private val viewModel: CartViewModel by viewModels()
 
-    private val adapter: CartItemAdapter by lazy { CartItemAdapter() }
+    private lateinit var adapter: CartItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -50,6 +51,11 @@ class CartFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        adapter = CartItemAdapter(CartItemQuantityControlClick { cartItem, value ->
+            viewModel.onQuantityControlClick(cartItem, value)
+        })
+
         binding.rvCart.adapter = adapter
         binding.rvCart.layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 

@@ -11,6 +11,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
+import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Product
 import vn.quanprolazer.fashione.data.domain.model.ProductImage
 import vn.quanprolazer.fashione.data.domain.model.Result
@@ -61,6 +63,11 @@ fun TextView.cartItemName(product: Result<Product>?) {
             else -> {}
         }
     }
+}
 
-
+@BindingAdapter("cartItemQuantity")
+fun TextView.cartItemQuantity(cartItem: CartItem?) {
+    cartItem?.let {
+        text = cartItem.quantity.toString()
+    }
 }

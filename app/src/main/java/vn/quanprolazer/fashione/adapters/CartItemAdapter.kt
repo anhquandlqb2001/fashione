@@ -15,9 +15,10 @@ import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.databinding.ListItemCartBinding
 
 
-class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder>(
-    CartItemDiffCallback
-) {
+class CartItemAdapter(private val clickListener: CartItemQuantityControlClick) :
+    ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder>(
+        CartItemDiffCallback
+    ) {
     class CartItemViewHolder(private val binding: ListItemCartBinding) : RecyclerView.ViewHolder(
         binding.root
     ) {
@@ -30,9 +31,10 @@ class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder
             }
         }
 
-        fun bind(cartItem: CartItem) {
+        fun bind(cartItem: CartItem, clickListener: CartItemQuantityControlClick) {
             binding.cbBuy.setOnCheckedChangeListener(null)
             binding.cartItem = cartItem
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
     }
@@ -42,11 +44,15 @@ class CartItemAdapter : ListAdapter<CartItem, CartItemAdapter.CartItemViewHolder
     }
 
     override fun onBindViewHolder(holder: CartItemViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), clickListener)
     }
 
 }
 
+class CartItemQuantityControlClick(val quantityControlClickListener: (cartItem: CartItem, value: Int) -> Unit
+) {
+    fun quantityControlClick(cartItem: CartItem, value: Int) = quantityControlClickListener(cartItem, value)
+}
 
 object CartItemDiffCallback : DiffUtil.ItemCallback<CartItem>() {
     override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
@@ -56,5 +62,4 @@ object CartItemDiffCallback : DiffUtil.ItemCallback<CartItem>() {
     override fun areContentsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
         return oldItem == newItem
     }
-
 }

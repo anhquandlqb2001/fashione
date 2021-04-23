@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import javax.inject.Inject
@@ -51,8 +52,7 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
     fun updateCartItemsProductName() {
         (_cartItems.value as Result.Success).data.mapInPlace {
             viewModelScope.launch {
-                when (val product =
-                    productRepository.getProductByProductId(it.productId)) {
+                when (val product = productRepository.getProductByProductId(it.productId)) {
                     is Result.Success -> it.product = Result.Success(product.data)
                     is Result.Error -> Result.Error(product.exception)
                     is Result.Loading -> it.product = Result.Loading(null)
@@ -60,5 +60,14 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
             }
             it
         }
+    }
+
+    fun onQuantityControlClick(cartItem: CartItem, value: Int) {
+        viewModelScope.launch {
+            orderRepository.updateCartItem(cartItem.id, value)
+        }
+
+        cartItem.quantity = value
+
     }
 }

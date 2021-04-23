@@ -14,5 +14,7 @@ interface OrderService {
 
     suspend fun addToCart(addToCartItem: AddToCartItem, userId: String): Result<Boolean>
 
+    suspend fun updateCartItem(cartItemId: String, quantity: Int): Result<Boolean>
+
     suspend fun getCartItems(userId: String): Result<List<NetworkCartItem>>
 }

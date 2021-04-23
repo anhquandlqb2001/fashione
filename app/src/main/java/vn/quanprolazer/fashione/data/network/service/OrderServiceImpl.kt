@@ -54,5 +54,16 @@ class OrderServiceImpl : OrderService {
             Result.Error(e)
         }
     }
+
+    override suspend fun updateCartItem(cartItemId: String, quantity: Int): Result<Boolean> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            db.collection("carts").document(cartItemId).update("quantity", quantity).await()
+            Result.Success(true)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Result.Error(e)
+        }
+    }
 }
 
