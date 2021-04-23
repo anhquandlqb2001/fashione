@@ -30,4 +30,5 @@
     <string name="text_blank_cart">Giỏ hàng đang trống</string>
     <string name="delete_success_text">Đã xóa sản phẩm</string>
     <string name="snack_bar_undo_text">Hoàn tác</string>
+    <string name="pay_text">Thanh toán</string>
 </resources>
