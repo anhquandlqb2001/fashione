@@ -17,5 +17,6 @@ data class CartItem(
     var quantity: Int,
     val price: String,
     var cartItemImg: Resource<ProductImage>?,
-    var product: Resource<Product>? = null
+    var product: Resource<Product>? = null,
+    var isChecked: Boolean = false
 )

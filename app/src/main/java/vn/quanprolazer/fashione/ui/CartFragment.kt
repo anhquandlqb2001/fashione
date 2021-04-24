@@ -26,10 +26,10 @@ import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.adapters.CartItemQuantityControlClick
-import vn.quanprolazer.fashione.adapters.ItemSwipeHandler
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
+import vn.quanprolazer.fashione.utilities.ItemSwipeHandler
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
 
 
