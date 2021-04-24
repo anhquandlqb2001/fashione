@@ -157,10 +157,12 @@ class CartFragment : Fragment() {
             if (it.data.size == 0) {
                 shouldDisplayBlankCart(View.VISIBLE)
                 shouldDisplayLoadingProgress(View.GONE)
+                checkoutSharedViewModel.updateVisibleBottomCheckout(false)
                 return@postDelayed
             }
             shouldDisplayBlankCart(View.GONE)
             shouldDisplayLoadingProgress(View.GONE)
+            checkoutSharedViewModel.updateVisibleBottomCheckout(true)
             adapter.submitList(it.data)
             binding.rvCart.visibility = View.VISIBLE
         }, 1000)

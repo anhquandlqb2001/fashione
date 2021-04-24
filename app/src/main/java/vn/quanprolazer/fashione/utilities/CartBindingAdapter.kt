@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
@@ -86,8 +87,6 @@ fun RecyclerView.setCartItems(cartItems: LiveData<Resource<List<CartItem>>>?) {
 @BindingAdapter("totalPrice")
 fun TextView.calculateTotalPrice(orderData: LiveData<OrderData>?) {
     orderData?.value?.let {
-        Timber.i(orderData.value.toString())
-
         val priceText = orderData.value!!.totalPrice
         val priceCurrency = convertPriceStringToCurrencyString(priceText)
 
@@ -96,4 +95,15 @@ fun TextView.calculateTotalPrice(orderData: LiveData<OrderData>?) {
     }
 
     text = resources.getString(R.string.total_price_text, convertPriceStringToCurrencyString("0"))
+}
+
+@BindingAdapter("shouldDisplayBottomCheckout")
+fun ConstraintLayout.shouldDisplayBottomCheckout(bool: LiveData<Boolean>?){
+    bool?.value.let {
+        visibility = if (bool?.value == true) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
 }
