@@ -11,9 +11,11 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
@@ -24,7 +26,7 @@ fun ImageView.cartImage(cartImage: Resource<ProductImage>?) {
     cartImage?.let {
         when (cartImage) {
             is Resource.Success -> {
-                this.loadImage(cartImage.data.url)
+                loadImage(cartImage.data.url)
             }
             is Resource.Loading -> {
             }
@@ -74,11 +76,15 @@ fun TextView.cartItemQuantity(cartItem: CartItem?) {
     }
 }
 
+
 @BindingAdapter("cartItems")
 fun RecyclerView.setCartItems(cartItems: LiveData<Resource<List<CartItem>>>?) {
     cartItems?.let {
         when(it.value) {
-            is Resource.Success -> (this.adapter as CartItemAdapter).submitList((it.value as Resource.Success<List<CartItem>>).data.toMutableList())
+            is Resource.Success -> {
+                visibility = View.VISIBLE
+                (this.adapter as CartItemAdapter).submitList((it.value as Resource.Success<List<CartItem>>).data.toMutableList())
+            }
             else -> {}
         }
     }

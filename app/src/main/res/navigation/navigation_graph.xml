@@ -78,7 +78,15 @@
     <fragment
         android:id="@+id/cartFragment"
         android:name="vn.quanprolazer.fashione.ui.CartFragment"
-        android:label="CartFragment" />
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="vn.quanprolazer.fashione.ui.CheckoutFragment"
+        android:label="CheckoutFragment" />
 
 
 </navigation>

@@ -16,6 +16,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +35,7 @@ import vn.quanprolazer.fashione.utilities.ItemSwipeHandler
 import vn.quanprolazer.fashione.viewmodels.BottomCheckoutViewModel
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
 import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
+import java.text.FieldPosition
 
 
 @AndroidEntryPoint
@@ -71,6 +74,52 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupRecyclerViewAdapter()
+
+        viewModel.cartItems.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        Timber.i(it.data.toString())
+
+                        if (viewModel.flagFirstTimeLoad) {
+                            viewModel.updateCartItemsImage()
+                            viewModel.updateCartItemsProductName()
+                            viewModel.doneFirstTimeLoad()
+                        }
+
+                        if (it.data.size == 0) {
+                            updateBlankCartFragmentVisibility(View.VISIBLE)
+                            updateLoadingProgressVisibility(View.GONE)
+                            updateBottomCheckoutVisibility(false)
+                            return@let
+                        }
+
+                        checkoutSharedViewModel.updateOrderData(it.data)
+
+                        updateBlankCartFragmentVisibility(View.GONE)
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            updateBottomCheckoutVisibility(true)
+                            adapter.submitList(it.data)
+                            updateLoadingProgressVisibility(View.INVISIBLE)
+                            updateBottomCheckoutVisibility(true)
+                            binding.rvCart.visibility = View.VISIBLE
+                        }, 800)
+                    }
+                    is Resource.Loading -> {
+                        updateCartUILoading()
+                    }
+                    else -> {
+                    }
+                }
+            }
+        })
+
+        observeNavigateToCheckout()
+    }
+
+    private fun setupRecyclerViewAdapter() {
         adapter = CartItemAdapter(object : CartItemListener() {
             override fun quantityControlClick(cartItem: CartItem, value: Int) {
                 viewModel.onQuantityControlClick(cartItem, value)
@@ -80,49 +129,35 @@ class CartFragment : Fragment() {
                 viewModel.refreshList()
             }
         })
-
-
-        viewModel.cartItems.observe(viewLifecycleOwner, {
-            it?.let {
-                when (it) {
-                    is Resource.Success -> checkoutSharedViewModel.updateOrderData(it.data)
-                    else -> {
-                    }
-                }
-            }
-        })
-
-        setupItemTouchHelper()
-
         binding.rvCart.adapter = adapter
         binding.rvCart.layoutManager =
             WrapContentLinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
-        observeCartItems()
+        setupItemTouchHelper()
     }
 
     private fun setupItemTouchHelper() {
         ItemTouchHelper(ItemSwipeHandler(
             adapter,
             ContextCompat.getDrawable(requireContext(), R.drawable.baseline_delete_black_36dp)
-        ) { position, item ->
+        ) { _, item ->
             viewModel.removeCartItem(item.id)
-            showUndoSnackbar(position, item)
+            showUndoSnackbar(item)
         }).attachToRecyclerView(binding.rvCart)
     }
 
-    class WrapContentLinearLayoutManager(context: Context, orient: Int, attachToRoot: Boolean
-    ) : LinearLayoutManager(context, orient, attachToRoot) {
-        override fun onLayoutChildren(recycler: Recycler, state: RecyclerView.State) {
-            try {
-                super.onLayoutChildren(recycler, state)
-            } catch (e: IndexOutOfBoundsException) {
-                Timber.e(e)
+    private fun observeNavigateToCheckout() {
+        bottomCheckoutViewModel.navigateToCheckoutScreen.observe(viewLifecycleOwner, {
+            it?.let {
+                val options = NavOptions.Builder().setLaunchSingleTop(true).build()
+                this.findNavController().navigate(
+                    CartFragmentDirections.actionCartFragmentToCheckoutFragment(), options
+                )
+                bottomCheckoutViewModel.onNavigateSuccess()
             }
-        }
+        })
     }
 
-    private fun showUndoSnackbar(position: Int, cartItem: CartItem) {
+    private fun showUndoSnackbar(cartItem: CartItem) {
         val snackbar: Snackbar = Snackbar.make(
             binding.root, R.string.delete_success_text, Snackbar.LENGTH_LONG
         )
@@ -134,53 +169,15 @@ class CartFragment : Fragment() {
         snackbar.show()
     }
 
-    private fun observeCartItems() {
-        viewModel.cartItems.observe(viewLifecycleOwner, {
-            it?.let {
-                when (it) {
-                    is Resource.Success -> {
-                        observeCartItemsSuccess(it)
-                    }
-                    is Resource.Loading -> {
-                        observeCartItemLoading()
-                    }
-                    else -> {
-                        // Error handler
-                    }
-                }
-            }
-        })
-    }
-
-    private fun observeCartItemLoading() {
+    private fun updateCartUILoading() {
         updateBlankCartFragmentVisibility(View.GONE)
         updateLoadingProgressVisibility()
         updateBottomCheckoutVisibility(false)
     }
 
-    private fun observeCartItemsSuccess(it: Resource.Success<MutableList<CartItem>>) {
-        if (viewModel.flagFirstTime.value == null) return
-        viewModel.updateCartItemsImage()
-        viewModel.updateCartItemsProductName()
-        Handler(Looper.getMainLooper()).postDelayed({
-            if (it.data.size == 0) {
-                updateBlankCartFragmentVisibility(View.VISIBLE)
-                updateLoadingProgressVisibility(View.GONE)
-                updateBottomCheckoutVisibility(false)
-                return@postDelayed
-            }
-            updateBlankCartFragmentVisibility(View.GONE)
-            updateLoadingProgressVisibility(View.GONE)
-            updateBottomCheckoutVisibility(true)
-            adapter.submitList(it.data)
-            binding.rvCart.visibility = View.VISIBLE
-        }, 1000)
-        viewModel.offFlagFirstTime()
-    }
-
-    private fun updateBottomCheckoutVisibility(value: Boolean) {
+    private fun updateBottomCheckoutVisibility(value: Boolean) =
         bottomCheckoutViewModel.updateVisibleBottomCheckout(value)
-    }
+
 
     private fun updateLoadingProgressVisibility(visibility: Int = View.VISIBLE) {
         binding.cpLoading.visibility = visibility
@@ -188,6 +185,17 @@ class CartFragment : Fragment() {
 
     private fun updateBlankCartFragmentVisibility(visibility: Int) {
         binding.fBlankCart.visibility = visibility
+    }
+
+    class WrapContentLinearLayoutManager(context: Context, orient: Int, attachToRoot: Boolean) :
+        LinearLayoutManager(context, orient, attachToRoot) {
+        override fun onLayoutChildren(recycler: Recycler, state: RecyclerView.State) {
+            try {
+                super.onLayoutChildren(recycler, state)
+            } catch (e: IndexOutOfBoundsException) {
+                Timber.e(e)
+            }
+        }
     }
 
     override fun onDestroy() {

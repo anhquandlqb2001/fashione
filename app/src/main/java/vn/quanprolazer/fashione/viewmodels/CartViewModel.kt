@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import javax.inject.Inject
@@ -33,15 +34,15 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
         return@lazy liveData
     }
 
-    private val _flagFirstTime = MutableLiveData(true)
-
-    val flagFirstTime: LiveData<Boolean> get() = _flagFirstTime
-
-    fun offFlagFirstTime() {
-        _flagFirstTime.value = null
-    }
-
     val cartItems: LiveData<Resource<MutableList<CartItem>>> get() = _cartItems
+
+    private var _flagFirstTimeLoad: Boolean = true
+
+    val flagFirstTimeLoad: Boolean get() = _flagFirstTimeLoad
+
+    fun doneFirstTimeLoad() {
+        _flagFirstTimeLoad = false
+    }
 
     fun updateCartItemsImage() {
         (_cartItems.value as Resource.Success).data.mapInPlace {
@@ -51,7 +52,7 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
                     productRepository.getProductImageByProductVariantId(it.variantId)) {
                     is Resource.Success -> it.cartItemImg = Resource.Success(cartItemImage.data)
                     is Resource.Error -> Resource.Error(cartItemImage.exception)
-                    is Resource.Loading -> it.cartItemImg = Resource.Loading(null)
+                    is Resource.Loading -> it.cartItemImg = null
                 }
             }
             it
@@ -84,7 +85,6 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
         viewModelScope.launch {
             orderRepository.removeCartItem(cartItemId)
         }
-//        refreshList()
     }
 
     fun undoDeleteCartItem(cartItem: CartItem) {
