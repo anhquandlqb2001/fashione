@@ -43,14 +43,4 @@ class CheckoutSharedViewModel : ViewModel() {
         _orderData.value = _orderData.value
     }
 
-    private val _visibleBottomCheckout: MutableLiveData<Boolean> by lazy {
-        MutableLiveData(null)
-    }
-
-    val visibleBottomCheckout: LiveData<Boolean> get() = _visibleBottomCheckout
-
-    fun updateVisibleBottomCheckout(value: Boolean = false) {
-        _visibleBottomCheckout.value = value
-    }
-
 }

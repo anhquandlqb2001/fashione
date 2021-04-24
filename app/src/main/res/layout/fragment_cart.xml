@@ -17,6 +17,10 @@
         <variable
             name="sharedViewModel"
             type="vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel" />
+
+        <variable
+            name="bottomCheckoutViewModel"
+            type="vn.quanprolazer.fashione.viewmodels.BottomCheckoutViewModel" />
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -64,7 +68,8 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <include
-                    app:viewModel="@{sharedViewModel}"
+                    app:sharedViewModel="@{sharedViewModel}"
+                    app:viewModel="@{bottomCheckoutViewModel}"
                     layout="@layout/fragment_bottom_checkout"/>
 
             </LinearLayout>

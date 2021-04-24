@@ -30,6 +30,7 @@ import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
 import vn.quanprolazer.fashione.utilities.ItemSwipeHandler
+import vn.quanprolazer.fashione.viewmodels.BottomCheckoutViewModel
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
 import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
 
@@ -44,6 +45,8 @@ class CartFragment : Fragment() {
 
     private val checkoutSharedViewModel: CheckoutSharedViewModel by viewModels()
 
+    private val bottomCheckoutViewModel: BottomCheckoutViewModel by viewModels()
+
     private lateinit var adapter: CartItemAdapter
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -54,11 +57,15 @@ class CartFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.viewModel = viewModel
-
-        binding.sharedViewModel = checkoutSharedViewModel
+        setupViewModel()
 
         return binding.root
+    }
+
+    private fun setupViewModel() {
+        binding.viewModel = viewModel
+        binding.sharedViewModel = checkoutSharedViewModel
+        binding.bottomCheckoutViewModel = bottomCheckoutViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,9 +84,10 @@ class CartFragment : Fragment() {
 
         viewModel.cartItems.observe(viewLifecycleOwner, {
             it?.let {
-                when(it) {
+                when (it) {
                     is Resource.Success -> checkoutSharedViewModel.updateOrderData(it.data)
-                    else -> {}
+                    else -> {
+                    }
                 }
             }
         })
@@ -145,8 +153,9 @@ class CartFragment : Fragment() {
     }
 
     private fun observeCartItemLoading() {
-        shouldDisplayBlankCart(View.GONE)
-        shouldDisplayLoadingProgress()
+        updateBlankCartFragmentVisibility(View.GONE)
+        updateLoadingProgressVisibility()
+        updateBottomCheckoutVisibility(false)
     }
 
     private fun observeCartItemsSuccess(it: Resource.Success<MutableList<CartItem>>) {
@@ -155,25 +164,29 @@ class CartFragment : Fragment() {
         viewModel.updateCartItemsProductName()
         Handler(Looper.getMainLooper()).postDelayed({
             if (it.data.size == 0) {
-                shouldDisplayBlankCart(View.VISIBLE)
-                shouldDisplayLoadingProgress(View.GONE)
-                checkoutSharedViewModel.updateVisibleBottomCheckout(false)
+                updateBlankCartFragmentVisibility(View.VISIBLE)
+                updateLoadingProgressVisibility(View.GONE)
+                updateBottomCheckoutVisibility(false)
                 return@postDelayed
             }
-            shouldDisplayBlankCart(View.GONE)
-            shouldDisplayLoadingProgress(View.GONE)
-            checkoutSharedViewModel.updateVisibleBottomCheckout(true)
+            updateBlankCartFragmentVisibility(View.GONE)
+            updateLoadingProgressVisibility(View.GONE)
+            updateBottomCheckoutVisibility(true)
             adapter.submitList(it.data)
             binding.rvCart.visibility = View.VISIBLE
         }, 1000)
         viewModel.offFlagFirstTime()
     }
 
-    private fun shouldDisplayLoadingProgress(visibility: Int = View.VISIBLE) {
+    private fun updateBottomCheckoutVisibility(value: Boolean) {
+        bottomCheckoutViewModel.updateVisibleBottomCheckout(value)
+    }
+
+    private fun updateLoadingProgressVisibility(visibility: Int = View.VISIBLE) {
         binding.cpLoading.visibility = visibility
     }
 
-    private fun shouldDisplayBlankCart(visibility: Int) {
+    private fun updateBlankCartFragmentVisibility(visibility: Int) {
         binding.fBlankCart.visibility = visibility
     }
 
