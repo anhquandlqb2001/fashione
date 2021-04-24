@@ -119,7 +119,7 @@ fun convertPriceStringToCurrencyString(text: String, currencyCode: String = "VND
     val format: NumberFormat = NumberFormat.getCurrencyInstance()
     format.maximumFractionDigits = 0
     format.currency = Currency.getInstance(currencyCode)
-    return format.format(text.toInt())
+    return format.format(text.toFloat())
 }
 
 /**

@@ -31,4 +31,6 @@
     <string name="delete_success_text">Đã xóa sản phẩm</string>
     <string name="snack_bar_undo_text">Hoàn tác</string>
     <string name="pay_text">Thanh toán</string>
+
+    <string name="total_price_text">Tổng: %s</string>
 </resources>

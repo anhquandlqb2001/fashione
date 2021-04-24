@@ -14,11 +14,9 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import timber.log.Timber
+import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
-import vn.quanprolazer.fashione.data.domain.model.CartItem
-import vn.quanprolazer.fashione.data.domain.model.Product
-import vn.quanprolazer.fashione.data.domain.model.ProductImage
-import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.model.*
 
 @BindingAdapter("cartImage")
 fun ImageView.cartImage(cartImage: Resource<ProductImage>?) {
@@ -78,10 +76,24 @@ fun TextView.cartItemQuantity(cartItem: CartItem?) {
 @BindingAdapter("cartItems")
 fun RecyclerView.setCartItems(cartItems: LiveData<Resource<List<CartItem>>>?) {
     cartItems?.let {
-        Timber.i(cartItems.value.toString())
         when(it.value) {
             is Resource.Success -> (this.adapter as CartItemAdapter).submitList((it.value as Resource.Success<List<CartItem>>).data.toMutableList())
             else -> {}
         }
     }
+}
+
+@BindingAdapter("totalPrice")
+fun TextView.calculateTotalPrice(orderData: LiveData<OrderData>?) {
+    orderData?.value?.let {
+        Timber.i(orderData.value.toString())
+
+        val priceText = orderData.value!!.totalPrice
+        val priceCurrency = convertPriceStringToCurrencyString(priceText)
+
+        text = resources.getString(R.string.total_price_text, priceCurrency)
+        return
+    }
+
+    text = resources.getString(R.string.total_price_text, convertPriceStringToCurrencyString("0"))
 }

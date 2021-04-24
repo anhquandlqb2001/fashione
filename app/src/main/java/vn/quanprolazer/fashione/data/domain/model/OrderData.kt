@@ -6,7 +6,7 @@
 
 package vn.quanprolazer.fashione.data.domain.model
 
-data class Order(
-    val totalPrice: String,
-    val items: MutableList<CartItem>
+data class OrderData(
+    var totalPrice: String = "0",
+    var items: MutableList<CartItem> = mutableListOf()
 )

@@ -13,6 +13,10 @@
         <variable
             name="viewModel"
             type="vn.quanprolazer.fashione.viewmodels.CartViewModel" />
+
+        <variable
+            name="sharedViewModel"
+            type="vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel" />
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,6 +64,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <include
+                    app:viewModel="@{sharedViewModel}"
                     layout="@layout/fragment_bottom_checkout"/>
 
             </LinearLayout>

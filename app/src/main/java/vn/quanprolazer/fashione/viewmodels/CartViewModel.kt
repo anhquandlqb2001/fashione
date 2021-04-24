@@ -94,5 +94,5 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
         refreshList()
     }
 
-    private fun refreshList() = _cartItems.notifyUpdate()
+    fun refreshList() = _cartItems.notifyUpdate()
 }

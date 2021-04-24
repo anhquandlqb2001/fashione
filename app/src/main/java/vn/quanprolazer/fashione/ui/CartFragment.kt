@@ -25,22 +25,24 @@ import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.CartItemAdapter
-import vn.quanprolazer.fashione.adapters.CartItemQuantityControlClick
+import vn.quanprolazer.fashione.adapters.CartItemListener
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentCartBinding
 import vn.quanprolazer.fashione.utilities.ItemSwipeHandler
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
+import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
 
 
 @AndroidEntryPoint
 class CartFragment : Fragment() {
 
     private var _binding: FragmentCartBinding? = null
-
     private val binding: FragmentCartBinding get() = _binding!!
 
     private val viewModel: CartViewModel by viewModels()
+
+    private val checkoutSharedViewModel: CheckoutSharedViewModel by viewModels()
 
     private lateinit var adapter: CartItemAdapter
 
@@ -54,16 +56,44 @@ class CartFragment : Fragment() {
 
         binding.viewModel = viewModel
 
+        binding.sharedViewModel = checkoutSharedViewModel
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = CartItemAdapter(CartItemQuantityControlClick { cartItem, value ->
-            viewModel.onQuantityControlClick(cartItem, value)
+        adapter = CartItemAdapter(object : CartItemListener() {
+            override fun quantityControlClick(cartItem: CartItem, value: Int) {
+                viewModel.onQuantityControlClick(cartItem, value)
+            }
+
+            override fun checkBoxClick(cartItem: CartItem) {
+                viewModel.refreshList()
+            }
         })
 
+
+        viewModel.cartItems.observe(viewLifecycleOwner, {
+            it?.let {
+                when(it) {
+                    is Resource.Success -> checkoutSharedViewModel.updateOrderData(it.data)
+                    else -> {}
+                }
+            }
+        })
+
+        setupItemTouchHelper()
+
+        binding.rvCart.adapter = adapter
+        binding.rvCart.layoutManager =
+            WrapContentLinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+
+        observeCartItems()
+    }
+
+    private fun setupItemTouchHelper() {
         ItemTouchHelper(ItemSwipeHandler(
             adapter,
             ContextCompat.getDrawable(requireContext(), R.drawable.baseline_delete_black_36dp)
@@ -71,12 +101,6 @@ class CartFragment : Fragment() {
             viewModel.removeCartItem(item.id)
             showUndoSnackbar(position, item)
         }).attachToRecyclerView(binding.rvCart)
-
-        binding.rvCart.adapter = adapter
-        binding.rvCart.layoutManager =
-            WrapContentLinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-
-        observeCartItems()
     }
 
     class WrapContentLinearLayoutManager(context: Context, orient: Int, attachToRoot: Boolean
