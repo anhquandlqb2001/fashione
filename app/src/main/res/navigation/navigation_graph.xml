@@ -86,7 +86,13 @@
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="vn.quanprolazer.fashione.ui.CheckoutFragment"
-        android:label="CheckoutFragment" />
+        android:label="CheckoutFragment">
+
+        <argument
+            android:name="checkoutItems"
+            app:argType="vn.quanprolazer.fashione.data.domain.model.CheckoutItem[]" />
+
+    </fragment>
 
 
 </navigation>

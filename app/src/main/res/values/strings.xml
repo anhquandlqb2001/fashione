@@ -34,4 +34,5 @@
 
     <string name="total_price_text">Tổng: %s</string>
     <string name="address_text">Địa chỉ nhận hàng</string>
+    <string name="total_price_checkout_text">Tổng số tiền:</string>
 </resources>

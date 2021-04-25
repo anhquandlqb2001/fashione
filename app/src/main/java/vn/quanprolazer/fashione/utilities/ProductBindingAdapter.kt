@@ -9,6 +9,7 @@ package vn.quanprolazer.fashione.utilities
 import android.view.View
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.ProductDetail
 import vn.quanprolazer.fashione.data.domain.model.Resource
 

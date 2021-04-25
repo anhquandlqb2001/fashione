@@ -9,7 +9,11 @@ package vn.quanprolazer.fashione.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import timber.log.Timber
+import vn.quanprolazer.fashione.data.domain.mapper.OrderDataMapper
+import vn.quanprolazer.fashione.data.domain.model.CheckoutItem
 import vn.quanprolazer.fashione.data.domain.model.OrderData
+import vn.quanprolazer.fashione.utilities.notifyUpdate
 
 class BottomCheckoutViewModel : ViewModel() {
     private val _visibleBottomCheckout: MutableLiveData<Boolean> by lazy {
@@ -22,18 +26,18 @@ class BottomCheckoutViewModel : ViewModel() {
         _visibleBottomCheckout.value = value
     }
 
-    private val _navigateToCheckoutScreen: MutableLiveData<Boolean> by lazy {
+    private val _navigateToCheckoutScreen: MutableLiveData<List<CheckoutItem>> by lazy {
         MutableLiveData()
     }
 
-    val navigateToCheckoutScreen: LiveData<Boolean> get() = _navigateToCheckoutScreen
+    val navigateToCheckoutScreen: LiveData<List<CheckoutItem>> get() = _navigateToCheckoutScreen
 
-    fun onNavigateToCheckoutScreen() {
-        _navigateToCheckoutScreen.value = true
+    fun onNavigateToCheckoutScreen(orderData: OrderData) {
+        _navigateToCheckoutScreen.value = OrderDataMapper.map(orderData)
+        _navigateToCheckoutScreen.notifyUpdate()
     }
 
     fun onNavigateSuccess() {
         _navigateToCheckoutScreen.value = null
     }
-
 }

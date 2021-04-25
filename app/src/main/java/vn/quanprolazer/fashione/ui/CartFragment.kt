@@ -65,10 +65,10 @@ class CartFragment : Fragment() {
         return binding.root
     }
 
-    private fun setupViewModel() {
-        binding.viewModel = viewModel
-        binding.sharedViewModel = checkoutSharedViewModel
-        binding.bottomCheckoutViewModel = bottomCheckoutViewModel
+    private fun setupViewModel() = binding.apply {
+        viewModel = viewModel
+        fBottomCheckout.sharedViewModel = checkoutSharedViewModel
+        fBottomCheckout.viewModel = bottomCheckoutViewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,8 +80,6 @@ class CartFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        Timber.i(it.data.toString())
-
                         if (viewModel.flagFirstTimeLoad) {
                             viewModel.updateCartItemsImage()
                             viewModel.updateCartItemsProductName()
@@ -150,7 +148,7 @@ class CartFragment : Fragment() {
             it?.let {
                 val options = NavOptions.Builder().setLaunchSingleTop(true).build()
                 this.findNavController().navigate(
-                    CartFragmentDirections.actionCartFragmentToCheckoutFragment(), options
+                    CartFragmentDirections.actionCartFragmentToCheckoutFragment(it.toTypedArray()), options
                 )
                 bottomCheckoutViewModel.onNavigateSuccess()
             }

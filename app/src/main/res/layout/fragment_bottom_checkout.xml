@@ -9,6 +9,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+
         <variable
             name="sharedViewModel"
             type="vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel" />
@@ -45,7 +47,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{() -> viewModel.onNavigateToCheckoutScreen()}"/>
+            android:onClick="@{() -> viewModel.onNavigateToCheckoutScreen(sharedViewModel.orderData)}"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

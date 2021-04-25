@@ -37,7 +37,7 @@ fun TextView.setTotalPrice(orderQty: Number?, variantPrice: String?) {
     if (orderQty == null || variantPrice == null) return
     if (orderQty != 0 && variantPrice != "0") {
         text =
-            "Tổng tiền: " + convertPriceStringToCurrencyString((variantPrice.toInt() * orderQty.toInt()).toString())
+            "Tổng tiền: " + convertPriceStringToCurrencyString((variantPrice.toFloat() * orderQty.toInt()).toString())
         visibility = View.VISIBLE
     } else {
         visibility = View.INVISIBLE
