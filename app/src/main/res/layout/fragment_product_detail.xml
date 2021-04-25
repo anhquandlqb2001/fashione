@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Author: quanprolazer
+  ~ Project: Fashione
+  ~ An android shopping app writing in Kotlin
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="vn.quanprolazer.fashione.viewmodels.ProductViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ScrollView
+                android:id="@+id/sv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="50sp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_productImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:listitem="@layout/list_image_product" />
+
+                    <TextView
+                        android:id="@+id/tv_product_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16sp"
+                        android:text="@{viewModel.product.name}"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="@id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/rv_productImage"
+                        tools:text="Black jacket" />
+
+                    <TextView
+                        android:id="@+id/tv_product_price"
+                        productPrice="@{viewModel.product.price}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8sp"
+                        android:textColor="@color/teal_700"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="@id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/tv_product_name"
+                        tools:text="18.000 VND" />
+
+                    <View
+                        android:id="@+id/divider_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8sp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintTop_toBottomOf="@id/tv_product_price" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_rating"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        app:layout_constraintBottom_toBottomOf="@id/divider_bottom"
+                        app:layout_constraintEnd_toEndOf="@id/end_guideline"
+                        app:layout_constraintStart_toStartOf="@id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/divider_top">
+
+                        <TextView
+                            android:id="@+id/tv_rate_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/teal_700"
+                            android:paddingHorizontal="10sp"
+                            android:paddingVertical="5sp"
+                            android:text="5.0" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16sp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/roboto"
+                            android:text="Very good"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="23 reviews"
+                            android:textColor="@color/teal_700" />
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:id="@+id/divider_bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="8sp"
+                        android:background="?android:attr/listDivider"
+                        app:layout_constraintTop_toBottomOf="@id/ll_rating" />
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8sp"
+                        android:orientation="vertical"
+                        app:layout_constraintEnd_toEndOf="@id/end_guideline"
+                        app:layout_constraintStart_toStartOf="@id/start_guideline"
+                        app:layout_constraintTop_toBottomOf="@id/divider_bottom">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="Description"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8sp"
+                            productDescription="@{viewModel.productDetail}"
+                            tools:text="ashdbasjhdajhsgdajshgdj" />
+                    </LinearLayout>
+
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/start_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_begin="16sp" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/end_guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="16sp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+            <Button
+                android:id="@+id/btn_buy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/sv_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginHorizontal="16sp"
+                android:text="@string/text_buy_now"
+                android:onClick="@{() -> viewModel.onNavigateToBottomSheet(viewModel.product)}"/>
+
+        </RelativeLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>

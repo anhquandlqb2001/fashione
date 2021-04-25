@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Author: quanprolazer
+  ~ Project: Fashione
+  ~ An android shopping app writing in Kotlin
+  -->
+
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="vn.quanprolazer.fashione.ui.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchResultFragment"
+            app:destination="@id/searchResultFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
+    <fragment
+        android:id="@+id/productFragment"
+        android:name="vn.quanprolazer.fashione.ui.ProductFragment"
+        android:label="ProductFragment"
+        tools:layout="@layout/fragment_product_detail">
+
+        <argument
+            android:name="product"
+            app:argType="vn.quanprolazer.fashione.data.domain.model.Product" />
+        <action
+            android:id="@+id/action_productFragment_to_bottomSheetProductVariantFragment"
+            app:destination="@id/bottomSheetProductVariantFragment" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/searchResultFragment"
+        android:name="vn.quanprolazer.fashione.ui.SearchResultFragment"
+        android:label="SearchResultFragment"
+        tools:layout="@layout/fragment_search_result">
+        <argument
+            android:name="category"
+            app:argType="vn.quanprolazer.fashione.data.domain.model.Category"
+            app:nullable="true" />
+        <argument
+            android:name="query"
+            app:argType="string"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_searchResultFragment_to_productFragment"
+            app:destination="@id/productFragment" />
+
+
+    </fragment>
+
+    <dialog
+        android:id="@+id/bottomSheetProductVariantFragment"
+        android:name="vn.quanprolazer.fashione.ui.BottomSheetProductVariantFragment"
+        android:label="BottomSheetProductVariantFragment">
+        <argument
+            android:name="product"
+            app:argType="vn.quanprolazer.fashione.data.domain.model.Product" />
+    </dialog>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="vn.quanprolazer.fashione.ui.CartFragment"
+        android:label="CartFragment" >
+        <action
+            android:id="@+id/action_cartFragment_to_checkoutFragment"
+            app:destination="@id/checkoutFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/checkoutFragment"
+        android:name="vn.quanprolazer.fashione.ui.CheckoutFragment"
+        android:label="CheckoutFragment">
+
+        <argument
+            android:name="checkoutItems"
+            app:argType="vn.quanprolazer.fashione.data.domain.model.CheckoutItem[]" />
+
+    </fragment>
+
+
+</navigation>

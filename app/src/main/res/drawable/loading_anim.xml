@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<!--
+  ~ Author: quanprolazer
+  ~ Project: Fashione
+  ~ An android shopping app writing in Kotlin
+  -->
+
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/i_loading"
+    android:pivotX="50%"
+    android:pivotY="50%" />

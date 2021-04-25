@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Author: quanprolazer
+  ~ Project: Fashione
+  ~ An android shopping app writing in Kotlin
+  -->
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+        <variable
+            name="sharedViewModel"
+            type="vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel" />
+
+        <variable
+            name="viewModel"
+            type="vn.quanprolazer.fashione.viewmodels.BottomCheckoutViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:id="@+id/cl_main"
+        shouldDisplayBottomCheckout="@{viewModel.visibleBottomCheckout}">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            tools:text="Tong tien: 235.00d"
+            app:layout_constraintBottom_toBottomOf="@+id/button"
+            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintTop_toTopOf="@+id/button"
+            totalPrice="@{sharedViewModel.orderData}"/>
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/teal_700"
+            android:text="@string/pay_text"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:onClick="@{() -> viewModel.onNavigateToCheckoutScreen(sharedViewModel.orderData)}"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
