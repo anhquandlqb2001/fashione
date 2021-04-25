@@ -1,3 +1,0 @@
-
-
-Project android app - Fashione
