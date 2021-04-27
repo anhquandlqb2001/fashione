@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.adapters.CheckoutItemAdapter
 import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
@@ -46,10 +47,8 @@ class CheckoutFragment : Fragment() {
 
         _binding = FragmentCheckoutBinding.inflate(inflater, container, false)
 
-        binding.apply {
-            lifecycleOwner = viewLifecycleOwner
-            checkoutViewModel = checkoutViewModel
-        }
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.checkoutViewModel = checkoutViewModel
 
         return binding.root
     }
@@ -64,6 +63,14 @@ class CheckoutFragment : Fragment() {
                 adapter.submitList(it)
             }
         })
+
+        checkoutViewModel.navigateToPickupAddress.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController().navigate(CheckoutFragmentDirections.actionCheckoutFragmentToPickupAddressFragment())
+                checkoutViewModel.doneNavigate()
+            }
+        })
+
     }
 
     override fun onDestroy() {

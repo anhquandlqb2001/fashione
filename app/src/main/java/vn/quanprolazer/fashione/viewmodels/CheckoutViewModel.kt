@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.mapper.OrderDataMapper
 import vn.quanprolazer.fashione.data.domain.model.CheckoutItem
 import vn.quanprolazer.fashione.data.domain.model.OrderData
@@ -25,6 +26,19 @@ class CheckoutViewModel @AssistedInject constructor(@Assisted private val checko
 
     val checkoutItems: LiveData<List<CheckoutItem>> get() = _checkoutItems
 
+    private val _navigateToPickupAddress: MutableLiveData<Boolean> by lazy {
+        MutableLiveData()
+    }
+
+    val navigateToPickupAddress: LiveData<Boolean> get() = _navigateToPickupAddress
+
+    fun onNavigateToPickupAddress() {
+        _navigateToPickupAddress.value = true
+    }
+
+    fun doneNavigate() {
+        _navigateToPickupAddress.value = null
+    }
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {

@@ -47,6 +47,8 @@ class CheckoutItemAdapter : ListAdapter<CheckoutItem, CheckoutViewHolder>(DiffCa
     override fun onBindViewHolder(holder: CheckoutViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
+}
 
-
+abstract class CheckoutItemListener() {
+    abstract fun onClickCheckoutItem()
 }
