@@ -43,3 +43,8 @@ fun TextView.setTotalPrice(orderQty: Number?, variantPrice: String?) {
         visibility = View.INVISIBLE
     }
 }
+
+@BindingAdapter("checkoutQty")
+fun TextView.setCheckoutQty(qty: Number) {
+    text = "x${qty}"
+}

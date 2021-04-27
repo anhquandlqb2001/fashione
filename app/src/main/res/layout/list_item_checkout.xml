@@ -68,9 +68,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{String.valueOf(checkoutItem.quantity)}"
-            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
-            app:layout_constraintTop_toTopOf="@+id/textView5" />
+            tools:text="x1"
+            android:layout_marginEnd="8dp"
+            checkoutQty="@{checkoutItem.quantity}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/textView5" />
 
         <LinearLayout
             android:id="@+id/linearLayout"
