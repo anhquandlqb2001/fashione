@@ -12,8 +12,8 @@
 
     <fragment
         android:id="@+id/homeFragment"
+        android:label="Home"
         android:name="vn.quanprolazer.fashione.ui.HomeFragment"
-        android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_productFragment"
@@ -36,7 +36,6 @@
     <fragment
         android:id="@+id/productFragment"
         android:name="vn.quanprolazer.fashione.ui.ProductFragment"
-        android:label="ProductFragment"
         tools:layout="@layout/fragment_product_detail">
 
         <argument
@@ -50,7 +49,6 @@
     <fragment
         android:id="@+id/searchResultFragment"
         android:name="vn.quanprolazer.fashione.ui.SearchResultFragment"
-        android:label="SearchResultFragment"
         tools:layout="@layout/fragment_search_result">
         <argument
             android:name="category"
@@ -69,24 +67,21 @@
 
     <dialog
         android:id="@+id/bottomSheetProductVariantFragment"
-        android:name="vn.quanprolazer.fashione.ui.BottomSheetProductVariantFragment"
-        android:label="BottomSheetProductVariantFragment">
+        android:name="vn.quanprolazer.fashione.ui.BottomSheetProductVariantFragment">
         <argument
             android:name="product"
             app:argType="vn.quanprolazer.fashione.data.domain.model.Product" />
     </dialog>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="vn.quanprolazer.fashione.ui.CartFragment"
-        android:label="CartFragment" >
+        android:name="vn.quanprolazer.fashione.ui.CartFragment">
         <action
             android:id="@+id/action_cartFragment_to_checkoutFragment"
             app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
-        android:name="vn.quanprolazer.fashione.ui.CheckoutFragment"
-        android:label="CheckoutFragment">
+        android:name="vn.quanprolazer.fashione.ui.CheckoutFragment">
 
         <argument
             android:name="checkoutItems"
@@ -98,8 +93,7 @@
     </fragment>
     <fragment
         android:id="@+id/pickupAddressFragment"
-        android:name="vn.quanprolazer.fashione.ui.PickupAddressFragment"
-        android:label="PickupAddressFragment" />
+        android:name="vn.quanprolazer.fashione.ui.PickupAddressFragment"/>
 
 
 </navigation>

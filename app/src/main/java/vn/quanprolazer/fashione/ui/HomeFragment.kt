@@ -47,10 +47,8 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         // Inflate layout
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         context ?: binding.root
 
         // Set the lifecycleOwner so DataBinding can observe LiveData
@@ -75,7 +73,6 @@ class HomeFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         observeCategory()
 
         // Product Featured Section

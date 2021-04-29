@@ -9,10 +9,11 @@ package vn.quanprolazer.fashione.ui
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -27,9 +28,10 @@ import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.databinding.ActivityMainBinding
 import vn.quanprolazer.fashione.data.domain.model.AuthenticationState
+import vn.quanprolazer.fashione.databinding.ActivityMainBinding
 import vn.quanprolazer.fashione.viewmodels.LoginViewModel
+
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -133,7 +135,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment)
 
         setSupportActionBar(binding.toolbar)
-
         // then setup the action bar, tell it about the DrawerLayout
         setupActionBarWithNavController(navController, binding.drawerLayout)
 
@@ -142,14 +143,20 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination: NavDestination, _ ->
             val toolBar = supportActionBar ?: return@addOnDestinationChangedListener
+            toolBar.setDisplayShowTitleEnabled(false)
             when (destination.id) {
                 R.id.homeFragment -> {
                     // custom menu icon
                     toolBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_36dp)
                 }
+                R.id.pickupAddressFragment -> {
+                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
+                    binding.tvToolbarTitle.text = "Địa chỉ nhận hàng"
+                    binding.ivFilter.visibility = View.GONE
+                    binding.ivNotification.visibility = View.GONE
+                }
                 else -> {
                     toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
-                    toolBar.setDisplayHomeAsUpEnabled(true)
                 }
             }
         }
@@ -173,7 +180,7 @@ class MainActivity : AppCompatActivity() {
         )
     }
 
-    var resultLauncher =
+    private var resultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val data: Intent? = result.data
             val response = IdpResponse.fromResultIntent(data)
