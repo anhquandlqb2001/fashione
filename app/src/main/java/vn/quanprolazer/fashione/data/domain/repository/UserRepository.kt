@@ -7,48 +7,41 @@
 package vn.quanprolazer.fashione.data.domain.repository
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.map
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.AuthenticationState
+import vn.quanprolazer.fashione.data.domain.model.NewPickupAddress
+import vn.quanprolazer.fashione.data.domain.model.Resource
 
-class UserRepository {
+interface UserRepository {
+    fun getAuthenticateState(): LiveData<AuthenticationState>
 
-    fun getAuthenticateState() = FirebaseUserLiveData.map { user ->
-        if (user != null) {
-            AuthenticationState.AUTHENTICATED
-        } else {
-            AuthenticationState.UNAUTHENTICATED
-        }
+    fun getUser(): FirebaseUserLiveData
+
+    suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<Boolean>
+}
+
+object FirebaseUserLiveData : LiveData<FirebaseUser?>() {
+    private val firebaseAuth = FirebaseAuth.getInstance()
+    // TODO set the value of this FireUserLiveData object by hooking it up to equal the value of the
+    //  current FirebaseUser. You can utilize the FirebaseAuth.AuthStateListener callback to get
+    //  updates on the current Firebase user logged into the app.
+    private val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
+        // Use the FirebaseAuth instance instantiated at the beginning of the class to get an entry
+        // point into the Firebase Authentication SDK the app is using.
+        // With an instance of the FirebaseAuth class, you can now query for the current user.
+        value = firebaseAuth.currentUser
     }
 
-    fun getUser() = FirebaseUserLiveData
-
-    object FirebaseUserLiveData : LiveData<FirebaseUser?>() {
-        private val firebaseAuth = FirebaseAuth.getInstance()
-        // TODO set the value of this FireUserLiveData object by hooking it up to equal the value of the
-        //  current FirebaseUser. You can utilize the FirebaseAuth.AuthStateListener callback to get
-        //  updates on the current Firebase user logged into the app.
-        private val authStateListener = FirebaseAuth.AuthStateListener { firebaseAuth ->
-            // Use the FirebaseAuth instance instantiated at the beginning of the class to get an entry
-            // point into the Firebase Authentication SDK the app is using.
-            // With an instance of the FirebaseAuth class, you can now query for the current user.
-            value = firebaseAuth.currentUser
-        }
-
-        // When this object has an active observer, start observing the FirebaseAuth state to see if
-        // there is currently a logged in user.
-        override fun onActive() {
-            firebaseAuth.addAuthStateListener(authStateListener)
-        }
-
-        // When this object no longer has an active observer, stop observing the FirebaseAuth state to
-        // prevent memory leaks.
-        override fun onInactive() {
-            firebaseAuth.removeAuthStateListener(authStateListener)
-        }
+    // When this object has an active observer, start observing the FirebaseAuth state to see if
+    // there is currently a logged in user.
+    override fun onActive() {
+        firebaseAuth.addAuthStateListener(authStateListener)
     }
 
+    // When this object no longer has an active observer, stop observing the FirebaseAuth state to
+    // prevent memory leaks.
+    override fun onInactive() {
+        firebaseAuth.removeAuthStateListener(authStateListener)
+    }
 }

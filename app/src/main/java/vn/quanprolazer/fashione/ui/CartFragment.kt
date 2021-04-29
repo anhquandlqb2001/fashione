@@ -35,7 +35,6 @@ import vn.quanprolazer.fashione.utilities.ItemSwipeHandler
 import vn.quanprolazer.fashione.viewmodels.BottomCheckoutViewModel
 import vn.quanprolazer.fashione.viewmodels.CartViewModel
 import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
-import java.text.FieldPosition
 
 
 @AndroidEntryPoint

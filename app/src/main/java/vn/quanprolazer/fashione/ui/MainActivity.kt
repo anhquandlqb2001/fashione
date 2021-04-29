@@ -165,6 +165,7 @@ class MainActivity : AppCompatActivity() {
                     binding.ivNotification.visibility = View.GONE
                 }
                 else -> {
+                    customActionBarTitleVisibility(View.GONE)
                     toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
                 }
             }

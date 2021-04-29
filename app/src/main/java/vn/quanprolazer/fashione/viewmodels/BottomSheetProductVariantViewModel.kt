@@ -11,6 +11,7 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.*
+import vn.quanprolazer.fashione.data.domain.repository.FirebaseUserLiveData
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
@@ -23,7 +24,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(@Assisted p
 
 ) : ViewModel() {
 
-    private val _user: UserRepository.FirebaseUserLiveData by lazy {
+    private val _user: FirebaseUserLiveData by lazy {
         userRepository.getUser()
     }
 

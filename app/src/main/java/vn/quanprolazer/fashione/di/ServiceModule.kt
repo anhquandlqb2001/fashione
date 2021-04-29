@@ -25,4 +25,7 @@ class ServiceModule {
     @Provides
     fun provideOrderService() : OrderService = OrderServiceImpl()
 
+    @Provides
+    fun provideUserService() : UserService = UserServiceImpl()
+
 }

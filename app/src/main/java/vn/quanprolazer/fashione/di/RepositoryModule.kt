@@ -17,9 +17,8 @@ import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 import vn.quanprolazer.fashione.data.network.repository.CategoryRepositoryImpl
 import vn.quanprolazer.fashione.data.network.repository.OrderRepositoryImpl
 import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
-import vn.quanprolazer.fashione.data.network.service.CategoryService
-import vn.quanprolazer.fashione.data.network.service.OrderService
-import vn.quanprolazer.fashione.data.network.service.ProductService
+import vn.quanprolazer.fashione.data.network.repository.UserRepositoryImpl
+import vn.quanprolazer.fashione.data.network.service.*
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -38,7 +37,7 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideUserRepository(): UserRepository = UserRepository()
+    fun provideUserRepository(userService: UserService): UserRepository = UserRepositoryImpl(userService)
 
     @Singleton
     @Provides
