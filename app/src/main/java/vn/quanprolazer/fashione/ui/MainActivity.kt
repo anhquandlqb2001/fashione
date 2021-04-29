@@ -148,10 +148,19 @@ class MainActivity : AppCompatActivity() {
                 R.id.homeFragment -> {
                     // custom menu icon
                     toolBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_36dp)
+                    customActionBarTitleVisibility(View.GONE)
                 }
                 R.id.pickupAddressFragment -> {
+                    customActionBarTitleVisibility(View.VISIBLE)
                     toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
                     binding.tvToolbarTitle.text = "Địa chỉ nhận hàng"
+                    binding.ivFilter.visibility = View.GONE
+                    binding.ivNotification.visibility = View.GONE
+                }
+                R.id.addPickupAddressFragment -> {
+                    customActionBarTitleVisibility(View.VISIBLE)
+                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
+                    binding.tvToolbarTitle.text = "Thêm địa chỉ nhận hàng"
                     binding.ivFilter.visibility = View.GONE
                     binding.ivNotification.visibility = View.GONE
                 }
@@ -160,6 +169,10 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun customActionBarTitleVisibility(visibility: Int) {
+        binding.tvToolbarTitle.visibility = visibility
     }
 
 

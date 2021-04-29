@@ -93,7 +93,15 @@
     </fragment>
     <fragment
         android:id="@+id/pickupAddressFragment"
-        android:name="vn.quanprolazer.fashione.ui.PickupAddressFragment"/>
+        android:name="vn.quanprolazer.fashione.ui.PickupAddressFragment">
+        <action
+            android:id="@+id/action_pickupAddressFragment_to_addPickupAddressFragment"
+            app:destination="@id/addPickupAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addPickupAddressFragment"
+        android:name="vn.quanprolazer.fashione.ui.AddPickupAddressFragment"
+        android:label="AddPickupAddressFragment" />
 
 
 </navigation>

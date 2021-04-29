@@ -31,19 +31,21 @@
                 android:layout_height="?attr/actionBarSize"
                 android:elevation="4dp"
                 android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+
+                <TextView
+                    android:id="@+id/tv_toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="?android:attr/actionBarSize"
+                    android:textSize="16sp"
+                    tools:text="Home"
+                    android:gravity="center"/>
+
                 <RelativeLayout
-                    android:layout_marginEnd="36sp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/tv_toolbar_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:textColor="@color/black"
-                        android:textSize="16sp"
-                        tools:text="Home"/>
 
                     <ImageView
                         android:id="@+id/iv_notification"
