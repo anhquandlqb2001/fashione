@@ -11,14 +11,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentAddPickupAddressBinding
+import vn.quanprolazer.fashione.viewmodels.AddPickupAddressViewModel
 
+@AndroidEntryPoint
 class AddPickupAddressFragment : Fragment() {
 
     private var _binding: FragmentAddPickupAddressBinding? = null
 
     private val binding: FragmentAddPickupAddressBinding get() = _binding!!
+
+    private val viewModel: AddPickupAddressViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
@@ -26,6 +32,9 @@ class AddPickupAddressFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         _binding = FragmentAddPickupAddressBinding.inflate(inflater, container, false)
+
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
         return binding.root
     }

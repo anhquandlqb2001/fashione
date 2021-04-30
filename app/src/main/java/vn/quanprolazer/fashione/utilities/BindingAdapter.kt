@@ -8,9 +8,12 @@ package vn.quanprolazer.fashione.utilities
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
@@ -48,3 +51,4 @@ fun TextView.setTotalPrice(orderQty: Number?, variantPrice: String?) {
 fun TextView.setCheckoutQty(qty: Number) {
     text = "x${qty}"
 }
+

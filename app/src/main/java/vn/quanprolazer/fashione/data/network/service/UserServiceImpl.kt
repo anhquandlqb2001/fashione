@@ -17,7 +17,7 @@ class UserServiceImpl : UserService {
     override suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<Boolean> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            db.collection("addresses").add(pickupAddress.toHashMap()).await()
+            db.collection("addresses").add(pickupAddress).await()
             Resource.Success(true)
         } catch (e: Exception) {
             Timber.e(e)
