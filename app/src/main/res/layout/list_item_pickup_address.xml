@@ -19,61 +19,73 @@
             type="vn.quanprolazer.fashione.adapters.OnPickupAddressListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="70dp">
-
-        <TextView
-            android:textColor="@color/black"
-            android:layout_marginStart="16dp"
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Phan anh Quan - 0889297731" />
+            android:layout_width="0dp"
+            android:layout_marginEnd="8dp">
 
-        <TextView
-            android:textColor="@color/black"
-            android:layout_marginStart="16dp"
-            android:textSize="14sp"
-            android:layout_marginTop="12dp"
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="Nha rieng: "
-            android:text="@{address.addressType}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginStart="16dp"
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                receiver_name="@{address.name}"
+                phone_number="@{address.phoneNumber}"
+                tools:text="Phan anh Quan - 0889297731" />
 
-        <TextView
-            android:textSize="14sp"
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="73 nguyen tao, hoa hai, ngu hanh son"
-            app:layout_constraintStart_toEndOf="@+id/textView7"
-            app:layout_constraintTop_toTopOf="@+id/textView7" />
+            <TextView
+                android:textColor="@color/black"
+                android:layout_marginStart="16dp"
+                android:textSize="14sp"
+                android:layout_marginTop="12dp"
+                android:id="@+id/textView7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="Nha rieng: "
+                android:text="@{address.addressType}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
+            <TextView
+                android:textSize="14sp"
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="73 nguyen tao, hoa hai, ngu hanh son"
+                address="@{address.address}"
+                subdistrict_or_village="@{address.subdistrictOrVillage}"
+                district_or_town="@{address.districtOrTown}"
+                privince_or_city="@{address.provinceOrCity}"
+                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintTop_toTopOf="@+id/textView7"
+                android:maxEms="10"
+                android:singleLine="false"/>
+
+            <View
+                android:layout_margin="16dp"
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider"
+                app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="Sửa"
-            android:onClick="@{() -> pickupAddressListener.onClickChange(address)}"
-            app:layout_constraintBottom_toTopOf="@+id/textView8"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView6" />
-
-        <View
-            android:layout_margin="16dp"
-            android:id="@+id/divider4"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
-        
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            android:onClick="@{() -> pickupAddressListener.onClickChange(address)}"/>
+    </LinearLayout>
 </layout>

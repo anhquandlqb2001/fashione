@@ -52,3 +52,13 @@ fun TextView.setCheckoutQty(qty: Number) {
     text = "x${qty}"
 }
 
+@BindingAdapter(value = ["receiver_name", "phone_number"])
+fun TextView.setCheckoutQty(receiverName: String?, phoneNumber: String?) {
+    text = "$receiverName - $phoneNumber"
+}
+
+@BindingAdapter(value = ["address", "subdistrict_or_village", "privince_or_city", "district_or_town"])
+fun TextView.pickupAddress(address: String?, subdistrictOrVillage: String?, privinceOrCcity: String?, districtOrTown: String?) {
+    text = "$address, $subdistrictOrVillage, $privinceOrCcity, $districtOrTown"
+}
+

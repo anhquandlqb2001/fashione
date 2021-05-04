@@ -21,3 +21,12 @@ data class AddToCartItem(
     var quantity: Int = 0,
     var price: String = "0",
 )
+
+interface BaseOwnerProduct {
+    val productId: String
+    val userId: String
+    var variantId: String
+    var variantOptionId: String
+    var variantName: String
+    var variantValue: String
+}

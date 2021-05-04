@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import vn.quanprolazer.fashione.data.domain.model.AuthenticationState
 import vn.quanprolazer.fashione.data.domain.model.NewPickupAddress
+import vn.quanprolazer.fashione.data.domain.model.PickupAddress
 import vn.quanprolazer.fashione.data.domain.model.Resource
 
 interface UserRepository {
@@ -19,6 +20,8 @@ interface UserRepository {
     fun getUser(): FirebaseUserLiveData
 
     suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<Boolean>
+
+    suspend fun getPickupAddresses(): Resource<List<PickupAddress>>
 }
 
 object FirebaseUserLiveData : LiveData<FirebaseUser?>() {

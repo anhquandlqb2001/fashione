@@ -14,7 +14,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
+import vn.quanprolazer.fashione.adapters.OnPickupAddressListener
+import vn.quanprolazer.fashione.adapters.PickupAddressAdapter
+import vn.quanprolazer.fashione.data.domain.model.PickupAddress
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentPickupAddressBinding
 import vn.quanprolazer.fashione.viewmodels.PickupAddressViewModel
 
@@ -44,6 +49,24 @@ class PickupAddressFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val pickupAddressAdapter = PickupAddressAdapter(object : OnPickupAddressListener() {
+            override fun onClickChange(pickupAddress: PickupAddress) {
+                TODO("Not yet implemented")
+            }
+        })
+
+        binding.rvPickupAddress.adapter = pickupAddressAdapter
+
+        viewModel.pickupAddresses.observe(viewLifecycleOwner, {
+            it?.let {
+                when(it) {
+                    is Resource.Success -> pickupAddressAdapter.submitList(it.data)
+                    is Resource.Loading -> Timber.i("Loading")
+                    else -> {}
+                }
+            }
+        })
 
         viewModel.navigateToAddPickupAddress.observe(viewLifecycleOwner, {
             it?.let {
