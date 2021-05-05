@@ -77,14 +77,12 @@
                 android:layout_marginHorizontal="16dp"
                 android:text="@string/txt_province_or_city" />
 
-            <EditText
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:layout_marginHorizontal="16dp"
+                android:id="@+id/s_province_or_city"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="@string/txt_province_or_city_input"
-                android:text="@={viewModel.provinceOrCity}"
-                android:textSize="14sp" />
+                android:layout_marginBottom="16dp"/>
 
             <TextView
                 android:layout_width="match_parent"
