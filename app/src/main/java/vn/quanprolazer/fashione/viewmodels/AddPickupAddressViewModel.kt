@@ -6,29 +6,60 @@
 
 package vn.quanprolazer.fashione.viewmodels
 
-import android.view.View
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.NewPickupAddress
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
+import vn.quanprolazer.fashione.utilities.LiveDataValidator
+import vn.quanprolazer.fashione.utilities.LiveDataValidatorResolver
 import javax.inject.Inject
 
 @HiltViewModel
 class AddPickupAddressViewModel @Inject constructor(private val userRepository: UserRepository) :
     ViewModel() {
 
-    val name = MutableLiveData<String>()
-    val phone = MutableLiveData<String>()
+    val receiverName = MutableLiveData<String>()
+    val receiverNameValidator = LiveDataValidator(receiverName).apply {
+        //Whenever the condition of the predicate is true, the error message should be emitted
+        addRule("Tên người nhận là bắt buộc") { it.isNullOrBlank() }
+    }
+
+    val phoneNumber = MutableLiveData<String>()
+    val phoneNumberValidator = LiveDataValidator(phoneNumber).apply {
+        //Whenever the condition of the predicate is true, the error message should be emitted
+        addRule("Số điện thoại là bắt buộc") { it.isNullOrBlank() }
+        addRule("Số điện thoại không hợp lệ") { it?.length!! <= 8 }
+    }
     val provinceOrCity = MutableLiveData<String>()
     val districtOrTown = MutableLiveData<String>()
     val subdistrictOrVillage = MutableLiveData<String>()
+
     val address = MutableLiveData<String>()
-    private val addressType = MutableLiveData("Nha rieng")
+    val addressValidator = LiveDataValidator(address).apply {
+        //Whenever the condition of the predicate is true, the error message should be emitted
+        addRule("Nhập số nhà / tên đường") { it.isNullOrBlank() }
+    }
+
+    private val addressType = MutableLiveData("Nhà riêng")
+
+    //We will use a mediator so we can update the error state of our form fields
+    //and the enabled state of our login button as the form data changes
+    val isPickupAddressFormValidMediator = MediatorLiveData<Boolean>()
+
+    init {
+        isPickupAddressFormValidMediator.value = false
+        isPickupAddressFormValidMediator.addSource(receiverName) { validateForm() }
+        isPickupAddressFormValidMediator.addSource(phoneNumber) { validateForm() }
+        isPickupAddressFormValidMediator.addSource(address) { validateForm() }
+    }
+
+    //This is called whenever the form fields changes
+    private fun validateForm() {
+        val validators = listOf(receiverNameValidator, phoneNumberValidator, addressValidator)
+        val validatorResolver = LiveDataValidatorResolver(validators)
+        isPickupAddressFormValidMediator.value = validatorResolver.isValid()
+    }
 
     fun updateAddressTypeToPersonal() {
         addressType.value = "Nhà riêng"
@@ -48,8 +79,8 @@ class AddPickupAddressViewModel @Inject constructor(private val userRepository: 
     fun onClickSave() {
         _addPickupAddress.value = NewPickupAddress(
             userRepository.getUser().value?.uid.toString(),
-            name.value.toString(),
-            phone.value.toString(),
+            receiverName.value.toString(),
+            phoneNumber.value.toString(),
             districtOrTown.value.toString(),
             provinceOrCity.value.toString(),
             subdistrictOrVillage.value.toString(),

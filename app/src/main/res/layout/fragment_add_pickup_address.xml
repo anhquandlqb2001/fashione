@@ -5,6 +5,7 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -20,7 +21,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             tools:context=".ui.AddPickupAddressFragment">
 
@@ -28,46 +29,60 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="Tên người nhận" />
+                android:text="@string/txt_receiver_name" />
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til__receiver_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="Nhập họ và tên người nhận"
-                android:text="@={viewModel.name}"
-                android:textSize="14sp" />
+                android:layout_marginBottom="8dp"
+                android:hint="@string/txt_receiver_name_input"
+                app:error="@{viewModel.receiverNameValidator.error}"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.receiverName}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="Số điện thoại" />
+                android:text="@string/txt_phone_number" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_phone_number"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="Nhập số điện thoại nhận hàng"
-                android:text="@={viewModel.phone}"
-                android:textSize="14sp" />
+                android:layout_marginBottom="8dp"
+                android:hint="@string/txt_phone_number_input"
+                app:error="@{viewModel.phoneNumberValidator.error}"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.phoneNumber}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="Tỉnh/Thành phố" />
+                android:text="@string/txt_province_or_city" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
-                android:hint="Nhập tỉnh / thành phố"
+                android:hint="@string/txt_province_or_city_input"
                 android:text="@={viewModel.provinceOrCity}"
                 android:textSize="14sp" />
 
@@ -75,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="Quận/Huyện" />
+                android:text="@string/txt_district_or_town" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -83,7 +98,7 @@
 
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
-                android:hint="Nhập quận / huyện"
+                android:hint="@string/txt_district_or_town_input"
                 android:text="@={viewModel.districtOrTown}"
                 android:textSize="14sp" />
 
@@ -91,15 +106,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="Phường/Xã" />
+                android:text="@string/txt_subdistrict_or_village" />
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginBottom="16dp"
-                android:hint="Nhập phường / xã"
+                android:hint="@string/txt_subdistrict_or_village_input"
                 android:text="@={viewModel.subdistrictOrVillage}"
                 android:textSize="14sp" />
 
@@ -107,16 +121,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:text="Địa chỉ" />
+                android:text="@string/txt_address" />
 
-            <EditText
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/til_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
-                android:layout_marginBottom="16dp"
-                android:hint="Nhập địa chỉ"
-                android:text="@={viewModel.address}"
-                android:textSize="14sp" />
+                android:layout_marginBottom="8dp"
+                android:hint="@string/txt_address_input"
+                app:error="@{viewModel.addressValidator.error}"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@={viewModel.address}" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -125,10 +147,10 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Chọn loại địa chỉ: "
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:text="@string/txt_pickup_tye" />
 
                 <RadioGroup
                     android:layout_width="wrap_content"
@@ -139,18 +161,17 @@
                         android:id="@+id/radio_pirates"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:onClick="@{() -> viewModel.updateAddressTypeToPersonal()}"
-                        android:text="Nhà riêng" />
+                        android:text="@string/txt_personal_type" />
 
                     <RadioButton
                         android:id="@+id/radio_ninjas"
                         android:layout_width="wrap_content"
-                        android:onClick="@{() -> viewModel.updateAddressTypeToOrganization()}"
                         android:layout_height="wrap_content"
-                        android:text="Cơ quan" />
+                        android:onClick="@{() -> viewModel.updateAddressTypeToOrganization()}"
+                        android:text="@string/txt_organization_type" />
                 </RadioGroup>
-
-
             </LinearLayout>
 
             <Button
@@ -158,9 +179,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
+                android:enabled="@{viewModel.isPickupAddressFormValidMediator()}"
                 android:onClick="@{() -> viewModel.onClickSave()}"
-                android:text="Lưu" />
-
+                android:text="@string/btn_save" />
         </LinearLayout>
     </ScrollView>
 </layout>

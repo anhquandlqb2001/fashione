@@ -35,4 +35,20 @@
     <string name="total_price_text">Tổng: %s</string>
     <string name="address_text">Địa chỉ nhận hàng</string>
     <string name="total_price_checkout_text">Tổng số tiền:</string>
+    <string name="txt_address">Địa chỉ</string>
+    <string name="txt_receiver_name">Tên người nhận</string>
+    <string name="txt_phone_number">Số điện thoại</string>
+    <string name="txt_receiver_name_input">Nhập tên người nhận</string>
+    <string name="txt_phone_number_input">Nhập số điện thoại</string>
+    <string name="txt_address_input">Nhập địa chỉ</string>
+    <string name="txt_personal_type">Nhà riêng</string>
+    <string name="txt_organization_type">Cơ quan</string>
+    <string name="btn_save">Lưu</string>
+    <string name="txt_pickup_tye">Chọn loại địa chỉ:</string>
+    <string name="txt_subdistrict_or_village_input">Nhập phường / xã</string>
+    <string name="txt_subdistrict_or_village">Phường/Xã</string>
+    <string name="txt_district_or_town_input">Nhập quận / huyện</string>
+    <string name="txt_district_or_town">Quận/Huyện</string>
+    <string name="txt_province_or_city_input">Nhập tỉnh / thành phố</string>
+    <string name="txt_province_or_city">Tỉnh/Thành phố</string>
 </resources>
