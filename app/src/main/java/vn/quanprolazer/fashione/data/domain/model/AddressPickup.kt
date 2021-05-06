@@ -6,33 +6,50 @@
 
 package vn.quanprolazer.fashione.data.domain.model
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 interface BaseAddressPickup {
-    val id: String
+    val code: String
     val name: String
+    val nameWithType: String
 }
 
-data class BaseAddressPickupImpl(override val id: String, override val name: String
+data class BaseAddressPickupImpl(override val code: String,
+                                 override val name: String,
+                                 override val nameWithType: String
 ) : BaseAddressPickup
+
 
 // tinh / tp
 @Serializable
-data class ProvinceOrCity(override val id: String,
+data class ProvinceOrCity(override val code: String,
                           override val name: String,
-                          val districts: List<DistrictOrTown>
+                          val slug: String,
+                          val type: String,
+                          @SerialName("name_with_type") override val nameWithType: String
 ) : BaseAddressPickup
 
-// quan huyen
+//// quan huyen
 @Serializable
-data class DistrictOrTown(override val id: String,
+data class DistrictOrTown(override val code: String,
                           override val name: String,
-                          val wards: List<SubDistrictOrVillage>
+                          @SerialName("name_with_type") override val nameWithType: String,
+                          @SerialName("parent_code") val parentCode: String,
+                          val path: String,
+                          @SerialName("path_with_type") val pathWithType: String,
+                          val slug: String,
+                          val type: String
 ) : BaseAddressPickup
 
-// phuong xa
+// Phuong xa
 @Serializable
-data class SubDistrictOrVillage(override val id: String,
+data class SubdistrictOrVillage(override val code: String,
                                 override val name: String,
-                                val level: String
+                                @SerialName("name_with_type") override val nameWithType: String,
+                                @SerialName("path") val path: String,
+                                @SerialName("path_with_type") val pathWithType: String,
+                                @SerialName("parent_code") val parentCode: String,
+                                val slug: String,
+                                val type: String
 ) : BaseAddressPickup

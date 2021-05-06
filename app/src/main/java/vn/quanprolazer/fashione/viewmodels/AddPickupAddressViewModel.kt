@@ -6,26 +6,20 @@
 
 package vn.quanprolazer.fashione.viewmodels
 
-import android.content.Context
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import timber.log.Timber
-import vn.quanprolazer.fashione.data.domain.model.BaseAddressPickup
-import vn.quanprolazer.fashione.data.domain.model.BaseAddressPickupImpl
-import vn.quanprolazer.fashione.data.domain.model.NewPickupAddress
-import vn.quanprolazer.fashione.data.domain.model.ProvinceOrCity
+import vn.quanprolazer.fashione.data.domain.model.*
+import vn.quanprolazer.fashione.data.domain.repository.NetworkRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 import vn.quanprolazer.fashione.utilities.LiveDataValidator
 import vn.quanprolazer.fashione.utilities.LiveDataValidatorResolver
-import java.io.InputStreamReader
 import javax.inject.Inject
 
 @HiltViewModel
-class AddPickupAddressViewModel @Inject constructor(private val userRepository: UserRepository) :
-    ViewModel() {
+class AddPickupAddressViewModel @Inject constructor(private val userRepository: UserRepository,
+                                                    private val networkRepository: NetworkRepository
+) : ViewModel() {
 
     val receiverName = MutableLiveData<String>()
     val receiverNameValidator =
@@ -38,9 +32,20 @@ class AddPickupAddressViewModel @Inject constructor(private val userRepository: 
         addRule("Số điện thoại là bắt buộc") { it.isNullOrBlank() }
         addRule("Số điện thoại không hợp lệ") { it?.length!! <= 8 }
     }
-    val provinceOrCity = MutableLiveData<String>()
-    val districtOrTown = MutableLiveData<String>()
-    val subdistrictOrVillage = MutableLiveData<String>()
+    private val _provinceOrCity = MutableLiveData<String>()
+    fun updateProvinceOrCityFormField(string: String) {
+        _provinceOrCity.value = string
+    }
+
+    private val _districtOrTown = MutableLiveData<String>()
+    fun updateDistrictOrTownFormField(string: String) {
+        _districtOrTown.value = string
+    }
+
+    private val _subdistrictOrVillage = MutableLiveData<String>()
+    fun updateSubdistrictOrVillageFormField(string: String) {
+        _subdistrictOrVillage.value = string
+    }
 
     val address = MutableLiveData<String>()
     val addressValidator = LiveDataValidator(address).apply {
@@ -82,36 +87,89 @@ class AddPickupAddressViewModel @Inject constructor(private val userRepository: 
 
     val addPickupAddress: LiveData<NewPickupAddress> get() = _addPickupAddress
 
+    private val _onSavePickupAddress: MutableLiveData<Resource<Boolean>> by lazy {
+        MutableLiveData()
+    }
+    val onSavePickupAddress: LiveData<Resource<Boolean>> get() = _onSavePickupAddress
+
     fun onClickSave() {
+        _onSavePickupAddress.value = Resource.Loading(null)
+
         _addPickupAddress.value = NewPickupAddress(
             userRepository.getUser().value?.uid.toString(),
             receiverName.value.toString(),
             phoneNumber.value.toString(),
-            districtOrTown.value.toString(),
-            provinceOrCity.value.toString(),
-            subdistrictOrVillage.value.toString(),
+            _districtOrTown.value.toString(),
+            _provinceOrCity.value.toString(),
+            _subdistrictOrVillage.value.toString(),
             address.value.toString(),
             addressType.value.toString()
         )
+
         viewModelScope.launch {
-            _addPickupAddress.value?.let { userRepository.addPickupAddress(it) }
+            _addPickupAddress.value?.let { _onSavePickupAddress.value = userRepository.addPickupAddress(it) }
         }
     }
 
-    private fun readAsset(c: Context) : String = c.assets.open("dvhc.json").bufferedReader().use { it.readText() }
-
-
-    //    BaseAddressPickup("-1", "--Chọn tỉnh / thành phố--")
-    private var provincesOrCitiesData: List<ProvinceOrCity> = listOf()
-
-    fun setProvincesOrCitiesData(c: Context) {
-        val localeString: String = readAsset(c)
-        provincesOrCitiesData = Json.decodeFromString(localeString)
+    private val _provinceOrCityData: MutableLiveData<List<ProvinceOrCity>> by lazy {
+        val liveData = MutableLiveData<List<ProvinceOrCity>>()
+        viewModelScope.launch {
+            liveData.value = networkRepository.getProvincesOrCities()
+        }
+        return@lazy liveData
     }
 
-    private val _provinceOrCitySpinnerRows: MutableLiveData<List<BaseAddressPickupImpl>> by lazy {
-        MutableLiveData(provincesOrCitiesData.map { BaseAddressPickupImpl(it.id, it.name) })
+    val provinceOrCityRows: LiveData<List<BaseAddressPickupImpl>>
+        get() = Transformations.map(_provinceOrCityData) {
+            it.map { provinceOrCity ->
+                BaseAddressPickupImpl(
+                    provinceOrCity.code,
+                    provinceOrCity.name,
+                    provinceOrCity.nameWithType
+                )
+            }
+        }
+
+
+    private val _districtOrTownData: MutableLiveData<List<DistrictOrTown>> by lazy {
+        MutableLiveData(listOf())
+    }
+    val districtOrTownRows: LiveData<List<BaseAddressPickupImpl>>
+        get() = Transformations.map(_districtOrTownData) {
+            it.map { districtOrTown ->
+                BaseAddressPickupImpl(
+                    districtOrTown.code,
+                    districtOrTown.name,
+                    districtOrTown.nameWithType
+                )
+            }
+        }
+
+    fun updateDistrictOrTown(parentCode: String) {
+        viewModelScope.launch {
+            _districtOrTownData.value = networkRepository.getDistrictsOrTowns(parentCode)
+        }
     }
 
-    val provinceOrCitySpinnerRows: LiveData<List<BaseAddressPickupImpl>> get() = _provinceOrCitySpinnerRows
+    private val _subdistrictOrVillageData: MutableLiveData<List<SubdistrictOrVillage>> by lazy {
+        MutableLiveData(listOf())
+    }
+    val subdistrictOrVillageRows: LiveData<List<BaseAddressPickupImpl>>
+        get() = Transformations.map(_subdistrictOrVillageData) {
+            it.map { subdistrictOrVillage ->
+                BaseAddressPickupImpl(
+                    subdistrictOrVillage.code,
+                    subdistrictOrVillage.name,
+                    subdistrictOrVillage.nameWithType
+                )
+            }
+        }
+
+    fun updateSubdistrictOrVillage(parentCode: String) {
+        viewModelScope.launch {
+            _subdistrictOrVillageData.value =
+                networkRepository.getSubdistrictsOrVillages(parentCode)
+        }
+    }
+
 }

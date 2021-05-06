@@ -9,16 +9,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="address"
             type="vn.quanprolazer.fashione.data.domain.model.BaseAddressPickupImpl" />
     </data>
 
     <TextView
-        android:padding="4dp"
         android:id="@+id/tv_address_pickup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@{address.name}"
+        android:padding="4dp"
+        android:text="@{address.nameWithType}"
         tools:text="Quang Binh" />
 </layout>

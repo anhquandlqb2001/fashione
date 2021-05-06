@@ -21,6 +21,9 @@ import java.util.*
 
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
 
+const val BASE_URL = "https://raw.githubusercontent.com/anhquandlqb2001/hanhchinhvn/master/dist/"
+
+
 /**
  * Truncate long text with a preference for word boundaries and without trailing punctuation.
  */

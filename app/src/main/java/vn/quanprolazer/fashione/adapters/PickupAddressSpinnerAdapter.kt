@@ -25,12 +25,12 @@ class PickupAddressSpinnerAdapter(context: Context,
         return data.size
     }
 
-    override fun getItem(position: Int): BaseAddressPickupImpl? {
+    override fun getItem(position: Int): BaseAddressPickupImpl {
         return data[position]
     }
 
     override fun getItemId(position: Int): Long {
-        return position.toLong()
+        return data[position].code.toLong()
     }
 
     fun refreshList(freshData: Array<BaseAddressPickupImpl>) {
@@ -53,4 +53,9 @@ class PickupAddressSpinnerAdapter(context: Context,
         binding.address = getItem(position)
         return binding.root
     }
+}
+
+
+abstract class OnAddressPickupListener {
+    abstract fun onClick(code: String)
 }

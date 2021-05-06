@@ -10,7 +10,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import retrofit2.Retrofit
 import vn.quanprolazer.fashione.data.network.service.*
+import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
@@ -28,4 +30,7 @@ class ServiceModule {
     @Provides
     fun provideUserService() : UserService = UserServiceImpl()
 
+    @Provides
+    @Singleton
+    fun providePickupAddressService(retrofit: Retrofit): PickupAddressService = retrofit.create(PickupAddressService::class.java)
 }
