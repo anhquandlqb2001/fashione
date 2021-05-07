@@ -11,9 +11,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CheckoutItemAdapter
 import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
 import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
@@ -31,10 +33,13 @@ class CheckoutFragment : Fragment() {
     @Inject
     lateinit var checkoutViewModelFactory: CheckoutViewModel.AssistedFactory
     private val checkoutViewModel: CheckoutViewModel by viewModels {
-        CheckoutViewModel.provideFactory(checkoutViewModelFactory, CheckoutFragmentArgs.fromBundle(requireArguments()).checkoutItems.toList())
+        CheckoutViewModel.provideFactory(
+            checkoutViewModelFactory,
+            CheckoutFragmentArgs.fromBundle(requireArguments()).checkoutItems.toList()
+        )
     }
 
-    private val checkoutSharedViewModel: CheckoutSharedViewModel by viewModels()
+    private val checkoutSharedViewModel: CheckoutSharedViewModel by activityViewModels()
 
     private val adapter: CheckoutItemAdapter by lazy {
         CheckoutItemAdapter()
@@ -66,8 +71,19 @@ class CheckoutFragment : Fragment() {
 
         checkoutViewModel.navigateToPickupAddress.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController().navigate(CheckoutFragmentDirections.actionCheckoutFragmentToPickupAddressFragment())
+                this.findNavController()
+                    .navigate(CheckoutFragmentDirections.actionCheckoutFragmentToPickupAddressFragment())
                 checkoutViewModel.doneNavigate()
+            }
+        })
+
+        checkoutSharedViewModel.orderData.observe(viewLifecycleOwner, {
+            Timber.i(it.toString())
+        })
+
+        checkoutSharedViewModel.addressPickup.observe(viewLifecycleOwner, {
+            it?.let {
+                binding.address = it
             }
         })
 

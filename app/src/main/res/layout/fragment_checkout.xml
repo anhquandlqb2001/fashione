@@ -15,6 +15,10 @@
             name="checkoutViewModel"
             type="vn.quanprolazer.fashione.viewmodels.CheckoutViewModel" />
 
+        <variable
+            name="address"
+            type="vn.quanprolazer.fashione.data.domain.model.PickupAddress" />
+
     </data>
 
     <ScrollView
@@ -31,7 +35,8 @@
                 android:id="@+id/ll_address"
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
                 app:layout_constraintTop_toTopOf="parent"
                 android:orientation="horizontal">
 
@@ -45,8 +50,8 @@
                 <LinearLayout
                     android:clickable="false"
                     android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
                         android:textSize="16sp"
@@ -58,12 +63,20 @@
                         android:layout_marginTop="8dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Quan Phan | 0889297731"/>
+                        phone_number="@{address.phoneNumber}"
+                        receiver_name="@{address.name}"
+                        tools:text="Quan Phan | 0889297731"/>
                     <TextView
                         android:textSize="14sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="73 Nguyen Tao, Hoa Hai, Da Nang"/>
+                        android:maxEms="15"
+                        android:singleLine="false"
+                        address="@{address.address}"
+                        district_or_town="@{address.districtOrTown}"
+                        privince_or_city="@{address.provinceOrCity}"
+                        subdistrict_or_village="@{address.subdistrictOrVillage}"
+                        tools:text="73 Nguyen Tao, Hoa Hai, Da Nang"/>
                 </LinearLayout>
 
                 <ImageView

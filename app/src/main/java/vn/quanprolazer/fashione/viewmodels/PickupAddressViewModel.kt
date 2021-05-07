@@ -45,5 +45,15 @@ class PickupAddressViewModel @Inject constructor(private val userRepository: Use
 
     val pickupAddresses: LiveData<Resource<List<PickupAddress>>> get() = _pickupAddresses
 
+    private val _navigateBackToCheckout: MutableLiveData<PickupAddress> by lazy { MutableLiveData() }
+    val navigateBackToCheckout: LiveData<PickupAddress> get() = _navigateBackToCheckout
+
+    fun onNavigateBackToCheckout(address: PickupAddress) {
+        _navigateBackToCheckout.value = address
+    }
+
+    fun doneNavigateBackToCheckout() {
+        _navigateBackToCheckout.value = null
+    }
 
 }

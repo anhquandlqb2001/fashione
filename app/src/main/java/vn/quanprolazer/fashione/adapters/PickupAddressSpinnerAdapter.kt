@@ -18,7 +18,7 @@ import vn.quanprolazer.fashione.databinding.ListItemAddressPickupSpinnerBinding
 
 
 class PickupAddressSpinnerAdapter(context: Context,
-                                  private val resId: Int,
+                                  resId: Int,
                                   private var data: Array<BaseAddressPickupImpl>
 ) : ArrayAdapter<BaseAddressPickupImpl>(context, resId, data) {
     override fun getCount(): Int {
@@ -53,9 +53,4 @@ class PickupAddressSpinnerAdapter(context: Context,
         binding.address = getItem(position)
         return binding.root
     }
-}
-
-
-abstract class OnAddressPickupListener {
-    abstract fun onClick(code: String)
 }

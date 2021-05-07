@@ -11,16 +11,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
-import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.OnPickupAddressListener
 import vn.quanprolazer.fashione.adapters.PickupAddressAdapter
 import vn.quanprolazer.fashione.data.domain.model.PickupAddress
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentPickupAddressBinding
+import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
 import vn.quanprolazer.fashione.viewmodels.PickupAddressViewModel
 
 @AndroidEntryPoint
@@ -32,11 +33,12 @@ class PickupAddressFragment : Fragment() {
 
     private val viewModel: PickupAddressViewModel by viewModels()
 
+    private val checkoutSharedViewModel: CheckoutSharedViewModel by activityViewModels()
+
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?
-    ): View {
-        // Inflate the layout for this fragment
+    ): View { // Inflate the layout for this fragment
         _binding = FragmentPickupAddressBinding.inflate(inflater, container, false)
 
 
@@ -51,8 +53,12 @@ class PickupAddressFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val pickupAddressAdapter = PickupAddressAdapter(object : OnPickupAddressListener() {
-            override fun onClickChange(pickupAddress: PickupAddress) {
+            override fun onClickUpdateAddress(pickupAddress: PickupAddress) {
                 TODO("Not yet implemented")
+            }
+
+            override fun onClickChoosePickupAddress(pickupAddress: PickupAddress) {
+                viewModel.onNavigateBackToCheckout(pickupAddress)
             }
         })
 
@@ -60,23 +66,29 @@ class PickupAddressFragment : Fragment() {
 
         viewModel.pickupAddresses.observe(viewLifecycleOwner, {
             it?.let {
-                when(it) {
+                when (it) {
                     is Resource.Success -> pickupAddressAdapter.submitList(it.data)
                     is Resource.Loading -> Timber.i("Loading")
-                    else -> {}
+                    else -> {
+                    }
                 }
             }
         })
 
         viewModel.navigateToAddPickupAddress.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController().navigate(PickupAddressFragmentDirections.actionPickupAddressFragmentToAddPickupAddressFragment())
+                this.findNavController()
+                    .navigate(PickupAddressFragmentDirections.actionPickupAddressFragmentToAddPickupAddressFragment())
                 viewModel.doneNavigateToAddPickupAddress()
             }
         })
 
+        viewModel.navigateBackToCheckout.observe(viewLifecycleOwner, {
+            it?.let {
+                checkoutSharedViewModel.updateAddressPickup(it)
+                this.findNavController().popBackStack()
+                viewModel.doneNavigateBackToCheckout()
+            }
+        })
     }
-
-
-
 }

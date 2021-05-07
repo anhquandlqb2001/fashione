@@ -12,8 +12,8 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:label="Home"
         android:name="vn.quanprolazer.fashione.ui.HomeFragment"
+        android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_productFragment"
@@ -31,7 +31,7 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/productFragment"
@@ -82,7 +82,6 @@
     <fragment
         android:id="@+id/checkoutFragment"
         android:name="vn.quanprolazer.fashione.ui.CheckoutFragment">
-
         <argument
             android:name="checkoutItems"
             app:argType="vn.quanprolazer.fashione.data.domain.model.CheckoutItem[]" />

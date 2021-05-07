@@ -59,5 +59,6 @@ object PickupAddressDiffUtil : DiffUtil.ItemCallback<PickupAddress>() {
 }
 
 abstract class OnPickupAddressListener() {
-    abstract fun onClickChange(pickupAddress: PickupAddress)
+    abstract fun onClickUpdateAddress(pickupAddress: PickupAddress)
+    abstract fun onClickChoosePickupAddress(pickupAddress: PickupAddress)
 }

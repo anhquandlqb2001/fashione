@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
@@ -22,70 +21,72 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_marginEnd="8dp">
+        android:gravity="center"
+        android:orientation="horizontal">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:onClick="@{() -> pickupAddressListener.onClickChoosePickupAddress(address)}">
             <TextView
-                android:textColor="@color/black"
-                android:layout_marginStart="16dp"
                 android:id="@+id/textView6"
+                phone_number="@{address.phoneNumber}"
+                receiver_name="@{address.name}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:layout_marginStart="16dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                receiver_name="@{address.name}"
-                phone_number="@{address.phoneNumber}"
                 tools:text="Phan anh Quan - 0889297731" />
 
             <TextView
-                android:textColor="@color/black"
-                android:layout_marginStart="16dp"
-                android:textSize="14sp"
-                android:layout_marginTop="12dp"
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Nha rieng: "
+                android:layout_marginTop="12dp"
                 android:text="@{address.addressType}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="@+id/textView6"
+                app:layout_constraintTop_toBottomOf="@+id/textView6"
+                tools:text="Nha rieng: " />
 
             <TextView
-                android:textSize="14sp"
                 android:id="@+id/textView8"
+                address="@{address.address}"
+                district_or_town="@{address.districtOrTown}"
+                privince_or_city="@{address.provinceOrCity}"
+                subdistrict_or_village="@{address.subdistrictOrVillage}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="73 nguyen tao, hoa hai, ngu hanh son"
-                address="@{address.address}"
-                subdistrict_or_village="@{address.subdistrictOrVillage}"
-                district_or_town="@{address.districtOrTown}"
-                privince_or_city="@{address.provinceOrCity}"
-                app:layout_constraintStart_toEndOf="@+id/textView7"
-                app:layout_constraintTop_toTopOf="@+id/textView7"
                 android:maxEms="10"
-                android:singleLine="false"/>
+                android:singleLine="false"
+                android:text="73 nguyen tao, hoa hai, ngu hanh son"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/textView7"
+                app:layout_constraintTop_toTopOf="@+id/textView7" />
 
             <View
-                android:layout_margin="16dp"
                 android:id="@+id/divider4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_margin="16dp"
                 android:background="?android:attr/listDivider"
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
-            android:textSize="16sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="Sửa"
-            android:onClick="@{() -> pickupAddressListener.onClickChange(address)}"/>
+            android:onClick="@{() -> pickupAddressListener.onClickUpdateAddress(address)}"
+            android:text="@string/text_update_address_pickup"
+            android:textSize="16sp" />
     </LinearLayout>
 </layout>

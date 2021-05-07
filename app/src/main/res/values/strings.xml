@@ -51,4 +51,5 @@
     <string name="txt_district_or_town">Quận/Huyện</string>
     <string name="txt_province_or_city_input">Nhập tỉnh / thành phố</string>
     <string name="txt_province_or_city">Tỉnh/Thành phố</string>
+    <string name="text_update_address_pickup">Sửa</string>
 </resources>

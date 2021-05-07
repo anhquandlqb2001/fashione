@@ -147,7 +147,8 @@ class CartFragment : Fragment() {
             it?.let {
                 val options = NavOptions.Builder().setLaunchSingleTop(true).build()
                 this.findNavController().navigate(
-                    CartFragmentDirections.actionCartFragmentToCheckoutFragment(it.toTypedArray()), options
+                    CartFragmentDirections.actionCartFragmentToCheckoutFragment(it.toTypedArray()),
+                    options
                 )
                 bottomCheckoutViewModel.onNavigateSuccess()
             }
