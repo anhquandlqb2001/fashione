@@ -16,4 +16,5 @@ interface UserService {
 
     suspend fun getPickupAddresses(userId: String): Resource<List<NetworkPickupAddress>>
 
+    suspend fun getDefaultPickupAddress(userId: String): Resource<NetworkPickupAddress>
 }

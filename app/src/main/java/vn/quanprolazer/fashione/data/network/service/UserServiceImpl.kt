@@ -29,8 +29,25 @@ class UserServiceImpl : UserService {
     override suspend fun getPickupAddresses(userId: String): Resource<List<NetworkPickupAddress>> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            val data = db.collection("addresses").get().await().documents.mapNotNull { it.toObject(NetworkPickupAddress::class.java) }
+            val data = db.collection("addresses").get().await().documents.mapNotNull {
+                it.toObject(NetworkPickupAddress::class.java)
+            }
             Resource.Success(data)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun getDefaultPickupAddress(userId: String): Resource<NetworkPickupAddress> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val data = db.collection("addresses").whereEqualTo("default", true).get().await()
+                .mapNotNull { it.toObject(NetworkPickupAddress::class.java) }
+            if (data.isEmpty()) {
+                return Resource.Error(Exception("NOT_FOUND"))
+            }
+            return Resource.Success(data[0])
         } catch (e: Exception) {
             Timber.e(e)
             Resource.Error(e)

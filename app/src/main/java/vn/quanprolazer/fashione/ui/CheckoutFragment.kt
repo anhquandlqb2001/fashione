@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CheckoutItemAdapter
+import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
 import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
 import vn.quanprolazer.fashione.viewmodels.CheckoutViewModel
@@ -77,12 +78,28 @@ class CheckoutFragment : Fragment() {
             }
         })
 
-        checkoutSharedViewModel.orderData.observe(viewLifecycleOwner, {
-            Timber.i(it.toString())
+        checkoutViewModel.defaultCheckoutAddress.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        binding.address = it.data
+                    }
+                    is Resource.Error -> {
+                        if (it.exception.message == "NOT_FOUND") {
+                            binding.llAddressData.visibility = View.GONE
+                            binding.tvNoDefault.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
         })
 
         checkoutSharedViewModel.addressPickup.observe(viewLifecycleOwner, {
             it?.let {
+                binding.llAddressData.visibility = View.VISIBLE
+                binding.tvNoDefault.visibility = View.GONE
                 binding.address = it
             }
         })

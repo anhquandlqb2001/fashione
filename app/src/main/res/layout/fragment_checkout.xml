@@ -47,7 +47,16 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/baseline_place_teal_a700_24dp"/>
 
+                <TextView
+                    android:id="@+id/tv_no_default"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="@string/text_no_default"/>
+
                 <LinearLayout
+                    android:id="@+id/ll_address_data"
                     android:clickable="false"
                     android:layout_weight="1"
                     android:layout_width="0dp"

@@ -6,8 +6,6 @@
 
 package vn.quanprolazer.fashione.data.domain.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
 
 data class PickupAddress(
     val id: String,
@@ -17,5 +15,6 @@ data class PickupAddress(
     val districtOrTown: String,
     val subdistrictOrVillage: String,
     val address: String,
-    val addressType: String
+    val addressType: String,
+    val default: Boolean
 )

@@ -6,19 +6,17 @@
 
 package vn.quanprolazer.fashione.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import timber.log.Timber
-import vn.quanprolazer.fashione.data.domain.mapper.OrderDataMapper
+import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.CheckoutItem
-import vn.quanprolazer.fashione.data.domain.model.OrderData
+import vn.quanprolazer.fashione.data.domain.model.PickupAddress
+import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 
 
-class CheckoutViewModel @AssistedInject constructor(@Assisted private val checkoutItemsNor: List<CheckoutItem>) : ViewModel() {
+class CheckoutViewModel @AssistedInject constructor(private val userRepository: UserRepository, @Assisted private val checkoutItemsNor: List<CheckoutItem>) : ViewModel() {
 
     private val _checkoutItems: MutableLiveData<List<CheckoutItem>> by lazy {
         MutableLiveData(checkoutItemsNor)
@@ -39,6 +37,15 @@ class CheckoutViewModel @AssistedInject constructor(@Assisted private val checko
     fun doneNavigate() {
         _navigateToPickupAddress.value = null
     }
+
+    private val _defaultCheckoutAddress: MutableLiveData<Resource<PickupAddress>> by lazy {
+        val liveData = MutableLiveData<Resource<PickupAddress>>()
+        viewModelScope.launch {
+            liveData.value = userRepository.getDefaultPickupAddress()
+        }
+        return@lazy liveData
+    }
+    val defaultCheckoutAddress: LiveData<Resource<PickupAddress>> get() = _defaultCheckoutAddress
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {

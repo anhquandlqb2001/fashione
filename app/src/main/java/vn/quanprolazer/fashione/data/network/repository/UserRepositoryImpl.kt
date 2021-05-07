@@ -17,6 +17,7 @@ import vn.quanprolazer.fashione.data.domain.repository.FirebaseUserLiveData
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 import vn.quanprolazer.fashione.data.network.dto.NetworkPickupAddress
 import vn.quanprolazer.fashione.data.network.mapper.NetworkPickupAddressMapper
+import vn.quanprolazer.fashione.data.network.mapper.NetworkPickupAddressesMapper
 import vn.quanprolazer.fashione.data.network.service.UserService
 import javax.inject.Inject
 
@@ -41,6 +42,19 @@ class UserRepositoryImpl @Inject constructor(private val userService: UserServic
         val user = getUser()
         val data = withContext(Dispatchers.IO) {
             userService.getPickupAddresses(user.value!!.uid)
+        }
+
+        return when(data) {
+            is Resource.Success -> { Resource.Success(NetworkPickupAddressesMapper.map(data.data)) }
+            is Resource.Loading -> { Resource.Loading(null) }
+            is Resource.Error -> Resource.Error(data.exception)
+        }
+    }
+
+    override suspend fun getDefaultPickupAddress(): Resource<PickupAddress> {
+        val user = getUser()
+        val data = withContext(Dispatchers.IO) {
+            userService.getDefaultPickupAddress(user.value!!.uid)
         }
 
         return when(data) {

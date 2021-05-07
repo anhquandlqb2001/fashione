@@ -22,6 +22,8 @@ interface UserRepository {
     suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<Boolean>
 
     suspend fun getPickupAddresses(): Resource<List<PickupAddress>>
+
+    suspend fun getDefaultPickupAddress(): Resource<PickupAddress>
 }
 
 object FirebaseUserLiveData : LiveData<FirebaseUser?>() {

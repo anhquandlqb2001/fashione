@@ -31,5 +31,6 @@ data class NetworkPickupAddress(
     var address: String = "",
     @set:PropertyName("address_type")
     @get:PropertyName("address_type")
-    var addressType: String = ""
+    var addressType: String = "",
+    var default: Boolean = false
 )
