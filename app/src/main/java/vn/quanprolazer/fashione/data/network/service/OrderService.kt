@@ -6,8 +6,9 @@
 
 package vn.quanprolazer.fashione.data.network.service
 
-import com.google.firebase.firestore.DocumentId
 import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
+import vn.quanprolazer.fashione.data.domain.model.Order
+import vn.quanprolazer.fashione.data.domain.model.OrderItem
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.network.dto.NetworkCartItem
 
@@ -21,4 +22,7 @@ interface OrderService {
 
     suspend fun removeCartItem(cartItemId: String): Resource<Boolean>
 
+    suspend fun createOrder(order: Order): Resource<String>
+
+    suspend fun createOrderItem(orderItems: List<OrderItem>): Resource<Boolean>
 }

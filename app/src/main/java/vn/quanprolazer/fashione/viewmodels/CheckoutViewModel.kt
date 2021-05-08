@@ -6,19 +6,25 @@
 
 package vn.quanprolazer.fashione.viewmodels
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import vn.quanprolazer.fashione.data.domain.model.CheckoutItem
-import vn.quanprolazer.fashione.data.domain.model.PickupAddress
-import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.model.*
+import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 import vn.quanprolazer.fashione.utilities.convertPriceStringToCurrencyString
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 
 class CheckoutViewModel @AssistedInject constructor(private val userRepository: UserRepository,
+                                                    private val orderRepository: OrderRepository,
                                                     @Assisted private val checkoutItemsNor: List<CheckoutItem>
 ) : ViewModel() {
 
@@ -62,6 +68,53 @@ class CheckoutViewModel @AssistedInject constructor(private val userRepository: 
         return@lazy liveData
     }
     val defaultCheckoutAddress: LiveData<Resource<PickupAddress>> get() = _defaultCheckoutAddress
+
+    private val _pickupAddressId: MutableLiveData<String> by lazy { MutableLiveData() }
+
+    fun updateAddressId(addressId: String) {
+        _pickupAddressId.value = addressId
+    }
+
+    private val _navigateToOrderSuccess: MutableLiveData<Resource<Boolean>> by lazy { MutableLiveData() }
+    val navigateToOrderSuccess: LiveData<Resource<Boolean>> get() = _navigateToOrderSuccess
+
+    fun doneNavigateToOrderSuccess() {
+        _navigateToOrderSuccess.value = null
+    }
+
+    var shipPrice = "0"
+    fun updateShipPrice(price: String) {
+        shipPrice = price
+    }
+
+    var productPrice = "0"
+    fun updateProductPrice(price: String) {
+        productPrice = price
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun onOrderClick() {
+        _navigateToOrderSuccess.value = Resource.Loading(null)
+
+        val order = Order(
+            userRepository.getUser().value!!.uid,
+            _pickupAddressId.value!!,
+            shipPrice,
+            productPrice,
+            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
+        )
+
+        val orderItems = _checkoutItems.value!!.map {
+            OrderItem(
+                it.variantOptionId, it.price, it.quantity
+            )
+        }
+
+        viewModelScope.launch {
+            _navigateToOrderSuccess.value = orderRepository.createOrder(order, orderItems)
+        }
+    }
+
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {

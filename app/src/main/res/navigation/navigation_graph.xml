@@ -88,6 +88,9 @@
         <action
             android:id="@+id/action_checkoutFragment_to_pickupAddressFragment"
             app:destination="@id/pickupAddressFragment" />
+        <action
+            android:id="@+id/action_checkoutFragment_to_orderSuccessFragment"
+            app:destination="@id/orderSuccessFragment" />
 
     </fragment>
     <fragment
@@ -101,6 +104,15 @@
         android:id="@+id/addPickupAddressFragment"
         android:name="vn.quanprolazer.fashione.ui.AddPickupAddressFragment"
         android:label="AddPickupAddressFragment" />
+    <fragment
+        android:id="@+id/orderSuccessFragment"
+        android:name="vn.quanprolazer.fashione.ui.OrderSuccessFragment"
+        android:label="fragment_order_success"
+        tools:layout="@layout/fragment_order_success" >
+        <action
+            android:id="@+id/action_orderSuccessFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
 
 
 </navigation>

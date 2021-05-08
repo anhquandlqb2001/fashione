@@ -7,6 +7,8 @@
 package vn.quanprolazer.fashione.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,10 +18,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CheckoutItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
 import vn.quanprolazer.fashione.utilities.MarginItemDecoration
+import vn.quanprolazer.fashione.utilities.ViewDialog
 import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
 import vn.quanprolazer.fashione.viewmodels.CheckoutViewModel
 import javax.inject.Inject
@@ -45,6 +49,10 @@ class CheckoutFragment : Fragment() {
 
     private val adapter: CheckoutItemAdapter by lazy {
         CheckoutItemAdapter()
+    }
+
+    private val loadingDialog: ViewDialog by lazy {
+        ViewDialog(requireActivity())
     }
 
     override fun onCreateView(inflater: LayoutInflater,
@@ -93,6 +101,7 @@ class CheckoutFragment : Fragment() {
                     }
                     is Resource.Success -> {
                         binding.address = it.data
+                        checkoutViewModel.updateAddressId(it.data.id)
                     }
                     is Resource.Error -> {
                         if (it.exception.message == "NOT_FOUND") {
@@ -109,6 +118,40 @@ class CheckoutFragment : Fragment() {
                 binding.llAddressData.visibility = View.VISIBLE
                 binding.tvNoDefault.visibility = View.GONE
                 binding.address = it
+                checkoutViewModel.updateAddressId(it.id)
+            }
+        })
+
+        checkoutViewModel.navigateToOrderSuccess.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            loadingDialog.hideDialog()
+                            this.findNavController()
+                                .navigate(CheckoutFragmentDirections.actionCheckoutFragmentToOrderSuccessFragment())
+                            checkoutViewModel.doneNavigateToOrderSuccess()
+                        }, 800)
+                    }
+                    is Resource.Loading -> {
+                        loadingDialog.showDialog()
+                    }
+                    is Resource.Error -> {
+                        loadingDialog.hideDialog()
+                    }
+                }
+            }
+        })
+
+        checkoutViewModel.totalProductPrice.observe(viewLifecycleOwner, {
+            it?.let {
+                checkoutViewModel.updateProductPrice(it)
+            }
+        })
+
+        checkoutViewModel.totalShipPrice.observe(viewLifecycleOwner, {
+            it?.let {
+                checkoutViewModel.updateShipPrice(it)
             }
         })
 

@@ -6,19 +6,23 @@
 
 package vn.quanprolazer.fashione.data.network.service
 
-import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
+import vn.quanprolazer.fashione.data.domain.model.Order
+import vn.quanprolazer.fashione.data.domain.model.OrderItem
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.network.dto.NetworkCartItem
 import vn.quanprolazer.fashione.data.network.mapper.toHashMap
 
 
 class OrderServiceImpl : OrderService {
-    override suspend fun addToCart(addToCartItem: AddToCartItem, userId: String, documentId: String?): Resource<Boolean> {
+    override suspend fun addToCart(addToCartItem: AddToCartItem,
+                                   userId: String,
+                                   documentId: String?
+    ): Resource<Boolean> {
         val db = FirebaseFirestore.getInstance()
         return try {
             val existCartItem = db.collection("carts").whereEqualTo(
@@ -76,6 +80,34 @@ class OrderServiceImpl : OrderService {
         val db = FirebaseFirestore.getInstance()
         return try {
             db.collection("carts").document(cartItemId).delete().await()
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun createOrder(order: Order): Resource<String> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val ref = db.collection("orders").add(order.toHashMap()).await()
+            Resource.Success(ref.id)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun createOrderItem(orderItems: List<OrderItem>): Resource<Boolean> {
+        val db = FirebaseFirestore.getInstance()
+        val batch = db.batch()
+        return try {
+            orderItems.forEach {
+                val docRef =
+                    db.collection("order_items").document() //automatically generate unique id
+                batch.set(docRef, it.toHashMap());
+            }
+            batch.commit().await()
             Resource.Success(true)
         } catch (e: Exception) {
             Timber.e(e)

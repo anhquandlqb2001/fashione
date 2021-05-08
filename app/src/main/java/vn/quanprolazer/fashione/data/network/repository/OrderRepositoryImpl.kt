@@ -11,11 +11,9 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.mapper.CartItemMapper
-import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
-import vn.quanprolazer.fashione.data.domain.model.CartItem
-import vn.quanprolazer.fashione.data.domain.model.Resource
-import vn.quanprolazer.fashione.data.domain.model.fromResult
+import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
@@ -45,7 +43,9 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
         }
 
         return when (result) {
-            is Resource.Success -> Resource.Success(NetworkCartItemsMapper.map(result.data).toMutableList())
+            is Resource.Success -> Resource.Success(
+                NetworkCartItemsMapper.map(result.data).toMutableList()
+            )
             is Resource.Error -> Resource.Error(result.exception)
             else -> Resource.Loading(null)
         }
@@ -72,9 +72,36 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
 
     override suspend fun undoDeleteCartItem(cartItem: CartItem): Resource<Boolean> {
         val result = withContext(defaultDispatcher) {
-            orderService.addToCart(CartItemMapper.map(cartItem), userRepository.getUser().value!!.uid, cartItem.id)
+            orderService.addToCart(
+                CartItemMapper.map(cartItem), userRepository.getUser().value!!.uid, cartItem.id
+            )
         }
 
         return fromResult(result)
+    }
+
+    override suspend fun createOrder(order: Order, orderItems: List<OrderItem>): Resource<Boolean> {
+        val createOrderResult = withContext(defaultDispatcher) {
+            orderService.createOrder(order)
+        }
+
+        return when (createOrderResult) {
+            is Resource.Success -> {
+                val updatedOrderItems = orderItems.map {
+                    it.copy(orderId = createOrderResult.data)
+                }
+                val addOrderItemsResult = withContext(defaultDispatcher) {
+                    orderService.createOrderItem(updatedOrderItems)
+                }
+                return when (addOrderItemsResult) {
+                    is Resource.Success -> return Resource.Success(true)
+                    is Resource.Error -> Resource.Error(addOrderItemsResult.exception)
+                    is Resource.Loading -> Resource.Loading(null)
+                }
+            }
+            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Error -> Resource.Error(createOrderResult.exception)
+        }
+
     }
 }

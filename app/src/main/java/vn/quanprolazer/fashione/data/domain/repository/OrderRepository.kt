@@ -6,9 +6,7 @@
 
 package vn.quanprolazer.fashione.data.domain.repository
 
-import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
-import vn.quanprolazer.fashione.data.domain.model.CartItem
-import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.model.*
 
 interface OrderRepository {
 
@@ -21,4 +19,7 @@ interface OrderRepository {
     suspend fun getCartItems(): Resource<MutableList<CartItem>>
 
     suspend fun removeCartItem(cartItemId: String) : Resource<Boolean>
+
+    suspend fun createOrder(order: Order, orderItems: List<OrderItem>): Resource<Boolean>
+
 }
