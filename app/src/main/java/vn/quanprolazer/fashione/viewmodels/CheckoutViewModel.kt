@@ -10,19 +10,35 @@ import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.CheckoutItem
 import vn.quanprolazer.fashione.data.domain.model.PickupAddress
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
+import vn.quanprolazer.fashione.utilities.convertPriceStringToCurrencyString
 
 
-class CheckoutViewModel @AssistedInject constructor(private val userRepository: UserRepository, @Assisted private val checkoutItemsNor: List<CheckoutItem>) : ViewModel() {
+class CheckoutViewModel @AssistedInject constructor(private val userRepository: UserRepository,
+                                                    @Assisted private val checkoutItemsNor: List<CheckoutItem>
+) : ViewModel() {
 
     private val _checkoutItems: MutableLiveData<List<CheckoutItem>> by lazy {
         MutableLiveData(checkoutItemsNor)
     }
 
     val checkoutItems: LiveData<List<CheckoutItem>> get() = _checkoutItems
+
+    val totalProductPrice: LiveData<String>
+        get() = Transformations.map(_checkoutItems) {
+            var price = "0"
+            it.map { checkoutItem ->
+                price =
+                    (price.toFloat() + (checkoutItem.price.toFloat() * checkoutItem.quantity)).toString()
+            }
+            return@map price
+        }
+
+    val totalShipPrice: LiveData<String> by lazy { MutableLiveData("0") }
 
     private val _navigateToPickupAddress: MutableLiveData<Boolean> by lazy {
         MutableLiveData()

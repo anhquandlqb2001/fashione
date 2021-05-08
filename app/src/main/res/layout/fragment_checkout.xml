@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
@@ -21,97 +20,245 @@
 
     </data>
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="wrap_content"
+        android:clipToPadding="false">
+
+        <ScrollView
+            android:id="@+id/sv_checkout"
             android:layout_width="match_parent"
-            android:layout_height="0dp">
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_confirm">
 
-            <LinearLayout
-                android:focusable="true"
-                android:clickable="true"
-                android:onClick="@{() -> checkoutViewModel.onNavigateToPickupAddress()}"
-                android:id="@+id/ll_address"
-                android:layout_marginTop="8dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                app:layout_constraintTop_toTopOf="parent"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:clickable="false"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/baseline_place_teal_a700_24dp"/>
-
-                <TextView
-                    android:id="@+id/tv_no_default"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:text="@string/text_no_default"/>
+                android:layout_height="0dp">
 
                 <LinearLayout
-                    android:id="@+id/ll_address_data"
-                    android:clickable="false"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
+                    android:id="@+id/ll_address"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:textSize="16sp"
+                    android:layout_marginTop="8dp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:onClick="@{() -> checkoutViewModel.onNavigateToPickupAddress()}"
+                    android:orientation="horizontal"
+                    android:paddingBottom="16dp"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/address_text"/>
+                        android:layout_marginHorizontal="8dp"
+                        android:clickable="false"
+                        app:srcCompat="@drawable/baseline_place_teal_a700_24dp" />
+
                     <TextView
-                        android:textSize="14sp"
-                        android:layout_marginTop="8dp"
+                        android:id="@+id/tv_no_default"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        phone_number="@{address.phoneNumber}"
-                        receiver_name="@{address.name}"
-                        tools:text="Quan Phan | 0889297731"/>
-                    <TextView
-                        android:textSize="14sp"
-                        android:layout_width="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/text_no_default"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_address_data"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:maxEms="15"
-                        android:singleLine="false"
-                        address="@{address.address}"
-                        district_or_town="@{address.districtOrTown}"
-                        privince_or_city="@{address.provinceOrCity}"
-                        subdistrict_or_village="@{address.subdistrictOrVillage}"
-                        tools:text="73 Nguyen Tao, Hoa Hai, Da Nang"/>
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/address_text"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            phone_number="@{address.phoneNumber}"
+                            receiver_name="@{address.name}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:textSize="14sp"
+                            tools:text="Quan Phan | 0889297731" />
+
+                        <TextView
+                            address="@{address.address}"
+                            district_or_town="@{address.districtOrTown}"
+                            privince_or_city="@{address.provinceOrCity}"
+                            subdistrict_or_village="@{address.subdistrictOrVillage}"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:maxEms="15"
+                            android:singleLine="false"
+                            android:textSize="14sp"
+                            tools:text="73 Nguyen Tao, Hoa Hai, Da Nang" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:clickable="false"
+                        app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_36dp" />
+
                 </LinearLayout>
 
-                <ImageView
-                    android:clickable="false"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    app:srcCompat="@drawable/baseline_keyboard_arrow_right_black_36dp" />
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/ll_address" />
 
-            </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_checkout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="8dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintTop_toBottomOf="@id/divider2"
+                    tools:layout_editor_absoluteX="42dp"
+                    tools:listitem="@layout/list_item_checkout" />
+
+                <!--              bill  -->
+                <View
+                    android:id="@+id/dv6"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintBottom_toTopOf="@id/ll_bill"
+                    app:layout_constraintTop_toBottomOf="@id/rv_checkout" />
+
+                <LinearLayout
+                    android:id="@+id/ll_bill"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginBottom="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/dv6">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/texT_product_price_text" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            toPrice="@{checkoutViewModel.totalProductPrice}"
+                            tools:text="20.000d" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/text_ship_price" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            toPrice="@{checkoutViewModel.totalShipPrice}"
+                            tools:text="20.000d" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="4dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/text_total_text"
+                            android:textColor="@color/black"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/teal_200"
+                            android:textSize="20sp"
+                            productPrice="@{checkoutViewModel.totalProductPrice}"
+                            shipPrice="@{checkoutViewModel.totalShipPrice}"
+                            tools:text="20.000d" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/divider5"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintTop_toBottomOf="@id/ll_bill" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/ll_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:clipToPadding="false"
+            android:elevation="10sp"
+            android:orientation="horizontal">
 
             <View
-                android:id="@+id/divider2"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@id/ll_address"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_checkout"
-                android:layout_marginTop="8dp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintTop_toBottomOf="@id/divider2"
-                tools:listitem="@layout/list_item_checkout"/>
+                android:layout_weight="1" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/text_total_price" />
+
+                <TextView
+                    android:id="@+id/tv_total_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="4dp"
+                    productPrice="@{checkoutViewModel.totalProductPrice}"
+                    shipPrice="@{checkoutViewModel.totalShipPrice}"
+                    tools:text="2000.0d" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/teal_200"
+                android:paddingHorizontal="30dp"
+                android:text="@string/text_confirm" />
+        </LinearLayout>
+
+    </RelativeLayout>
 </layout>

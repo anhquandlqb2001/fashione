@@ -14,11 +14,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.CheckoutItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
+import vn.quanprolazer.fashione.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.viewmodels.CheckoutSharedViewModel
 import vn.quanprolazer.fashione.viewmodels.CheckoutViewModel
 import javax.inject.Inject
@@ -62,7 +63,14 @@ class CheckoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.rvCheckout.addItemDecoration(
+            DividerItemDecoration(
+                context, DividerItemDecoration.VERTICAL
+            )
+        )
+        binding.rvCheckout.addItemDecoration(MarginItemDecoration(20))
         binding.rvCheckout.adapter = adapter
+
 
         checkoutViewModel.checkoutItems.observe(viewLifecycleOwner, {
             it?.let {

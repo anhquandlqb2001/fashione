@@ -53,4 +53,9 @@
     <string name="txt_province_or_city">Tỉnh/Thành phố</string>
     <string name="text_update_address_pickup">Sửa</string>
     <string name="text_no_default">Nhấp để chọn địa điểm ship</string>
+    <string name="text_confirm">Đặt hàng</string>
+    <string name="text_total_price">Tổng thanh toán</string>
+    <string name="text_total_text">Tổng thanh toán</string>
+    <string name="text_ship_price">Phí vận chuyển</string>
+    <string name="texT_product_price_text">Tổng tiền hàng</string>
 </resources>

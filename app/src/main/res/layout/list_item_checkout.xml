@@ -17,8 +17,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="16dp">
+        android:layout_height="wrap_content">
 
 
         <ImageView
@@ -90,15 +89,6 @@
                 android:layout_height="wrap_content"
                 tools:text="120.000d" />
         </LinearLayout>
-
-        <View
-            app:layout_constraintTop_toBottomOf="@id/linearLayout"
-            android:id="@+id/divider3"
-            android:layout_marginTop="8dp"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="?android:attr/listDivider" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

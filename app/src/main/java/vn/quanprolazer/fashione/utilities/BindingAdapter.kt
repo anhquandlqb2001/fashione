@@ -62,3 +62,19 @@ fun TextView.pickupAddress(address: String?, subdistrictOrVillage: String?, priv
     text = "$address, $subdistrictOrVillage, $privinceOrCcity, $districtOrTown"
 }
 
+@BindingAdapter(value = ["productPrice", "shipPrice"])
+fun TextView.totalPrice(productPrice: String?, shipPrice: String?) {
+    if (productPrice == null || shipPrice == null) {
+        text = "0"
+        return
+    }
+    val price = productPrice.toFloat() + shipPrice.toFloat()
+    return toPrice(price.toString())
+}
+
+@BindingAdapter("toPrice")
+fun TextView.toPrice(price: String?) {
+    price?.let {
+        text = convertPriceStringToCurrencyString(price)
+    }
+}
