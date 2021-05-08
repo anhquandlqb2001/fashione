@@ -58,4 +58,6 @@
     <string name="text_total_text">Tổng thanh toán</string>
     <string name="text_ship_price">Phí vận chuyển</string>
     <string name="texT_product_price_text">Tổng tiền hàng</string>
+    <string name="text_payment_choose">Phương thức thanh toán</string>
+    <string name="text_cod">Thanh toán khi nhận hàng</string>
 </resources>

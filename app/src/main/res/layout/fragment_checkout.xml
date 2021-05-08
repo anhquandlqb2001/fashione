@@ -142,6 +142,33 @@
                     app:layout_constraintTop_toBottomOf="@id/dv6">
 
                     <LinearLayout
+                        android:paddingVertical="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center"
+                        android:baselineAligned="true">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/baseline_attach_money_teal_400_24dp" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/text_payment_choose" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_cod"
+                            android:singleLine="false"
+                            android:maxEms="7"/>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="4dp"
@@ -154,9 +181,9 @@
                             android:text="@string/texT_product_price_text" />
 
                         <TextView
+                            toPrice="@{checkoutViewModel.totalProductPrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            toPrice="@{checkoutViewModel.totalProductPrice}"
                             tools:text="20.000d" />
                     </LinearLayout>
 
@@ -173,9 +200,9 @@
                             android:text="@string/text_ship_price" />
 
                         <TextView
+                            toPrice="@{checkoutViewModel.totalShipPrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            toPrice="@{checkoutViewModel.totalShipPrice}"
                             tools:text="20.000d" />
                     </LinearLayout>
 
@@ -194,12 +221,12 @@
                             android:textSize="20sp" />
 
                         <TextView
+                            productPrice="@{checkoutViewModel.totalProductPrice}"
+                            shipPrice="@{checkoutViewModel.totalShipPrice}"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/teal_200"
                             android:textSize="20sp"
-                            productPrice="@{checkoutViewModel.totalProductPrice}"
-                            shipPrice="@{checkoutViewModel.totalShipPrice}"
                             tools:text="20.000d" />
                     </LinearLayout>
                 </LinearLayout>
@@ -242,12 +269,12 @@
 
                 <TextView
                     android:id="@+id/tv_total_price"
+                    productPrice="@{checkoutViewModel.totalProductPrice}"
+                    shipPrice="@{checkoutViewModel.totalShipPrice}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="4dp"
-                    productPrice="@{checkoutViewModel.totalProductPrice}"
-                    shipPrice="@{checkoutViewModel.totalShipPrice}"
                     tools:text="2000.0d" />
             </RelativeLayout>
 
