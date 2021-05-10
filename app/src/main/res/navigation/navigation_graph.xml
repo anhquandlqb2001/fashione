@@ -113,6 +113,18 @@
             android:id="@+id/action_orderSuccessFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/personalFragment"
+        android:name="vn.quanprolazer.fashione.ui.PersonalFragment"
+        android:label="PersonalFragment" >
+        <action
+            android:id="@+id/action_personalFragment_to_purchaseMenuFragment"
+            app:destination="@id/purchaseMenuFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/purchaseMenuFragment"
+        android:name="vn.quanprolazer.fashione.ui.PurchaseMenuFragment"
+        android:label="PurchaseMenuFragment" />
 
 
 </navigation>

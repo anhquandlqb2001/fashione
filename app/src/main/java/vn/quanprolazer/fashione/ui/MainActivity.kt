@@ -108,6 +108,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_item_cart -> {
                     navigateToFragment(R.id.cartFragment)
                 }
+                R.id.menu_item_personal -> {
+                    navigateToFragment(R.id.personalFragment)
+                }
                 else -> {
                 }
             }
@@ -163,6 +166,20 @@ class MainActivity : AppCompatActivity() {
                     binding.tvToolbarTitle.text = "Thêm địa chỉ nhận hàng"
                     binding.ivFilter.visibility = View.GONE
                     binding.ivNotification.visibility = View.GONE
+                }
+                R.id.personalFragment -> {
+                    customActionBarTitleVisibility(View.VISIBLE)
+                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
+                    binding.tvToolbarTitle.text = "Cá nhân"
+                    binding.ivFilter.visibility = View.GONE
+                    binding.ivFilter.visibility = View.GONE
+                }
+                R.id.purchaseMenuFragment -> {
+                    customActionBarTitleVisibility(View.VISIBLE)
+                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
+                    binding.tvToolbarTitle.text = "Đơn mua"
+                    binding.ivFilter.visibility = View.GONE
+                    binding.ivFilter.visibility = View.GONE
                 }
                 else -> {
                     customActionBarTitleVisibility(View.GONE)

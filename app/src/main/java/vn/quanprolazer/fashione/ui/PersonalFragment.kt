@@ -13,25 +13,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import vn.quanprolazer.fashione.databinding.FragmentOrderSuccessBinding
-import vn.quanprolazer.fashione.viewmodels.OrderSuccessViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import vn.quanprolazer.fashione.databinding.FragmentPersonalBinding
+import vn.quanprolazer.fashione.viewmodels.PersonalViewModel
 
-class OrderSuccessFragment : Fragment() {
+@AndroidEntryPoint
+class PersonalFragment : Fragment() {
 
-    private var _binding: FragmentOrderSuccessBinding? = null
-    private val binding: FragmentOrderSuccessBinding get() = _binding!!
+    private var _binding: FragmentPersonalBinding? = null
 
-    private val viewModel: OrderSuccessViewModel by viewModels()
+    private val binding: FragmentPersonalBinding get() = _binding!!
 
+    private val viewModel: PersonalViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?
     ): View { // Inflate the layout for this fragment
-        _binding = FragmentOrderSuccessBinding.inflate(inflater, container, false)
+        _binding = FragmentPersonalBinding.inflate(inflater, container, false)
 
-        binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
 
         return binding.root
     }
@@ -39,13 +41,15 @@ class OrderSuccessFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.navigateToHome.observe(viewLifecycleOwner, {
+
+        viewModel.navigateToPurchaseMenu.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController()
-                    .navigate(OrderSuccessFragmentDirections.actionOrderSuccessFragmentToHomeFragment())
-                viewModel.doneNavigateToHome()
+                    .navigate(PersonalFragmentDirections.actionPersonalFragmentToPurchaseMenuFragment())
+                viewModel.doneNavigateToPurchaseMenu()
             }
         })
+
     }
 
     override fun onDestroy() {

@@ -26,7 +26,7 @@
             <menu>
                 <item
                     android:title="@string/menu_item_profile_text"
-                    android:id="@+id/menu_item_profile"/>
+                    android:id="@+id/menu_item_personal"/>
                 <item
                     android:title="@string/login"
                     android:id="@+id/menu_item_login" />

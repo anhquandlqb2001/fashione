@@ -7,7 +7,7 @@
 <resources>
     <string name="app_name">Fashione</string>
     <string name="menu_item_home_text">Trang chủ</string>
-    <string name="menu_item_profile_text">Hồ sơ</string>
+    <string name="menu_item_profile_text">Cá nhân</string>
     <string name="menu_item_cart_text">Giỏ hàng</string>
     <string name="menu_item_favourite_text">Favourite</string>
     <string name="content_description_notification_icon">Notification icon</string>
@@ -62,4 +62,6 @@
     <string name="text_cod">Thanh toán khi nhận hàng</string>
     <string name="text_back_to_home">Quay lại trang chủ</string>
     <string name="text_order_success">Đặt hàng thành công</string>
+    <string name="text_purchase">Đơn mua</string>
+    <string name="text_purchase_history">Xem lịch sử mua hàng</string>
 </resources>

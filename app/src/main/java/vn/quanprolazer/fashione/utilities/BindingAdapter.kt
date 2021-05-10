@@ -6,14 +6,12 @@
 
 package vn.quanprolazer.fashione.utilities
 
+import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import android.widget.RadioButton
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
@@ -23,6 +21,15 @@ fun ImageView.loadImage(imageUrl: String?) {
     imageUrl?.let {
         val imgUri = imageUrl.toUri().buildUpon().scheme("https").build()
         GlideApp.with(context).load(imgUri).apply(
+            RequestOptions().placeholder(R.drawable.loading_anim).error(R.drawable.ic_broken)
+        ).into(this)
+    }
+}
+
+@BindingAdapter("imageUri")
+fun ImageView.loadImage(imageUri: Uri?) {
+    imageUri?.let {
+        GlideApp.with(context).load(imageUri).apply(
             RequestOptions().placeholder(R.drawable.loading_anim).error(R.drawable.ic_broken)
         ).into(this)
     }
