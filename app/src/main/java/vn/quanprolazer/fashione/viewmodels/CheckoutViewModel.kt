@@ -97,16 +97,24 @@ class CheckoutViewModel @AssistedInject constructor(private val userRepository: 
         _navigateToOrderSuccess.value = Resource.Loading(null)
 
         val order = Order(
-            userRepository.getUser().value!!.uid,
-            _pickupAddressId.value!!,
-            shipPrice,
-            productPrice,
-            LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
+            userId = userRepository.getUser().value!!.uid,
+            addressId = _pickupAddressId.value!!,
+            shippingPriceTotal = shipPrice,
+            productPriceTotal = productPrice,
+            createdAt = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
+            status = OrderStatus.CONFIRMING,
         )
 
         val orderItems = _checkoutItems.value!!.map {
             OrderItem(
-                it.variantOptionId, it.price, it.quantity
+                productId = it.productId,
+                variantOptionId = it.variantOptionId,
+                productName = it.productName,
+                variantName = it.variantName,
+                variantValue = it.variantValue,
+                price = it.price,
+                quantity = it.quantity
             )
         }
 

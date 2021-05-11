@@ -31,14 +31,24 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideUserRepository(userService: UserService): UserRepository = UserRepositoryImpl(userService)
+    fun provideUserRepository(userService: UserService): UserRepository =
+        UserRepositoryImpl(userService)
 
     @Singleton
     @Provides
-    fun provideOrderRepository(orderService: OrderService, userRepository: UserRepository, productRepository: ProductRepository
+    fun provideOrderRepository(orderService: OrderService,
+                               userRepository: UserRepository,
+                               productRepository: ProductRepository
     ): OrderRepository = OrderRepositoryImpl(orderService, userRepository, productRepository)
 
     @Singleton
     @Provides
-    fun provideNetworkRepository(addressService: PickupAddressService): NetworkRepository = NetworkRepositoryImpl(addressService)
+    fun provideNetworkRepository(addressService: PickupAddressService): NetworkRepository =
+        NetworkRepositoryImpl(addressService)
+
+    @Singleton
+    @Provides
+    fun providePurchaseRepository(purchaseService: PurchaseService,
+                                  userRepository: UserRepository
+    ): PurchaseRepository = PurchaseRepositoryImpl(purchaseService, userRepository)
 }

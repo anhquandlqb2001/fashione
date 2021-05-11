@@ -6,10 +6,7 @@
 
 package vn.quanprolazer.fashione.data.network.service
 
-import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
-import vn.quanprolazer.fashione.data.domain.model.Order
-import vn.quanprolazer.fashione.data.domain.model.OrderItem
-import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.network.dto.NetworkCartItem
 
 interface OrderService {

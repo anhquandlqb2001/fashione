@@ -19,18 +19,22 @@ import javax.inject.Singleton
 class ServiceModule {
 
     @Provides
-    fun provideCategoryService() : CategoryService = CategoryServiceImpl()
+    fun provideCategoryService(): CategoryService = CategoryServiceImpl()
 
     @Provides
-    fun provideProductService() : ProductService = ProductServiceImpl()
+    fun provideProductService(): ProductService = ProductServiceImpl()
 
     @Provides
-    fun provideOrderService() : OrderService = OrderServiceImpl()
+    fun provideOrderService(): OrderService = OrderServiceImpl()
 
     @Provides
-    fun provideUserService() : UserService = UserServiceImpl()
+    fun provideUserService(): UserService = UserServiceImpl()
+
+    @Provides
+    fun providePurchaseService(): PurchaseService = PurchaseServiceImpl()
 
     @Provides
     @Singleton
-    fun providePickupAddressService(retrofit: Retrofit): PickupAddressService = retrofit.create(PickupAddressService::class.java)
+    fun providePickupAddressService(retrofit: Retrofit): PickupAddressService =
+        retrofit.create(PickupAddressService::class.java)
 }
