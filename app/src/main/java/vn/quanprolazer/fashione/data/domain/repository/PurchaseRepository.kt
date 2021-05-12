@@ -11,5 +11,5 @@ import vn.quanprolazer.fashione.data.domain.model.OrderStatus
 import vn.quanprolazer.fashione.data.domain.model.Resource
 
 interface PurchaseRepository {
-    suspend fun getPurchaseItems(orderStatus: OrderStatus): Resource<List<Purchase>>
+    suspend fun getPurchaseItems(orderStatus: OrderStatus): Resource<MutableList<Purchase>>
 }

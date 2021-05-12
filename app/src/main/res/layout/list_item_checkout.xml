@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
@@ -10,6 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="checkoutItem"
             type="vn.quanprolazer.fashione.data.domain.model.CheckoutItem" />
@@ -21,57 +21,57 @@
 
 
         <ImageView
-            android:layout_marginStart="8dp"
             android:id="@+id/imageView2"
+            imageUrl="@{checkoutItem.cartItemImg}"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_launcher_background"
-            imageUrl="@{checkoutItem.cartItemImg}"/>
+            tools:src="@drawable/ic_launcher_background" />
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:text="@{checkoutItem.productName}"
             android:textSize="16sp"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@{checkoutItem.productName}"
             tools:text="Quan bo kaki" />
 
         <TextView
             android:id="@+id/textView4"
+            variantName="@{checkoutItem.variantName}"
+            variantValue="@{checkoutItem.variantValue}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
-            variantName="@{checkoutItem.variantName}"
-            variantValue="@{checkoutItem.variantValue}"
             tools:text="Phan loai: Xanh duong - M" />
 
         <TextView
             android:id="@+id/textView5"
+            productPrice="@{checkoutItem.price}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
-            productPrice="@{checkoutItem.price}"
             tools:text="16.000d" />
 
         <TextView
+            setQty="@{checkoutItem.quantity}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="x1"
             android:layout_marginEnd="8dp"
-            checkoutQty="@{checkoutItem.quantity}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textView5" />
+            app:layout_constraintTop_toTopOf="@id/textView5"
+            tools:text="x1" />
 
         <LinearLayout
             android:id="@+id/linearLayout"

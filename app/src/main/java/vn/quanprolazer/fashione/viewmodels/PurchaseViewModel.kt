@@ -6,31 +6,68 @@
 
 package vn.quanprolazer.fashione.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.OrderStatus
 import vn.quanprolazer.fashione.data.domain.model.Purchase
 import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.PurchaseRepository
+import vn.quanprolazer.fashione.ui.CONFIRMING_POSITION
+import vn.quanprolazer.fashione.ui.DELIVERED_POSITION
+import vn.quanprolazer.fashione.ui.DELIVERING_POSITION
+import vn.quanprolazer.fashione.utilities.mapInPlace
 import javax.inject.Inject
 
 @HiltViewModel
-class PurchaseViewModel @Inject constructor(private val purchaseRepository: PurchaseRepository) :
-        ViewModel() {
+class PurchaseViewModel @Inject constructor(
+    private val purchaseRepository: PurchaseRepository,
+    private val productRepository: ProductRepository
+) :
+    ViewModel() {
 
-    private val _purchaseItems: MutableLiveData<Resource<List<Purchase>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<Purchase>>>()
+    /**
+     * Call when user select in tab bar, from Fragment
+     */
+    fun updatePurchaseItems(position: Number) {
+        when (position) {
+            CONFIRMING_POSITION -> updatePurchaseItems(OrderStatus.CONFIRMING)
+            DELIVERING_POSITION -> updatePurchaseItems(OrderStatus.DELIVERING)
+            DELIVERED_POSITION -> updatePurchaseItems(OrderStatus.DELIVERED)
+        }
+    }
+
+    private val _purchaseItems: MutableLiveData<Resource<MutableList<Purchase>>> by lazy {
+        val liveData = MutableLiveData<Resource<MutableList<Purchase>>>(Resource.Loading(null))
 
         viewModelScope.launch {
             liveData.value = purchaseRepository.getPurchaseItems(OrderStatus.CONFIRMING)
         }
         return@lazy liveData
     }
+    val purchaseItems: LiveData<Resource<MutableList<Purchase>>> get() = _purchaseItems
 
-    val purchaseItems: LiveData<Resource<List<Purchase>>> get() = _purchaseItems
+    private fun updatePurchaseItems(status: OrderStatus) {
+        _purchaseItems.value = Resource.Loading(null)
+        viewModelScope.launch {
+            _purchaseItems.value = purchaseRepository.getPurchaseItems(status)
+        }
+    }
 
+    fun getPurchaseItemsImage() {
+        (_purchaseItems.value as Resource.Success).data.mapInPlace {
+            if (it.purchaseImage != null) return
+            viewModelScope.launch {
+                when (val cartItemImage =
+                    productRepository.getProductImageByProductId(it.productId)) {
+                    is Resource.Success -> it.purchaseImage =
+                        Resource.Success(cartItemImage.data)
+                    is Resource.Error -> Resource.Error(cartItemImage.exception)
+                    is Resource.Loading -> it.purchaseImage = null
+                }
+            }
+            it
+        }
+    }
 }

@@ -15,6 +15,9 @@ import androidx.databinding.BindingAdapter
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
+import vn.quanprolazer.fashione.data.domain.model.Product
+import vn.quanprolazer.fashione.data.domain.model.ProductImage
+import vn.quanprolazer.fashione.data.domain.model.Resource
 
 @BindingAdapter("imageUrl")
 fun ImageView.loadImage(imageUrl: String?) {
@@ -54,19 +57,24 @@ fun TextView.setTotalPrice(orderQty: Number?, variantPrice: String?) {
     }
 }
 
-@BindingAdapter("checkoutQty")
-fun TextView.setCheckoutQty(qty: Number) {
+@BindingAdapter("setQty")
+fun TextView.setQty(qty: Number) {
     text = "x${qty}"
 }
 
 @BindingAdapter(value = ["receiver_name", "phone_number"])
-fun TextView.setCheckoutQty(receiverName: String?, phoneNumber: String?) {
+fun TextView.setQty(receiverName: String?, phoneNumber: String?) {
     text = "$receiverName - $phoneNumber"
 }
 
 @BindingAdapter(value = ["address", "subdistrict_or_village", "privince_or_city", "district_or_town"])
-fun TextView.pickupAddress(address: String?, subdistrictOrVillage: String?, privinceOrCcity: String?, districtOrTown: String?) {
-    text = "$address, $subdistrictOrVillage, $privinceOrCcity, $districtOrTown"
+fun TextView.pickupAddress(
+    address: String?,
+    subdistrictOrVillage: String?,
+    provinceOrCity: String?,
+    districtOrTown: String?
+) {
+    text = "$address, $subdistrictOrVillage, $provinceOrCity, $districtOrTown"
 }
 
 @BindingAdapter(value = ["productPrice", "shipPrice"])
@@ -83,5 +91,15 @@ fun TextView.totalPrice(productPrice: String?, shipPrice: String?) {
 fun TextView.toPrice(price: String?) {
     price?.let {
         text = convertPriceStringToCurrencyString(price)
+    }
+}
+
+@BindingAdapter("imgResource")
+fun ImageView.imgResource(img: Resource<ProductImage>?) {
+    img?.let {
+        when (img) {
+            is Resource.Success -> loadImage(img.data.url)
+            else -> {}
+        }
     }
 }

@@ -11,16 +11,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
-import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.adapters.PurchaseFragmentAdapter
-import vn.quanprolazer.fashione.databinding.FragmentAddPickupAddressBinding
 import vn.quanprolazer.fashione.databinding.FragmentPurchaseMenuBinding
 import vn.quanprolazer.fashione.viewmodels.PurchaseViewModel
+
+const val CONFIRMING_POSITION = 0
+const val DELIVERING_POSITION = 1
+const val DELIVERED_POSITION = 2
 
 @AndroidEntryPoint
 class PurchaseMenuFragment : Fragment() {
@@ -33,13 +35,14 @@ class PurchaseMenuFragment : Fragment() {
         PurchaseFragmentAdapter(this)
     }
 
-    private val purchaseViewModel: PurchaseViewModel by viewModels()
+    private val purchaseViewModel: PurchaseViewModel by activityViewModels()
 
     private lateinit var viewPager: ViewPager2
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View { // Inflate the layout for this fragment
         _binding = FragmentPurchaseMenuBinding.inflate(inflater, container, false)
 
@@ -57,17 +60,41 @@ class PurchaseMenuFragment : Fragment() {
         val tabLayout = binding.tablayoutPurchaseMenu
         TabLayoutMediator(tabLayout, viewPager) { tab, position -> //            tab.text
             when (position) {
-                0 -> tab.text = "Chờ xác nhận"
-                1 -> tab.text = "Đang giao"
+                CONFIRMING_POSITION -> {
+                    tab.text = "Chờ xác nhận"
+                }
+                DELIVERING_POSITION -> {
+                    tab.text = "Đang giao"
+                }
+                DELIVERED_POSITION -> {
+                    tab.text = "Hoàn thành"
+                }
             }
         }.attach()
-
-        purchaseViewModel.purchaseItems.observe(viewLifecycleOwner, {
-            it?.let {
-                Timber.i(it.toString())
+        tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (tab != null) {
+                    when (tab.position) {
+                        CONFIRMING_POSITION -> purchaseViewModel.updatePurchaseItems(
+                            CONFIRMING_POSITION
+                        )
+                        DELIVERING_POSITION -> purchaseViewModel.updatePurchaseItems(
+                            DELIVERING_POSITION
+                        )
+                        DELIVERED_POSITION -> purchaseViewModel.updatePurchaseItems(
+                            DELIVERED_POSITION
+                        )
+                        else -> {
+                            purchaseViewModel.updatePurchaseItems(CONFIRMING_POSITION)
+                        }
+                    }
+                }
             }
-        })
 
+            override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {}
+        })
     }
 
     override fun onDestroy() {

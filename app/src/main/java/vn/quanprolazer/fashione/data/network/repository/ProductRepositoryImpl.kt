@@ -18,8 +18,9 @@ import vn.quanprolazer.fashione.data.network.mapper.*
 import vn.quanprolazer.fashione.data.network.service.ProductService
 import vn.quanprolazer.fashione.data.network.service.SearchServiceImpl
 
-class ProductRepositoryImpl @AssistedInject constructor(private val productService: ProductService,
-                                                        @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+class ProductRepositoryImpl @AssistedInject constructor(
+    private val productService: ProductService,
+    @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
     override suspend fun getProducts(source: Source): Resource<List<Product>> {
@@ -104,6 +105,18 @@ class ProductRepositoryImpl @AssistedInject constructor(private val productServi
 
         return when (response) {
             is Resource.Success -> Resource.Success(NetworkProductImagesMapper.map(response.data))
+            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Error -> Resource.Error(response.exception)
+        }
+    }
+
+    override suspend fun getProductImageByProductId(productId: String): Resource<ProductImage> {
+        val response = withContext(dispatcher) {
+            productService.getProductImageByProductId(productId)
+        }
+
+        return when (response) {
+            is Resource.Success -> Resource.Success(NetworkProductImageMapper.map(response.data))
             is Resource.Loading -> Resource.Loading(null)
             is Resource.Error -> Resource.Error(response.exception)
         }
