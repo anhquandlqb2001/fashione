@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class CheckoutItem(
-    val id: String,
+    val id: String, // cartItemId
     val productId: String,
     val userId: String,
     val variantId: String,
@@ -22,4 +22,4 @@ data class CheckoutItem(
     var quantity: Int,
     val price: String,
     var cartItemImg: String,
-): Parcelable
+) : Parcelable

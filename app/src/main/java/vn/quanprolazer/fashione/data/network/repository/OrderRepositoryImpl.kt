@@ -11,18 +11,17 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.mapper.CartItemMapper
 import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
-import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 import vn.quanprolazer.fashione.data.network.mapper.NetworkCartItemsMapper
 import vn.quanprolazer.fashione.data.network.service.OrderService
 
-class OrderRepositoryImpl @AssistedInject constructor(private val orderService: OrderService,
-                                                      private val userRepository: UserRepository,
-                                                      @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
+class OrderRepositoryImpl @AssistedInject constructor(
+    private val orderService: OrderService,
+    private val userRepository: UserRepository,
+    @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : OrderRepository {
     override suspend fun addToCart(addToCartItem: AddToCartItem): Resource<Boolean> {
         val result = withContext(defaultDispatcher) {
@@ -50,6 +49,7 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
             else -> Resource.Loading(null)
         }
     }
+
 
     override suspend fun updateCartItem(cartItemId: String, quantity: Int): Resource<Boolean> {
         val result = withContext(defaultDispatcher) {
@@ -94,7 +94,12 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
                     orderService.createOrderItem(updatedOrderItems)
                 }
                 return when (addOrderItemsResult) {
-                    is Resource.Success -> return Resource.Success(true)
+                    is Resource.Success -> {
+                        withContext(defaultDispatcher) {
+                            orderService.removeCartItems(orderItems.map { it.cartItemId!! })
+                        }
+                        return Resource.Success(true)
+                    }
                     is Resource.Error -> Resource.Error(addOrderItemsResult.exception)
                     is Resource.Loading -> Resource.Loading(null)
                 }

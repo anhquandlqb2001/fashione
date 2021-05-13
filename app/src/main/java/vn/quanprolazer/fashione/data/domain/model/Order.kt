@@ -31,7 +31,8 @@ data class OrderItem(@SerialName("product_id") val productId: String,
                      val price: String,
                      val quantity: Int,
                      @SerialName("order_id") var orderId: String? = "",
-                     @Exclude val id: String? = null
+                     @Exclude val id: String? = null,
+                     @Exclude val cartItemId: String? = null
 )
 
 @Serializable

@@ -150,8 +150,11 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.homeFragment -> {
                     // custom menu icon
+                    customActionBarTitleVisibility(View.GONE)
                     toolBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_36dp)
                     customActionBarTitleVisibility(View.GONE)
+                    binding.ivFilter.visibility = View.VISIBLE
+                    binding.ivNotification.visibility = View.VISIBLE
                 }
                 R.id.pickupAddressFragment -> {
                     customActionBarTitleVisibility(View.VISIBLE)
