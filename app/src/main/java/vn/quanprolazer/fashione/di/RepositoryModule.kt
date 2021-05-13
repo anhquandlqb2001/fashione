@@ -37,9 +37,8 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideOrderRepository(orderService: OrderService,
-                               userRepository: UserRepository,
-                               productRepository: ProductRepository
-    ): OrderRepository = OrderRepositoryImpl(orderService, userRepository, productRepository)
+                               userRepository: UserRepository
+    ): OrderRepository = OrderRepositoryImpl(orderService, userRepository)
 
     @Singleton
     @Provides

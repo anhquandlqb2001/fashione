@@ -64,4 +64,5 @@
     <string name="text_order_success">Đặt hàng thành công</string>
     <string name="text_purchase">Đơn mua</string>
     <string name="text_purchase_history">Xem lịch sử mua hàng</string>
+    <string name="text_re_order">Mua lại</string>
 </resources>

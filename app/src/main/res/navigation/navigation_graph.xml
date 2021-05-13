@@ -124,7 +124,13 @@
     <fragment
         android:id="@+id/purchaseMenuFragment"
         android:name="vn.quanprolazer.fashione.ui.PurchaseMenuFragment"
-        android:label="PurchaseMenuFragment" />
+        android:label="PurchaseMenuFragment" >
+        <action
+            android:id="@+id/action_purchaseMenuFragment_to_cartFragment"
+            app:destination="@id/cartFragment"
+            app:popUpTo="@id/homeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 
 </navigation>

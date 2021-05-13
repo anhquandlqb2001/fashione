@@ -23,9 +23,10 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
-class CheckoutViewModel @AssistedInject constructor(private val userRepository: UserRepository,
-                                                    private val orderRepository: OrderRepository,
-                                                    @Assisted private val checkoutItemsNor: List<CheckoutItem>
+class CheckoutViewModel @AssistedInject constructor(
+    private val userRepository: UserRepository,
+    private val orderRepository: OrderRepository,
+    @Assisted private val checkoutItemsNor: List<CheckoutItem>
 ) : ViewModel() {
 
     private val _checkoutItems: MutableLiveData<List<CheckoutItem>> by lazy {
@@ -114,7 +115,8 @@ class CheckoutViewModel @AssistedInject constructor(private val userRepository: 
                 variantName = it.variantName,
                 variantValue = it.variantValue,
                 price = it.price,
-                quantity = it.quantity
+                quantity = it.quantity,
+                variantId = it.variantId
             )
         }
 
@@ -130,7 +132,8 @@ class CheckoutViewModel @AssistedInject constructor(private val userRepository: 
     }
 
     companion object {
-        fun provideFactory(assistedFactory: AssistedFactory, checkoutItemsNor: List<CheckoutItem>
+        fun provideFactory(
+            assistedFactory: AssistedFactory, checkoutItemsNor: List<CheckoutItem>
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {

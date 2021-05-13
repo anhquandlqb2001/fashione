@@ -23,6 +23,7 @@ data class Order(@SerialName("user_id") val userId: String,
 
 @Serializable
 data class OrderItem(@SerialName("product_id") val productId: String,
+                     @SerialName("variant_id") val variantId: String,
                      @SerialName("variant_option_id") val variantOptionId: String,
                      @SerialName("product_name") val productName: String,
                      @SerialName("variant_name") val variantName: String,

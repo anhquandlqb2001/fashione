@@ -44,6 +44,7 @@ internal fun NetworkOrder.toDomainModel() = Order(
 data class NetworkOrderItem(
         @DocumentId val id: String = "",
         @set:PropertyName("product_id") @get:PropertyName("product_id") var productId: String = "",
+        @set:PropertyName("variant_id") @get:PropertyName("variant_id") var variantId: String = "",
         @set:PropertyName("variant_option_id") @get:PropertyName("variant_option_id") var variantOptionId: String = "",
         @set:PropertyName("product_name") @get:PropertyName("product_name") var productName: String = "",
         @set:PropertyName("variant_name") @get:PropertyName("variant_name") var variantName: String = "",
@@ -62,5 +63,6 @@ internal fun NetworkOrderItem.toDomainModel() = OrderItem(
         price = price,
         quantity = quantity,
         orderId = orderId,
-        id = id
+        id = id,
+        variantId = variantId
 )

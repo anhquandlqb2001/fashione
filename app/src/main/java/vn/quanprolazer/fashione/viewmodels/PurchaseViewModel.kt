@@ -9,9 +9,12 @@ package vn.quanprolazer.fashione.viewmodels
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.serialization.SerialName
+import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
 import vn.quanprolazer.fashione.data.domain.model.OrderStatus
 import vn.quanprolazer.fashione.data.domain.model.Purchase
 import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.PurchaseRepository
 import vn.quanprolazer.fashione.ui.CONFIRMING_POSITION
@@ -23,7 +26,8 @@ import javax.inject.Inject
 @HiltViewModel
 class PurchaseViewModel @Inject constructor(
     private val purchaseRepository: PurchaseRepository,
-    private val productRepository: ProductRepository
+    private val productRepository: ProductRepository,
+    private val orderRepository: OrderRepository
 ) :
     ViewModel() {
 
@@ -69,5 +73,34 @@ class PurchaseViewModel @Inject constructor(
             }
             it
         }
+    }
+
+    private val _addToCartResponse: MutableLiveData<Resource<Boolean>> by lazy { MutableLiveData() }
+    val addToCartResponse: LiveData<Resource<Boolean>> get() = _addToCartResponse
+
+    fun doneNavigateToCart() {
+        _addToCartResponse.value = null
+    }
+
+    fun onClickReOrder(purchase: Purchase) {
+        _addToCartResponse.value = Resource.Loading(null)
+
+        val addToCartItem = AddToCartItem(
+            productId = purchase.productId,
+            userId = purchase.userId,
+            variantId = purchase.variantId,
+            variantOptionId = purchase.variantOptionId,
+            variantName = purchase.variantName,
+            variantValue = purchase.variantValue,
+            quantity = purchase.quantity
+        )
+        viewModelScope.launch {
+            _addToCartResponse.value = orderRepository.addToCart(addToCartItem)
+        }
+    }
+
+    var isDialogShowing = false
+    fun doneShowingDialog() {
+        isDialogShowing = true
     }
 }

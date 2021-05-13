@@ -22,7 +22,6 @@ import vn.quanprolazer.fashione.data.network.service.OrderService
 
 class OrderRepositoryImpl @AssistedInject constructor(private val orderService: OrderService,
                                                       private val userRepository: UserRepository,
-                                                      private val productRepository: ProductRepository,
                                                       @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : OrderRepository {
     override suspend fun addToCart(addToCartItem: AddToCartItem): Resource<Boolean> {
@@ -34,6 +33,7 @@ class OrderRepositoryImpl @AssistedInject constructor(private val orderService: 
             is Resource.Success -> Resource.Success(true)
             is Resource.Error -> Resource.Error(result.exception)
             else -> Resource.Loading(null)
+
         }
     }
 

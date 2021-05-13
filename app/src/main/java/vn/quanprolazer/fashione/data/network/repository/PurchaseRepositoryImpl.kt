@@ -48,7 +48,8 @@ class PurchaseRepositoryImpl @Inject constructor(
                                     variantValue = networkOrderItem.variantValue,
                                     quantity = networkOrderItem.quantity,
                                     price = networkOrderItem.price,
-                                    status = networkOrder.status
+                                    status = networkOrder.status,
+                                    variantId = networkOrderItem.variantId
                                 )
                             }
                             purchaseItems.addAll(purchases)
@@ -58,7 +59,6 @@ class PurchaseRepositoryImpl @Inject constructor(
                         }
                     }
                 }
-                Timber.i(purchaseItems.toString())
                 return Resource.Success(purchaseItems)
             }
             else -> Resource.Error((ordersResponse as Resource.Error).exception)

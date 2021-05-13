@@ -14,9 +14,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
+import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.PurchaseItemAdapter
+import vn.quanprolazer.fashione.adapters.PurchaseItemListener
+import vn.quanprolazer.fashione.data.domain.model.Purchase
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentPurchaseBinding
+import vn.quanprolazer.fashione.utilities.ViewDialog
 import vn.quanprolazer.fashione.viewmodels.PurchaseViewModel
 
 class PurchaseFragment : Fragment() {
@@ -26,7 +32,17 @@ class PurchaseFragment : Fragment() {
 
     private val purchaseViewModel: PurchaseViewModel by activityViewModels()
 
-    private val purchaseItemAdapter: PurchaseItemAdapter by lazy { PurchaseItemAdapter() }
+    private val purchaseItemAdapter: PurchaseItemAdapter by lazy {
+        PurchaseItemAdapter(object : PurchaseItemListener() {
+            override fun onClick(purchase: Purchase) {
+                purchaseViewModel.onClickReOrder(purchase)
+            }
+        })
+    }
+
+    private val loadingDialog: ViewDialog by lazy {
+        ViewDialog(requireActivity())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +60,11 @@ class PurchaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.rvPurchase.adapter = purchaseItemAdapter
+        binding.rvPurchase.addItemDecoration(
+            DividerItemDecoration(
+                context, DividerItemDecoration.VERTICAL
+            )
+        )
 
         purchaseViewModel.purchaseItems.observe(viewLifecycleOwner, {
             it?.let {
@@ -62,6 +83,30 @@ class PurchaseFragment : Fragment() {
                         binding.rvPurchase.visibility = View.GONE
                     }
                     is Resource.Error -> {
+                    }
+                }
+            }
+        })
+
+        purchaseViewModel.addToCartResponse.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        if (purchaseViewModel.isDialogShowing) {
+                            loadingDialog.hideDialog()
+                        }
+                        this.findNavController()
+                            .navigate(PurchaseMenuFragmentDirections.actionPurchaseMenuFragmentToCartFragment())
+                        purchaseViewModel.doneNavigateToCart()
+                    }
+                    is Resource.Loading -> {
+                        if (!purchaseViewModel.isDialogShowing) {
+                            purchaseViewModel.doneShowingDialog()
+                            loadingDialog.showDialog()
+                        }
+                    }
+                    is Resource.Error -> {
+                        loadingDialog.hideDialog()
                     }
                 }
             }

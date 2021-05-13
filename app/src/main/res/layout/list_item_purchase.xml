@@ -9,22 +9,25 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="purchaseItem"
             type="vn.quanprolazer.fashione.data.domain.model.Purchase" />
+        <variable
+            name="purchaseItemListener"
+            type="vn.quanprolazer.fashione.adapters.PurchaseItemListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingBottom="8dp">
 
         <TextView
             android:id="@+id/tv_status"
+            purchaseItemStatus="@{purchaseItem.status}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingVertical="4dp"
-            android:text="@{purchaseItem.status.status}"
             android:textColor="@color/teal_700"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
@@ -98,6 +101,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="120.000d" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_re_order"
+            purchaseDelivered="@{purchaseItem.status}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <Button
+                android:onClick="@{() -> purchaseItemListener.onClick(purchaseItem)}"
+                android:id="@+id/btn_re_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/teal_200"
+                android:text="@string/text_re_order"
+                app:layout_constraintStart_toStartOf="@+id/linearLayout"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

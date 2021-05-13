@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.data.domain.model.Purchase
 import vn.quanprolazer.fashione.databinding.ListItemPurchaseBinding
 
-class PurchaseItemAdapter :
+class PurchaseItemAdapter(private val purchaseItemListener: PurchaseItemListener) :
     ListAdapter<Purchase, PurchaseItemAdapter.ViewHolder>(PurchaseItemDiffCallback) {
 
     class ViewHolder(val binding: ListItemPurchaseBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -26,8 +26,9 @@ class PurchaseItemAdapter :
             }
         }
 
-        fun bind(purchase: Purchase) {
+        fun bind(purchase: Purchase, purchaseItemListener: PurchaseItemListener) {
             binding.purchaseItem = purchase
+            binding.purchaseItemListener = purchaseItemListener
             binding.executePendingBindings()
         }
     }
@@ -37,7 +38,7 @@ class PurchaseItemAdapter :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), purchaseItemListener)
     }
 
     override fun submitList(list: MutableList<Purchase>?) {
@@ -58,3 +59,6 @@ class PurchaseItemAdapter :
 
 }
 
+abstract class PurchaseItemListener {
+    abstract fun onClick(purchase: Purchase)
+}

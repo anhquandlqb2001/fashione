@@ -9,15 +9,14 @@ package vn.quanprolazer.fashione.utilities
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.request.RequestOptions
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.data.domain.model.Product
-import vn.quanprolazer.fashione.data.domain.model.ProductImage
-import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.model.*
 
 @BindingAdapter("imageUrl")
 fun ImageView.loadImage(imageUrl: String?) {
@@ -99,7 +98,32 @@ fun ImageView.imgResource(img: Resource<ProductImage>?) {
     img?.let {
         when (img) {
             is Resource.Success -> loadImage(img.data.url)
-            else -> {}
+            else -> {
+            }
         }
     }
 }
+
+@BindingAdapter("purchaseItemStatus")
+fun TextView.purchaseItemStatus(status: OrderStatus?) {
+    status?.let {
+        text = status.status
+        when (status) {
+            OrderStatus.CONFIRMING -> setTextColor(resources.getColor(R.color.teal_200, context.theme))
+            OrderStatus.DELIVERING -> setTextColor(resources.getColor(R.color.teal_200, context.theme))
+            OrderStatus.DELIVERED -> setTextColor(resources.getColor(R.color.teal_700, context.theme))
+        }
+    }
+}
+
+@BindingAdapter("purchaseDelivered")
+fun LinearLayout.purchaseDelivered(status: OrderStatus?) {
+    status?.let {
+        visibility = if (status == OrderStatus.DELIVERED) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+    }
+}
+

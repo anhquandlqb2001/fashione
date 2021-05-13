@@ -11,6 +11,7 @@ data class Purchase(
     val id: String,
     val userId: String,
     val productId: String,
+    val variantId: String,
     val variantOptionId: String,
     val productName: String,
     val variantName: String,
