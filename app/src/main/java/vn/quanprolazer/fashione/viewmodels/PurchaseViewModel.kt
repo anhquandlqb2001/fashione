@@ -103,4 +103,14 @@ class PurchaseViewModel @Inject constructor(
     fun doneShowingDialog() {
         isDialogShowing = true
     }
+
+    private val _navigateToAddReview: MutableLiveData<String> by lazy { MutableLiveData() }
+    val navigateToAddReview: LiveData<String> get() = _navigateToAddReview
+    fun onClickNavigateToAddReview(orderItemId: String) {
+        _navigateToAddReview.value = orderItemId
+    }
+    fun doneNavigateToAddReview() {
+        _navigateToAddReview.value = null
+    }
+
 }

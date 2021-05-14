@@ -175,17 +175,19 @@ class MainActivity : AppCompatActivity() {
                     toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
                     binding.tvToolbarTitle.text = "Cá nhân"
                     binding.ivFilter.visibility = View.GONE
-                    binding.ivFilter.visibility = View.GONE
+                    binding.ivNotification.visibility = View.GONE
                 }
                 R.id.purchaseMenuFragment -> {
                     customActionBarTitleVisibility(View.VISIBLE)
                     toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
                     binding.tvToolbarTitle.text = "Đơn mua"
                     binding.ivFilter.visibility = View.GONE
-                    binding.ivFilter.visibility = View.GONE
+                    binding.ivNotification.visibility = View.GONE
                 }
                 else -> {
                     customActionBarTitleVisibility(View.GONE)
+                    binding.ivFilter.visibility = View.GONE
+                    binding.ivNotification.visibility = View.GONE
                     toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
                 }
             }

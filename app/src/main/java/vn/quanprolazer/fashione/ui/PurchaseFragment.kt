@@ -37,6 +37,10 @@ class PurchaseFragment : Fragment() {
             override fun onClick(purchase: Purchase) {
                 purchaseViewModel.onClickReOrder(purchase)
             }
+
+            override fun onClickAddReview(orderItemId: String) {
+                purchaseViewModel.onClickNavigateToAddReview(orderItemId)
+            }
         })
     }
 
@@ -109,6 +113,14 @@ class PurchaseFragment : Fragment() {
                         loadingDialog.hideDialog()
                     }
                 }
+            }
+        })
+
+        purchaseViewModel.navigateToAddReview.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController()
+                    .navigate(PurchaseMenuFragmentDirections.actionPurchaseMenuFragmentToWriteReviewFragment())
+                purchaseViewModel.doneNavigateToAddReview()
             }
         })
     }

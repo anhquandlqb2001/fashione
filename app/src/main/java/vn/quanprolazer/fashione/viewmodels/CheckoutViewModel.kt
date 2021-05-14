@@ -117,7 +117,8 @@ class CheckoutViewModel @AssistedInject constructor(
                 price = it.price,
                 quantity = it.quantity,
                 variantId = it.variantId,
-                cartItemId = it.id
+                cartItemId = it.id,
+                reviewStatus = ReviewStatus.NO
             )
         }
 

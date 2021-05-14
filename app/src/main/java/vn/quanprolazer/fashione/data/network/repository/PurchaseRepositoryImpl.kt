@@ -49,7 +49,8 @@ class PurchaseRepositoryImpl @Inject constructor(
                                     quantity = networkOrderItem.quantity,
                                     price = networkOrderItem.price,
                                     status = networkOrder.status,
-                                    variantId = networkOrderItem.variantId
+                                    variantId = networkOrderItem.variantId,
+                                    reviewStatus = networkOrderItem.reviewStatus
                                 )
                             }
                             purchaseItems.addAll(purchases)

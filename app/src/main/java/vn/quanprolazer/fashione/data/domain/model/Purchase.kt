@@ -6,9 +6,19 @@
 
 package vn.quanprolazer.fashione.data.domain.model
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+enum class ReviewStatus(val status: Int) {
+    @SerialName("YES")
+    YES(1),
+    @SerialName("NO")
+    NO(0)
+}
 
 data class Purchase(
-    val id: String,
+    val id: String, // order item id
     val userId: String,
     val productId: String,
     val variantId: String,
@@ -19,5 +29,6 @@ data class Purchase(
     var quantity: Int,
     val price: String,
     var purchaseImage: Resource<ProductImage>? = null,
-    val status: OrderStatus
+    val status: OrderStatus,
+    val reviewStatus: ReviewStatus
 )

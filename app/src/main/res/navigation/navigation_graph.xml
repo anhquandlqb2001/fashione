@@ -130,7 +130,14 @@
             app:destination="@id/cartFragment"
             app:popUpTo="@id/homeFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_purchaseMenuFragment_to_writeReviewFragment"
+            app:destination="@id/writeReviewFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/writeReviewFragment"
+        android:name="vn.quanprolazer.fashione.ui.WriteReviewFragment"
+        android:label="WriteReviewFragment" />
 
 
 </navigation>

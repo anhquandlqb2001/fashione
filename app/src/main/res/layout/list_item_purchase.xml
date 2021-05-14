@@ -9,9 +9,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="purchaseItem"
             type="vn.quanprolazer.fashione.data.domain.model.Purchase" />
+
         <variable
             name="purchaseItemListener"
             type="vn.quanprolazer.fashione.adapters.PurchaseItemListener" />
@@ -20,6 +22,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="8dp"
         android:paddingBottom="8dp">
 
         <TextView
@@ -103,25 +106,45 @@
                 tools:text="120.000d" />
         </LinearLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_re_order"
             purchaseDelivered="@{purchaseItem.status}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
             <Button
-                android:onClick="@{() -> purchaseItemListener.onClick(purchaseItem)}"
                 android:id="@+id/btn_re_order"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
                 android:background="@color/teal_200"
-                android:text="@string/text_re_order"
-                app:layout_constraintStart_toStartOf="@+id/linearLayout"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-        </LinearLayout>
+                android:onClick="@{() -> purchaseItemListener.onClick(purchaseItem)}"
+                android:text="@string/text_re_order" />
+
+            <LinearLayout
+                purchaseReviewStatus="@{purchaseItem.reviewStatus}"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:onClick="@{() -> purchaseItemListener.onClickAddReview(purchaseItem.id)}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Đánh giá sản phẩm ngay" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/outline_keyboard_arrow_right_black_24dp" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
