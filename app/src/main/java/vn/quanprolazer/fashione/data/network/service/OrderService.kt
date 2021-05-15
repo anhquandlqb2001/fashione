@@ -28,4 +28,6 @@ interface OrderService {
     suspend fun createOrder(order: Order): Resource<String>
 
     suspend fun createOrderItem(orderItems: List<OrderItem>): Resource<Boolean>
+
+    suspend fun updateOrderReviewStatus(reviewStatus: ReviewStatus, orderItemId: String): Resource<Boolean>
 }

@@ -10,10 +10,7 @@ import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.serialization.SerialName
-import vn.quanprolazer.fashione.data.domain.model.AddToCartItem
-import vn.quanprolazer.fashione.data.domain.model.OrderStatus
-import vn.quanprolazer.fashione.data.domain.model.Purchase
-import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.domain.repository.PurchaseRepository
@@ -104,11 +101,27 @@ class PurchaseViewModel @Inject constructor(
         isDialogShowing = true
     }
 
-    private val _navigateToAddReview: MutableLiveData<String> by lazy { MutableLiveData() }
-    val navigateToAddReview: LiveData<String> get() = _navigateToAddReview
-    fun onClickNavigateToAddReview(orderItemId: String) {
-        _navigateToAddReview.value = orderItemId
+    private val _navigateToAddReview: MutableLiveData<PurchaseToAddReview> by lazy { MutableLiveData() }
+    val navigateToAddReview: LiveData<PurchaseToAddReview> get() = _navigateToAddReview
+    fun onClickNavigateToAddReview(purchase: Purchase) {
+        _navigateToAddReview.value = PurchaseToAddReview(
+            Product(
+                id = purchase.productId,
+                name = purchase.productName,
+                price = purchase.price,
+                thumbnailUrl = (purchase.purchaseImage as Resource.Success).data.url
+            ),
+            ProductVariantOption(
+                id = purchase.variantOptionId,
+                value = purchase.variantValue,
+                quantity = purchase.quantity,
+                price = purchase.price
+            ),
+            (purchase.purchaseImage as Resource.Success).data,
+            orderItemId = purchase.id
+        )
     }
+
     fun doneNavigateToAddReview() {
         _navigateToAddReview.value = null
     }

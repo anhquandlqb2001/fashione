@@ -12,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,6 +22,7 @@ import vn.quanprolazer.fashione.adapters.OnClickListener
 import vn.quanprolazer.fashione.adapters.ProductAdapter
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.viewmodels.SearchResultViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SearchResultFragment : Fragment() {
@@ -29,13 +31,11 @@ class SearchResultFragment : Fragment() {
 
     private val binding get() = _binding!!
 
-    private val viewModel: SearchResultViewModel by lazy {
-        val category = arguments?.let { SearchResultFragmentArgs.fromBundle(it).category }
-        val query = arguments?.let { SearchResultFragmentArgs.fromBundle(it).query }
-
-        ViewModelProvider(
-            this, SearchResultViewModel.Factory(category, query)
-        )[SearchResultViewModel::class.java]
+    @Inject
+    lateinit var viewModelFactory: SearchResultViewModel.AssistedFactory
+    private val viewModel: SearchResultViewModel by viewModels {
+        val args = SearchResultFragmentArgs.fromBundle(requireArguments())
+        SearchResultViewModel.provideFactory(viewModelFactory, args.category, args.query)
     }
 
     private val productResultAdapter: ProductAdapter by lazy {
@@ -45,9 +45,10 @@ class SearchResultFragment : Fragment() {
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSearchResultBinding.inflate(inflater, container, false)
 

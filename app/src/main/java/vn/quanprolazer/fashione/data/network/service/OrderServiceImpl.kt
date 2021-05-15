@@ -128,5 +128,19 @@ class OrderServiceImpl : OrderService {
         }
     }
 
+    override suspend fun updateOrderReviewStatus(
+        reviewStatus: ReviewStatus,
+        orderItemId: String
+    ): Resource<Boolean> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            db.collection("order_items").document(orderItemId).update("review_status", reviewStatus.name)
+                .await()
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
 }
 

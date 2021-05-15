@@ -10,6 +10,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="vn.quanprolazer.fashione.viewmodels.WriteReviewViewModel" />
+
     </data>
 
     <ScrollView
@@ -23,9 +27,9 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_marginVertical="30dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="30dp">
 
                 <TextView
                     android:id="@+id/tv_rating"
@@ -36,16 +40,17 @@
                     android:textSize="20sp" />
 
                 <RatingBar
-                    android:layout_marginVertical="16dp"
-                    android:stepSize="1"
                     android:id="@+id/ratingBar"
+                    rating="@{viewModel.rating}"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tv_rating"
                     android:layout_centerInParent="true"
+                    android:layout_marginVertical="16dp"
                     android:numStars="5"
                     android:scaleX="1.2"
-                    android:scaleY="1.2" />
+                    android:scaleY="1.2"
+                    android:stepSize="1" />
             </RelativeLayout>
 
             <LinearLayout
@@ -63,16 +68,17 @@
                     android:textSize="20sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til__receiver_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:hint="Thêm tiêu đề đánh giá ở đây"
+                    app:error="@{viewModel.reviewTitleValidator.error}"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.reviewTitle}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
@@ -95,17 +101,29 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:hint="Thêm ý kiến của bạn về sản phẩm"
+                    app:error="@{viewModel.reviewContentValidator.error}"
                     app:errorEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
                         android:lines="5"
                         android:maxLines="7"
-                        android:gravity="start"
-                        android:layout_height="wrap_content" />
+                        android:text="@={viewModel.reviewContent}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
+
+            <Button
+                android:id="@+id/outlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:enabled="@{viewModel.isAddReviewFormValidMediator()}"
+                android:onClick="@{() -> viewModel.onClickAddReview()}"
+                android:paddingHorizontal="25dp"
+                android:text="Xác nhận" />
 
         </LinearLayout>
 

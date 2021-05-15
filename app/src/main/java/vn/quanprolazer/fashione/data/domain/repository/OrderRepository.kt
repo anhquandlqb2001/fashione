@@ -22,4 +22,6 @@ interface OrderRepository {
 
     suspend fun createOrder(order: Order, orderItems: List<OrderItem>): Resource<Boolean>
 
+    suspend fun updateOrderReviewStatus(status: ReviewStatus, orderItemId: String): Resource<Boolean>
+
 }

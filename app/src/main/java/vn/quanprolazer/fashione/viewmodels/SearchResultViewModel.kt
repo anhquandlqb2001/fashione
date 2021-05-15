@@ -7,15 +7,23 @@
 package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.data.domain.model.Category
 import vn.quanprolazer.fashione.data.domain.model.Product
+import vn.quanprolazer.fashione.data.domain.model.PurchaseToAddReview
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.network.repository.ProductRepositoryImpl
 import vn.quanprolazer.fashione.data.network.service.ProductServiceImpl
 
-class SearchResultViewModel(val category: Category?, private val query: String?) : ViewModel() {
+class SearchResultViewModel @AssistedInject constructor(
+    private val productRepository: ProductRepository,
+    @Assisted val category: Category?,
+    @Assisted private val query: String?
+) : ViewModel() {
 
     /**
      * Variable to display header text of screen
@@ -23,9 +31,6 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
      */
     val textToDisplay = category?.name ?: "Kết quả cho: $query"
 
-    private val productRepositoryImpl: ProductRepository by lazy {
-        ProductRepositoryImpl(ProductServiceImpl())
-    }
 
     /**
      * Variable to store list of available product
@@ -37,11 +42,11 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
         val liveData = MutableLiveData<Resource<List<Product>>>()
         viewModelScope.launch {
             category?.let {
-                liveData.value = productRepositoryImpl.getProductsByCategoryId(category.id)
+                liveData.value = productRepository.getProductsByCategoryId(category.id)
             }
 
             if (!query.isNullOrEmpty()) {
-                liveData.value = productRepositoryImpl.findProductsByQuery(query)
+                liveData.value = productRepository.findProductsByQuery(query)
             }
         }
         return@lazy liveData
@@ -83,15 +88,19 @@ class SearchResultViewModel(val category: Category?, private val query: String?)
         _navigateToProductDetail.value = null
     }
 
-    class Factory(
-        private val category: Category?, private val query: String?
-    ) : ViewModelProvider.Factory {
-        @Suppress("unchecked_cast")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(SearchResultViewModel::class.java)) {
-                return SearchResultViewModel(category, query) as T
+    @dagger.assisted.AssistedFactory
+    interface AssistedFactory {
+        fun create(category: Category?, query: String?): SearchResultViewModel
+    }
+
+    companion object {
+        fun provideFactory(
+            assistedFactory: AssistedFactory, category: Category?, query: String?
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return assistedFactory.create(category, query) as T
             }
-            throw IllegalArgumentException("Unknown ViewModel class")
         }
     }
 }

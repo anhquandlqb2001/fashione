@@ -16,7 +16,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
-import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.PurchaseItemAdapter
 import vn.quanprolazer.fashione.adapters.PurchaseItemListener
 import vn.quanprolazer.fashione.data.domain.model.Purchase
@@ -38,8 +37,8 @@ class PurchaseFragment : Fragment() {
                 purchaseViewModel.onClickReOrder(purchase)
             }
 
-            override fun onClickAddReview(orderItemId: String) {
-                purchaseViewModel.onClickNavigateToAddReview(orderItemId)
+            override fun onClickAddReview(purchase: Purchase) {
+                purchaseViewModel.onClickNavigateToAddReview(purchase)
             }
         })
     }
@@ -119,7 +118,11 @@ class PurchaseFragment : Fragment() {
         purchaseViewModel.navigateToAddReview.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController()
-                    .navigate(PurchaseMenuFragmentDirections.actionPurchaseMenuFragmentToWriteReviewFragment())
+                    .navigate(
+                        PurchaseMenuFragmentDirections.actionPurchaseMenuFragmentToWriteReviewFragment(
+                            it
+                        )
+                    )
                 purchaseViewModel.doneNavigateToAddReview()
             }
         })

@@ -22,7 +22,7 @@ import kotlinx.parcelize.Parcelize
  */
 @Parcelize
 data class Product(val id: String, //Document ID is actually the user id
-                   val categoryId: String,
+                   val categoryId: String = "",
                    val name: String,
                    val thumbnailUrl: String,
                    val price: String

@@ -61,5 +61,5 @@ class PurchaseItemAdapter(private val purchaseItemListener: PurchaseItemListener
 
 abstract class PurchaseItemListener {
     abstract fun onClick(purchase: Purchase)
-    abstract fun onClickAddReview(orderItemId: String)
+    abstract fun onClickAddReview(purchase: Purchase)
 }

@@ -17,6 +17,7 @@ import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.UserRepository
 import vn.quanprolazer.fashione.data.network.mapper.NetworkCartItemsMapper
 import vn.quanprolazer.fashione.data.network.service.OrderService
+import java.lang.Exception
 
 class OrderRepositoryImpl @AssistedInject constructor(
     private val orderService: OrderService,
@@ -107,6 +108,18 @@ class OrderRepositoryImpl @AssistedInject constructor(
             is Resource.Loading -> Resource.Loading(null)
             is Resource.Error -> Resource.Error(createOrderResult.exception)
         }
+    }
 
+    override suspend fun updateOrderReviewStatus(
+        status: ReviewStatus,
+        orderItemId: String
+    ): Resource<Boolean> {
+        val updateOrderReviewStatusResponse = withContext(defaultDispatcher) {
+            orderService.updateOrderReviewStatus(reviewStatus = status, orderItemId)
+        }
+        return when (updateOrderReviewStatusResponse) {
+            is Resource.Success -> Resource.Success(true)
+            else -> Resource.Error(Exception("Error when update review status"))
+        }
     }
 }

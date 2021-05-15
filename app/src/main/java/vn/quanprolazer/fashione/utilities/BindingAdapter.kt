@@ -8,13 +8,13 @@ package vn.quanprolazer.fashione.utilities
 
 import android.net.Uri
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.bumptech.glide.request.RequestOptions
+import timber.log.Timber
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.data.domain.model.*
@@ -110,9 +110,24 @@ fun TextView.purchaseItemStatus(status: OrderStatus?) {
     status?.let {
         text = status.status
         when (status) {
-            OrderStatus.CONFIRMING -> setTextColor(resources.getColor(R.color.teal_200, context.theme))
-            OrderStatus.DELIVERING -> setTextColor(resources.getColor(R.color.teal_200, context.theme))
-            OrderStatus.DELIVERED -> setTextColor(resources.getColor(R.color.teal_700, context.theme))
+            OrderStatus.CONFIRMING -> setTextColor(
+                resources.getColor(
+                    R.color.teal_200,
+                    context.theme
+                )
+            )
+            OrderStatus.DELIVERING -> setTextColor(
+                resources.getColor(
+                    R.color.teal_200,
+                    context.theme
+                )
+            )
+            OrderStatus.DELIVERED -> setTextColor(
+                resources.getColor(
+                    R.color.teal_700,
+                    context.theme
+                )
+            )
         }
     }
 }
@@ -139,3 +154,9 @@ fun RelativeLayout.purchaseDelivered(status: OrderStatus?) {
     }
 }
 
+@BindingAdapter("rating")
+fun RatingBar.rating(rating: MutableLiveData<String>?) {
+    rating?.let {
+        rating.value = getRating().toInt().toString()
+    }
+}

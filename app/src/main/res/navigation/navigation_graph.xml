@@ -137,7 +137,11 @@
     <fragment
         android:id="@+id/writeReviewFragment"
         android:name="vn.quanprolazer.fashione.ui.WriteReviewFragment"
-        android:label="WriteReviewFragment" />
+        android:label="WriteReviewFragment" >
+        <argument
+            android:name="purchaseToAddReview"
+            app:argType="vn.quanprolazer.fashione.data.domain.model.PurchaseToAddReview" />
+    </fragment>
 
 
 </navigation>

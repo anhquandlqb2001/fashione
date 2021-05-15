@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import vn.quanprolazer.fashione.data.domain.model.*
+import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 import vn.quanprolazer.fashione.data.network.mapper.*
 import vn.quanprolazer.fashione.data.network.service.ProductService
@@ -20,6 +21,7 @@ import vn.quanprolazer.fashione.data.network.service.SearchServiceImpl
 
 class ProductRepositoryImpl @AssistedInject constructor(
     private val productService: ProductService,
+    private val orderRepository: OrderRepository,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
@@ -153,13 +155,24 @@ class ProductRepositoryImpl @AssistedInject constructor(
         return when (addReviewResponse) {
             is Resource.Success -> {
                 // if success? add rating
-                val ratingWithId = rating.copy(id = addReviewResponse.data)
+                val ratingWithId = rating.toNetworkModel().copy(reviewId = addReviewResponse.data)
                 val addReviewRatingResponse = withContext(dispatcher) {
-                    productService.addRating(rating = ratingWithId.toNetworkModel())
+                    productService.addRating(rating = ratingWithId)
                 }
 
-                when (addReviewRatingResponse) {
-                    is Resource.Success -> Resource.Success(true)
+                return when (addReviewRatingResponse) {
+                    is Resource.Success -> {
+                        val updateOrderReviewStatusResponse = withContext(dispatcher) {
+                            orderRepository.updateOrderReviewStatus(
+                                ReviewStatus.YES,
+                                review.orderItemId
+                            )
+                        }
+                        return when (updateOrderReviewStatusResponse) {
+                            is Resource.Success -> Resource.Success(true)
+                            else -> Resource.Error((updateOrderReviewStatusResponse as Resource.Error).exception)
+                        }
+                    }
                     else -> Resource.Error(Exception("Error on adding product review rating"))
                 }
             }

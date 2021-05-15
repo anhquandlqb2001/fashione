@@ -17,6 +17,7 @@ enum class ReviewStatus(val status: Int) {
     NO(0)
 }
 
+
 data class Purchase(
     val id: String, // order item id
     val userId: String,

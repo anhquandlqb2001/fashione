@@ -23,6 +23,10 @@ data class NetworkReview(
     @get:PropertyName("product_id")
     @SerialName("product_id")
     var productId: String = "",
+    @set:PropertyName("order_item_id")
+    @get:PropertyName("order_item_id")
+    @SerialName("order_item_id")
+    var orderItemId: String = "",
     @set:PropertyName("rate_id")
     @get:PropertyName("rate_id")
     @SerialName("rate_id")
@@ -47,12 +51,13 @@ data class NetworkReview(
 )
 
 internal fun NetworkReview.toDomainModel() = Review(
-    id, productId, rateId, userId, username, reviewTitle, reviewContent, createdAt
+    id, productId, orderItemId, rateId, userId, username, reviewTitle, reviewContent, createdAt
 )
 
 @Serializable
 data class NetworkRating(
     @DocumentId
+    @Exclude
     var id: String = "",
     @set:PropertyName("review_id")
     @get:PropertyName("review_id")

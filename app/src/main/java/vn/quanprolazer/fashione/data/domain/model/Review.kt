@@ -6,15 +6,26 @@
 
 package vn.quanprolazer.fashione.data.domain.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import vn.quanprolazer.fashione.data.network.dto.NetworkRating
 import vn.quanprolazer.fashione.data.network.dto.NetworkReview
+
+@Parcelize
+data class PurchaseToAddReview(
+    val product: Product,
+    val productVariantOption: ProductVariantOption,
+    val productImage: ProductImage,
+    val orderItemId: String
+) : Parcelable
 
 data class Review(
     val id: String? = null,
     val productId: String,
-    val rateId: String,
-    val userId: String,
-    val username: String,
+    val orderItemId: String,
+    val rateId: String? = null,
+    val userId: String? = null,
+    val username: String? = null,
     val reviewTitle: String,
     val reviewContent: String,
     val createdAt: String
@@ -22,23 +33,20 @@ data class Review(
 
 internal fun Review.toNetworkModel() = NetworkReview(
     productId = productId,
-    rateId = rateId,
-    username = username,
     reviewContent = reviewContent,
     reviewTitle = reviewTitle,
     createdAt = createdAt,
-    userId = userId
+    orderItemId = orderItemId
 )
 
 data class Rating(
     val id: String? = null,
-    val reviewId: String,
+    val reviewId: String? = null,
     val productId: String,
     val rate: Int
 )
 
 internal fun Rating.toNetworkModel() = NetworkRating(
-    reviewId = reviewId,
     productId = productId,
     rate = rate
 )
