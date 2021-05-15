@@ -22,6 +22,8 @@ interface ProductService {
 
     suspend fun getProductVariantOptionsByVariantId(variantId: String): Resource<List<NetworkProductVariantOption>>
 
+    suspend fun getProductVariantOption(variantOptionId: String): Resource<NetworkProductVariantOption>
+
     suspend fun getProductImagesByProductId(productId: String): Resource<List<NetworkProductImage>>
 
     suspend fun getProductImageByProductId(productId: String): Resource<NetworkProductImage>

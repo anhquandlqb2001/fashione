@@ -21,11 +21,12 @@ import kotlinx.parcelize.Parcelize
  * Product class represent a product in app
  */
 @Parcelize
-data class Product(val id: String, //Document ID is actually the user id
-                   val categoryId: String = "",
-                   val name: String,
-                   val thumbnailUrl: String,
-                   val price: String
+data class Product(
+    val id: String, //Document ID is actually the user id
+    val categoryId: String = "",
+    val name: String,
+    val thumbnailUrl: String,
+    val price: String
 ) : Parcelable
 
 
@@ -46,17 +47,17 @@ data class ProductImage(
     val url: String,
 ) : Parcelable
 
-data class ProductVariant(val id: String = "",
-                          val name: String = "",
-                          var options: Resource<List<ProductVariantOption>>? = null
+data class ProductVariant(
+    val id: String = "",
+    val name: String = "",
+    var options: Resource<List<ProductVariantOption>>? = null
 )
 
 
 @Parcelize
-data class ProductVariantOption(val id: String,
-                                val value: String,
-                                val quantity: Number,
-                                val price: String
+data class ProductVariantOption(
+    val id: String,
+    val value: String,
+    val quantity: Number,
+    val price: String
 ) : Parcelable
-
-

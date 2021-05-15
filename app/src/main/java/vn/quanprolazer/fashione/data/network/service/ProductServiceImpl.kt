@@ -86,6 +86,21 @@ class ProductServiceImpl : ProductService {
         }
     }
 
+    override suspend fun getProductVariantOption(variantOptionId: String): Resource<NetworkProductVariantOption> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val response =
+                db.collection("product_variant_options").document(variantOptionId).get()
+                    .await().toObject(NetworkProductVariantOption::class.java)
+                    ?: return Resource.Error(Exception("Product Variant Option not exist"))
+
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
     override suspend fun getProductsByCategoryId(categoryId: String): Resource<List<NetworkProduct>> {
         val db = FirebaseFirestore.getInstance()
         return try {

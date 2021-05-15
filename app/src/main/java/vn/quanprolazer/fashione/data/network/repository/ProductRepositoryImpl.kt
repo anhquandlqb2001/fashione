@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
+import vn.quanprolazer.fashione.data.network.dto.toDomainModel
 import vn.quanprolazer.fashione.data.network.mapper.*
 import vn.quanprolazer.fashione.data.network.service.ProductService
 import vn.quanprolazer.fashione.data.network.service.SearchServiceImpl
@@ -177,6 +178,16 @@ class ProductRepositoryImpl @AssistedInject constructor(
                 }
             }
             else -> Resource.Error(Exception("Error on adding product review"))
+        }
+    }
+
+    override suspend fun getProductVariantOption(variantOptionId: String): Resource<ProductVariantOption> {
+        val getProductVariantOptionResponse = withContext(dispatcher) {
+            productService.getProductVariantOption(variantOptionId)
+        }
+        return when (getProductVariantOptionResponse) {
+            is Resource.Success -> Resource.Success(getProductVariantOptionResponse.data.toDomainModel())
+            else -> Resource.Error((getProductVariantOptionResponse as Resource.Error).exception)
         }
     }
 }

@@ -83,6 +83,7 @@ class CartFragment : Fragment() {
                         if (viewModel.flagFirstTimeLoad) {
                             viewModel.updateCartItemsImage()
                             viewModel.updateCartItemsProductName()
+                            viewModel.updateCartItemsPrice()
                             viewModel.doneFirstTimeLoad()
                         }
 

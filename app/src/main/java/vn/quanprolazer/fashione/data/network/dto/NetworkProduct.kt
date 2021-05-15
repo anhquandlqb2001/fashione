@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import vn.quanprolazer.fashione.data.domain.model.ProductVariantOption
 
 /**
  * DataTransferObjects go in this file. These are responsible for parsing responses from the server
@@ -108,4 +109,8 @@ data class NetworkProductVariantOption(
     val value: String = "",
     val quantity: Int = -1,
     val price: String = "0"
+)
+
+internal fun NetworkProductVariantOption.toDomainModel() = ProductVariantOption(
+    id, value, quantity, price
 )

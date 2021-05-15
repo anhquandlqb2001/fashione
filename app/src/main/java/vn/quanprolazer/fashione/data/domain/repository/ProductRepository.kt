@@ -23,6 +23,8 @@ interface ProductRepository {
 
     suspend fun getProductVariantOptionsByVariantId(variantId: String): Resource<List<ProductVariantOption>>
 
+    suspend fun getProductVariantOption(variantOptionId: String): Resource<ProductVariantOption>
+
     suspend fun getProductImagesByProductId(productId: String): Resource<List<ProductImage>>
 
     suspend fun getProductImageByProductId(productId: String): Resource<ProductImage>

@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.CartItem
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import javax.inject.Inject
@@ -22,8 +21,9 @@ import vn.quanprolazer.fashione.utilities.mapInPlace
 import vn.quanprolazer.fashione.utilities.notifyUpdate
 
 @HiltViewModel
-class CartViewModel @Inject constructor(private val orderRepository: OrderRepository,
-                                        private val productRepository: ProductRepository
+class CartViewModel @Inject constructor(
+    private val orderRepository: OrderRepository,
+    private val productRepository: ProductRepository
 ) : ViewModel() {
 
     private val _cartItems: MutableLiveData<Resource<MutableList<CartItem>>> by lazy {
@@ -67,6 +67,19 @@ class CartViewModel @Inject constructor(private val orderRepository: OrderReposi
                     is Resource.Success -> it.product = Resource.Success(product.data)
                     is Resource.Error -> Resource.Error(product.exception)
                     is Resource.Loading -> it.product = Resource.Loading(null)
+                }
+            }
+            it
+        }
+    }
+
+    fun updateCartItemsPrice() {
+        (_cartItems.value as Resource.Success).data.mapInPlace {
+            if (it.product != null) return
+            viewModelScope.launch {
+                when (val product = productRepository.getProductVariantOption(it.variantOptionId)) {
+                    is Resource.Success -> it.price = product.data.price
+                    is Resource.Error -> Resource.Error(product.exception)
                 }
             }
             it
