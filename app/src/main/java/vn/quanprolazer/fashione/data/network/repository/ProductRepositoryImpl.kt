@@ -145,5 +145,26 @@ class ProductRepositoryImpl @AssistedInject constructor(
             else -> Resource.Loading(null)
         }
     }
+
+    override suspend fun addReview(review: Review, rating: Rating): Resource<Boolean> {
+        val addReviewResponse = withContext(dispatcher) {
+            productService.addReview(review = review.toNetworkModel())
+        }
+        return when (addReviewResponse) {
+            is Resource.Success -> {
+                // if success? add rating
+                val ratingWithId = rating.copy(id = addReviewResponse.data)
+                val addReviewRatingResponse = withContext(dispatcher) {
+                    productService.addRating(rating = ratingWithId.toNetworkModel())
+                }
+
+                when (addReviewRatingResponse) {
+                    is Resource.Success -> Resource.Success(true)
+                    else -> Resource.Error(Exception("Error on adding product review rating"))
+                }
+            }
+            else -> Resource.Error(Exception("Error on adding product review"))
+        }
+    }
 }
 

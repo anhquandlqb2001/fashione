@@ -29,4 +29,8 @@ interface ProductService {
     suspend fun getProductImageByVariantId(variantId: String): Resource<NetworkProductImage>
 
     suspend fun getProductByProductId(productId: String): Resource<NetworkProduct>
+
+    suspend fun addReview(review: NetworkReview): Resource<String>
+
+    suspend fun addRating(rating: NetworkRating): Resource<Boolean>
 }

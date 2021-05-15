@@ -12,6 +12,7 @@ import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.network.dto.*
+import vn.quanprolazer.fashione.data.network.mapper.toHashMap
 
 class ProductServiceImpl : ProductService {
     override suspend fun getProducts(source: Source): Resource<List<NetworkProduct>> {
@@ -134,6 +135,33 @@ class ProductServiceImpl : ProductService {
                     .await().documents.mapNotNull { it.toObject(NetworkProductImage::class.java) }
 
             Resource.Success(response[0])
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun addReview(review: NetworkReview): Resource<String> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val response =
+                db.collection("reviews").add(review.toHashMap())
+                    .await()
+
+            Resource.Success(response.id)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun addRating(rating: NetworkRating): Resource<Boolean> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            db.collection("review_ratings").add(rating.toHashMap())
+                .await()
+
+            Resource.Success(true)
         } catch (e: Exception) {
             Timber.e(e)
             Resource.Error(e)
