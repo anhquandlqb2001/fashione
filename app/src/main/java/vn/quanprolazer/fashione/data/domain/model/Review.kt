@@ -16,7 +16,8 @@ data class PurchaseToAddReview(
     val product: Product,
     val productVariantOption: ProductVariantOption,
     val productImage: ProductImage,
-    val orderItemId: String
+    val orderItemId: String,
+    val variantName: String
 ) : Parcelable
 
 data class Review(

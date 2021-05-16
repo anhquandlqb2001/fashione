@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter
 
 class WriteReviewViewModel @AssistedInject constructor(
     private val productRepository: ProductRepository,
-    @Assisted private val purchaseToAddReview: PurchaseToAddReview
+    @Assisted val purchaseToAddReview: PurchaseToAddReview
 ) : ViewModel() {
 
     val reviewTitle = MutableLiveData<String>()

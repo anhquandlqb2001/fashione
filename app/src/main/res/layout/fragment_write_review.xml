@@ -29,6 +29,41 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:id="@+id/iv_product"
+                    imageUrl="@{viewModel.purchaseToAddReview.productImage.url}"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="8dp"
+                    android:scaleType="centerCrop"
+                    tools:src="@drawable/blank_cart" />
+
+                <TextView
+                    android:id="@+id/tv_product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/iv_product"
+                    android:text="@{viewModel.purchaseToAddReview.product.name}"
+                    android:textSize="16sp"
+                    tools:text="Quan kaki" />
+
+                <TextView
+                    variantName="@{viewModel.purchaseToAddReview.variantName}"
+                    variantValue="@{viewModel.purchaseToAddReview.productVariantOption.value}"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_product_name"
+                    android:layout_toEndOf="@id/iv_product"
+                    android:textSize="14sp"
+                    tools:text="Vang - XXL" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginVertical="30dp">
 
                 <TextView

@@ -118,7 +118,8 @@ class PurchaseViewModel @Inject constructor(
                 price = purchase.price
             ),
             (purchase.purchaseImage as Resource.Success).data,
-            orderItemId = purchase.id
+            orderItemId = purchase.id,
+            variantName = purchase.variantName
         )
     }
 

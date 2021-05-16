@@ -31,9 +31,6 @@ class PurchaseMenuFragment : Fragment() {
 
     private val binding: FragmentPurchaseMenuBinding get() = _binding!!
 
-    private val purchaseFragmentAdapter: PurchaseFragmentAdapter by lazy {
-        PurchaseFragmentAdapter(this)
-    }
 
     private val purchaseViewModel: PurchaseViewModel by activityViewModels()
 
@@ -48,17 +45,18 @@ class PurchaseMenuFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
 
+        viewPager = binding.vp2PurchaseMenu
+        viewPager.adapter = PurchaseFragmentAdapter(this)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewPager = binding.vp2PurchaseMenu
-        viewPager.adapter = purchaseFragmentAdapter
 
         val tabLayout = binding.tablayoutPurchaseMenu
-        TabLayoutMediator(tabLayout, viewPager) { tab, position -> //            tab.text
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 CONFIRMING_POSITION -> {
                     tab.text = "Chờ xác nhận"
