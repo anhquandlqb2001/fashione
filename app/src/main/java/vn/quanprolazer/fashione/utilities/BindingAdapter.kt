@@ -160,3 +160,16 @@ fun RatingBar.rating(rating: MutableLiveData<String>?) {
         rating.value = getRating().toInt().toString()
     }
 }
+
+@BindingAdapter("rate")
+fun TextView.rate(rate: Int?) {
+    rate?.let {
+        text = "${rate}/5"
+    }
+}
+
+@BindingAdapter(value = ["createdAt", "variantName", "variantValue"])
+fun TextView.reviewProduct(createdAt: String?, variantName: String?, variantValue: String?) {
+    if (createdAt == null || variantName == null || variantValue == null) text = ""
+    text = "${createdAt} | ${variantName} - ${variantValue}"
+}

@@ -10,6 +10,9 @@
 
     <data>
 
+        <variable
+            name="review"
+            type="vn.quanprolazer.fashione.data.domain.model.ReviewWithRating" />
     </data>
 
     <RelativeLayout
@@ -21,7 +24,7 @@
             android:id="@+id/cv_circular"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:elevation="12dp"
+            android:elevation="4dp"
             app:cardCornerRadius="40dp">
 
             <ImageView
@@ -37,6 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/cv_circular"
+            android:text="@{review.review.username}"
             tools:text="Quan Phan" />
 
         <LinearLayout
@@ -52,21 +56,25 @@
                 style="@style/Widget.AppCompat.RatingBar.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="true" />
+                android:layout_gravity="center"
+                android:isIndicator="true"
+                android:rating="@{review.rating.rate}" />
 
             <TextView
+                rate="@{review.rating.rate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 tools:text="4.8/5" />
         </LinearLayout>
 
         <TextView
-            android:textSize="20sp"
-            android:textStyle="bold"
             android:id="@+id/tv_review_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cv_circular"
+            android:text="@{review.review.reviewTitle}"
+            android:textStyle="bold"
             tools:text="asdashda" />
 
         <TextView
@@ -74,6 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_review_title"
+            android:text="@{review.review.reviewContent}"
             tools:text="ahdkjahsjkdhaksjdhakjshdajkshdkajshdkjashdkajshdkja" />
 
         <TextView

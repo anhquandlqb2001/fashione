@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.data.network.repository
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Source
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -194,16 +195,16 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
     override suspend fun getReviewWithRating(
         productId: String,
-        page: Int
-    ): Resource<List<ReviewWithRating>> {
+        lastVisible: DocumentSnapshot?
+    ): ReviewWithRatingResponse {
         val reviewsResponse = withContext(dispatcher) {
-            productService.getReviews(productId)
+            productService.getReviews(productId, lastVisible)
         }
 
         return when (reviewsResponse) {
             is Resource.Success -> {
                 val reviewWithRatings = mutableListOf<ReviewWithRating>()
-                reviewsResponse.data.forEach {
+                reviewsResponse.data.reviews.forEach {
                     val ratingsResponse = withContext(dispatcher) {
                         productService.getRating(it.id)
                     }
@@ -218,9 +219,15 @@ class ProductRepositoryImpl @AssistedInject constructor(
                         }
                     }
                 }
-                Resource.Success(reviewWithRatings)
+                ReviewWithRatingResponse(
+                    Resource.Success(reviewWithRatings),
+                    reviewsResponse.data.lastVisible
+                )
             }
-            else -> Resource.Error(Exception("Error when collect review data"))
+            else -> ReviewWithRatingResponse(
+                Resource.Error(Exception("Error when collect review data")),
+                null
+            )
         }
     }
 

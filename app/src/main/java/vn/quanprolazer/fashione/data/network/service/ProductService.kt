@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.data.network.service
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Source
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.network.dto.*
@@ -36,7 +37,10 @@ interface ProductService {
 
     suspend fun addRating(rating: NetworkRating): Resource<Boolean>
 
-    suspend fun getReviews(productId: String, page: Int = 0): Resource<List<NetworkReview>>
+    suspend fun getReviews(
+        productId: String,
+        lastVisible: DocumentSnapshot? = null
+    ): Resource<NetworkReviewResponse>
 
     suspend fun getRating(reviewId: String): Resource<NetworkRating>
 

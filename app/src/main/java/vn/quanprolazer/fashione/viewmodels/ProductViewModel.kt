@@ -7,6 +7,7 @@
 package vn.quanprolazer.fashione.viewmodels
 
 import androidx.lifecycle.*
+import com.google.firebase.firestore.DocumentSnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
@@ -104,10 +105,14 @@ class ProductViewModel @AssistedInject constructor(
             }
         }
 
+    private var lastVisible: DocumentSnapshot? = null
+
     private val _reviewWithRatings: MutableLiveData<Resource<List<ReviewWithRating>>> by lazy {
         val liveData = MutableLiveData<Resource<List<ReviewWithRating>>>()
         viewModelScope.launch {
-            liveData.value = productRepository.getReviewWithRating(product.id)
+            val response = productRepository.getReviewWithRating(product.id, lastVisible)
+            liveData.value = response.reviews
+            lastVisible = response.lastVisible
         }
         return@lazy liveData
     }

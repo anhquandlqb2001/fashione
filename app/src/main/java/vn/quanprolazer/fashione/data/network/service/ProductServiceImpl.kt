@@ -6,8 +6,10 @@
 
 package vn.quanprolazer.fashione.data.network.service
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
+import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.domain.model.Resource
@@ -185,14 +187,40 @@ class ProductServiceImpl : ProductService {
         }
     }
 
-    override suspend fun getReviews(productId: String, page: Int): Resource<List<NetworkReview>> {
+    override suspend fun getReviews(
+        productId: String,
+        lastVisible: DocumentSnapshot?
+    ): Resource<NetworkReviewResponse> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            val response =
-                db.collection("reviews").orderBy("rate").startAt((page * PER_PAGE)).limit(PER_PAGE.toLong()).get()
-                    .await().documents.mapNotNull { it.toObject(NetworkReview::class.java) }
+            if (lastVisible == null) {
+                val documents = db.collection("reviews")
+                    .limit(PER_PAGE.toLong()).get().await().documents
+                Timber.i(documents.toString())
+                val _lastVisible = documents[documents.size - 1]
 
-            Resource.Success(response)
+                return Resource.Success(NetworkReviewResponse(documents.mapNotNull {
+                    it.toObject(
+                        NetworkReview::class.java
+                    )
+                }, _lastVisible))
+            }
+
+            // Construct a new query starting at this document,
+            // get the next 25 cities.
+            val next = db.collection("reviews")
+                .orderBy("createdAt")
+                .startAfter(lastVisible)
+                .limit(PER_PAGE.toLong()).get().await().documents
+
+            val _lastVisible = next[next.size - 1]
+
+            Resource.Success(
+                NetworkReviewResponse(
+                    next.mapNotNull { it.toObject(NetworkReview::class.java) },
+                    _lastVisible
+                )
+            )
         } catch (e: Exception) {
             Timber.e(e)
             Resource.Error(e)

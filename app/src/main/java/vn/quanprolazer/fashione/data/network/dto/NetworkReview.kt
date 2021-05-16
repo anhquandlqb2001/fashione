@@ -7,6 +7,7 @@
 package vn.quanprolazer.fashione.data.network.dto
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import kotlinx.serialization.SerialName
@@ -74,3 +75,7 @@ internal fun NetworkRating.toDomainModel() = Rating(
     id, reviewId, productId, rate
 )
 
+data class NetworkReviewResponse(
+    val reviews: List<NetworkReview>,
+    val lastVisible: DocumentSnapshot
+)

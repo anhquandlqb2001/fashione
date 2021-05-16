@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.data.domain.repository
 
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Source
 import vn.quanprolazer.fashione.data.domain.model.*
 
@@ -35,7 +36,7 @@ interface ProductRepository {
 
     suspend fun addReview(review: Review, rating: Rating): Resource<Boolean>
 
-    suspend fun getReviewWithRating(productId: String, page: Int = 0) : Resource<List<ReviewWithRating>>
+    suspend fun getReviewWithRating(productId: String, lastVisible: DocumentSnapshot? = null) : ReviewWithRatingResponse
 
     suspend fun getRatings(productId: String): Resource<List<Rating>>
 

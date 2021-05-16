@@ -21,6 +21,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
+import vn.quanprolazer.fashione.adapters.ReviewItemAdapter
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 import vn.quanprolazer.fashione.viewmodels.ProductSharedViewModel
@@ -32,7 +33,9 @@ class ProductFragment : Fragment() {
 
     private var _binding: FragmentProductDetailBinding? = null
 
-    private val productImageAdapter = ProductImageAdapter()
+    private val productImageAdapter: ProductImageAdapter by lazy {
+        ProductImageAdapter()
+    }
 
 
     private val binding get() = _binding!!
@@ -47,6 +50,10 @@ class ProductFragment : Fragment() {
         )
     }
 
+    private val reviewItemAdapter: ReviewItemAdapter by lazy {
+        ReviewItemAdapter()
+    }
+
     private val sharedViewModel: ProductSharedViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -57,8 +64,10 @@ class ProductFragment : Fragment() {
         _binding = FragmentProductDetailBinding.inflate(inflater)
 
         binding.lifecycleOwner = viewLifecycleOwner
-
         binding.viewModel = viewModel
+
+        binding.rvProductImage.adapter = productImageAdapter
+        binding.rvReview.adapter = reviewItemAdapter
 
         return binding.root
     }
@@ -66,7 +75,6 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvProductImage.adapter = productImageAdapter
 
         observeProductImages(productImageAdapter)
 
@@ -81,7 +89,6 @@ class ProductFragment : Fragment() {
         observeSuccess()
 
         viewModel.overviewRating.observe(viewLifecycleOwner, {
-            Timber.i(it.toString())
             it?.let {
                 when (it) {
                     is Resource.Success -> {
@@ -96,8 +103,13 @@ class ProductFragment : Fragment() {
         })
 
         viewModel.reviewWithRatings.observe(viewLifecycleOwner, {
+            Timber.i(it.toString())
             it?.let {
-
+                when (it) {
+                    is Resource.Success -> {
+                        reviewItemAdapter.submitList(it.data)
+                    }
+                }
             }
         })
 

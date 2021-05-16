@@ -7,6 +7,7 @@
 package vn.quanprolazer.fashione.data.domain.model
 
 import android.os.Parcelable
+import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.parcelize.Parcelize
 import vn.quanprolazer.fashione.data.network.dto.NetworkRating
 import vn.quanprolazer.fashione.data.network.dto.NetworkReview
@@ -60,4 +61,9 @@ data class ReviewWithRating(
 data class OverviewRating(
     val averageRate: Float,
     val countRate: Int
+)
+
+data class ReviewWithRatingResponse(
+    val reviews: Resource<List<ReviewWithRating>>,
+    val lastVisible: DocumentSnapshot?
 )
