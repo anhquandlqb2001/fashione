@@ -10,15 +10,13 @@ import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import vn.quanprolazer.fashione.data.domain.model.Product
-import vn.quanprolazer.fashione.data.domain.model.ProductDetail
-import vn.quanprolazer.fashione.data.domain.model.ProductImage
-import vn.quanprolazer.fashione.data.domain.model.Resource
+import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
 
 
-class ProductViewModel @AssistedInject constructor(private val productRepository: ProductRepository,
-                                                   @Assisted val product: Product
+class ProductViewModel @AssistedInject constructor(
+    private val productRepository: ProductRepository,
+    @Assisted val product: Product
 ) : ViewModel() {
 
 
@@ -81,13 +79,49 @@ class ProductViewModel @AssistedInject constructor(private val productRepository
         _navigateToBottomSheet.value = null
     }
 
+    val rating: MutableLiveData<Resource<List<Rating>>> by lazy {
+        val response = MutableLiveData<Resource<List<Rating>>>()
+        viewModelScope.launch {
+            response.value = productRepository.getRatings(product.id)
+        }
+
+
+
+        return@lazy response
+    }
+
+    val overviewRating: LiveData<Resource<OverviewRating>>
+        get() = Transformations.map(rating) { list ->
+            when (list) {
+                is Resource.Success -> {
+                    val size = list.data.size
+                    val avg = list.data.sumBy { it.rate } / size
+                    Resource.Success(OverviewRating(avg.toFloat(), size))
+                }
+                else -> {
+                    Resource.Error(Exception("Exception when get review"))
+                }
+            }
+        }
+
+    private val _reviewWithRatings: MutableLiveData<Resource<List<ReviewWithRating>>> by lazy {
+        val liveData = MutableLiveData<Resource<List<ReviewWithRating>>>()
+        viewModelScope.launch {
+            liveData.value = productRepository.getReviewWithRating(product.id)
+        }
+        return@lazy liveData
+    }
+
+    val reviewWithRatings: LiveData<Resource<List<ReviewWithRating>>> get() = _reviewWithRatings
+
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {
         fun create(product: Product): ProductViewModel
     }
 
     companion object {
-        fun provideFactory(assistedFactory: AssistedFactory, product: Product
+        fun provideFactory(
+            assistedFactory: AssistedFactory, product: Product
         ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
             @Suppress("UNCHECKED_CAST")
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {

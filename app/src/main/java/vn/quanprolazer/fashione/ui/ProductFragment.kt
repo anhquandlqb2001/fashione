@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
@@ -40,14 +41,18 @@ class ProductFragment : Fragment() {
     lateinit var productViewModelFactory: ProductViewModel.AssistedFactory
 
     private val viewModel: ProductViewModel by viewModels {
-        ProductViewModel.provideFactory(productViewModelFactory, ProductFragmentArgs.fromBundle(requireArguments()).product)
+        ProductViewModel.provideFactory(
+            productViewModelFactory,
+            ProductFragmentArgs.fromBundle(requireArguments()).product
+        )
     }
 
     private val sharedViewModel: ProductSharedViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProductDetailBinding.inflate(inflater)
 
@@ -74,6 +79,28 @@ class ProductFragment : Fragment() {
         observeNavigateToBottomSheet()
         observeException()
         observeSuccess()
+
+        viewModel.overviewRating.observe(viewLifecycleOwner, {
+            Timber.i(it.toString())
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.ratingBar2.rating = it.data.averageRate
+                        binding.tvCountRate.text =
+                            "${it.data.averageRate}/5 (${it.data.countRate} đánh giá)"
+                    }
+                    is Resource.Loading -> {
+                    }
+                }
+            }
+        })
+
+        viewModel.reviewWithRatings.observe(viewLifecycleOwner, {
+            it?.let {
+
+            }
+        })
+
     }
 
     private fun observeSuccess() {
@@ -113,10 +140,12 @@ class ProductFragment : Fragment() {
 
     private fun observeProductImages(productImageAdapter: ProductImageAdapter) {
         viewModel.productImages.observe(viewLifecycleOwner, {
-            when(it) {
+            when (it) {
                 is Resource.Success -> productImageAdapter.submitList(it.data)
-                is Resource.Loading -> {}
-                is Resource.Error -> {}
+                is Resource.Loading -> {
+                }
+                is Resource.Error -> {
+                }
             }
 
         })
@@ -127,9 +156,10 @@ class ProductFragment : Fragment() {
      * Snap scroll product images
      */
     private val snapHelper: LinearSnapHelper = object : LinearSnapHelper() {
-        override fun findTargetSnapPosition(layoutManager: RecyclerView.LayoutManager,
-                                            velocityX: Int,
-                                            velocityY: Int
+        override fun findTargetSnapPosition(
+            layoutManager: RecyclerView.LayoutManager,
+            velocityX: Int,
+            velocityY: Int
         ): Int {
             val centerView = findSnapView(layoutManager) ?: return RecyclerView.NO_POSITION
             val position = layoutManager.getPosition(centerView)

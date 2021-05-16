@@ -15,6 +15,7 @@ import kotlinx.coroutines.withContext
 import vn.quanprolazer.fashione.data.domain.model.*
 import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
 import vn.quanprolazer.fashione.data.domain.repository.ProductRepository
+import vn.quanprolazer.fashione.data.network.dto.NetworkReview
 import vn.quanprolazer.fashione.data.network.dto.toDomainModel
 import vn.quanprolazer.fashione.data.network.mapper.*
 import vn.quanprolazer.fashione.data.network.service.ProductService
@@ -190,5 +191,49 @@ class ProductRepositoryImpl @AssistedInject constructor(
             else -> Resource.Error((getProductVariantOptionResponse as Resource.Error).exception)
         }
     }
+
+    override suspend fun getReviewWithRating(
+        productId: String,
+        page: Int
+    ): Resource<List<ReviewWithRating>> {
+        val reviewsResponse = withContext(dispatcher) {
+            productService.getReviews(productId)
+        }
+
+        return when (reviewsResponse) {
+            is Resource.Success -> {
+                val reviewWithRatings = mutableListOf<ReviewWithRating>()
+                reviewsResponse.data.forEach {
+                    val ratingsResponse = withContext(dispatcher) {
+                        productService.getRating(it.id)
+                    }
+                    when (ratingsResponse) {
+                        is Resource.Success -> reviewWithRatings.add(
+                            ReviewWithRating(
+                                it.toDomainModel(),
+                                ratingsResponse.data.toDomainModel()
+                            )
+                        )
+                        else -> {
+                        }
+                    }
+                }
+                Resource.Success(reviewWithRatings)
+            }
+            else -> Resource.Error(Exception("Error when collect review data"))
+        }
+    }
+
+    override suspend fun getRatings(productId: String): Resource<List<Rating>> {
+        val getRatingsResponse = withContext(dispatcher) {
+            productService.getRatings(productId)
+        }
+        return when (getRatingsResponse) {
+            is Resource.Success -> Resource.Success(getRatingsResponse.data.map { it.toDomainModel() })
+            else -> Resource.Error((getRatingsResponse as Resource.Error).exception)
+        }
+    }
+
+    fun collectReviewId(list: List<NetworkReview>) = list.map { it.id }
 }
 

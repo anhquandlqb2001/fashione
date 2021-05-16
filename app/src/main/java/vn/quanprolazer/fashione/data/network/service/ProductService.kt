@@ -35,4 +35,10 @@ interface ProductService {
     suspend fun addReview(review: NetworkReview): Resource<String>
 
     suspend fun addRating(rating: NetworkRating): Resource<Boolean>
+
+    suspend fun getReviews(productId: String, page: Int = 0): Resource<List<NetworkReview>>
+
+    suspend fun getRating(reviewId: String): Resource<NetworkRating>
+
+    suspend fun getRatings(productId: String): Resource<List<NetworkRating>>
 }

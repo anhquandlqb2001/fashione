@@ -57,3 +57,7 @@ data class ReviewWithRating(
     val rating: Rating
 )
 
+data class OverviewRating(
+    val averageRate: Float,
+    val countRate: Int
+)

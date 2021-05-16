@@ -35,4 +35,8 @@ interface ProductRepository {
 
     suspend fun addReview(review: Review, rating: Rating): Resource<Boolean>
 
+    suspend fun getReviewWithRating(productId: String, page: Int = 0) : Resource<List<ReviewWithRating>>
+
+    suspend fun getRatings(productId: String): Resource<List<Rating>>
+
 }

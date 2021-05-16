@@ -14,6 +14,8 @@ import vn.quanprolazer.fashione.data.domain.model.Resource
 import vn.quanprolazer.fashione.data.network.dto.*
 import vn.quanprolazer.fashione.data.network.mapper.toHashMap
 
+private const val PER_PAGE = 10
+
 class ProductServiceImpl : ProductService {
     override suspend fun getProducts(source: Source): Resource<List<NetworkProduct>> {
         val db = FirebaseFirestore.getInstance()
@@ -177,6 +179,48 @@ class ProductServiceImpl : ProductService {
                 .await()
 
             Resource.Success(true)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun getReviews(productId: String, page: Int): Resource<List<NetworkReview>> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val response =
+                db.collection("reviews").orderBy("rate").startAt((page * PER_PAGE)).limit(PER_PAGE.toLong()).get()
+                    .await().documents.mapNotNull { it.toObject(NetworkReview::class.java) }
+
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun getRating(reviewId: String): Resource<NetworkRating> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val response =
+                db.collection("review_ratings").whereEqualTo("review_id", reviewId).get()
+                    .await().documents.mapNotNull { it.toObject(NetworkRating::class.java) }
+
+            Resource.Success(response[0])
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun getRatings(productId: String): Resource<List<NetworkRating>> {
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val response =
+                db.collection("review_ratings").get()
+                    .await().documents.mapNotNull { it.toObject(NetworkRating::class.java) }
+
+            Resource.Success(response)
         } catch (e: Exception) {
             Timber.e(e)
             Resource.Error(e)
