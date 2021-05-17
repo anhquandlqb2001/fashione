@@ -12,11 +12,11 @@
 
         <variable
             name="checkoutViewModel"
-            type="vn.quanprolazer.fashione.viewmodels.CheckoutViewModel" />
+            type="vn.quanprolazer.fashione.presentation.viewmodels.CheckoutViewModel" />
 
         <variable
             name="address"
-            type="vn.quanprolazer.fashione.data.domain.model.PickupAddress" />
+            type="vn.quanprolazer.fashione.domain.models.PickupAddress" />
 
     </data>
 
@@ -165,7 +165,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/text_cod"
                             android:singleLine="false"
-                            android:maxEms="7"/>
+                            android:maxEms="7" />
                     </LinearLayout>
 
                     <LinearLayout

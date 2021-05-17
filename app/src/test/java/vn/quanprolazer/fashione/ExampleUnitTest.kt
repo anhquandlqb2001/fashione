@@ -6,18 +6,16 @@
 
 package vn.quanprolazer.fashione
 
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Test
-
-import org.junit.Assert.*
-import vn.quanprolazer.fashione.data.domain.model.Order
-import vn.quanprolazer.fashione.data.domain.model.OrderItem
-import vn.quanprolazer.fashione.data.domain.model.OrderStatus
-import vn.quanprolazer.fashione.data.domain.model.Resource
-import vn.quanprolazer.fashione.data.domain.repository.OrderRepository
-import vn.quanprolazer.fashione.data.domain.repository.UserRepository
+import vn.quanprolazer.fashione.domain.models.Order
+import vn.quanprolazer.fashione.domain.models.OrderItem
+import vn.quanprolazer.fashione.domain.models.OrderStatus
+import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.repositories.OrderRepository
+import vn.quanprolazer.fashione.domain.repositories.UserRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject

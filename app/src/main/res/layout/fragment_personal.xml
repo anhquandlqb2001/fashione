@@ -12,7 +12,7 @@
 
         <variable
             name="viewModel"
-            type="vn.quanprolazer.fashione.viewmodels.PersonalViewModel" />
+            type="vn.quanprolazer.fashione.presentation.viewmodels.PersonalViewModel" />
     </data>
 
     <ScrollView

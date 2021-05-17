@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
@@ -7,17 +6,17 @@
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="category"
-            type="vn.quanprolazer.fashione.data.domain.model.Category" />
-        
+            type="vn.quanprolazer.fashione.domain.models.Category" />
+
         <variable
             name="clickListener"
-            type="vn.quanprolazer.fashione.adapters.OnClickCategoryListener" />
+            type="vn.quanprolazer.fashione.presentation.adapters.OnClickCategoryListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -35,7 +34,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp" />
 
         <TextView
             android:id="@+id/rv_category"
@@ -50,7 +49,7 @@
             app:layout_constraintTop_toTopOf="@+id/iv_category"
             tools:text="Me va be"
             android:maxEms="10"
-            android:singleLine="false"/>
+            android:singleLine="false" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

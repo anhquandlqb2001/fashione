@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
@@ -10,13 +9,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="product"
-            type="vn.quanprolazer.fashione.data.domain.model.Product" />
+            type="vn.quanprolazer.fashione.domain.models.Product" />
 
         <variable
             name="clickListener"
-            type="vn.quanprolazer.fashione.adapters.OnClickListener" />
+            type="vn.quanprolazer.fashione.presentation.adapters.OnClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,7 +36,7 @@
             app:layout_constraintVertical_bias="0.0"
             tools:src="@drawable/i_shopping_cart_splash_screen"
             app:imageUrl="@{product.thumbnailUrl}"
-            android:layout_marginEnd="8dp"/>
+            android:layout_marginEnd="8dp" />
 
         <TextView
             android:id="@+id/tv_product_name"
@@ -46,7 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/iv_product"
             tools:text="Ao quan dep trai"
             app:productName="@{product.name}"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_product_price"
@@ -56,7 +56,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
             tools:text="23.000"
             app:productPrice="@{product.price}"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

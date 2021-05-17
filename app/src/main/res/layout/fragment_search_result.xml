@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
@@ -10,9 +9,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
-            type="vn.quanprolazer.fashione.viewmodels.SearchResultViewModel" />
+            type="vn.quanprolazer.fashione.presentation.viewmodels.SearchResultViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="@+id/start_guideline"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/header_featured_text"
-            android:text="@{viewModel.textToDisplay}"/>
+            android:text="@{viewModel.textToDisplay}" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_searchResult"
@@ -37,14 +37,14 @@
             app:layout_constraintEnd_toStartOf="@+id/end_guideline"
             app:layout_constraintStart_toStartOf="@+id/start_guideline"
             app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:listitem="@layout/list_item_product"/>
+            tools:listitem="@layout/list_item_product" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/start_guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="16sp"/>
+            app:layout_constraintGuide_begin="16sp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/end_guideline"
@@ -52,6 +52,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_end="16sp" />
-        
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

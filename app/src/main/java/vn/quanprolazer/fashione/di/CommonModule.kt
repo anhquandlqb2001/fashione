@@ -16,20 +16,24 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import vn.quanprolazer.fashione.utilities.BASE_URL
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 class CommonModule {
 
+    companion object {
+        private const val GITHUB_ADDRESS_BASE_URL =
+            "https://raw.githubusercontent.com/anhquandlqb2001/hanhchinhvn/master/dist/"
+    }
+
     private val interceptor = HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-    val client = OkHttpClient.Builder().addInterceptor(interceptor).build();
+    private val client = OkHttpClient.Builder().addInterceptor(interceptor).build();
 
     @Singleton
     @Provides
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
+        .baseUrl(GITHUB_ADDRESS_BASE_URL)
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .client(client)
         .build()

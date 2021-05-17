@@ -10,9 +10,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import vn.quanprolazer.fashione.data.domain.repository.*
-import vn.quanprolazer.fashione.data.network.repository.*
-import vn.quanprolazer.fashione.data.network.service.*
+import vn.quanprolazer.fashione.data.network.services.firestores.*
+import vn.quanprolazer.fashione.data.network.services.retrofits.PickupAddressService
+import vn.quanprolazer.fashione.data.repositories.*
+import vn.quanprolazer.fashione.domain.repositories.*
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)

@@ -9,13 +9,14 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="address"
-            type="vn.quanprolazer.fashione.data.domain.model.PickupAddress" />
+            type="vn.quanprolazer.fashione.domain.models.PickupAddress" />
 
         <variable
             name="pickupAddressListener"
-            type="vn.quanprolazer.fashione.adapters.OnPickupAddressListener" />
+            type="vn.quanprolazer.fashione.presentation.adapters.OnPickupAddressListener" />
     </data>
 
     <LinearLayout
@@ -30,6 +31,7 @@
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
             android:onClick="@{() -> pickupAddressListener.onClickChoosePickupAddress(address)}">
+
             <TextView
                 android:id="@+id/textView6"
                 phone_number="@{address.phoneNumber}"

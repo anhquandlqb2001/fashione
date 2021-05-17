@@ -12,7 +12,7 @@
 
         <variable
             name="viewModel"
-            type="vn.quanprolazer.fashione.viewmodels.WriteReviewViewModel" />
+            type="vn.quanprolazer.fashione.presentation.viewmodels.WriteReviewViewModel" />
 
     </data>
 

@@ -12,7 +12,7 @@
 
         <variable
             name="review"
-            type="vn.quanprolazer.fashione.data.domain.model.ReviewWithRating" />
+            type="vn.quanprolazer.fashione.domain.models.ReviewWithRating" />
     </data>
 
     <RelativeLayout

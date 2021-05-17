@@ -12,7 +12,7 @@
 
         <variable
             name="viewModel"
-            type="vn.quanprolazer.fashione.viewmodels.BottomSheetProductVariantViewModel" />
+            type="vn.quanprolazer.fashione.presentation.viewmodels.BottomSheetProductVariantViewModel" />
     </data>
 
     <FrameLayout
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="invisible"
                 tools:visibility="visible"
-                tools:text="32000"/>
+                tools:text="32000" />
 
             <Button
                 addToCartVisible="@{viewModel.orderQty}"
@@ -131,7 +131,7 @@
                 android:backgroundTint="@color/teal_700"
                 android:text="@string/text_add_to_cart"
                 android:textColor="#fff"
-                android:onClick="@{() -> viewModel.onClickAddToCart()}"/>
+                android:onClick="@{() -> viewModel.onClickAddToCart()}" />
 
         </LinearLayout>
 

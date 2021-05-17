@@ -1,24 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
   -->
 
-<menu
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <group>
         <item
             android:title="@string/menu_item_home_text"
-            android:id="@+id/menu_item_home"/>
+            android:id="@+id/menu_item_home" />
 
         <item
             android:title="@string/menu_item_cart_text"
-            android:id="@+id/menu_item_cart"/>
+            android:id="@+id/menu_item_cart" />
         <item
             android:title="@string/menu_item_favourite_text"
-            android:id="@+id/menu_item_favourite"/>
+            android:id="@+id/menu_item_favourite" />
     </group>
 
     <group>
@@ -26,7 +24,7 @@
             <menu>
                 <item
                     android:title="@string/menu_item_profile_text"
-                    android:id="@+id/menu_item_personal"/>
+                    android:id="@+id/menu_item_personal" />
                 <item
                     android:title="@string/login"
                     android:id="@+id/menu_item_login" />

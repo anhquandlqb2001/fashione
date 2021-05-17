@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Author: quanprolazer
   ~ Project: Fashione
   ~ An android shopping app writing in Kotlin
@@ -10,15 +9,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
-            type="vn.quanprolazer.fashione.viewmodels.OrderSuccessViewModel" />
+            type="vn.quanprolazer.fashione.presentation.viewmodels.OrderSuccessViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.OrderSuccessFragment">
+        tools:context=".presentation.ui.OrderSuccessFragment">
 
         <ImageView
             android:layout_width="107dp"
@@ -52,7 +52,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:onClick="@{() -> viewModel.onNavigateToHome()}"
-            android:backgroundTint="@color/teal_700"/>
+            android:backgroundTint="@color/teal_700" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

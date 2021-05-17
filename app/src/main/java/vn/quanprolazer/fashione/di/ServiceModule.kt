@@ -11,7 +11,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import vn.quanprolazer.fashione.data.network.service.*
+import vn.quanprolazer.fashione.data.network.services.firestores.*
+import vn.quanprolazer.fashione.data.network.services.retrofits.PickupAddressService
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)

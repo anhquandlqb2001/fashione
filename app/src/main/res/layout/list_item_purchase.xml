@@ -12,11 +12,11 @@
 
         <variable
             name="purchaseItem"
-            type="vn.quanprolazer.fashione.data.domain.model.Purchase" />
+            type="vn.quanprolazer.fashione.domain.models.Purchase" />
 
         <variable
             name="purchaseItemListener"
-            type="vn.quanprolazer.fashione.adapters.PurchaseItemListener" />
+            type="vn.quanprolazer.fashione.presentation.adapters.PurchaseItemListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

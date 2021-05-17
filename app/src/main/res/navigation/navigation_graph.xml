@@ -12,7 +12,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="vn.quanprolazer.fashione.ui.HomeFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home">
         <action
@@ -35,12 +35,12 @@
     </fragment>
     <fragment
         android:id="@+id/productFragment"
-        android:name="vn.quanprolazer.fashione.ui.ProductFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.ProductFragment"
         tools:layout="@layout/fragment_product_detail">
 
         <argument
             android:name="product"
-            app:argType="vn.quanprolazer.fashione.data.domain.model.Product" />
+            app:argType="vn.quanprolazer.fashione.domain.models.Product" />
         <action
             android:id="@+id/action_productFragment_to_bottomSheetProductVariantFragment"
             app:destination="@id/bottomSheetProductVariantFragment" />
@@ -48,11 +48,11 @@
     </fragment>
     <fragment
         android:id="@+id/searchResultFragment"
-        android:name="vn.quanprolazer.fashione.ui.SearchResultFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.SearchResultFragment"
         tools:layout="@layout/fragment_search_result">
         <argument
             android:name="category"
-            app:argType="vn.quanprolazer.fashione.data.domain.model.Category"
+            app:argType="vn.quanprolazer.fashione.domain.models.Category"
             app:nullable="true" />
         <argument
             android:name="query"
@@ -67,24 +67,24 @@
 
     <dialog
         android:id="@+id/bottomSheetProductVariantFragment"
-        android:name="vn.quanprolazer.fashione.ui.BottomSheetProductVariantFragment">
+        android:name="vn.quanprolazer.fashione.presentation.ui.BottomSheetProductVariantFragment">
         <argument
             android:name="product"
-            app:argType="vn.quanprolazer.fashione.data.domain.model.Product" />
+            app:argType="vn.quanprolazer.fashione.domain.models.Product" />
     </dialog>
     <fragment
         android:id="@+id/cartFragment"
-        android:name="vn.quanprolazer.fashione.ui.CartFragment">
+        android:name="vn.quanprolazer.fashione.presentation.ui.CartFragment">
         <action
             android:id="@+id/action_cartFragment_to_checkoutFragment"
             app:destination="@id/checkoutFragment" />
     </fragment>
     <fragment
         android:id="@+id/checkoutFragment"
-        android:name="vn.quanprolazer.fashione.ui.CheckoutFragment">
+        android:name="vn.quanprolazer.fashione.presentation.ui.CheckoutFragment">
         <argument
             android:name="checkoutItems"
-            app:argType="vn.quanprolazer.fashione.data.domain.model.CheckoutItem[]" />
+            app:argType="vn.quanprolazer.fashione.domain.models.CheckoutItem[]" />
         <action
             android:id="@+id/action_checkoutFragment_to_pickupAddressFragment"
             app:destination="@id/pickupAddressFragment" />
@@ -95,36 +95,36 @@
     </fragment>
     <fragment
         android:id="@+id/pickupAddressFragment"
-        android:name="vn.quanprolazer.fashione.ui.PickupAddressFragment">
+        android:name="vn.quanprolazer.fashione.presentation.ui.PickupAddressFragment">
         <action
             android:id="@+id/action_pickupAddressFragment_to_addPickupAddressFragment"
             app:destination="@id/addPickupAddressFragment" />
     </fragment>
     <fragment
         android:id="@+id/addPickupAddressFragment"
-        android:name="vn.quanprolazer.fashione.ui.AddPickupAddressFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.AddPickupAddressFragment"
         android:label="AddPickupAddressFragment" />
     <fragment
         android:id="@+id/orderSuccessFragment"
-        android:name="vn.quanprolazer.fashione.ui.OrderSuccessFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.OrderSuccessFragment"
         android:label="fragment_order_success"
-        tools:layout="@layout/fragment_order_success" >
+        tools:layout="@layout/fragment_order_success">
         <action
             android:id="@+id/action_orderSuccessFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/personalFragment"
-        android:name="vn.quanprolazer.fashione.ui.PersonalFragment"
-        android:label="PersonalFragment" >
+        android:name="vn.quanprolazer.fashione.presentation.ui.PersonalFragment"
+        android:label="PersonalFragment">
         <action
             android:id="@+id/action_personalFragment_to_purchaseMenuFragment"
             app:destination="@id/purchaseMenuFragment" />
     </fragment>
     <fragment
         android:id="@+id/purchaseMenuFragment"
-        android:name="vn.quanprolazer.fashione.ui.PurchaseMenuFragment"
-        android:label="PurchaseMenuFragment" >
+        android:name="vn.quanprolazer.fashione.presentation.ui.PurchaseMenuFragment"
+        android:label="PurchaseMenuFragment">
         <action
             android:id="@+id/action_purchaseMenuFragment_to_cartFragment"
             app:destination="@id/cartFragment"
@@ -136,11 +136,11 @@
     </fragment>
     <fragment
         android:id="@+id/writeReviewFragment"
-        android:name="vn.quanprolazer.fashione.ui.WriteReviewFragment"
-        android:label="WriteReviewFragment" >
+        android:name="vn.quanprolazer.fashione.presentation.ui.WriteReviewFragment"
+        android:label="WriteReviewFragment">
         <argument
             android:name="purchaseToAddReview"
-            app:argType="vn.quanprolazer.fashione.data.domain.model.PurchaseToAddReview" />
+            app:argType="vn.quanprolazer.fashione.domain.models.PurchaseToAddReview" />
     </fragment>
 
 
