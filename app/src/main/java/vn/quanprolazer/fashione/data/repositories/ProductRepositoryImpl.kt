@@ -6,24 +6,20 @@
 
 package vn.quanprolazer.fashione.data.repositories
 
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Source
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import vn.quanprolazer.fashione.data.network.models.NetworkReview
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.SearchServiceImpl
 import vn.quanprolazer.fashione.data.network.services.firestores.ProductService
 import vn.quanprolazer.fashione.domain.models.*
-import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
 
 class ProductRepositoryImpl @AssistedInject constructor(
     private val productService: ProductService,
-    private val orderRepository: OrderRepository,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
@@ -150,37 +146,6 @@ class ProductRepositoryImpl @AssistedInject constructor(
         }
     }
 
-    override suspend fun addReview(review: Review, rating: Rating): Resource<Boolean> {
-        val addReviewResponse = withContext(dispatcher) {
-            productService.addReview(review = review.toNetworkModel())
-        }
-        return when (addReviewResponse) {
-            is Resource.Success -> {
-                // if success? add rating
-                val ratingWithId = rating.toNetworkModel().copy(reviewId = addReviewResponse.data)
-                val addReviewRatingResponse = withContext(dispatcher) {
-                    productService.addRating(rating = ratingWithId)
-                }
-
-                return when (addReviewRatingResponse) {
-                    is Resource.Success -> {
-                        val updateOrderReviewStatusResponse = withContext(dispatcher) {
-                            orderRepository.updateOrderReviewStatus(
-                                ReviewStatus.YES,
-                                review.orderItemId
-                            )
-                        }
-                        return when (updateOrderReviewStatusResponse) {
-                            is Resource.Success -> Resource.Success(true)
-                            else -> Resource.Error((updateOrderReviewStatusResponse as Resource.Error).exception)
-                        }
-                    }
-                    else -> Resource.Error(Exception("Error on adding product review rating"))
-                }
-            }
-            else -> Resource.Error(Exception("Error on adding product review"))
-        }
-    }
 
     override suspend fun getProductVariantOption(variantOptionId: String): Resource<ProductVariantOption> {
         val getProductVariantOptionResponse = withContext(dispatcher) {
@@ -191,55 +156,5 @@ class ProductRepositoryImpl @AssistedInject constructor(
             else -> Resource.Error((getProductVariantOptionResponse as Resource.Error).exception)
         }
     }
-
-    override suspend fun getReviewWithRating(
-        productId: String,
-        lastVisible: DocumentSnapshot?
-    ): ReviewWithRatingResponse {
-        val reviewsResponse = withContext(dispatcher) {
-            productService.getReviews(productId, lastVisible)
-        }
-
-        return when (reviewsResponse) {
-            is Resource.Success -> {
-                val reviewWithRatings = mutableListOf<ReviewWithRating>()
-                reviewsResponse.data.reviews.forEach {
-                    val ratingsResponse = withContext(dispatcher) {
-                        productService.getRating(it.id)
-                    }
-                    when (ratingsResponse) {
-                        is Resource.Success -> reviewWithRatings.add(
-                            ReviewWithRating(
-                                it.toDomainModel(),
-                                ratingsResponse.data.toDomainModel()
-                            )
-                        )
-                        else -> {
-                        }
-                    }
-                }
-                ReviewWithRatingResponse(
-                    Resource.Success(reviewWithRatings),
-                    reviewsResponse.data.lastVisible
-                )
-            }
-            else -> ReviewWithRatingResponse(
-                Resource.Error(Exception("Error when collect review data")),
-                null
-            )
-        }
-    }
-
-    override suspend fun getRatings(productId: String): Resource<List<Rating>> {
-        val getRatingsResponse = withContext(dispatcher) {
-            productService.getRatings(productId)
-        }
-        return when (getRatingsResponse) {
-            is Resource.Success -> Resource.Success(getRatingsResponse.data.map { it.toDomainModel() })
-            else -> Resource.Error((getRatingsResponse as Resource.Error).exception)
-        }
-    }
-
-    fun collectReviewId(list: List<NetworkReview>) = list.map { it.id }
 }
 

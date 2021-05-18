@@ -38,4 +38,7 @@ class ServiceModule {
     @Singleton
     fun providePickupAddressService(retrofit: Retrofit): PickupAddressService =
         retrofit.create(PickupAddressService::class.java)
+
+    @Provides
+    fun provideReviewServiceService(): ReviewService = ReviewServiceImpl()
 }

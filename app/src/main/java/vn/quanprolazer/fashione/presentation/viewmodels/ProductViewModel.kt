@@ -13,10 +13,12 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
+import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
 
 
 class ProductViewModel @AssistedInject constructor(
     private val productRepository: ProductRepository,
+    private val reviewRepository: ReviewRepository,
     @Assisted val product: Product
 ) : ViewModel() {
 
@@ -83,7 +85,7 @@ class ProductViewModel @AssistedInject constructor(
     val rating: MutableLiveData<Resource<List<Rating>>> by lazy {
         val response = MutableLiveData<Resource<List<Rating>>>()
         viewModelScope.launch {
-            response.value = productRepository.getRatings(product.id)
+            response.value = reviewRepository.getRatings(product.id)
         }
 
 
@@ -95,9 +97,12 @@ class ProductViewModel @AssistedInject constructor(
         get() = Transformations.map(rating) { list ->
             when (list) {
                 is Resource.Success -> {
-                    val size = list.data.size
-                    val avg = list.data.sumBy { it.rate } / size
-                    Resource.Success(OverviewRating(avg.toFloat(), size))
+                    if (list.data.isEmpty()) Resource.Success(OverviewRating(0f, 0))
+                    else {
+                        val size = list.data.size
+                        val avg = list.data.sumBy { it.rate } / size
+                        Resource.Success(OverviewRating(avg.toFloat(), size))
+                    }
                 }
                 else -> {
                     Resource.Error(Exception("Exception when get review"))
@@ -108,11 +113,18 @@ class ProductViewModel @AssistedInject constructor(
     private var lastVisible: DocumentSnapshot? = null
 
     private val _reviewWithRatings: MutableLiveData<Resource<List<ReviewWithRating>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<ReviewWithRating>>>()
+        val liveData = MutableLiveData<Resource<List<ReviewWithRating>>>(Resource.Loading(null))
         viewModelScope.launch {
-            val response = productRepository.getReviewWithRating(product.id, lastVisible)
-            liveData.value = response.reviews
-            lastVisible = response.lastVisible
+            when (val response = reviewRepository.getReviewWithRating(product.id, lastVisible)) {
+                is Resource.Success -> {
+                    liveData.value = Resource.Success(response.data.reviews)
+                    lastVisible = response.data.lastVisible
+                }
+                is Resource.Error -> {
+                    liveData.value = Resource.Error(response.exception)
+                    lastVisible = null
+                }
+            }
         }
         return@lazy liveData
     }

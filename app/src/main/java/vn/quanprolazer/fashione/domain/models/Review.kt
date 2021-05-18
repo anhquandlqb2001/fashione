@@ -64,6 +64,6 @@ data class OverviewRating(
 )
 
 data class ReviewWithRatingResponse(
-    val reviews: Resource<List<ReviewWithRating>>,
-    val lastVisible: DocumentSnapshot?
+    val reviews: List<ReviewWithRating>,
+    val lastVisible: DocumentSnapshot? = null
 )

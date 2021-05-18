@@ -4,15 +4,8 @@
  * An android shopping app writing in Kotlin
  */
 
-/*
- * Author: quanprolazer
- * Project: Fashione
- * An android shopping app writing in Kotlin
- */
-
 package vn.quanprolazer.fashione.data.network.services.firestores
 
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Source
 import vn.quanprolazer.fashione.data.network.models.*
 import vn.quanprolazer.fashione.domain.models.Resource
@@ -38,17 +31,4 @@ interface ProductService {
     suspend fun getProductImageByVariantId(variantId: String): Resource<NetworkProductImage>
 
     suspend fun getProductByProductId(productId: String): Resource<NetworkProduct>
-
-    suspend fun addReview(review: NetworkReview): Resource<String>
-
-    suspend fun addRating(rating: NetworkRating): Resource<Boolean>
-
-    suspend fun getReviews(
-        productId: String,
-        lastVisible: DocumentSnapshot? = null
-    ): Resource<NetworkReviewResponse>
-
-    suspend fun getRating(reviewId: String): Resource<NetworkRating>
-
-    suspend fun getRatings(productId: String): Resource<List<NetworkRating>>
 }

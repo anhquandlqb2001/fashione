@@ -16,14 +16,14 @@ import vn.quanprolazer.fashione.domain.models.PurchaseToAddReview
 import vn.quanprolazer.fashione.domain.models.Rating
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.models.Review
-import vn.quanprolazer.fashione.domain.repositories.ProductRepository
+import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
 import vn.quanprolazer.fashione.presentation.utilities.LiveDataValidator
 import vn.quanprolazer.fashione.presentation.utilities.LiveDataValidatorResolver
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class WriteReviewViewModel @AssistedInject constructor(
-    private val productRepository: ProductRepository,
+    private val reviewRepository: ReviewRepository,
     @Assisted val purchaseToAddReview: PurchaseToAddReview
 ) : ViewModel() {
 
@@ -91,7 +91,7 @@ class WriteReviewViewModel @AssistedInject constructor(
             rate = rating.value!!.toInt()
         )
         viewModelScope.launch {
-            _addReviewStatus.value = productRepository.addReview(review, _rating)
+            _addReviewStatus.value = reviewRepository.addReview(review, _rating)
         }
     }
 

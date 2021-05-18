@@ -77,5 +77,5 @@ internal fun NetworkRating.toDomainModel() = Rating(
 
 data class NetworkReviewResponse(
     val reviews: List<NetworkReview>,
-    val lastVisible: DocumentSnapshot
+    val lastVisible: DocumentSnapshot? = null
 )

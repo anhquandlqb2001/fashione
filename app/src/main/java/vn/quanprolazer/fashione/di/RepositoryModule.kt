@@ -28,10 +28,9 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideProductRepository(
-        productService: ProductService,
-        orderRepository: OrderRepository
+        productService: ProductService
     ): ProductRepository =
-        ProductRepositoryImpl(productService, orderRepository)
+        ProductRepositoryImpl(productService)
 
     @Singleton
     @Provides
@@ -56,4 +55,11 @@ class RepositoryModule {
         purchaseService: PurchaseService,
         userRepository: UserRepository
     ): PurchaseRepository = PurchaseRepositoryImpl(purchaseService, userRepository)
+
+    @Singleton
+    @Provides
+    fun provideReviewRepository(
+        reviewService: ReviewService,
+        orderRepository: OrderRepository
+    ): ReviewRepository = ReviewRepositoryImpl(reviewService, orderRepository)
 }

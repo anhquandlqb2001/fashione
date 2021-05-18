@@ -98,16 +98,30 @@ class ProductFragment : Fragment() {
                     }
                     is Resource.Loading -> {
                     }
+                    is Resource.Error -> {
+                        Timber.e(it.exception)
+                    }
                 }
             }
         })
 
         viewModel.reviewWithRatings.observe(viewLifecycleOwner, {
-            Timber.i(it.toString())
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        reviewItemAdapter.submitList(it.data)
+                        if (it.data.isEmpty()) {
+                            binding.tvNoReview.visibility = View.VISIBLE
+                            binding.rvReview.visibility = View.GONE
+                        } else {
+                            binding.tvNoReview.visibility = View.GONE
+                            binding.rvReview.visibility = View.VISIBLE
+                            reviewItemAdapter.submitList(it.data)
+                        }
+                    }
+                    is Resource.Error -> {
+                        binding.tvNoReview.visibility = View.VISIBLE
+                        binding.rvReview.visibility = View.GONE
+                        Timber.e(it.exception)
                     }
                 }
             }
