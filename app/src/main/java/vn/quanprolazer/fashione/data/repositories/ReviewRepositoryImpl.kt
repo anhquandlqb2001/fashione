@@ -79,10 +79,10 @@ class ReviewRepositoryImpl @AssistedInject constructor(
 
     override suspend fun getReviews(
         productId: String,
-        lastVisible: DocumentSnapshot?
-    ): Resource<List<ReviewRetrofit>> {
+        lastVisibleId: String?
+    ): Resource<ReviewRetrofitResponse> {
         return try {
-            Resource.Success(reviewServiceRetrofit.getReviews(productId).map { it.toDomainModel() })
+            Resource.Success(reviewServiceRetrofit.getReviews(productId, lastVisibleId).toDomainModel())
         } catch (e: Exception) {
             Timber.e(e)
             Resource.Error(e)

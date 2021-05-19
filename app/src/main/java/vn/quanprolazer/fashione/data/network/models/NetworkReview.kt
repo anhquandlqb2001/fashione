@@ -14,6 +14,7 @@ import kotlinx.serialization.Serializable
 import vn.quanprolazer.fashione.domain.models.Rating
 import vn.quanprolazer.fashione.domain.models.Review
 import vn.quanprolazer.fashione.domain.models.ReviewRetrofit
+import vn.quanprolazer.fashione.domain.models.ReviewRetrofitResponse
 
 @Serializable
 data class NetworkReview(
@@ -75,7 +76,17 @@ internal fun NetworkRating.toDomainModel() = Rating(
     id, reviewId, productId, rate
 )
 
+
 @Serializable
+data class NetworkReviewRetrofitResponse(
+    val data: List<NetworkReviewRetrofit>,
+    val lastVisibleId: String
+)
+
+internal fun NetworkReviewRetrofitResponse.toDomainModel() = ReviewRetrofitResponse(data.map { it.toDomainModel() }, lastVisibleId)
+
+
+        @Serializable
 data class NetworkReviewRetrofit(
     val id: String,
     val username: String,

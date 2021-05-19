@@ -8,12 +8,14 @@ package vn.quanprolazer.fashione.data.network.services.retrofits
 
 import retrofit2.http.GET
 import retrofit2.http.Query
-import vn.quanprolazer.fashione.data.network.models.NetworkReviewRetrofit
+import vn.quanprolazer.fashione.data.network.models.NetworkReviewRetrofitResponse
 
 interface ReviewService {
     @GET("reviews")
     suspend fun getReviews(
         @Query("productId")
-        productId: String
-    ): List<NetworkReviewRetrofit>
+        productId: String,
+        @Query("lastVisibleId")
+        lastVisibleId: String?
+    ): NetworkReviewRetrofitResponse
 }

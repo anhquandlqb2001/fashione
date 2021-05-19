@@ -14,6 +14,6 @@ interface ReviewRepository {
 
     suspend fun getRatings(productId: String): Resource<List<Rating>>
 
-    suspend fun getReviews(productId: String, lastVisible: DocumentSnapshot? = null): Resource<List<ReviewRetrofit>>
+    suspend fun getReviews(productId: String, lastVisibleId: String? = null): Resource<ReviewRetrofitResponse>
 
 }

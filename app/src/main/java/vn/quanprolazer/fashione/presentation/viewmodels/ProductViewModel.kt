@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
 import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
+import kotlin.math.round
 
 
 class ProductViewModel @AssistedInject constructor(
@@ -90,6 +91,12 @@ class ProductViewModel @AssistedInject constructor(
         return@lazy response
     }
 
+    fun Double.round(decimals: Int): Double {
+        var multiplier = 1.0
+        repeat(decimals) { multiplier *= 10 }
+        return round(this * multiplier) / multiplier
+    }
+
     val overviewRating: LiveData<Resource<OverviewRating>>
         get() = Transformations.map(rating) { list ->
             when (list) {
@@ -98,7 +105,7 @@ class ProductViewModel @AssistedInject constructor(
                     else {
                         val size = list.data.size
                         val avg = (list.data.sumBy { it.rate }.toDouble() / size)
-                        Resource.Success(OverviewRating(avg.toFloat(), size))
+                        Resource.Success(OverviewRating(avg.round(2).toFloat(), size))
                     }
                 }
                 else -> {
@@ -107,19 +114,19 @@ class ProductViewModel @AssistedInject constructor(
             }
         }
 
-    private var lastVisible: DocumentSnapshot? = null
+    private var lastVisibleId: String? = null
 
     private val _reviewWithRatings: MutableLiveData<Resource<List<ReviewRetrofit>>> by lazy {
         val liveData = MutableLiveData<Resource<List<ReviewRetrofit>>>(Resource.Loading(null))
         viewModelScope.launch {
-            when (val response = reviewRepository.getReviews(product.id, lastVisible)) {
+            when (val response = reviewRepository.getReviews(product.id, lastVisibleId)) {
                 is Resource.Success -> {
-                    liveData.value = Resource.Success(response.data)
-//                    lastVisible = response.data[response.data.size - 1]
+                    liveData.value = Resource.Success(response.data.reviews)
+                    lastVisibleId = response.data.lastVisibleId
                 }
                 is Resource.Error -> {
                     liveData.value = Resource.Error(response.exception)
-                    lastVisible = null
+                    lastVisibleId = null
                 }
             }
         }

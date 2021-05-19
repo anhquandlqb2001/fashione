@@ -175,6 +175,7 @@
                                 android:id="@+id/tv_review_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textSize="14sp"
                                 android:text="ĐÁNH GIÁ SẢN PHẨM" />
 
                             <LinearLayout
@@ -193,11 +194,31 @@
                                     android:isIndicator="true" />
 
                                 <TextView
+                                    android:textSize="12sp"
                                     android:id="@+id/tv_count_rate"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     tools:text="4.8/5" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:textSize="12sp"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:text="Xem tất cả"/>
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/outline_keyboard_arrow_right_black_24dp" />
                             </LinearLayout>
 
 

@@ -88,3 +88,8 @@ data class ReviewRetrofit(
     val variantOptionId: String,
     val variantValue: String
 )
+
+data class ReviewRetrofitResponse(
+    val reviews: List<ReviewRetrofit>,
+    val lastVisibleId: String
+)
