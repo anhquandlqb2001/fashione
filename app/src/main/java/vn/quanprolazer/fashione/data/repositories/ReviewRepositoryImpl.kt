@@ -18,10 +18,12 @@ import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
+import vn.quanprolazer.fashione.domain.repositories.UserRepository
 
 class ReviewRepositoryImpl @AssistedInject constructor(
     private val reviewService: ReviewService,
     private val orderRepository: OrderRepository,
+    private val userRepository: UserRepository,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ReviewRepository {
     override suspend fun getReviewWithRating(
@@ -81,8 +83,12 @@ class ReviewRepositoryImpl @AssistedInject constructor(
     }
 
     override suspend fun addReview(review: Review, rating: Rating): Resource<Boolean> {
+
+        val user = userRepository.getUser().value
+            ?: return Resource.Error(Exception("Not login yet"))
+
         val addReviewResponse = withContext(dispatcher) {
-            reviewService.addReview(review = review.toNetworkModel())
+            reviewService.addReview(review = review.toNetworkModel().copy(userId = user.uid))
         }
         return when (addReviewResponse) {
             is Resource.Success -> {

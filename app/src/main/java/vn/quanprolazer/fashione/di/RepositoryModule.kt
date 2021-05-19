@@ -60,6 +60,7 @@ class RepositoryModule {
     @Provides
     fun provideReviewRepository(
         reviewService: ReviewService,
-        orderRepository: OrderRepository
-    ): ReviewRepository = ReviewRepositoryImpl(reviewService, orderRepository)
+        orderRepository: OrderRepository,
+        userRepository: UserRepository
+    ): ReviewRepository = ReviewRepositoryImpl(reviewService, orderRepository, userRepository)
 }
