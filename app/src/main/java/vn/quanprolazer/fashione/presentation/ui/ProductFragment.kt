@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -66,8 +67,19 @@ class ProductFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
+        binding.rvProductImage.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvProductImage.adapter = productImageAdapter
+        snapHelper.attachToRecyclerView(binding.rvProductImage)         // snap scroll image slider
+
+
         binding.rvReview.adapter = reviewItemAdapter
+        binding.rvReview.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.rvReview.isNestedScrollingEnabled = false
+        binding.rvReview.addItemDecoration(
+            DividerItemDecoration(
+                context, DividerItemDecoration.VERTICAL
+            )
+        )
 
         return binding.root
     }
@@ -75,15 +87,7 @@ class ProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         observeProductImages(productImageAdapter)
-
-        // snap scroll image slider
-        snapHelper.attachToRecyclerView(binding.rvProductImage)
-
-        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding.rvProductImage.layoutManager = layoutManager
-
         observeNavigateToBottomSheet()
         observeException()
         observeSuccess()

@@ -9,6 +9,8 @@ package vn.quanprolazer.fashione.domain.models
 import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.NetworkReview
 
@@ -66,4 +68,23 @@ data class OverviewRating(
 data class ReviewWithRatingResponse(
     val reviews: List<ReviewWithRating>,
     val lastVisible: DocumentSnapshot? = null
+)
+
+data class ReviewRetrofit(
+    val id: String,
+    val username: String,
+    val createdAt: String,
+    val orderItemId: String,
+    val photoUrl: String,
+    val productId: String,
+    val productName: String,
+    val quantity: Int,
+    val rate: Int,
+    val reviewContent: String,
+    val reviewTitle: String,
+    val userId: String,
+    val variantId: String,
+    val variantName: String,
+    val variantOptionId: String,
+    val variantValue: String
 )

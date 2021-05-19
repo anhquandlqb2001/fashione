@@ -13,6 +13,7 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import vn.quanprolazer.fashione.data.network.services.firestores.*
 import vn.quanprolazer.fashione.data.network.services.retrofits.PickupAddressService
+import javax.inject.Named
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -36,9 +37,15 @@ class ServiceModule {
 
     @Provides
     @Singleton
-    fun providePickupAddressService(retrofit: Retrofit): PickupAddressService =
+    fun providePickupAddressService(@Named("address") retrofit: Retrofit): PickupAddressService =
         retrofit.create(PickupAddressService::class.java)
 
     @Provides
-    fun provideReviewServiceService(): ReviewService = ReviewServiceImpl()
+    @Singleton
+    fun provideReviewServiceRetrofit(@Named("firestore") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService =
+        retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService::class.java)
+
+    @Provides
+    fun provideReviewServiceFirestore(): ReviewService = ReviewServiceImpl()
+
 }

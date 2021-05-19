@@ -12,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import vn.quanprolazer.fashione.data.network.services.firestores.*
 import vn.quanprolazer.fashione.data.network.services.retrofits.PickupAddressService
+import vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService
 import vn.quanprolazer.fashione.data.repositories.*
 import vn.quanprolazer.fashione.domain.repositories.*
 import javax.inject.Singleton
@@ -59,8 +60,9 @@ class RepositoryModule {
     @Singleton
     @Provides
     fun provideReviewRepository(
-        reviewService: ReviewService,
+        reviewServiceRetrofit: ReviewService,
+        reviewServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.ReviewService,
         orderRepository: OrderRepository,
-        userRepository: UserRepository
-    ): ReviewRepository = ReviewRepositoryImpl(reviewService, orderRepository, userRepository)
+        userRepository: UserRepository,
+    ): ReviewRepository = ReviewRepositoryImpl(reviewServiceRetrofit, reviewServiceFirestore, orderRepository, userRepository)
 }

@@ -12,13 +12,14 @@
 
         <variable
             name="review"
-            type="vn.quanprolazer.fashione.domain.models.ReviewWithRating" />
+            type="vn.quanprolazer.fashione.domain.models.ReviewRetrofit" />
     </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="16dp">
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="10dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_circular"
@@ -32,6 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
+                imageUrl="@{review.photoUrl}"
                 tools:src="@drawable/blank_cart" />
         </androidx.cardview.widget.CardView>
 
@@ -40,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@id/cv_circular"
-            android:text="@{review.review.username}"
+            android:text="@{review.username}"
             tools:text="Quan Phan" />
 
         <LinearLayout
@@ -58,10 +60,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:isIndicator="true"
-                android:rating="@{review.rating.rate}" />
+                android:rating="@{review.rate}" />
 
             <TextView
-                rate="@{review.rating.rate}"
+                rate="@{review.rate}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -73,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/cv_circular"
-            android:text="@{review.review.reviewTitle}"
+            android:text="@{review.reviewTitle}"
             android:textStyle="bold"
             tools:text="asdashda" />
 
@@ -82,13 +84,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_review_title"
-            android:text="@{review.review.reviewContent}"
+            android:text="@{review.reviewContent}"
             tools:text="ahdkjahsjkdhaksjdhakjshdajkshdkajshdkjashdkajshdkja" />
 
         <TextView
+            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_review_content"
+            android:textSize="12sp"
+            createdAt="@{review.createdAt}"
+            variantName="@{review.variantName}"
+            variantValue="@{review.variantValue}"
             tools:text="12/07/2021 17:40 | Vang - XXL" />
 
     </RelativeLayout>

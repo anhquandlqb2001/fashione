@@ -12,10 +12,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListItemReviewBinding
-import vn.quanprolazer.fashione.domain.models.ReviewWithRating
+import vn.quanprolazer.fashione.domain.models.ReviewRetrofit
 
 class ReviewItemAdapter :
-    ListAdapter<ReviewWithRating, ReviewItemAdapter.ViewHolder>(ReviewItemDiffCallback) {
+    ListAdapter<ReviewRetrofit, ReviewItemAdapter.ViewHolder>(ReviewItemDiffCallback) {
 
     class ViewHolder(val binding: ListItemReviewBinding) : RecyclerView.ViewHolder(binding.root) {
         companion object {
@@ -26,8 +26,8 @@ class ReviewItemAdapter :
             }
         }
 
-        fun bind(reviewWithRating: ReviewWithRating) {
-            binding.review = reviewWithRating
+        fun bind(review: ReviewRetrofit) {
+            binding.review = review
             binding.executePendingBindings()
         }
     }
@@ -40,17 +40,17 @@ class ReviewItemAdapter :
         holder.bind(getItem(position))
     }
 
-    object ReviewItemDiffCallback : DiffUtil.ItemCallback<ReviewWithRating>() {
+    object ReviewItemDiffCallback : DiffUtil.ItemCallback<ReviewRetrofit>() {
         override fun areItemsTheSame(
-            oldItem: ReviewWithRating,
-            newItem: ReviewWithRating
+            oldItem: ReviewRetrofit,
+            newItem: ReviewRetrofit
         ): Boolean {
-            return oldItem.review.id == newItem.review.id
+            return oldItem.id == newItem.id
         }
 
         override fun areContentsTheSame(
-            oldItem: ReviewWithRating,
-            newItem: ReviewWithRating
+            oldItem: ReviewRetrofit,
+            newItem: ReviewRetrofit
         ): Boolean {
             return oldItem == newItem
         }

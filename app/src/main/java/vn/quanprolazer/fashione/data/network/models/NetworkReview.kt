@@ -7,13 +7,13 @@
 package vn.quanprolazer.fashione.data.network.models
 
 import com.google.firebase.firestore.DocumentId
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import vn.quanprolazer.fashione.domain.models.Rating
 import vn.quanprolazer.fashione.domain.models.Review
+import vn.quanprolazer.fashione.domain.models.ReviewRetrofit
 
 @Serializable
 data class NetworkReview(
@@ -75,7 +75,53 @@ internal fun NetworkRating.toDomainModel() = Rating(
     id, reviewId, productId, rate
 )
 
-data class NetworkReviewResponse(
-    val reviews: List<NetworkReview>,
-    val lastVisible: DocumentSnapshot? = null
+@Serializable
+data class NetworkReviewRetrofit(
+    val id: String,
+    val username: String,
+    @SerialName("created_at")
+    val createdAt: String,
+    @SerialName("order_item_id")
+    val orderItemId: String,
+    @SerialName("photo_url")
+    val photoUrl: String,
+    @SerialName("product_id")
+    val productId: String,
+    @SerialName("product_name")
+    val productName: String,
+    val quantity: Int,
+    val rate: Int,
+    @SerialName("review_content")
+    val reviewContent: String,
+    @SerialName("review_title")
+    val reviewTitle: String,
+    @SerialName("user_id")
+    val userId: String,
+    @SerialName("variant_id")
+    val variantId: String,
+    @SerialName("variant_name")
+    val variantName: String,
+    @SerialName("variant_option_id")
+    val variantOptionId: String,
+    @SerialName("variant_value")
+    val variantValue: String
+)
+
+internal fun NetworkReviewRetrofit.toDomainModel() = ReviewRetrofit(
+    id,
+    username,
+    createdAt,
+    orderItemId,
+    photoUrl,
+    productId,
+    productName,
+    quantity,
+    rate,
+    reviewContent,
+    reviewTitle,
+    userId,
+    variantId,
+    variantName,
+    variantOptionId,
+    variantValue
 )

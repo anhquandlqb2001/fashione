@@ -6,8 +6,9 @@
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="vn.quanprolazer.fashione">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
+        android:usesCleartextTraffic="true"
         android:name=".FashioneApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

@@ -87,9 +87,6 @@ class ProductViewModel @AssistedInject constructor(
         viewModelScope.launch {
             response.value = reviewRepository.getRatings(product.id)
         }
-
-
-
         return@lazy response
     }
 
@@ -100,7 +97,7 @@ class ProductViewModel @AssistedInject constructor(
                     if (list.data.isEmpty()) Resource.Success(OverviewRating(0f, 0))
                     else {
                         val size = list.data.size
-                        val avg = list.data.sumBy { it.rate } / size
+                        val avg = (list.data.sumBy { it.rate }.toDouble() / size)
                         Resource.Success(OverviewRating(avg.toFloat(), size))
                     }
                 }
@@ -112,13 +109,13 @@ class ProductViewModel @AssistedInject constructor(
 
     private var lastVisible: DocumentSnapshot? = null
 
-    private val _reviewWithRatings: MutableLiveData<Resource<List<ReviewWithRating>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<ReviewWithRating>>>(Resource.Loading(null))
+    private val _reviewWithRatings: MutableLiveData<Resource<List<ReviewRetrofit>>> by lazy {
+        val liveData = MutableLiveData<Resource<List<ReviewRetrofit>>>(Resource.Loading(null))
         viewModelScope.launch {
-            when (val response = reviewRepository.getReviewWithRating(product.id, lastVisible)) {
+            when (val response = reviewRepository.getReviews(product.id, lastVisible)) {
                 is Resource.Success -> {
-                    liveData.value = Resource.Success(response.data.reviews)
-                    lastVisible = response.data.lastVisible
+                    liveData.value = Resource.Success(response.data)
+//                    lastVisible = response.data[response.data.size - 1]
                 }
                 is Resource.Error -> {
                     liveData.value = Resource.Error(response.exception)
@@ -129,7 +126,8 @@ class ProductViewModel @AssistedInject constructor(
         return@lazy liveData
     }
 
-    val reviewWithRatings: LiveData<Resource<List<ReviewWithRating>>> get() = _reviewWithRatings
+    val reviewWithRatings: LiveData<Resource<List<ReviewRetrofit>>> get() = _reviewWithRatings
+
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {

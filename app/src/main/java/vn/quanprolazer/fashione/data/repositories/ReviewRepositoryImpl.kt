@@ -14,64 +14,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
-import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
+import vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
 
 class ReviewRepositoryImpl @AssistedInject constructor(
-    private val reviewService: ReviewService,
+    private val reviewServiceRetrofit: ReviewService,
+    private val reviewServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.ReviewService,
     private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ReviewRepository {
-    override suspend fun getReviewWithRating(
-        productId: String,
-        lastVisible: DocumentSnapshot?
-    ): Resource<ReviewWithRatingResponse> {
-        val reviewsResponse = withContext(dispatcher) {
-            reviewService.getReviews(productId, lastVisible)
-        }
-
-        return when (reviewsResponse) {
-            is Resource.Success -> {
-                // if empty then return
-                if (reviewsResponse.data.reviews.isEmpty()) return Resource.Success(
-                    ReviewWithRatingResponse(listOf())
-                )
-
-                val reviewWithRatings = mutableListOf<ReviewWithRating>()
-                reviewsResponse.data.reviews.forEach {
-                    val ratingsResponse = withContext(dispatcher) {
-                        reviewService.getRating(it.id)
-                    }
-                    when (ratingsResponse) {
-                        is Resource.Success -> reviewWithRatings.add(
-                            ReviewWithRating(
-                                it.toDomainModel(),
-                                ratingsResponse.data.toDomainModel()
-                            )
-                        )
-                        else -> {
-                            Timber.e((ratingsResponse as Resource.Error).exception)
-                        }
-                    }
-                }
-                Resource.Success(
-                    ReviewWithRatingResponse(
-                        reviewWithRatings,
-                        reviewsResponse.data.lastVisible
-                    )
-                )
-            }
-            else -> Resource.Error(Exception("Error when collect review data"))
-        }
-    }
 
     override suspend fun getRatings(productId: String): Resource<List<Rating>> {
         val getRatingsResponse = withContext(dispatcher) {
-            reviewService.getRatings(productId)
+            reviewServiceFirestore.getRatings(productId)
         }
         return when (getRatingsResponse) {
             is Resource.Success -> {
@@ -88,14 +47,14 @@ class ReviewRepositoryImpl @AssistedInject constructor(
             ?: return Resource.Error(Exception("Not login yet"))
 
         val addReviewResponse = withContext(dispatcher) {
-            reviewService.addReview(review = review.toNetworkModel().copy(userId = user.uid))
+            reviewServiceFirestore.addReview(review = review.toNetworkModel().copy(userId = user.uid))
         }
         return when (addReviewResponse) {
             is Resource.Success -> {
                 // if success? add rating
                 val ratingWithId = rating.toNetworkModel().copy(reviewId = addReviewResponse.data)
                 val addReviewRatingResponse = withContext(dispatcher) {
-                    reviewService.addRating(rating = ratingWithId)
+                    reviewServiceFirestore.addRating(rating = ratingWithId)
                 }
 
                 return when (addReviewRatingResponse) {
@@ -115,6 +74,18 @@ class ReviewRepositoryImpl @AssistedInject constructor(
                 }
             }
             else -> Resource.Error(Exception("Error on adding product review"))
+        }
+    }
+
+    override suspend fun getReviews(
+        productId: String,
+        lastVisible: DocumentSnapshot?
+    ): Resource<List<ReviewRetrofit>> {
+        return try {
+            Resource.Success(reviewServiceRetrofit.getReviews(productId).map { it.toDomainModel() })
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
         }
     }
 }

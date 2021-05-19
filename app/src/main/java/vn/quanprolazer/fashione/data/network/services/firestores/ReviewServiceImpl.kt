@@ -6,13 +6,11 @@
 
 package vn.quanprolazer.fashione.data.network.services.firestores
 
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.NetworkReview
-import vn.quanprolazer.fashione.data.network.models.NetworkReviewResponse
 import vn.quanprolazer.fashione.data.network.toHashMap
 import vn.quanprolazer.fashione.domain.models.Resource
 
@@ -43,50 +41,6 @@ class ReviewServiceImpl : ReviewService {
                 .await()
 
             Resource.Success(true)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
-    }
-
-    override suspend fun getReviews(
-        productId: String,
-        lastVisible: DocumentSnapshot?
-    ): Resource<NetworkReviewResponse> {
-        val db = FirebaseFirestore.getInstance()
-        return try {
-            if (lastVisible == null) {
-                val documents = db.collection("reviews")
-                    .limit(PER_PAGE.toLong()).get().await().documents
-
-                if (documents.isEmpty()) return Resource.Success(NetworkReviewResponse(listOf()))
-
-                val _lastVisible = documents[documents.size - 1]
-
-                return Resource.Success(NetworkReviewResponse(documents.mapNotNull {
-                    it.toObject(
-                        NetworkReview::class.java
-                    )
-                }, _lastVisible))
-            }
-
-            // Construct a new query starting at this document,
-            // get the next 25 cities.
-            val next = db.collection("reviews")
-                .orderBy("createdAt")
-                .startAfter(lastVisible)
-                .limit(PER_PAGE.toLong()).get().await().documents
-
-            if (next.isEmpty()) return Resource.Success(NetworkReviewResponse(listOf()))
-
-            val _lastVisible = next[next.size - 1]
-
-            Resource.Success(
-                NetworkReviewResponse(
-                    next.mapNotNull { it.toObject(NetworkReview::class.java) },
-                    _lastVisible
-                )
-            )
         } catch (e: Exception) {
             Timber.e(e)
             Resource.Error(e)
