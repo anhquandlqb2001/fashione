@@ -9,8 +9,6 @@ package vn.quanprolazer.fashione.domain.models
 import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.parcelize.Parcelize
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.NetworkReview
 
@@ -91,5 +89,5 @@ data class ReviewRetrofit(
 
 data class ReviewRetrofitResponse(
     val reviews: List<ReviewRetrofit>,
-    val lastVisibleId: String
+    val lastVisibleId: String?
 )

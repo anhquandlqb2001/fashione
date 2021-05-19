@@ -7,14 +7,12 @@
 package vn.quanprolazer.fashione.presentation.viewmodels
 
 import androidx.lifecycle.*
-import com.google.firebase.firestore.DocumentSnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
 import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
-import kotlin.math.round
 
 
 class ProductViewModel @AssistedInject constructor(
@@ -83,58 +81,23 @@ class ProductViewModel @AssistedInject constructor(
         _navigateToBottomSheet.value = null
     }
 
-    val rating: MutableLiveData<Resource<List<Rating>>> by lazy {
-        val response = MutableLiveData<Resource<List<Rating>>>()
-        viewModelScope.launch {
-            response.value = reviewRepository.getRatings(product.id)
-        }
-        return@lazy response
+    //
+    private val _navigateToReview: MutableLiveData<String?> by lazy {
+        MutableLiveData<String?>()
     }
 
-    fun Double.round(decimals: Int): Double {
-        var multiplier = 1.0
-        repeat(decimals) { multiplier *= 10 }
-        return round(this * multiplier) / multiplier
+    val navigateToReview: LiveData<String?> by lazy {
+        _navigateToReview
     }
 
-    val overviewRating: LiveData<Resource<OverviewRating>>
-        get() = Transformations.map(rating) { list ->
-            when (list) {
-                is Resource.Success -> {
-                    if (list.data.isEmpty()) Resource.Success(OverviewRating(0f, 0))
-                    else {
-                        val size = list.data.size
-                        val avg = (list.data.sumBy { it.rate }.toDouble() / size)
-                        Resource.Success(OverviewRating(avg.round(2).toFloat(), size))
-                    }
-                }
-                else -> {
-                    Resource.Error(Exception("Exception when get review"))
-                }
-            }
-        }
 
-    private var lastVisibleId: String? = null
-
-    private val _reviewWithRatings: MutableLiveData<Resource<List<ReviewRetrofit>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<ReviewRetrofit>>>(Resource.Loading(null))
-        viewModelScope.launch {
-            when (val response = reviewRepository.getReviews(product.id, lastVisibleId)) {
-                is Resource.Success -> {
-                    liveData.value = Resource.Success(response.data.reviews)
-                    lastVisibleId = response.data.lastVisibleId
-                }
-                is Resource.Error -> {
-                    liveData.value = Resource.Error(response.exception)
-                    lastVisibleId = null
-                }
-            }
-        }
-        return@lazy liveData
+    fun onNavigateToReview(productId: String) {
+        _navigateToReview.value = productId
     }
 
-    val reviewWithRatings: LiveData<Resource<List<ReviewRetrofit>>> get() = _reviewWithRatings
-
+    fun doneNavigateToReview() {
+        _navigateToReview.value = null
+    }
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {

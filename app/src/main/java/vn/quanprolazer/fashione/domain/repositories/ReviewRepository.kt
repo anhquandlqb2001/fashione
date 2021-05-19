@@ -6,8 +6,10 @@
 
 package vn.quanprolazer.fashione.domain.repositories
 
-import com.google.firebase.firestore.DocumentSnapshot
-import vn.quanprolazer.fashione.domain.models.*
+import vn.quanprolazer.fashione.domain.models.Rating
+import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.models.Review
+import vn.quanprolazer.fashione.domain.models.ReviewRetrofitResponse
 
 interface ReviewRepository {
     suspend fun addReview(review: Review, rating: Rating): Resource<Boolean>

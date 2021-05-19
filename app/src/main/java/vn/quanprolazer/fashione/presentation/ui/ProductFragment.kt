@@ -27,23 +27,25 @@ import vn.quanprolazer.fashione.presentation.adapters.ProductImageAdapter
 import vn.quanprolazer.fashione.presentation.adapters.ReviewItemAdapter
 import vn.quanprolazer.fashione.presentation.viewmodels.ProductSharedViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.ProductViewModel
+import vn.quanprolazer.fashione.presentation.viewmodels.ReviewViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class ProductFragment : Fragment() {
 
     private var _binding: FragmentProductDetailBinding? = null
+    private val binding get() = _binding!!
 
     private val productImageAdapter: ProductImageAdapter by lazy {
         ProductImageAdapter()
     }
 
-
-    private val binding get() = _binding!!
+    private val reviewItemAdapter: ReviewItemAdapter by lazy {
+        ReviewItemAdapter()
+    }
 
     @Inject
     lateinit var productViewModelFactory: ProductViewModel.AssistedFactory
-
     private val viewModel: ProductViewModel by viewModels {
         ProductViewModel.provideFactory(
             productViewModelFactory,
@@ -51,11 +53,16 @@ class ProductFragment : Fragment() {
         )
     }
 
-    private val reviewItemAdapter: ReviewItemAdapter by lazy {
-        ReviewItemAdapter()
-    }
-
     private val sharedViewModel: ProductSharedViewModel by activityViewModels()
+
+    @Inject
+    lateinit var reviewViewModelFactory: ReviewViewModel.AssistedFactory
+    private val reviewViewModel: ReviewViewModel by viewModels {
+        ReviewViewModel.provideFactory(
+            reviewViewModelFactory,
+            ProductFragmentArgs.fromBundle(requireArguments()).product.id
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -67,13 +74,15 @@ class ProductFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
 
-        binding.rvProductImage.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvProductImage.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvProductImage.adapter = productImageAdapter
         snapHelper.attachToRecyclerView(binding.rvProductImage)         // snap scroll image slider
 
 
         binding.rvReview.adapter = reviewItemAdapter
-        binding.rvReview.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding.rvReview.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding.rvReview.isNestedScrollingEnabled = false
         binding.rvReview.addItemDecoration(
             DividerItemDecoration(
@@ -92,7 +101,7 @@ class ProductFragment : Fragment() {
         observeException()
         observeSuccess()
 
-        viewModel.overviewRating.observe(viewLifecycleOwner, {
+        reviewViewModel.overviewRating.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
@@ -109,7 +118,7 @@ class ProductFragment : Fragment() {
             }
         })
 
-        viewModel.reviewWithRatings.observe(viewLifecycleOwner, {
+        reviewViewModel.reviewWithRatings.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
@@ -131,6 +140,13 @@ class ProductFragment : Fragment() {
             }
         })
 
+        viewModel.navigateToReview.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController()
+                    .navigate(ProductFragmentDirections.actionProductFragmentToReviewFragment(it))
+                viewModel.doneNavigateToReview()
+            }
+        })
     }
 
     private fun observeSuccess() {

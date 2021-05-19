@@ -40,6 +40,11 @@ class ReviewItemAdapter :
         holder.bind(getItem(position))
     }
 
+    override fun submitList(list: MutableList<ReviewRetrofit>?) {
+        super.submitList(list)
+        notifyDataSetChanged()
+    }
+
     object ReviewItemDiffCallback : DiffUtil.ItemCallback<ReviewRetrofit>() {
         override fun areItemsTheSame(
             oldItem: ReviewRetrofit,

@@ -44,6 +44,9 @@
         <action
             android:id="@+id/action_productFragment_to_bottomSheetProductVariantFragment"
             app:destination="@id/bottomSheetProductVariantFragment" />
+        <action
+            android:id="@+id/action_productFragment_to_reviewFragment"
+            app:destination="@id/reviewFragment" />
 
     </fragment>
     <fragment
@@ -141,6 +144,14 @@
         <argument
             android:name="purchaseToAddReview"
             app:argType="vn.quanprolazer.fashione.domain.models.PurchaseToAddReview" />
+    </fragment>
+    <fragment
+        android:id="@+id/reviewFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.ReviewFragment"
+        android:label="ReviewFragment" >
+        <argument
+            android:name="productId"
+            app:argType="string" />
     </fragment>
 
 

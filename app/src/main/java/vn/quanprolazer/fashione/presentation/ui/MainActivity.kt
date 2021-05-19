@@ -191,6 +191,13 @@ class MainActivity : AppCompatActivity() {
                     binding.ivFilter.visibility = View.GONE
                     binding.ivNotification.visibility = View.GONE
                 }
+                R.id.reviewFragment -> {
+                    customActionBarTitleVisibility(View.VISIBLE)
+                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
+                    binding.tvToolbarTitle.text = "Đánh giá"
+                    binding.ivFilter.visibility = View.GONE
+                    binding.ivNotification.visibility = View.GONE
+                }
                 else -> {
                     customActionBarTitleVisibility(View.GONE)
                     binding.ivFilter.visibility = View.GONE

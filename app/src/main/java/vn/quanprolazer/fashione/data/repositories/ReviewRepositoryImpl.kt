@@ -6,7 +6,6 @@
 
 package vn.quanprolazer.fashione.data.repositories
 
-import com.google.firebase.firestore.DocumentSnapshot
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher

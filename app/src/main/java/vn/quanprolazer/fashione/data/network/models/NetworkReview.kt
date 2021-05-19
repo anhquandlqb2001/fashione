@@ -80,13 +80,14 @@ internal fun NetworkRating.toDomainModel() = Rating(
 @Serializable
 data class NetworkReviewRetrofitResponse(
     val data: List<NetworkReviewRetrofit>,
-    val lastVisibleId: String
+    val lastVisibleId: String?
 )
 
-internal fun NetworkReviewRetrofitResponse.toDomainModel() = ReviewRetrofitResponse(data.map { it.toDomainModel() }, lastVisibleId)
+internal fun NetworkReviewRetrofitResponse.toDomainModel() =
+    ReviewRetrofitResponse(data.map { it.toDomainModel() }, lastVisibleId)
 
 
-        @Serializable
+@Serializable
 data class NetworkReviewRetrofit(
     val id: String,
     val username: String,
