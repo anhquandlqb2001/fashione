@@ -70,38 +70,177 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:paddingVertical="16dp"
-                android:onClick="@{() -> viewModel.onNavigateToPurchaseMenu()}">
+                android:paddingVertical="16dp">
 
-                <ImageView
-                    android:id="@+id/tv_purchase"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/rl_history"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="4dp"
-                    android:src="@drawable/outline_assignment_black_24dp" />
+                    android:onClick="@{() -> viewModel.onNavigateToPurchaseMenu()}">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="4dp"
-                    android:layout_toEndOf="@id/tv_purchase"
-                    android:text="@string/text_purchase" />
+                    <ImageView
+                        android:id="@+id/tv_purchase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="4dp"
+                        android:src="@drawable/outline_assignment_black_24dp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toStartOf="@id/iv_purchase_arrow_right"
-                    android:text="@string/text_purchase_history" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="4dp"
+                        android:layout_toEndOf="@id/tv_purchase"
+                        android:text="@string/text_purchase" />
 
-                <ImageView
-                    android:id="@+id/iv_purchase_arrow_right"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toStartOf="@id/iv_purchase_arrow_right"
+                        android:textSize="12sp"
+                        android:text="@string/text_purchase_history" />
+
+                    <ImageView
+                        android:id="@+id/iv_purchase_arrow_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:src="@drawable/outline_keyboard_arrow_right_black_24dp" />
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_marginHorizontal="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@id/rl_history"
+                    android:layout_marginVertical="10dp"
+                    android:background="?android:attr/listDivider" />
+
+                <LinearLayout
+                    android:paddingVertical="10dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:src="@drawable/outline_keyboard_arrow_right_black_24dp" />
+                    android:layout_below="@id/divider3"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ru.nikartm.support.ImageBadgeView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/outline_fingerprint_black_48dp"
+                            app:ibv_badgeColor="#00ACC1"
+                            app:ibv_badgeLimitValue="false"
+                            app:ibv_badgeTextColor="#ffffff"
+                            app:ibv_badgeTextSize="12sp"
+                            app:ibv_badgeTextStyle="bold"
+                            app:ibv_badgeValue="10"
+                            app:ibv_fixedBadgeRadius="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Đang xác nhận"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ru.nikartm.support.ImageBadgeView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/round_hourglass_top_black_48dp"
+                            app:ibv_badgeColor="#00ACC1"
+                            app:ibv_badgeLimitValue="false"
+                            app:ibv_badgeTextColor="#ffffff"
+                            app:ibv_badgeTextSize="12sp"
+                            app:ibv_badgeTextStyle="bold"
+                            app:ibv_badgeValue="10"
+                            app:ibv_fixedBadgeRadius="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Chờ lấy hàng"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ru.nikartm.support.ImageBadgeView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/outline_local_shipping_black_48dp"
+                            app:ibv_badgeColor="#00ACC1"
+                            app:ibv_badgeLimitValue="false"
+                            app:ibv_badgeTextColor="#ffffff"
+                            app:ibv_badgeTextSize="12sp"
+                            app:ibv_badgeTextStyle="bold"
+                            app:ibv_badgeValue="10"
+                            app:ibv_fixedBadgeRadius="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Đang giao"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <ru.nikartm.support.ImageBadgeView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/outline_rate_review_black_48dp"
+                            app:ibv_badgeColor="#00ACC1"
+                            app:ibv_badgeLimitValue="false"
+                            app:ibv_badgeTextColor="#ffffff"
+                            app:ibv_badgeTextSize="12sp"
+                            app:ibv_badgeTextStyle="bold"
+                            app:ibv_badgeValue="10"
+                            app:ibv_fixedBadgeRadius="10dp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Đánh giá"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
             </RelativeLayout>
 
             <!-- Options -->

@@ -128,4 +128,9 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.okhttp3:logging-interceptor:4.5.0"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0"
+
+    // icon with badge
+    implementation 'com.github.nikartm:image-support:1.0.5'
+
+
 }
