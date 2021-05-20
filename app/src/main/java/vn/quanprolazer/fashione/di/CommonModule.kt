@@ -45,7 +45,7 @@ class CommonModule {
 
     @Singleton
     @Provides
-    @Named("firestore")
+    @Named("nodejs")
     fun provideFirestoreRetrofit(): Retrofit = Retrofit.Builder()
         .baseUrl(FIRESTORE_BASE_URL)
         .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))

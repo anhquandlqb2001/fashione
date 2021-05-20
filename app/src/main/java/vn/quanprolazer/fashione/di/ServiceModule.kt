@@ -42,8 +42,13 @@ class ServiceModule {
 
     @Provides
     @Singleton
-    fun provideReviewServiceRetrofit(@Named("firestore") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService =
+    fun provideReviewServiceRetrofit(@Named("nodejs") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService =
         retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideOrderServiceRetrofit(@Named("nodejs") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.OrderService =
+        retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.OrderService::class.java)
 
     @Provides
     fun provideReviewServiceFirestore(): ReviewService = ReviewServiceImpl()

@@ -10,16 +10,21 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
+import timber.log.Timber
+import vn.quanprolazer.fashione.data.network.models.NetworkDeliveryStatus
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.OrderService
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
 
+
 class OrderRepositoryImpl @AssistedInject constructor(
     private val orderService: OrderService,
     private val userRepository: UserRepository,
+    private val orderRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.OrderService,
     @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : OrderRepository {
     override suspend fun addToCart(addToCartItem: AddToCartItem): Resource<Boolean> {
@@ -119,5 +124,36 @@ class OrderRepositoryImpl @AssistedInject constructor(
             is Resource.Success -> Resource.Success(true)
             else -> Resource.Error(Exception("Error when update review status"))
         }
+    }
+
+    override suspend fun getDeliveryStatus(): Resource<List<DeliveryStatus>> {
+        val user = userRepository.getUser().value
+            ?: return Resource.Error(Exception("Not login yet"))
+
+        var token: String? = null
+        try {
+            token = user.getIdToken(true)
+                .await()
+                .token
+        } catch (e: Exception) {
+            Timber.e(e)
+        }
+
+        if (token != null) {
+            var deliveryStatusResponse: List<NetworkDeliveryStatus>? = null
+            try {
+                deliveryStatusResponse = withContext(defaultDispatcher) {
+                    orderRetrofitService.getDeliveryStatus(token)
+                }
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+            try {
+                return Resource.Success(deliveryStatusResponse!!.map { it.toDomainModel() })
+            } catch (e: Exception) {
+                Timber.e(e)
+            }
+        }
+        return Resource.Error(Exception("Token not found"))
     }
 }

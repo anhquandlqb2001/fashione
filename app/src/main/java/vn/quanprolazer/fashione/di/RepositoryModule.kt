@@ -42,8 +42,9 @@ class RepositoryModule {
     @Provides
     fun provideOrderRepository(
         orderService: OrderService,
-        userRepository: UserRepository
-    ): OrderRepository = OrderRepositoryImpl(orderService, userRepository)
+        userRepository: UserRepository,
+        orderRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.OrderService
+    ): OrderRepository = OrderRepositoryImpl(orderService, userRepository, orderRetrofitService)
 
     @Singleton
     @Provides

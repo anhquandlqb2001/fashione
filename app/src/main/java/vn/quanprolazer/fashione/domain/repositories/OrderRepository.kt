@@ -27,4 +27,6 @@ interface OrderRepository {
         orderItemId: String
     ): Resource<Boolean>
 
+    suspend fun getDeliveryStatus(): Resource<List<DeliveryStatus>>
+
 }

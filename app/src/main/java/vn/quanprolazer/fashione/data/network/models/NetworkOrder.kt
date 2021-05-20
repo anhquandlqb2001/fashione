@@ -8,6 +8,8 @@ package vn.quanprolazer.fashione.data.network.models
 
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.PropertyName
+import kotlinx.serialization.Serializable
+import vn.quanprolazer.fashione.domain.models.DeliveryStatus
 import vn.quanprolazer.fashione.domain.models.OrderStatus
 import vn.quanprolazer.fashione.domain.models.ReviewStatus
 
@@ -50,3 +52,12 @@ data class NetworkOrderItem(
     @set:PropertyName("order_id") @get:PropertyName("order_id") var orderId: String? = "",
     @set:PropertyName("review_status") @get:PropertyName("review_status") var reviewStatus: ReviewStatus = ReviewStatus.NO
 )
+
+
+@Serializable
+data class NetworkDeliveryStatus(
+    val status: OrderStatus,
+    val quantity: Int
+)
+
+internal fun NetworkDeliveryStatus.toDomainModel() = DeliveryStatus(status, quantity)
