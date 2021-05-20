@@ -19,6 +19,7 @@ import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentReviewBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.ReviewItemAdapter
+import vn.quanprolazer.fashione.presentation.utilities.ViewDialog
 import vn.quanprolazer.fashione.presentation.viewmodels.ReviewViewModel
 import javax.inject.Inject
 
@@ -41,6 +42,8 @@ class ReviewFragment : Fragment() {
             ReviewFragmentArgs.fromBundle(requireArguments()).productId
         )
     }
+
+    private val loadingDialog: ViewDialog by lazy { ViewDialog(requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,14 +77,17 @@ class ReviewFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        Timber.i(it.data.size.toString())
                         if (it.data.isEmpty()) {
                             binding.rvReview.visibility = View.GONE
                         } else {
+                            loadingDialog.hideDialog()
                             binding.rvReview.visibility = View.VISIBLE
                             reviewItemAdapter.submitList(it.data)
                             binding.cpiLoading.visibility = View.GONE
                         }
+                    }
+                    is Resource.Loading -> {
+                        loadingDialog.showDialog()
                     }
                     is Resource.Error -> {
                         binding.rvReview.visibility = View.GONE

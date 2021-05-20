@@ -10,6 +10,7 @@ import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
 
@@ -67,14 +68,18 @@ class ReviewViewModel @AssistedInject constructor(
 
     val reviewWithRatings: LiveData<Resource<MutableList<ReviewRetrofit>>> get() = _reviewWithRatings
 
+    private var onFetching: Boolean = false
+
     fun fetchMoreReview() {
-        if (lastVisibleId.isNullOrBlank()) return
+        if (lastVisibleId.isNullOrBlank() || onFetching) return
+        onFetching = true
         viewModelScope.launch {
             when (val response = reviewRepository.getReviews(productId, _lastVisibleId)) {
                 is Resource.Success -> {
                     (_reviewWithRatings.value as Resource.Success).data.addAll(response.data.reviews.toMutableList())
                     _reviewWithRatings.value = _reviewWithRatings.value
                     _lastVisibleId = response.data.lastVisibleId
+                    onFetching = false
                 }
                 is Resource.Error -> {
                     _lastVisibleId = null
