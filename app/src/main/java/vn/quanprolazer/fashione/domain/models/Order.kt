@@ -43,9 +43,20 @@ enum class OrderStatus(val status: String? = null) {
     @SerialName("CONFIRMING")
     CONFIRMING("Đang xác nhận"),
 
+    @SerialName("COLLECTING")
+    COLLECTING("Chờ lấy hàng"),
+
     @SerialName("DELIVERING")
     DELIVERING(("Đang vận chuyển")),
 
     @SerialName("DELIVERED")
-    DELIVERED("Hoàn thành")
+    DELIVERED(("Đã giao")),
+
+    @SerialName("COMPLETE")
+    COMPLETE("Hoàn thành")
 }
+
+data class DeliveryStatus(
+    val status: OrderStatus,
+    val quantity: Int
+)

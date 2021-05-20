@@ -13,9 +13,7 @@ import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
 import vn.quanprolazer.fashione.domain.repositories.PurchaseRepository
-import vn.quanprolazer.fashione.presentation.ui.CONFIRMING_POSITION
-import vn.quanprolazer.fashione.presentation.ui.DELIVERED_POSITION
-import vn.quanprolazer.fashione.presentation.ui.DELIVERING_POSITION
+import vn.quanprolazer.fashione.presentation.ui.*
 import vn.quanprolazer.fashione.presentation.utilities.mapInPlace
 import javax.inject.Inject
 
@@ -33,8 +31,10 @@ class PurchaseViewModel @Inject constructor(
     fun updatePurchaseItems(position: Number) {
         when (position) {
             CONFIRMING_POSITION -> updatePurchaseItems(OrderStatus.CONFIRMING)
+            COLLECTING_POSITION -> updatePurchaseItems(OrderStatus.COLLECTING)
             DELIVERING_POSITION -> updatePurchaseItems(OrderStatus.DELIVERING)
             DELIVERED_POSITION -> updatePurchaseItems(OrderStatus.DELIVERED)
+            COMPLETE_POSITION -> updatePurchaseItems(OrderStatus.COMPLETE)
         }
     }
 

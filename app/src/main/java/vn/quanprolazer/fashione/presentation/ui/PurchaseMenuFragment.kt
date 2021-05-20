@@ -17,12 +17,15 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentPurchaseMenuBinding
+import vn.quanprolazer.fashione.domain.models.OrderStatus
 import vn.quanprolazer.fashione.presentation.adapters.PurchaseFragmentAdapter
 import vn.quanprolazer.fashione.presentation.viewmodels.PurchaseViewModel
 
 const val CONFIRMING_POSITION = 0
-const val DELIVERING_POSITION = 1
-const val DELIVERED_POSITION = 2
+const val COLLECTING_POSITION = 1
+const val DELIVERING_POSITION = 2
+const val DELIVERED_POSITION = 3
+const val COMPLETE_POSITION = 4
 
 @AndroidEntryPoint
 class PurchaseMenuFragment : Fragment() {
@@ -59,13 +62,19 @@ class PurchaseMenuFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 CONFIRMING_POSITION -> {
-                    tab.text = "Chờ xác nhận"
+                    tab.text = OrderStatus.CONFIRMING.status
+                }
+                COLLECTING_POSITION -> {
+                    tab.text = OrderStatus.COLLECTING.status
                 }
                 DELIVERING_POSITION -> {
-                    tab.text = "Đang giao"
+                    tab.text = OrderStatus.DELIVERING.status
                 }
                 DELIVERED_POSITION -> {
-                    tab.text = "Hoàn thành"
+                    tab.text = OrderStatus.DELIVERED.status
+                }
+                COMPLETE_POSITION -> {
+                    tab.text = OrderStatus.COMPLETE.status
                 }
             }
         }.attach()
@@ -73,15 +82,21 @@ class PurchaseMenuFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {
                     when (tab.position) {
-                        CONFIRMING_POSITION -> purchaseViewModel.updatePurchaseItems(
-                            CONFIRMING_POSITION
-                        )
-                        DELIVERING_POSITION -> purchaseViewModel.updatePurchaseItems(
-                            DELIVERING_POSITION
-                        )
-                        DELIVERED_POSITION -> purchaseViewModel.updatePurchaseItems(
-                            DELIVERED_POSITION
-                        )
+                        CONFIRMING_POSITION -> {
+                            purchaseViewModel.updatePurchaseItems(CONFIRMING_POSITION)
+                        }
+                        COLLECTING_POSITION -> {
+                            purchaseViewModel.updatePurchaseItems(COLLECTING_POSITION)
+                        }
+                        DELIVERING_POSITION -> {
+                            purchaseViewModel.updatePurchaseItems(DELIVERING_POSITION)
+                        }
+                        DELIVERED_POSITION -> {
+                            purchaseViewModel.updatePurchaseItems(DELIVERED_POSITION)
+                        }
+                        COMPLETE_POSITION -> {
+                            purchaseViewModel.updatePurchaseItems(COMPLETE_POSITION)
+                        }
                         else -> {
                             purchaseViewModel.updatePurchaseItems(CONFIRMING_POSITION)
                         }
