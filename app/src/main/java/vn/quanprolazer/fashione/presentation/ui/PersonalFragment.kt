@@ -53,6 +53,14 @@ class PersonalFragment : Fragment() {
             }
         })
 
+        viewModel.navigateToPurchaseMenuByDeliveryUI.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController()
+                    .navigate(PersonalFragmentDirections.actionPersonalFragmentToPurchaseMenuFragment(it))
+                viewModel.doneNavigateToPurchaseMenuByDeliveryUI()
+            }
+        })
+
         viewModel.deliveryStatus.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {

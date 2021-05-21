@@ -136,6 +136,10 @@
         <action
             android:id="@+id/action_purchaseMenuFragment_to_writeReviewFragment"
             app:destination="@id/writeReviewFragment" />
+        <argument
+            android:name="selectedTab"
+            app:argType="integer"
+            android:defaultValue="0"/>
     </fragment>
     <fragment
         android:id="@+id/writeReviewFragment"

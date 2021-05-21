@@ -16,10 +16,12 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentPurchaseMenuBinding
 import vn.quanprolazer.fashione.domain.models.OrderStatus
 import vn.quanprolazer.fashione.presentation.adapters.PurchaseFragmentAdapter
 import vn.quanprolazer.fashione.presentation.viewmodels.PurchaseViewModel
+
 
 const val CONFIRMING_POSITION = 0
 const val COLLECTING_POSITION = 1
@@ -34,8 +36,11 @@ class PurchaseMenuFragment : Fragment() {
 
     private val binding: FragmentPurchaseMenuBinding get() = _binding!!
 
-
     private val purchaseViewModel: PurchaseViewModel by activityViewModels()
+
+    private val purchaseArgs: PurchaseMenuFragmentArgs by lazy {
+        PurchaseMenuFragmentArgs.fromBundle(requireArguments())
+    }
 
     private lateinit var viewPager: ViewPager2
 
@@ -51,33 +56,21 @@ class PurchaseMenuFragment : Fragment() {
         viewPager = binding.vp2PurchaseMenu
         viewPager.adapter = PurchaseFragmentAdapter(this)
 
+        val selectedPage = purchaseArgs.selectedTab
+        viewPager.setCurrentItem(selectedPage, true);
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val tabLayout = binding.tablayoutPurchaseMenu
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            when (position) {
-                CONFIRMING_POSITION -> {
-                    tab.text = OrderStatus.CONFIRMING.status
-                }
-                COLLECTING_POSITION -> {
-                    tab.text = OrderStatus.COLLECTING.status
-                }
-                DELIVERING_POSITION -> {
-                    tab.text = OrderStatus.DELIVERING.status
-                }
-                DELIVERED_POSITION -> {
-                    tab.text = OrderStatus.DELIVERED.status
-                }
-                COMPLETE_POSITION -> {
-                    tab.text = OrderStatus.COMPLETE.status
-                }
-            }
-        }.attach()
+
+        setupTabTitle(tabLayout)
+
+        purchaseViewModel.updatePurchaseItems(purchaseArgs.selectedTab)
+
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (tab != null) {
@@ -108,6 +101,28 @@ class PurchaseMenuFragment : Fragment() {
 
             override fun onTabReselected(tab: TabLayout.Tab?) {}
         })
+    }
+
+    private fun setupTabTitle(tabLayout: TabLayout) {
+        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+            when (position) {
+                CONFIRMING_POSITION -> {
+                    tab.text = OrderStatus.CONFIRMING.status
+                }
+                COLLECTING_POSITION -> {
+                    tab.text = OrderStatus.COLLECTING.status
+                }
+                DELIVERING_POSITION -> {
+                    tab.text = OrderStatus.DELIVERING.status
+                }
+                DELIVERED_POSITION -> {
+                    tab.text = OrderStatus.DELIVERED.status
+                }
+                COMPLETE_POSITION -> {
+                    tab.text = OrderStatus.COMPLETE.status
+                }
+            }
+        }.attach()
     }
 
     override fun onDestroy() {

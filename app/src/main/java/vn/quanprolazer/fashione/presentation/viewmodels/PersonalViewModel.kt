@@ -41,6 +41,17 @@ class PersonalViewModel @Inject constructor(
         _navigateToPurchaseMenu.value = null
     }
 
+    private val _navigateToPurchaseMenuByDeliveryUI: MutableLiveData<Int> by lazy { MutableLiveData() }
+    val navigateToPurchaseMenuByDeliveryUI: LiveData<Int> get() = _navigateToPurchaseMenuByDeliveryUI
+
+    fun onNavigateToPurchaseMenuByDeliveryUI(selectedTab: Int) {
+        _navigateToPurchaseMenuByDeliveryUI.value = selectedTab
+    }
+
+    fun doneNavigateToPurchaseMenuByDeliveryUI() {
+        _navigateToPurchaseMenuByDeliveryUI.value = null
+    }
+
     private val _deliveryStatus: MutableLiveData<Resource<List<DeliveryStatus>>> by lazy {
         val liveData = MutableLiveData<Resource<List<DeliveryStatus>>>(Resource.Loading(null))
         viewModelScope.launch {

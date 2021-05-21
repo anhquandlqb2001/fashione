@@ -9,6 +9,7 @@ package vn.quanprolazer.fashione.presentation.viewmodels
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
@@ -50,6 +51,7 @@ class PurchaseViewModel @Inject constructor(
 
     private fun updatePurchaseItems(status: OrderStatus) {
         _purchaseItems.value = Resource.Loading(null)
+        Timber.i(status.toString())
         viewModelScope.launch {
             _purchaseItems.value = purchaseRepository.getPurchaseItems(status)
         }
