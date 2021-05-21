@@ -9,17 +9,18 @@ package vn.quanprolazer.fashione.data.repositories
 import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.UserService
-import vn.quanprolazer.fashione.domain.models.AuthenticationState
-import vn.quanprolazer.fashione.domain.models.NewPickupAddress
-import vn.quanprolazer.fashione.domain.models.PickupAddress
-import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.FirebaseUserLiveData
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(private val userService: UserService) :
+class UserRepositoryImpl @Inject constructor(
+    private val userService: UserService,
+    private val userRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.UserService
+) :
     UserRepository {
     override fun getAuthenticateState() = FirebaseUserLiveData.map { user ->
         if (user != null) {
@@ -69,5 +70,19 @@ class UserRepositoryImpl @Inject constructor(private val userService: UserServic
             }
             is Resource.Error -> Resource.Error(data.exception)
         }
+    }
+
+    override suspend fun saveDeviceToken(token: String): Resource<Boolean> {
+        val user = getUser().value ?: return Resource.Error(Exception())
+        try {
+            withContext(Dispatchers.IO) {
+                userRetrofitService.saveDeviceToken(DeviceToken(user.uid, token))
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+            return Resource.Error(Exception("Error save token"))
+        }
+        return Resource.Success(true)
+
     }
 }

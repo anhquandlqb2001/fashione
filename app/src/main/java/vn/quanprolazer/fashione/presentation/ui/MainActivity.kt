@@ -13,10 +13,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.navigateUp
@@ -30,6 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.ActivityMainBinding
 import vn.quanprolazer.fashione.domain.models.AuthenticationState
+import vn.quanprolazer.fashione.firebase.FashioneFirebaseMessagingService
 import vn.quanprolazer.fashione.presentation.viewmodels.LoginViewModel
 
 
@@ -40,9 +41,7 @@ class MainActivity : AppCompatActivity() {
 
     private val binding get() = _binding!!
 
-    private val loginViewModel: LoginViewModel by lazy {
-        ViewModelProvider(this).get(LoginViewModel::class.java)
-    }
+    private val loginViewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +76,14 @@ class MainActivity : AppCompatActivity() {
                         logoutSuccess()
                         true
                     }
+
+                    // save FCM token to firestore
+                    FashioneFirebaseMessagingService().getToken(applicationContext)?.let {
+                        loginViewModel.updateFCMToken(
+                            it
+                        )
+                    }
+
                     menuItem.title = getString(R.string.sign_out_text)
                 }
                 else -> {
@@ -237,6 +244,7 @@ class MainActivity : AppCompatActivity() {
 
             if (result.resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
+
                 successLogin()
             } else {
                 if (response != null) {

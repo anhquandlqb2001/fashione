@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentPersonalBinding
 import vn.quanprolazer.fashione.domain.models.OrderStatus
 import vn.quanprolazer.fashione.domain.models.Resource

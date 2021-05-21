@@ -65,4 +65,6 @@
     <string name="text_purchase">Đơn mua</string>
     <string name="text_purchase_history">Xem lịch sử mua hàng</string>
     <string name="text_re_order">Mua lại</string>
+    <string name="app_notification_channel_id">app_channel</string>
+    <string name="notification_title">Fashione</string>
 </resources>

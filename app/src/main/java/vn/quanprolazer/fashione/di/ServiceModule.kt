@@ -51,6 +51,11 @@ class ServiceModule {
         retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.OrderService::class.java)
 
     @Provides
+    @Singleton
+    fun provideUserServiceRetrofit(@Named("nodejs") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.UserService =
+        retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.UserService::class.java)
+
+    @Provides
     fun provideReviewServiceFirestore(): ReviewService = ReviewServiceImpl()
 
 }

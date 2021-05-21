@@ -46,7 +46,9 @@ class ReviewRepositoryImpl @AssistedInject constructor(
             ?: return Resource.Error(Exception("Not login yet"))
 
         val addReviewResponse = withContext(dispatcher) {
-            reviewServiceFirestore.addReview(review = review.toNetworkModel().copy(userId = user.uid))
+            reviewServiceFirestore.addReview(
+                review = review.toNetworkModel().copy(userId = user.uid)
+            )
         }
         return when (addReviewResponse) {
             is Resource.Success -> {
@@ -81,7 +83,9 @@ class ReviewRepositoryImpl @AssistedInject constructor(
         lastVisibleId: String?
     ): Resource<ReviewRetrofitResponse> {
         return try {
-            Resource.Success(reviewServiceRetrofit.getReviews(productId, lastVisibleId).toDomainModel())
+            Resource.Success(
+                reviewServiceRetrofit.getReviews(productId, lastVisibleId).toDomainModel()
+            )
         } catch (e: Exception) {
             Timber.e(e)
             Resource.Error(e)

@@ -4,12 +4,6 @@
  * An android shopping app writing in Kotlin
  */
 
-/*
- * Author: quanprolazer
- * Project: Fashione
- * An android shopping app writing in Kotlin
- */
-
 package vn.quanprolazer.fashione.data.network.services.firestores
 
 import vn.quanprolazer.fashione.data.network.models.NetworkPickupAddress
@@ -23,4 +17,5 @@ interface UserService {
     suspend fun getPickupAddresses(userId: String): Resource<List<NetworkPickupAddress>>
 
     suspend fun getDefaultPickupAddress(userId: String): Resource<NetworkPickupAddress>
+
 }

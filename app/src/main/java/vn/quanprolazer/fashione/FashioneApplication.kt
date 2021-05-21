@@ -13,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
+
 @HiltAndroidApp
 class FashioneApplication : Application() {
 
@@ -28,4 +29,6 @@ class FashioneApplication : Application() {
         super.onCreate()
         delayedInit()
     }
+
+
 }

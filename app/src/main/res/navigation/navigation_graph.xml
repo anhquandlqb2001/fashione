@@ -148,7 +148,7 @@
     <fragment
         android:id="@+id/reviewFragment"
         android:name="vn.quanprolazer.fashione.presentation.ui.ReviewFragment"
-        android:label="ReviewFragment" >
+        android:label="ReviewFragment">
         <argument
             android:name="productId"
             app:argType="string" />
