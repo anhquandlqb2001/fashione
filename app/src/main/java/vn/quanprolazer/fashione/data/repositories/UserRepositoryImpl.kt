@@ -8,6 +8,7 @@ package vn.quanprolazer.fashione.data.repositories
 
 import androidx.lifecycle.map
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
@@ -83,6 +84,21 @@ class UserRepositoryImpl @Inject constructor(
             return Resource.Error(Exception("Error save token"))
         }
         return Resource.Success(true)
+    }
 
+    override suspend fun getToken(): String? {
+        val user = getUser().value
+            ?: return null
+
+        val token: String?
+        try {
+            token = user.getIdToken(true)
+                .await()
+                .token
+        } catch (e: Exception) {
+            Timber.e(e)
+            return null
+        }
+        return token
     }
 }

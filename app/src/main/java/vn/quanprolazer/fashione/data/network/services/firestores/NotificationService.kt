@@ -6,8 +6,8 @@
 
 package vn.quanprolazer.fashione.data.network.services.firestores
 
-import vn.quanprolazer.fashione.data.network.models.NetworkNotificationTypeFirestore
+import vn.quanprolazer.fashione.data.network.models.NetworkNotificationType
 
 interface NotificationService {
-    suspend fun getNotificationTypes(): List<NetworkNotificationTypeFirestore>
+    suspend fun getNotificationTypes(): List<NetworkNotificationType>
 }

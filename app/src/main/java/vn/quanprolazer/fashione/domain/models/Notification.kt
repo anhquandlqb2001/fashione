@@ -26,3 +26,8 @@ data class NotificationType(
     val name: NotificationTypeEnum,
     val description: String
 )
+
+data class NotificationOverview(
+    val type: NotificationType,
+    val quantity: Int
+)

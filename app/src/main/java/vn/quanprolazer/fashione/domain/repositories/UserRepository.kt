@@ -19,6 +19,8 @@ interface UserRepository {
 
     fun getUser(): FirebaseUserLiveData
 
+    suspend fun getToken(): String?
+
     suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<Boolean>
 
     suspend fun getPickupAddresses(): Resource<List<PickupAddress>>

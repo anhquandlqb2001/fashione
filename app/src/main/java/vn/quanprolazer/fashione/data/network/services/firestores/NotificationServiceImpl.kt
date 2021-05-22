@@ -8,12 +8,12 @@ package vn.quanprolazer.fashione.data.network.services.firestores
 
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
-import vn.quanprolazer.fashione.data.network.models.NetworkNotificationTypeFirestore
+import vn.quanprolazer.fashione.data.network.models.NetworkNotificationType
 
 class NotificationServiceImpl : NotificationService {
-    override suspend fun getNotificationTypes(): List<NetworkNotificationTypeFirestore> {
+    override suspend fun getNotificationTypes(): List<NetworkNotificationType> {
         val db = FirebaseFirestore.getInstance()
         return db.collection("notification_types").get()
-            .await().documents.mapNotNull { it.toObject(NetworkNotificationTypeFirestore::class.java) }
+            .await().documents.mapNotNull { it.toObject(NetworkNotificationType::class.java) }
     }
 }

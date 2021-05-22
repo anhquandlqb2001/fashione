@@ -60,4 +60,9 @@ class ServiceModule {
 
     @Provides
     fun provideNotificationServiceFirestore(): NotificationService = NotificationServiceImpl()
+
+    @Provides
+    @Singleton
+    fun provideNotificationServiceRetrofit(@Named("nodejs") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService =
+        retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService::class.java)
 }
