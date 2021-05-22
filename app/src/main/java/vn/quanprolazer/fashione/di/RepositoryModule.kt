@@ -74,4 +74,12 @@ class RepositoryModule {
         orderRepository,
         userRepository
     )
+
+    @Singleton
+    @Provides
+    fun provideNotificationRepository(
+        notificationServiceFirestore: NotificationService,
+    ): NotificationRepository = NotificationRepositoryImpl(
+        notificationServiceFirestore
+    )
 }

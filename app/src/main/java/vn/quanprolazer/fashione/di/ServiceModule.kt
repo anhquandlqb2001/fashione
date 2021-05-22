@@ -58,4 +58,6 @@ class ServiceModule {
     @Provides
     fun provideReviewServiceFirestore(): ReviewService = ReviewServiceImpl()
 
+    @Provides
+    fun provideNotificationServiceFirestore(): NotificationService = NotificationServiceImpl()
 }
