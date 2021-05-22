@@ -32,6 +32,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
     </fragment>
     <fragment
         android:id="@+id/productFragment"
@@ -157,6 +160,10 @@
             android:name="productId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.NotificationFragment"
+        android:label="NotificationFragment" />
 
 
 </navigation>

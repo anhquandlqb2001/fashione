@@ -9,6 +9,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="viewModel"
+            type="vn.quanprolazer.fashione.presentation.viewmodels.MainViewModel" />
 
         <variable
             name="pageName"
@@ -48,6 +51,7 @@
                     android:layout_height="match_parent">
 
                     <ImageView
+                        android:onClick="@{() -> viewModel.onClickNavigateToNotification()}"
                         android:id="@+id/iv_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
