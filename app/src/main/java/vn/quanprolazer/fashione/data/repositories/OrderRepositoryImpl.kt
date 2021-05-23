@@ -26,62 +26,6 @@ class OrderRepositoryImpl @AssistedInject constructor(
     private val orderRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.OrderService,
     @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) : OrderRepository {
-    override suspend fun addToCart(addToCartItem: AddToCartItem): Resource<Boolean> {
-        val result = withContext(defaultDispatcher) {
-            orderService.addToCart(addToCartItem, userRepository.getUser().value!!.uid)
-        }
-
-        return when (result) {
-            is Resource.Success -> Resource.Success(true)
-            is Resource.Error -> Resource.Error(result.exception)
-            else -> Resource.Loading(null)
-
-        }
-    }
-
-    override suspend fun getCartItems(): Resource<MutableList<CartItem>> {
-        val result = withContext(defaultDispatcher) {
-            orderService.getCartItems(userRepository.getUser().value!!.uid)
-        }
-
-        return when (result) {
-            is Resource.Success -> Resource.Success(
-                result.data.map { it.toDomainModel() }.toMutableList()
-            )
-            is Resource.Error -> Resource.Error(result.exception)
-            else -> Resource.Loading(null)
-        }
-    }
-
-
-    override suspend fun updateCartItem(cartItemId: String, quantity: Int): Resource<Boolean> {
-        val result = withContext(defaultDispatcher) {
-            orderService.updateCartItem(cartItemId, quantity)
-        }
-        return when (result) {
-            is Resource.Success -> Resource.Success(result.data)
-            is Resource.Error -> Resource.Error(result.exception)
-            else -> Resource.Loading(null)
-        }
-    }
-
-    override suspend fun removeCartItem(cartItemId: String): Resource<Boolean> {
-        val result = withContext(defaultDispatcher) {
-            orderService.removeCartItem(cartItemId)
-        }
-
-        return fromResult(result)
-    }
-
-    override suspend fun undoDeleteCartItem(cartItem: CartItem): Resource<Boolean> {
-        val result = withContext(defaultDispatcher) {
-            orderService.addToCart(
-                cartItem.toNetworkModel(), userRepository.getUser().value!!.uid, cartItem.id
-            )
-        }
-
-        return fromResult(result)
-    }
 
     override suspend fun createOrder(order: Order, orderItems: List<OrderItem>): Resource<Boolean> {
         val createOrderResult = withContext(defaultDispatcher) {

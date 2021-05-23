@@ -14,6 +14,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.CartItem
 import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.repositories.CartRepository
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
 import vn.quanprolazer.fashione.presentation.utilities.mapInPlace
@@ -22,14 +23,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val orderRepository: OrderRepository,
+    private val cartRepository: CartRepository,
     private val productRepository: ProductRepository
 ) : ViewModel() {
 
     private val _cartItems: MutableLiveData<Resource<MutableList<CartItem>>> by lazy {
         val liveData = MutableLiveData<Resource<MutableList<CartItem>>>(Resource.Loading(null))
         viewModelScope.launch {
-            liveData.value = orderRepository.getCartItems()
+            liveData.value = cartRepository.getCartItems()
         }
         return@lazy liveData
     }
@@ -88,7 +89,7 @@ class CartViewModel @Inject constructor(
 
     fun onQuantityControlClick(cartItem: CartItem, value: Int) {
         viewModelScope.launch {
-            orderRepository.updateCartItem(cartItem.id, value)
+            cartRepository.updateCartItem(cartItem.id, value)
         }
         cartItem.quantity = value
         refreshList()
@@ -96,13 +97,13 @@ class CartViewModel @Inject constructor(
 
     fun removeCartItem(cartItemId: String) {
         viewModelScope.launch {
-            orderRepository.removeCartItem(cartItemId)
+            cartRepository.removeCartItem(cartItemId)
         }
     }
 
     fun undoDeleteCartItem(cartItem: CartItem) {
         viewModelScope.launch {
-            orderRepository.undoDeleteCartItem(cartItem)
+            cartRepository.undoDeleteCartItem(cartItem)
         }
         refreshList()
     }

@@ -11,17 +11,14 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.*
-import vn.quanprolazer.fashione.domain.repositories.FirebaseUserLiveData
-import vn.quanprolazer.fashione.domain.repositories.OrderRepository
-import vn.quanprolazer.fashione.domain.repositories.ProductRepository
-import vn.quanprolazer.fashione.domain.repositories.UserRepository
+import vn.quanprolazer.fashione.domain.repositories.*
 import vn.quanprolazer.fashione.presentation.utilities.mapInPlace
 
 class BottomSheetProductVariantViewModel @AssistedInject constructor(
     @Assisted private val product: Product,
     private val productRepository: ProductRepository,
     private val userRepository: UserRepository,
-    private val orderRepository: OrderRepository
+    private val cartRepository: CartRepository
 
 ) : ViewModel() {
 
@@ -191,7 +188,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(
     fun onClickAddToCart() {
         updateCartItemPrice()
         viewModelScope.launch {
-            when (orderRepository.addToCart(_addToCartItem.value!!)) {
+            when (cartRepository.addToCart(_addToCartItem.value!!)) {
                 is Resource.Success -> _successMessage.value = "Thêm sản phẩm thành công"
                 is Resource.Error -> _exceptionMessage.value = "Thêm sản phẩm thất bại"
             }

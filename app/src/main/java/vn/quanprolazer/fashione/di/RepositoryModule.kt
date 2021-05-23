@@ -84,4 +84,14 @@ class RepositoryModule {
     ): NotificationRepository = NotificationRepositoryImpl(
         notificationServiceRetrofit, userRepository
     )
+
+    @Singleton
+    @Provides
+    fun provideCartRepository(
+        userRepository: UserRepository,
+        orderService: OrderService,
+    ): CartRepository = CartRepositoryImpl(
+        userRepository, orderService
+    )
+
 }

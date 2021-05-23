@@ -11,6 +11,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import vn.quanprolazer.fashione.domain.models.*
+import vn.quanprolazer.fashione.domain.repositories.CartRepository
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
 import vn.quanprolazer.fashione.domain.repositories.PurchaseRepository
@@ -22,7 +23,7 @@ import javax.inject.Inject
 class PurchaseViewModel @Inject constructor(
     private val purchaseRepository: PurchaseRepository,
     private val productRepository: ProductRepository,
-    private val orderRepository: OrderRepository
+    private val cartRepository: CartRepository
 ) :
     ViewModel() {
 
@@ -93,7 +94,7 @@ class PurchaseViewModel @Inject constructor(
             quantity = purchase.quantity
         )
         viewModelScope.launch {
-            _addToCartResponse.value = orderRepository.addToCart(addToCartItem)
+            _addToCartResponse.value = cartRepository.addToCart(addToCartItem)
         }
     }
 
