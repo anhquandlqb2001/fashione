@@ -7,8 +7,9 @@
 package vn.quanprolazer.fashione.domain.repositories
 
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
+import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
 import vn.quanprolazer.fashione.domain.models.Resource
 
 interface NotificationRepository {
-    suspend fun getNotificationTypes(): Resource<List<NotificationOverview>>
+    suspend fun getNotificationTypes(): Resource<NotificationOverviewResponse>
 }

@@ -8,10 +8,8 @@
 package vn.quanprolazer.fashione.presentation.ui
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,7 +17,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI.navigateUp
@@ -30,9 +27,11 @@ import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.ActivityMainBinding
 import vn.quanprolazer.fashione.domain.models.AuthenticationState
+import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.firebase.FashioneFirebaseMessagingService
 import vn.quanprolazer.fashione.presentation.viewmodels.LoginViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.MainViewModel
@@ -58,18 +57,34 @@ class MainActivity : AppCompatActivity() {
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         binding.viewModel = viewModel
-
-        val navigateToNotificationObserver = Observer<Boolean> { it ->
-            it?.let {
-                navigateToFragment(R.id.notificationFragment)
-                viewModel.doneNavigateToNotification()
-            }
-        }
-        viewModel.navigateToNotification.observe(this, navigateToNotificationObserver)
+        binding.lifecycleOwner = this
 
         setupNavigation()
         setupNavigationItemClick()
         observeAuthenticationState()
+
+        observeNavigateToNotification()
+
+        viewModel.notificationOverview.observe(this, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.ivNotification.badgeValue = it.data.total
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                }
+            }
+        })
+
+    }
+
+    private fun observeNavigateToNotification() {
+        viewModel.navigateToNotification.observe(this, {
+            it?.let {
+                navigateToFragment(R.id.notificationFragment)
+                viewModel.doneNavigateToNotification()
+            }
+        })
     }
 
     override fun onSupportNavigateUp() =
@@ -99,6 +114,8 @@ class MainActivity : AppCompatActivity() {
                             it
                         )
                     }
+
+                    viewModel.fetchNotification()
 
                     menuItem.title = getString(R.string.sign_out_text)
                 }

@@ -9,6 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="vn.quanprolazer.fashione.presentation.viewmodels.MainViewModel" />
@@ -40,24 +41,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:textColor="@color/black"
                     android:layout_marginEnd="?android:attr/actionBarSize"
+                    android:gravity="center"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
-                    tools:text="Home"
-                    android:gravity="center" />
+                    tools:text="Home" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <ImageView
-                        android:onClick="@{() -> viewModel.onClickNavigateToNotification()}"
+                    <ru.nikartm.support.ImageBadgeView
                         android:id="@+id/iv_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_toStartOf="@id/iv_filter"
                         android:contentDescription="@string/content_description_notification_icon"
-                        app:srcCompat="@drawable/ic_notifications_none_black_36dp" />
+                        android:onClick="@{() -> viewModel.onClickNavigateToNotification()}"
+                        app:ibv_badgeColor="#00ACC1"
+                        app:ibv_badgeLimitValue="false"
+                        app:ibv_badgeTextColor="#ffffff"
+                        app:ibv_badgeTextSize="12sp"
+                        app:ibv_badgeTextStyle="bold"
+                        app:ibv_fixedBadgeRadius="12dp"
+                        app:srcCompat="@drawable/ic_notifications_none_black_36dp"
+                        tools:ibv_badgeValue="10" />
 
                     <ImageView
                         android:id="@+id/iv_filter"

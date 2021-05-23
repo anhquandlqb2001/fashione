@@ -174,3 +174,4 @@ fun TextView.reviewProduct(createdAt: String?, variantName: String?, variantValu
     if (createdAt == null || variantName == null || variantValue == null) text = ""
     text = "${createdAt} | ${variantName} - ${variantValue}"
 }
+

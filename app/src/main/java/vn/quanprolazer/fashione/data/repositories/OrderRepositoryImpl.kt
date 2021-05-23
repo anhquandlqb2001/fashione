@@ -10,7 +10,6 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.NetworkDeliveryStatus
@@ -127,33 +126,27 @@ class OrderRepositoryImpl @AssistedInject constructor(
     }
 
     override suspend fun getDeliveryStatus(): Resource<List<DeliveryStatus>> {
-        val user = userRepository.getUser().value
+        userRepository.getUser().value
             ?: return Resource.Error(Exception("Not login yet"))
 
-        var token: String? = null
-        try {
-            token = user.getIdToken(true)
-                .await()
-                .token
+        val token = try {
+            withContext(defaultDispatcher) {
+                userRepository.getToken()
+            }
         } catch (e: Exception) {
             Timber.e(e)
+        } ?: return Resource.Error(Exception("Token not found"))
+
+
+        return try {
+            val deliveryStatusResponse = withContext(defaultDispatcher) {
+                orderRetrofitService.getDeliveryStatus(token as String)
+            }
+            Resource.Success(deliveryStatusResponse.map { it.toDomainModel() })
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
         }
 
-        if (token != null) {
-            var deliveryStatusResponse: List<NetworkDeliveryStatus>? = null
-            try {
-                deliveryStatusResponse = withContext(defaultDispatcher) {
-                    orderRetrofitService.getDeliveryStatus(token)
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-            try {
-                return Resource.Success(deliveryStatusResponse!!.map { it.toDomainModel() })
-            } catch (e: Exception) {
-                Timber.e(e)
-            }
-        }
-        return Resource.Error(Exception("Token not found"))
     }
 }

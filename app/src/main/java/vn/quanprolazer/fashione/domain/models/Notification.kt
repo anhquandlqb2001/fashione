@@ -31,3 +31,8 @@ data class NotificationOverview(
     val type: NotificationType,
     val quantity: Int
 )
+
+data class NotificationOverviewResponse(
+    val notification: List<NotificationOverview>,
+    val total: Int
+)

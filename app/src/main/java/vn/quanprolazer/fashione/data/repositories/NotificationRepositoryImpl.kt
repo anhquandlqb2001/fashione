@@ -11,7 +11,7 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService
-import vn.quanprolazer.fashione.domain.models.NotificationOverview
+import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
@@ -22,16 +22,23 @@ class NotificationRepositoryImpl @Inject constructor(
     private val userRepository: UserRepository
 ) :
     NotificationRepository {
-    override suspend fun getNotificationTypes(): Resource<List<NotificationOverview>> {
-        val token = withContext(Dispatchers.Default) {
-            userRepository.getToken()
-        } ?: return Resource.Error(Exception("Token not found"))
-
+    override suspend fun getNotificationTypes(): Resource<NotificationOverviewResponse> {
         return try {
+            val token = withContext(Dispatchers.Default) {
+                userRepository.getToken()
+            }
+            if (token.isNullOrBlank()) {
+                return Resource.Error(Exception("Token is null or blank"))
+            }
             val response = withContext(Dispatchers.Default) {
                 notificationService.getNotificationOverview(token)
             }
-            Resource.Success(response.map { it.toDomainModel() })
+            Resource.Success(
+                NotificationOverviewResponse(
+                    notification = response.notifications.map { it.toDomainModel() },
+                    total = response.total
+                )
+            )
         } catch (e: Exception) {
             Timber.e(e)
             Resource.Error(e)

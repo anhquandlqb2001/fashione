@@ -21,13 +21,13 @@ import javax.inject.Inject
 class NotificationViewModel @Inject constructor(private val notificationRepositoryFirestore: NotificationRepository) :
     ViewModel() {
 
-    private val _notificationType: MutableLiveData<Resource<List<NotificationOverview>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<NotificationOverview>>>()
-        viewModelScope.launch {
-            liveData.value = notificationRepositoryFirestore.getNotificationTypes()
-        }
-        return@lazy liveData
-    }
-
-    val notificationType: LiveData<Resource<List<NotificationOverview>>> get() = _notificationType
+//    private val _notificationType: MutableLiveData<Resource<List<NotificationOverview>>> by lazy {
+//        val liveData = MutableLiveData<Resource<List<NotificationOverview>>>()
+//        viewModelScope.launch {
+//            liveData.value = notificationRepositoryFirestore.getNotificationTypes()
+//        }
+//        return@lazy liveData
+//    }
+//
+//    val notificationType: LiveData<Resource<List<NotificationOverview>>> get() = _notificationType
 }

@@ -87,18 +87,14 @@ class UserRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getToken(): String? {
-        val user = getUser().value
-            ?: return null
-
-        val token: String?
-        try {
-            token = user.getIdToken(true)
+        val user = getUser().value ?: return null
+        return try {
+            user.getIdToken(true)
                 .await()
                 .token
         } catch (e: Exception) {
             Timber.e(e)
-            return null
+            null
         }
-        return token
     }
 }

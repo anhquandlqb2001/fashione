@@ -40,6 +40,12 @@ data class NetworkNotificationOverview(
     val quantity: Int
 )
 
+@Serializable
+data class NetworkNotificationOverviewResponse(
+    val notifications: List<NetworkNotificationOverview>,
+    val total: Int
+)
+
 internal fun NetworkNotificationOverview.toDomainModel() = NotificationOverview(
     type.toDomainModel(), quantity
 )

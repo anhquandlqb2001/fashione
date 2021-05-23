@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentNotificationBinding
 import vn.quanprolazer.fashione.presentation.viewmodels.NotificationViewModel
 
@@ -41,11 +40,11 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.notificationType.observe(viewLifecycleOwner, {
-            it?.let {
-                Timber.d(it.toString())
-            }
-        })
+//        viewModel.notificationType.observe(viewLifecycleOwner, {
+//            it?.let {
+//                Timber.d(it.toString())
+//            }
+//        })
     }
 
     override fun onDestroy() {
