@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import vn.quanprolazer.fashione.domain.models.NotificationOverview
 import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
@@ -23,11 +24,13 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _navigateToNotification: MutableLiveData<Boolean> by lazy { MutableLiveData() }
-    val navigateToNotification: LiveData<Boolean> get() = _navigateToNotification
+    private val _navigateToNotification: MutableLiveData<List<NotificationOverview>> by lazy { MutableLiveData() }
+    val navigateToNotification: LiveData<List<NotificationOverview>> get() = _navigateToNotification
 
     fun onClickNavigateToNotification() {
-        _navigateToNotification.value = true
+        if (_notificationOverview.value is Resource.Success) {
+            _navigateToNotification.value = (_notificationOverview.value as Resource.Success<NotificationOverviewResponse>).data.notifications
+        }
     }
 
     fun doneNavigateToNotification() {

@@ -163,7 +163,11 @@
     <fragment
         android:id="@+id/notificationFragment"
         android:name="vn.quanprolazer.fashione.presentation.ui.NotificationFragment"
-        android:label="NotificationFragment" />
+        android:label="NotificationFragment" >
+        <argument
+            android:name="notificationOverviews"
+            app:argType="vn.quanprolazer.fashione.domain.models.NotificationOverview[]" />
+    </fragment>
 
 
 </navigation>

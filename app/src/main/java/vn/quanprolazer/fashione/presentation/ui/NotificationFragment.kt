@@ -14,7 +14,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentNotificationBinding
+import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupAdapter
 import vn.quanprolazer.fashione.presentation.viewmodels.NotificationViewModel
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotificationFragment : Fragment() {
@@ -24,7 +26,16 @@ class NotificationFragment : Fragment() {
     /** This property is only valid between onCreateView and onDestroyView. */
     private val binding get() = _binding!!
 
-    private val viewModel: NotificationViewModel by viewModels()
+    @Inject
+    lateinit var viewModelFactory: NotificationViewModel.AssistedFactory
+    private val viewModel: NotificationViewModel by viewModels {
+        NotificationViewModel.provideFactory(
+            viewModelFactory,
+            NotificationFragmentArgs.fromBundle(requireArguments()).notificationOverviews.toList()
+        )
+    }
+
+    private val notificationTypeAdapter: NotificationGroupAdapter by lazy { NotificationGroupAdapter() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +44,11 @@ class NotificationFragment : Fragment() {
         _binding = FragmentNotificationBinding.inflate(inflater, container, false)
 
         binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
+
+        binding.rvNotificationGroup.apply {
+            adapter = notificationTypeAdapter
+        }
 
         return binding.root
     }

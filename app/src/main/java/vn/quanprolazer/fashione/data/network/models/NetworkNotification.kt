@@ -17,6 +17,9 @@ enum class NetworkNotificationTypeEnum {
     @SerialName("ORDER_STATUS")
     ORDER_STATUS,
 
+    @SerialName("ACTIVITY")
+    ACTIVITY,
+
     @SerialName("PROMOTION")
     PROMOTION
 }
@@ -27,11 +30,13 @@ internal fun NetworkNotificationTypeEnum.toDomainModel() = NotificationTypeEnum.
 data class NetworkNotificationType(
     val id: String,
     val name: NetworkNotificationTypeEnum = NetworkNotificationTypeEnum.ORDER_STATUS,
-    val description: String
+    val description: String,
+    @SerialName("image_url")
+    val imageUrl: String
 )
 
 internal fun NetworkNotificationType.toDomainModel() = NotificationType(
-    id, name.toDomainModel(), description
+    id, name.toDomainModel(), description, imageUrl = imageUrl
 )
 
 @Serializable

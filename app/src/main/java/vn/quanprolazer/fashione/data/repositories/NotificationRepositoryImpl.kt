@@ -35,7 +35,7 @@ class NotificationRepositoryImpl @Inject constructor(
             }
             Resource.Success(
                 NotificationOverviewResponse(
-                    notification = response.notifications.map { it.toDomainModel() },
+                    notifications = response.notifications.map { it.toDomainModel() },
                     total = response.total
                 )
             )

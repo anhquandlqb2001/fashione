@@ -6,19 +6,17 @@
 
 package vn.quanprolazer.fashione.presentation.viewmodels
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import androidx.lifecycle.ViewModelProvider
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
-import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
-import javax.inject.Inject
 
-@HiltViewModel
-class NotificationViewModel @Inject constructor(private val notificationRepositoryFirestore: NotificationRepository) :
+class NotificationViewModel @AssistedInject constructor(
+    private val notificationRepositoryFirestore: NotificationRepository,
+    @Assisted val notificationOverviews: List<NotificationOverview>
+) :
     ViewModel() {
 
 //    private val _notificationType: MutableLiveData<Resource<List<NotificationOverview>>> by lazy {
@@ -30,4 +28,20 @@ class NotificationViewModel @Inject constructor(private val notificationReposito
 //    }
 //
 //    val notificationType: LiveData<Resource<List<NotificationOverview>>> get() = _notificationType
+
+    @dagger.assisted.AssistedFactory
+    interface AssistedFactory {
+        fun create(notificationOverviews: List<NotificationOverview>): NotificationViewModel
+    }
+
+    companion object {
+        fun provideFactory(
+            assistedFactory: AssistedFactory, notificationOverviews: List<NotificationOverview>
+        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
+            @Suppress("UNCHECKED_CAST")
+            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                return assistedFactory.create(notificationOverviews) as T
+            }
+        }
+    }
 }

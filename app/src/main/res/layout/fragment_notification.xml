@@ -5,9 +5,14 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
+        <variable
+            name="viewModel"
+            type="vn.quanprolazer.fashione.presentation.viewmodels.NotificationViewModel" />
 
     </data>
 
@@ -18,6 +23,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/background_color"
             android:orientation="vertical"
             tools:context=".presentation.ui.NotificationFragment">
 
@@ -25,12 +31,24 @@
                 android:id="@+id/rv_notification_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:paddingHorizontal="8dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:listItemNotificationOverview="@{viewModel.notificationOverviews}"
                 tools:listitem="@layout/list_item_notification_group" />
+
+            <TextView
+                android:layout_marginHorizontal="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="4dp"
+                android:text="Cập nhật đơn hàng" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_notification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_notification" />
 
         </LinearLayout>

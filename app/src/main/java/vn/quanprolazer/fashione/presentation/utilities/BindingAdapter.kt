@@ -12,13 +12,13 @@ import android.widget.*
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
+import timber.log.Timber
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
-import vn.quanprolazer.fashione.domain.models.OrderStatus
-import vn.quanprolazer.fashione.domain.models.ProductImage
-import vn.quanprolazer.fashione.domain.models.Resource
-import vn.quanprolazer.fashione.domain.models.ReviewStatus
+import vn.quanprolazer.fashione.domain.models.*
+import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupAdapter
 
 @BindingAdapter("imageUrl")
 fun ImageView.loadImage(imageUrl: String?) {
@@ -175,3 +175,9 @@ fun TextView.reviewProduct(createdAt: String?, variantName: String?, variantValu
     text = "${createdAt} | ${variantName} - ${variantValue}"
 }
 
+@BindingAdapter("listItemNotificationOverview")
+fun RecyclerView.listItemNotificationOverview(listItemNotificationOverview: List<NotificationOverview>?) {
+    listItemNotificationOverview?.let {
+        (this.adapter as NotificationGroupAdapter).submitList(listItemNotificationOverview)
+    }
+}

@@ -81,7 +81,9 @@ class MainActivity : AppCompatActivity() {
     private fun observeNavigateToNotification() {
         viewModel.navigateToNotification.observe(this, {
             it?.let {
-                navigateToFragment(R.id.notificationFragment)
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToNotificationFragment(it.toTypedArray())
+                this.findNavController(R.id.nav_host_fragment).navigate(action)
                 viewModel.doneNavigateToNotification()
             }
         })
