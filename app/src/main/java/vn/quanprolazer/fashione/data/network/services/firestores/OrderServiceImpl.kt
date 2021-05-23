@@ -12,7 +12,9 @@ import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.NetworkCartItem
 import vn.quanprolazer.fashione.data.network.toHashMap
-import vn.quanprolazer.fashione.domain.models.*
+import vn.quanprolazer.fashione.domain.models.AddToCartItem
+import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.models.ReviewStatus
 
 
 class OrderServiceImpl : OrderService {
@@ -91,34 +93,6 @@ class OrderServiceImpl : OrderService {
                 val docRef =
                     db.collection("carts").document(it) //automatically generate unique id
                 batch.delete(docRef)
-            }
-            batch.commit().await()
-            Resource.Success(true)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
-    }
-
-    override suspend fun createOrder(order: Order): Resource<String> {
-        val db = FirebaseFirestore.getInstance()
-        return try {
-            val ref = db.collection("orders").add(order.toHashMap()).await()
-            Resource.Success(ref.id)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
-    }
-
-    override suspend fun createOrderItem(orderItems: List<OrderItem>): Resource<Boolean> {
-        val db = FirebaseFirestore.getInstance()
-        val batch = db.batch()
-        return try {
-            orderItems.forEach {
-                val docRef =
-                    db.collection("order_items").document() //automatically generate unique id
-                batch.set(docRef, it.toHashMap());
             }
             batch.commit().await()
             Resource.Success(true)

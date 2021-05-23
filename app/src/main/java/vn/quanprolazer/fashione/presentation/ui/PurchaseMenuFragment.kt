@@ -16,7 +16,6 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentPurchaseMenuBinding
 import vn.quanprolazer.fashione.domain.models.OrderStatus
 import vn.quanprolazer.fashione.presentation.adapters.PurchaseFragmentAdapter

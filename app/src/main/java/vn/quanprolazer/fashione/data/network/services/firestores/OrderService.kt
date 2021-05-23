@@ -4,16 +4,13 @@
  * An android shopping app writing in Kotlin
  */
 
-/*
- * Author: quanprolazer
- * Project: Fashione
- * An android shopping app writing in Kotlin
- */
 
 package vn.quanprolazer.fashione.data.network.services.firestores
 
 import vn.quanprolazer.fashione.data.network.models.NetworkCartItem
-import vn.quanprolazer.fashione.domain.models.*
+import vn.quanprolazer.fashione.domain.models.AddToCartItem
+import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.models.ReviewStatus
 
 interface OrderService {
 
@@ -31,12 +28,9 @@ interface OrderService {
 
     suspend fun removeCartItems(cartItemIds: List<String>): Resource<Boolean>
 
-    suspend fun createOrder(order: Order): Resource<String>
-
-    suspend fun createOrderItem(orderItems: List<OrderItem>): Resource<Boolean>
-
     suspend fun updateOrderReviewStatus(
         reviewStatus: ReviewStatus,
         orderItemId: String
     ): Resource<Boolean>
+
 }

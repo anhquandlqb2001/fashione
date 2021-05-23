@@ -100,8 +100,7 @@ class CheckoutViewModel @AssistedInject constructor(
             shippingPriceTotal = shipPrice,
             productPriceTotal = productPrice,
             createdAt = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
-            status = OrderStatus.CONFIRMING,
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
         )
 
         val orderItems = _checkoutItems.value!!.map {

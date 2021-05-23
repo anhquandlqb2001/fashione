@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import vn.quanprolazer.fashione.data.network.models.NetworkDeliveryStatus
+import vn.quanprolazer.fashione.data.network.models.CreateOrderRequest
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.OrderService
 import vn.quanprolazer.fashione.domain.models.*
@@ -28,31 +28,17 @@ class OrderRepositoryImpl @AssistedInject constructor(
 ) : OrderRepository {
 
     override suspend fun createOrder(order: Order, orderItems: List<OrderItem>): Resource<Boolean> {
-        val createOrderResult = withContext(defaultDispatcher) {
-            orderService.createOrder(order)
-        }
-
-        return when (createOrderResult) {
-            is Resource.Success -> {
-                val updatedOrderItems = orderItems.map {
-                    it.copy(orderId = createOrderResult.data)
-                }
-                val addOrderItemsResult = withContext(defaultDispatcher) {
-                    orderService.createOrderItem(updatedOrderItems)
-                }
-                return when (addOrderItemsResult) {
-                    is Resource.Success -> {
-                        withContext(defaultDispatcher) {
-                            orderService.removeCartItems(orderItems.map { it.cartItemId!! })
-                        }
-                        return Resource.Success(true)
-                    }
-                    is Resource.Error -> Resource.Error(addOrderItemsResult.exception)
-                    is Resource.Loading -> Resource.Loading(null)
-                }
+        return try {
+            withContext(defaultDispatcher) {
+                val response = orderRetrofitService.createOrder(
+                    CreateOrderRequest(
+                        order.toDataModel(),
+                        orderItems.map { it.toDataModel() })
+                )
+                Resource.Success(response)
             }
-            is Resource.Loading -> Resource.Loading(null)
-            is Resource.Error -> Resource.Error(createOrderResult.exception)
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 

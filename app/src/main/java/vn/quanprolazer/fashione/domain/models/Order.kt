@@ -6,36 +6,54 @@
 
 package vn.quanprolazer.fashione.domain.models
 
-import com.google.firebase.firestore.Exclude
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import vn.quanprolazer.fashione.data.network.models.NetworkOrder
+import vn.quanprolazer.fashione.data.network.models.NetworkOrderItem
 
 
-@Serializable
 data class Order(
-    @SerialName("user_id") val userId: String,
-    @SerialName("address_id") val addressId: String,
-    @SerialName("shipping_price_total") val shippingPriceTotal: String,
-    @SerialName("product_price_total") val productPriceTotal: String,
-    @SerialName("created_at") val createdAt: String,
-    val status: OrderStatus,
-    @Exclude val id: String? = null
+    val userId: String,
+    val addressId: String,
+    val shippingPriceTotal: String,
+    val productPriceTotal: String,
+    val createdAt: String,
+    val id: String? = null
 )
 
-@Serializable
+internal fun Order.toDataModel() = NetworkOrder(
+    userId = userId,
+    addressId = addressId,
+    shippingPriceTotal = shippingPriceTotal,
+    productPriceTotal = productPriceTotal,
+    createdAt = createdAt
+)
+
 data class OrderItem(
-    @SerialName("product_id") val productId: String,
-    @SerialName("variant_id") val variantId: String,
-    @SerialName("variant_option_id") val variantOptionId: String,
-    @SerialName("product_name") val productName: String,
-    @SerialName("variant_name") val variantName: String,
-    @SerialName("variant_value") val variantValue: String,
-    @SerialName("review_status") val reviewStatus: ReviewStatus,
+    val productId: String,
+    val variantId: String,
+    val variantOptionId: String,
+    val productName: String,
+    val variantName: String,
+    val variantValue: String,
+    val reviewStatus: ReviewStatus,
     val price: String,
     val quantity: Int,
-    @SerialName("order_id") var orderId: String? = "",
-    @Exclude val id: String? = null,
-    @Exclude val cartItemId: String? = null
+    var orderId: String? = "",
+    val id: String? = null,
+    val cartItemId: String? = null
+)
+
+internal fun OrderItem.toDataModel() = NetworkOrderItem(
+    productId = productId,
+    variantId = variantId,
+    variantOptionId = variantOptionId,
+    productName = productName,
+    variantName = variantName,
+    variantValue = variantValue,
+    price = price,
+    quantity = quantity,
+    orderId = orderId
 )
 
 @Serializable

@@ -12,6 +12,7 @@ import vn.quanprolazer.fashione.data.network.services.firestores.PurchaseService
 import vn.quanprolazer.fashione.domain.models.OrderStatus
 import vn.quanprolazer.fashione.domain.models.Purchase
 import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.models.ReviewStatus
 import vn.quanprolazer.fashione.domain.repositories.PurchaseRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
 import javax.inject.Inject
@@ -47,9 +48,9 @@ class PurchaseRepositoryImpl @Inject constructor(
                                     variantValue = networkOrderItem.variantValue,
                                     quantity = networkOrderItem.quantity,
                                     price = networkOrderItem.price,
-                                    status = networkOrder.status,
+                                    status = OrderStatus.DELIVERING,
                                     variantId = networkOrderItem.variantId,
-                                    reviewStatus = networkOrderItem.reviewStatus
+                                    reviewStatus = ReviewStatus.NO
                                 )
                             }
                             purchaseItems.addAll(purchases)

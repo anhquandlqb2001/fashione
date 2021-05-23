@@ -7,52 +7,89 @@
 package vn.quanprolazer.fashione.data.network.models
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import vn.quanprolazer.fashione.domain.models.DeliveryStatus
 import vn.quanprolazer.fashione.domain.models.OrderStatus
-import vn.quanprolazer.fashione.domain.models.ReviewStatus
 
+@Serializable
 data class NetworkOrder(
+    @Exclude
     @DocumentId val id: String = "",
     @set:PropertyName("user_id")
     @get:PropertyName("user_id")
+    @SerialName("user_id")
     var userId: String = "",
 
     @set:PropertyName("address_id")
     @get:PropertyName("address_id")
+    @SerialName("address_id")
     var addressId: String = "",
 
     @set:PropertyName("shipping_price_total")
     @get:PropertyName("shipping_price_total")
+    @SerialName("shipping_price_total")
     var shippingPriceTotal: String = "",
 
     @set:PropertyName("product_price_total")
     @get:PropertyName("product_price_total")
+    @SerialName("product_price_total")
     var productPriceTotal: String = "",
-
-    val status: OrderStatus = OrderStatus.CONFIRMING,
 
     @set:PropertyName("created_at")
     @get:PropertyName("created_at")
+    @SerialName("created_at")
     var createdAt: String = "",
 )
 
-
+@Serializable
 data class NetworkOrderItem(
+    @Exclude
     @DocumentId val id: String = "",
-    @set:PropertyName("product_id") @get:PropertyName("product_id") var productId: String = "",
-    @set:PropertyName("variant_id") @get:PropertyName("variant_id") var variantId: String = "",
-    @set:PropertyName("variant_option_id") @get:PropertyName("variant_option_id") var variantOptionId: String = "",
-    @set:PropertyName("product_name") @get:PropertyName("product_name") var productName: String = "",
-    @set:PropertyName("variant_name") @get:PropertyName("variant_name") var variantName: String = "",
-    @set:PropertyName("variant_value") @get:PropertyName("variant_value") var variantValue: String = "",
+    @set:PropertyName("product_id")
+    @get:PropertyName("product_id")
+    @SerialName("product_id")
+    var productId: String = "",
+    @set:PropertyName("variant_id")
+    @get:PropertyName("variant_id")
+    @SerialName("variant_id")
+    var variantId: String = "",
+    @set:PropertyName("variant_option_id")
+    @get:PropertyName("variant_option_id")
+    @SerialName("variant_option_id")
+    var variantOptionId: String = "",
+    @set:PropertyName("product_name")
+    @get:PropertyName("product_name")
+    @SerialName("product_name")
+    var productName: String = "",
+    @set:PropertyName("variant_name")
+    @get:PropertyName("variant_name")
+    @SerialName("variant_name")
+    var variantName: String = "",
+    @set:PropertyName("variant_value")
+    @get:PropertyName("variant_value")
+    @SerialName("variant_value")
+    var variantValue: String = "",
     val price: String = "",
     val quantity: Int = -1,
-    @set:PropertyName("order_id") @get:PropertyName("order_id") var orderId: String? = "",
-    @set:PropertyName("review_status") @get:PropertyName("review_status") var reviewStatus: ReviewStatus = ReviewStatus.NO
+    @set:PropertyName("order_id")
+    @get:PropertyName("order_id")
+    @SerialName("order_id")
+    @Exclude
+    var orderId: String? = "",
+    @set:PropertyName("review_status")
+    @get:PropertyName("review_status")
+    @SerialName("review_status")
+    var reviewStatus: NetworkOrderItemReviewStatus = NetworkOrderItemReviewStatus.NO
 )
 
+@Serializable
+enum class NetworkOrderItemReviewStatus {
+    YES,
+    NO
+}
 
 @Serializable
 data class NetworkDeliveryStatus(
@@ -61,3 +98,41 @@ data class NetworkDeliveryStatus(
 )
 
 internal fun NetworkDeliveryStatus.toDomainModel() = DeliveryStatus(status, quantity)
+
+@Serializable
+enum class NetworkOrderItemStatusType {
+    @SerialName("CONFIRMING")
+    CONFIRMING,
+
+    @SerialName("COLLECTING")
+    COLLECTING,
+
+    @SerialName("DELIVERING")
+    DELIVERING,
+
+    @SerialName("DELIVERED")
+    DELIVERED,
+
+    @SerialName("COMPLETE")
+    COMPLETE
+}
+
+@Serializable
+data class NetworkOrderItemStatus(
+    @Exclude
+    val id: String = "",
+    @SerialName("order_id")
+    val orderId: String,
+    @SerialName("order_item_id")
+    val orderItemId: String,
+    val status: NetworkOrderItemStatusType = NetworkOrderItemStatusType.CONFIRMING,
+    @SerialName("created_at")
+    val createdAt: String
+)
+
+@Serializable
+data class CreateOrderRequest(
+    val order: NetworkOrder,
+    @SerialName("order_items")
+    val orderItems: List<NetworkOrderItem>
+)

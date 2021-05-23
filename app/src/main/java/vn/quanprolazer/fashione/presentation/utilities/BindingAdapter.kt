@@ -14,7 +14,6 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
-import timber.log.Timber
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.domain.models.*
