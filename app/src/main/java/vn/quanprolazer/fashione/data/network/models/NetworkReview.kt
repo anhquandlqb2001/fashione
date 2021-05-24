@@ -6,13 +6,17 @@
 
 package vn.quanprolazer.fashione.data.network.models
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
-import com.google.firebase.firestore.ServerTimestamp
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import vn.quanprolazer.fashione.domain.models.*
+import java.util.*
 
 @Serializable
 data class NetworkReviewFirestore(
@@ -27,15 +31,10 @@ data class NetworkReviewFirestore(
     @get:PropertyName("order_item_id")
     @SerialName("order_item_id")
     var orderItemId: String = "",
-    @set:PropertyName("rate_id")
-    @get:PropertyName("rate_id")
-    @SerialName("rate_id")
-    var rateId: String = "",
     @set:PropertyName("user_id")
     @get:PropertyName("user_id")
     @SerialName("user_id")
     var userId: String = "",
-    val username: String = "",
     @set:PropertyName("review_title")
     @get:PropertyName("review_title")
     @SerialName("review_title")
@@ -47,12 +46,30 @@ data class NetworkReviewFirestore(
     @set:PropertyName("created_at")
     @get:PropertyName("created_at")
     @SerialName("created_at")
-    @ServerTimestamp
-    var createdAt: String = ""
+    var createdAt: String? = null
 )
 
+@ExperimentalSerializationApi
+@Serializer(forClass = Date::class)
+object DateSerializer : KSerializer<Date> {
+    override val descriptor: SerialDescriptor = buildClassSerialDescriptor("Date")
+
+    override fun serialize(encoder: Encoder, value: Date) {
+        encoder.encodeString(value.time.toString())
+    }
+
+    override fun deserialize(decoder: Decoder): Date {
+        return Date(decoder.decodeString().toLong())
+    }
+}
+
+
 internal fun NetworkReviewFirestore.toDomainModel() = Review(
-    id, productId, orderItemId, rateId, userId, username, reviewTitle, reviewContent, createdAt
+    productId = productId,
+    orderItemId = orderItemId,
+    userId = userId,
+    reviewTitle = reviewTitle,
+    reviewContent = reviewContent
 )
 
 @Serializable

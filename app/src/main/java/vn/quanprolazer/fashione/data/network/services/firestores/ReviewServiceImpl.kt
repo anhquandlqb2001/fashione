@@ -6,14 +6,16 @@
 
 package vn.quanprolazer.fashione.data.network.services.firestores
 
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import timber.log.Timber
-import vn.quanprolazer.fashione.data.network.models.NetworkReviewStatus
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.NetworkReviewFirestore
+import vn.quanprolazer.fashione.data.network.models.NetworkReviewStatus
 import vn.quanprolazer.fashione.data.network.toHashMap
-import vn.quanprolazer.fashione.domain.models.Resource
 
 class ReviewServiceImpl : ReviewService {
 
@@ -24,7 +26,8 @@ class ReviewServiceImpl : ReviewService {
     override suspend fun addReview(review: NetworkReviewFirestore): String {
         val db = FirebaseFirestore.getInstance()
         val response =
-            db.collection("reviews").add(review.toHashMap())
+            db.collection("reviews")
+                .add(review.copy(createdAt = Timestamp.now().toDate().toString()).toHashMap())
                 .await()
 
         return response.id

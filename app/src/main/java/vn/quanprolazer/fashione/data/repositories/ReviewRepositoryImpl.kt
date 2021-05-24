@@ -63,6 +63,7 @@ class ReviewRepositoryImpl @AssistedInject constructor(
                 Resource.Success(true)
             }
         } catch (e: Exception) {
+            Timber.e(e)
             Resource.Error(e)
         }
     }

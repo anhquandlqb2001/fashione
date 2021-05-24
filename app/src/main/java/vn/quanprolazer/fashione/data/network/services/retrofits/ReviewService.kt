@@ -13,9 +13,9 @@ import vn.quanprolazer.fashione.data.network.models.NetworkReviewRetrofitRespons
 interface ReviewService {
     @GET("reviews")
     suspend fun getReviews(
-        @Query("productId")
+        @Query("product_id")
         productId: String,
-        @Query("lastVisibleId")
+        @Query("last_visible_id")
         lastVisibleId: String?
     ): NetworkReviewRetrofitResponse
 }

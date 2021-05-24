@@ -108,6 +108,9 @@ class ProductFragment : Fragment() {
                         binding.ratingBar2.rating = it.data.averageRate
                         binding.tvCountRate.text =
                             "${it.data.averageRate}/5 (${it.data.countRate} đánh giá)"
+
+                        binding.tvReviewCount.text = "${it.data.countRate} đánh giá"
+                        binding.tvRateNum.text = it.data.averageRate.toString()
                     }
                     is Resource.Loading -> {
                     }
