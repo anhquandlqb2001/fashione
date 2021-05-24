@@ -12,13 +12,13 @@ import vn.quanprolazer.fashione.data.network.models.NetworkReviewFirestore
 import vn.quanprolazer.fashione.domain.models.Resource
 
 interface ReviewService {
-    suspend fun addReview(review: NetworkReviewFirestore): Resource<String>
+    suspend fun addReview(review: NetworkReviewFirestore): String
 
-    suspend fun addRating(rating: NetworkRating): Resource<Boolean>
+    suspend fun addRating(rating: NetworkRating): Boolean
 
-    suspend fun getRating(reviewId: String): Resource<NetworkRating>
+    suspend fun getRating(reviewId: String): NetworkRating?
 
-    suspend fun getRatings(productId: String): Resource<List<NetworkRating>>
+    suspend fun getRatings(productId: String): List<NetworkRating>
 
     suspend fun checkUserWithThisItemHasReview(orderItemId: String): NetworkReviewStatus
 }

@@ -69,13 +69,13 @@ class RepositoryModule {
     fun provideReviewRepository(
         reviewServiceRetrofit: ReviewService,
         reviewServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.ReviewService,
-        orderRepository: OrderRepository,
         userRepository: UserRepository,
+        orderRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.OrderService
     ): ReviewRepository = ReviewRepositoryImpl(
         reviewServiceRetrofit,
         reviewServiceFirestore,
-        orderRepository,
-        userRepository
+        userRepository,
+        orderRetrofitService
     )
 
     @Singleton

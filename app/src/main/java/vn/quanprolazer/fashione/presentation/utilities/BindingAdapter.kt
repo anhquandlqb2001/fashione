@@ -146,7 +146,7 @@ fun LinearLayout.purchaseReviewStatus(status: ReviewStatus?) {
 @BindingAdapter("purchaseDelivered")
 fun RelativeLayout.purchaseDelivered(status: OrderItemStatusType?) {
     status?.let {
-        visibility = if (status == OrderItemStatusType.DELIVERED) {
+        visibility = if (status == OrderItemStatusType.DELIVERED || status == OrderItemStatusType.COMPLETE) {
             View.VISIBLE
         } else {
             View.GONE

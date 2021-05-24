@@ -9,6 +9,7 @@ package vn.quanprolazer.fashione.data.network.models
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
+import com.google.firebase.firestore.ServerTimestamp
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import vn.quanprolazer.fashione.domain.models.*
@@ -46,6 +47,7 @@ data class NetworkReviewFirestore(
     @set:PropertyName("created_at")
     @get:PropertyName("created_at")
     @SerialName("created_at")
+    @ServerTimestamp
     var createdAt: String = ""
 )
 

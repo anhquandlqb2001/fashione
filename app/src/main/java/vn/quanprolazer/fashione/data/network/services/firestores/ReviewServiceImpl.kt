@@ -21,63 +21,43 @@ class ReviewServiceImpl : ReviewService {
         private const val PER_PAGE = 10
     }
 
-    override suspend fun addReview(review: NetworkReviewFirestore): Resource<String> {
+    override suspend fun addReview(review: NetworkReviewFirestore): String {
         val db = FirebaseFirestore.getInstance()
-        return try {
-            val response =
-                db.collection("reviews").add(review.toHashMap())
-                    .await()
-
-            Resource.Success(response.id)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
-    }
-
-    override suspend fun addRating(rating: NetworkRating): Resource<Boolean> {
-        val db = FirebaseFirestore.getInstance()
-        return try {
-            db.collection("review_ratings").add(rating.toHashMap())
+        val response =
+            db.collection("reviews").add(review.toHashMap())
                 .await()
 
-            Resource.Success(true)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
+        return response.id
     }
 
-    override suspend fun getRating(reviewId: String): Resource<NetworkRating> {
+    override suspend fun addRating(rating: NetworkRating): Boolean {
         val db = FirebaseFirestore.getInstance()
-        return try {
-            val response =
-                db.collection("review_ratings").whereEqualTo("review_id", reviewId).get()
-                    .await().documents.mapNotNull { it.toObject(NetworkRating::class.java) }
+        db.collection("review_ratings").add(rating.toHashMap())
+            .await()
 
-            if (response.isEmpty()) return Resource.Error(Exception("Review rating not found"))
-
-            Resource.Success(response[0])
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
+        return true
     }
 
-    override suspend fun getRatings(productId: String): Resource<List<NetworkRating>> {
+    override suspend fun getRating(reviewId: String): NetworkRating? {
         val db = FirebaseFirestore.getInstance()
-        return try {
-            val response =
-                db.collection("review_ratings").get()
-                    .await().documents.mapNotNull { it.toObject(NetworkRating::class.java) }
+        val response =
+            db.collection("review_ratings").whereEqualTo("review_id", reviewId).get()
+                .await().documents.mapNotNull { it.toObject(NetworkRating::class.java) }
 
-            if (response.isEmpty()) return Resource.Success(listOf())
+        if (response.isEmpty()) return null
 
-            Resource.Success(response)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
+        return response[0]
+    }
+
+    override suspend fun getRatings(productId: String): List<NetworkRating> {
+        val db = FirebaseFirestore.getInstance()
+        val response =
+            db.collection("review_ratings").get()
+                .await().documents.mapNotNull { it.toObject(NetworkRating::class.java) }
+
+        if (response.isEmpty()) return listOf()
+
+        return response
     }
 
     override suspend fun checkUserWithThisItemHasReview(orderItemId: String): NetworkReviewStatus {

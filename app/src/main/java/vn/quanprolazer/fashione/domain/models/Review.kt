@@ -30,14 +30,13 @@ data class Review(
     val username: String? = null,
     val reviewTitle: String,
     val reviewContent: String,
-    val createdAt: String
+    val createdAt: String? = ""
 )
 
 internal fun Review.toNetworkModel() = NetworkReviewFirestore(
     productId = productId,
     reviewContent = reviewContent,
     reviewTitle = reviewTitle,
-    createdAt = createdAt,
     orderItemId = orderItemId
 )
 

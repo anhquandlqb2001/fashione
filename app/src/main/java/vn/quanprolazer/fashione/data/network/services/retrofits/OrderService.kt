@@ -12,6 +12,7 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 import vn.quanprolazer.fashione.data.network.models.CreateOrderRequest
 import vn.quanprolazer.fashione.data.network.models.NetworkDeliveryStatus
+import vn.quanprolazer.fashione.data.network.models.UpdateOrderStatusRequest
 
 interface OrderService {
     @GET("delivery/status")
@@ -24,5 +25,11 @@ interface OrderService {
     suspend fun createOrder(
         @Body
         data: CreateOrderRequest
+    ): Boolean
+
+    @POST("/order/status")
+    suspend fun updateOrderStatus(
+        @Body
+        data: UpdateOrderStatusRequest
     ): Boolean
 }

@@ -9,11 +9,10 @@ package vn.quanprolazer.fashione.data.repositories
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.PurchaseService
 import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
-import vn.quanprolazer.fashione.domain.models.OrderItemStatusType
-import vn.quanprolazer.fashione.domain.models.Purchase
-import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.models.toDataModel
 import vn.quanprolazer.fashione.domain.repositories.PurchaseRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
@@ -54,11 +53,11 @@ class PurchaseRepositoryImpl @Inject constructor(
                 val orderItems =
                     purchaseService.getOrderItems(orderItemStatuses.map { it.orderItemId })
                 val purchaseItems = orderItems.map {
-//                    val reviewStatus = if (orderStatus != OrderStatus.DELIVERED) {
-//                        ReviewStatus.NO
-//                    } else {
-//                        reviewService.checkUserWithThisItemHasReview(it.id).toDomainModel()
-//                    }
+                    val reviewStatus = if (orderStatus != OrderItemStatusType.COMPLETE) {
+                        ReviewStatus.NO
+                    } else {
+                        reviewService.checkUserWithThisItemHasReview(it.id).toDomainModel()
+                    }
                     Purchase(
                         productId = it.productId,
                         id = it.id,
@@ -69,8 +68,9 @@ class PurchaseRepositoryImpl @Inject constructor(
                         variantValue = it.variantValue,
                         quantity = it.quantity,
                         price = it.price,
-                        status = OrderItemStatusType.DELIVERING,
-                        variantId = it.variantId
+                        status = orderStatus,
+                        variantId = it.variantId,
+                        reviewStatus = reviewStatus
                     )
                 }
                 Resource.Success(purchaseItems.toMutableList())

@@ -12,7 +12,10 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import vn.quanprolazer.fashione.data.network.models.NetworkOrderItemStatusType
+import vn.quanprolazer.fashione.data.network.models.UpdateOrderStatusRequest
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
+import vn.quanprolazer.fashione.data.network.services.retrofits.OrderService
 import vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
@@ -22,22 +25,21 @@ import vn.quanprolazer.fashione.domain.repositories.UserRepository
 class ReviewRepositoryImpl @AssistedInject constructor(
     private val reviewServiceRetrofit: ReviewService,
     private val reviewServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.ReviewService,
-    private val orderRepository: OrderRepository,
     private val userRepository: UserRepository,
+    private val orderServiceRetrofit: OrderService,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ReviewRepository {
 
     override suspend fun getRatings(productId: String): Resource<List<Rating>> {
-        val getRatingsResponse = withContext(dispatcher) {
-            reviewServiceFirestore.getRatings(productId)
-        }
-        return when (getRatingsResponse) {
-            is Resource.Success -> {
-                if (getRatingsResponse.data.isEmpty()) return Resource.Success(listOf())
-                Resource.Success(getRatingsResponse.data.map { it.toDomainModel() })
+        return try {
+            val networkRatings = withContext(dispatcher) {
+                reviewServiceFirestore.getRatings(productId)
             }
-            else -> Resource.Error((getRatingsResponse as Resource.Error).exception)
+            Resource.Success(networkRatings.map { it.toDomainModel() })
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
+
     }
 
     override suspend fun addReview(review: Review, rating: Rating): Resource<Boolean> {
@@ -45,36 +47,23 @@ class ReviewRepositoryImpl @AssistedInject constructor(
         val user = userRepository.getUser().value
             ?: return Resource.Error(Exception("Not login yet"))
 
-        val addReviewResponse = withContext(dispatcher) {
-            reviewServiceFirestore.addReview(
-                review = review.toNetworkModel().copy(userId = user.uid)
-            )
-        }
-        return when (addReviewResponse) {
-            is Resource.Success -> {
-                // if success? add rating
-                val ratingWithId = rating.toNetworkModel().copy(reviewId = addReviewResponse.data)
-                val addReviewRatingResponse = withContext(dispatcher) {
-                    reviewServiceFirestore.addRating(rating = ratingWithId)
-                }
-
-                return when (addReviewRatingResponse) {
-                    is Resource.Success -> {
-                        val updateOrderReviewStatusResponse = withContext(dispatcher) {
-                            orderRepository.updateOrderReviewStatus(
-                                ReviewStatus.YES,
-                                review.orderItemId
-                            )
-                        }
-                        return when (updateOrderReviewStatusResponse) {
-                            is Resource.Success -> Resource.Success(true)
-                            else -> Resource.Error((updateOrderReviewStatusResponse as Resource.Error).exception)
-                        }
-                    }
-                    else -> Resource.Error(Exception("Error on adding product review rating"))
-                }
+        return try {
+            withContext(dispatcher) {
+                val reviewId = reviewServiceFirestore.addReview(
+                    review = review.toNetworkModel().copy(userId = user.uid)
+                )
+                val ratingWithId = rating.toNetworkModel().copy(reviewId = reviewId)
+                reviewServiceFirestore.addRating(rating = ratingWithId)
+                orderServiceRetrofit.updateOrderStatus(
+                    UpdateOrderStatusRequest(
+                        status = NetworkOrderItemStatusType.COMPLETE,
+                        orderItemId = review.orderItemId
+                    )
+                )
+                Resource.Success(true)
             }
-            else -> Resource.Error(Exception("Error on adding product review"))
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 

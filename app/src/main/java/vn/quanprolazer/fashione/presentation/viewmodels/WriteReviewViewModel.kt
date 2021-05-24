@@ -74,7 +74,6 @@ class WriteReviewViewModel @AssistedInject constructor(
 
     var isDialogShowing = false
 
-    @RequiresApi(Build.VERSION_CODES.O)
     fun onClickAddReview() {
         _addReviewStatus.value = Resource.Loading(null)
 
@@ -82,9 +81,7 @@ class WriteReviewViewModel @AssistedInject constructor(
             productId = purchaseToAddReview.product.id,
             orderItemId = purchaseToAddReview.orderItemId,
             reviewTitle = reviewTitle.value!!,
-            reviewContent = reviewContent.value!!,
-            createdAt = LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"))
+            reviewContent = reviewContent.value!!
         )
         val _rating = Rating(
             productId = purchaseToAddReview.product.id,

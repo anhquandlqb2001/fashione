@@ -176,3 +176,10 @@ data class CreateOrderRequest(
     @SerialName("order_items")
     val orderItems: List<NetworkOrderItem>
 )
+
+@Serializable
+data class UpdateOrderStatusRequest(
+    val status: NetworkOrderItemStatusType,
+    @SerialName("order_item_id")
+    val orderItemId: String
+)
