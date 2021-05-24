@@ -59,8 +59,10 @@ class RepositoryModule {
     @Provides
     fun providePurchaseRepository(
         purchaseService: PurchaseService,
-        userRepository: UserRepository
-    ): PurchaseRepository = PurchaseRepositoryImpl(purchaseService, userRepository)
+        userRepository: UserRepository,
+        reviewServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
+    ): PurchaseRepository =
+        PurchaseRepositoryImpl(purchaseService, userRepository, reviewServiceFirestore)
 
     @Singleton
     @Provides

@@ -9,8 +9,9 @@ package vn.quanprolazer.fashione.data.network.services.firestores
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
+import vn.quanprolazer.fashione.data.network.models.NetworkReviewStatus
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
-import vn.quanprolazer.fashione.data.network.models.NetworkReview
+import vn.quanprolazer.fashione.data.network.models.NetworkReviewFirestore
 import vn.quanprolazer.fashione.data.network.toHashMap
 import vn.quanprolazer.fashione.domain.models.Resource
 
@@ -20,7 +21,7 @@ class ReviewServiceImpl : ReviewService {
         private const val PER_PAGE = 10
     }
 
-    override suspend fun addReview(review: NetworkReview): Resource<String> {
+    override suspend fun addReview(review: NetworkReviewFirestore): Resource<String> {
         val db = FirebaseFirestore.getInstance()
         return try {
             val response =
@@ -77,5 +78,15 @@ class ReviewServiceImpl : ReviewService {
             Timber.e(e)
             Resource.Error(e)
         }
+    }
+
+    override suspend fun checkUserWithThisItemHasReview(orderItemId: String): NetworkReviewStatus {
+        val db = FirebaseFirestore.getInstance()
+        val response =
+            db.collection("reviews").whereEqualTo("order_item_id", orderItemId).limit(1).get()
+                .await().documents
+
+        if (response.isEmpty()) return NetworkReviewStatus.NO
+        return NetworkReviewStatus.YES
     }
 }

@@ -10,7 +10,7 @@ import android.os.Parcelable
 import com.google.firebase.firestore.DocumentSnapshot
 import kotlinx.parcelize.Parcelize
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
-import vn.quanprolazer.fashione.data.network.models.NetworkReview
+import vn.quanprolazer.fashione.data.network.models.NetworkReviewFirestore
 
 @Parcelize
 data class PurchaseToAddReview(
@@ -33,7 +33,7 @@ data class Review(
     val createdAt: String
 )
 
-internal fun Review.toNetworkModel() = NetworkReview(
+internal fun Review.toNetworkModel() = NetworkReviewFirestore(
     productId = productId,
     reviewContent = reviewContent,
     reviewTitle = reviewTitle,
@@ -91,3 +91,7 @@ data class ReviewRetrofitResponse(
     val reviews: List<ReviewRetrofit>,
     val lastVisibleId: String?
 )
+
+enum class CheckUserHasReview {
+    YES, NO
+}

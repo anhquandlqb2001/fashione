@@ -82,7 +82,12 @@ data class NetworkOrderItem(
     @set:PropertyName("review_status")
     @get:PropertyName("review_status")
     @SerialName("review_status")
-    var reviewStatus: NetworkOrderItemReviewStatus = NetworkOrderItemReviewStatus.NO
+    var reviewStatus: NetworkOrderItemReviewStatus = NetworkOrderItemReviewStatus.NO,
+
+    @SerialName("user_id")
+    @set:PropertyName("user_id")
+    @get:PropertyName("user_id")
+    var userId: String = "",
 )
 
 @Serializable
@@ -120,14 +125,27 @@ enum class NetworkOrderItemStatusType {
 @Serializable
 data class NetworkOrderItemStatus(
     @Exclude
+    @DocumentId
     val id: String = "",
     @SerialName("order_id")
-    val orderId: String,
+    @set:PropertyName("order_id")
+    @get:PropertyName("order_id")
+    var orderId: String = "",
     @SerialName("order_item_id")
-    val orderItemId: String,
+    @set:PropertyName("order_item_id")
+    @get:PropertyName("order_item_id")
+    var orderItemId: String = "",
     val status: NetworkOrderItemStatusType = NetworkOrderItemStatusType.CONFIRMING,
+
+    @SerialName("user_id")
+    @set:PropertyName("user_id")
+    @get:PropertyName("user_id")
+    var userId: String = "",
+
     @SerialName("created_at")
-    val createdAt: String
+    @set:PropertyName("created_at")
+    @get:PropertyName("created_at")
+    var createdAt: String = ""
 )
 
 @Serializable

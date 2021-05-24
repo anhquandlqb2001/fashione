@@ -32,5 +32,5 @@ data class Purchase(
     val price: String,
     var purchaseImage: Resource<ProductImage>? = null,
     val status: OrderStatus,
-    val reviewStatus: ReviewStatus
+//    val reviewStatus: ReviewStatus
 )

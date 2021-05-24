@@ -11,13 +11,10 @@ import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import vn.quanprolazer.fashione.domain.models.Rating
-import vn.quanprolazer.fashione.domain.models.Review
-import vn.quanprolazer.fashione.domain.models.ReviewRetrofit
-import vn.quanprolazer.fashione.domain.models.ReviewRetrofitResponse
+import vn.quanprolazer.fashione.domain.models.*
 
 @Serializable
-data class NetworkReview(
+data class NetworkReviewFirestore(
     @DocumentId
     @Exclude
     var id: String = "",
@@ -52,7 +49,7 @@ data class NetworkReview(
     var createdAt: String = ""
 )
 
-internal fun NetworkReview.toDomainModel() = Review(
+internal fun NetworkReviewFirestore.toDomainModel() = Review(
     id, productId, orderItemId, rateId, userId, username, reviewTitle, reviewContent, createdAt
 )
 
@@ -80,6 +77,7 @@ internal fun NetworkRating.toDomainModel() = Rating(
 @Serializable
 data class NetworkReviewRetrofitResponse(
     val data: List<NetworkReviewRetrofit>,
+    @SerialName("last_visible_id")
     val lastVisibleId: String?
 )
 
@@ -137,3 +135,10 @@ internal fun NetworkReviewRetrofit.toDomainModel() = ReviewRetrofit(
     variantOptionId,
     variantValue
 )
+
+enum class NetworkReviewStatus {
+    YES,
+    NO
+}
+
+internal fun NetworkReviewStatus.toDomainModel() = ReviewStatus.valueOf(this.name)

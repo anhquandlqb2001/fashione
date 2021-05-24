@@ -51,7 +51,6 @@ class PurchaseViewModel @Inject constructor(
 
     private fun updatePurchaseItems(status: OrderStatus) {
         _purchaseItems.value = Resource.Loading(null)
-        Timber.i(status.toString())
         viewModelScope.launch {
             _purchaseItems.value = purchaseRepository.getPurchaseItems(status)
         }
