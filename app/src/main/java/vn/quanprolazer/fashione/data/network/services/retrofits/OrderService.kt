@@ -15,7 +15,7 @@ import vn.quanprolazer.fashione.data.network.models.NetworkDeliveryStatus
 import vn.quanprolazer.fashione.data.network.models.UpdateOrderStatusRequest
 
 interface OrderService {
-    @GET("delivery/status")
+    @GET("order/status")
     suspend fun getDeliveryStatus(
         @Query("token")
         idToken: String,
@@ -27,7 +27,7 @@ interface OrderService {
         data: CreateOrderRequest
     ): Boolean
 
-    @POST("/order/status")
+    @POST("order/status")
     suspend fun updateOrderStatus(
         @Body
         data: UpdateOrderStatusRequest
