@@ -13,10 +13,9 @@ import android.content.Intent
 import androidx.core.app.NotificationCompat
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.presentation.ui.MainActivity
+import java.util.concurrent.atomic.AtomicInteger
 
 object FashioneNotification {
-    // Notification ID.
-    private const val NOTIFICATION_ID = 0
 
     fun NotificationManager.sendNotification(messageBody: String, applicationContext: Context) {
 
@@ -27,7 +26,7 @@ object FashioneNotification {
         // TODO: Step 1.12 create PendingIntent
         val contentPendingIntent = PendingIntent.getActivity(
             applicationContext,
-            NOTIFICATION_ID,
+            NotificationID.iD,
             contentIntent,
             PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -56,7 +55,7 @@ object FashioneNotification {
 
         // TODO Step 1.4 call notify
         // Deliver the notification
-        notify(NOTIFICATION_ID, builder.build())
+        notify(NotificationID.iD, builder.build())
     }
 
 // TODO: Step 1.14 Cancel all notifications
@@ -67,4 +66,10 @@ object FashioneNotification {
     fun NotificationManager.cancelNotifications() {
         cancelAll()
     }
+}
+
+object NotificationID {
+    private val c: AtomicInteger = AtomicInteger(0)
+    val iD: Int
+        get() = c.incrementAndGet()
 }
