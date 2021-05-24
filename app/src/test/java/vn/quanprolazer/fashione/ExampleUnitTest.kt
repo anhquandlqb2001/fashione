@@ -12,7 +12,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import vn.quanprolazer.fashione.domain.models.Order
 import vn.quanprolazer.fashione.domain.models.OrderItem
-import vn.quanprolazer.fashione.domain.models.OrderStatus
+import vn.quanprolazer.fashione.domain.models.OrderItemStatusType
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
@@ -48,7 +48,7 @@ class ExampleUnitTest {
             productPriceTotal = "30000",
             createdAt = LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS")),
-            status = OrderStatus.CONFIRMING
+            status = OrderItemStatusType.CONFIRMING
         )
 
         val oritest = OrderItem(

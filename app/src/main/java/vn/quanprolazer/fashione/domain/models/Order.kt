@@ -10,6 +10,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import vn.quanprolazer.fashione.data.network.models.NetworkOrder
 import vn.quanprolazer.fashione.data.network.models.NetworkOrderItem
+import vn.quanprolazer.fashione.data.network.models.NetworkOrderItemStatusType
 
 
 data class Order(
@@ -57,7 +58,7 @@ internal fun OrderItem.toDataModel() = NetworkOrderItem(
 )
 
 @Serializable
-enum class OrderStatus(val status: String? = null) {
+enum class OrderItemStatusType(val status: String? = null) {
     @SerialName("CONFIRMING")
     CONFIRMING("Đang xác nhận"),
 
@@ -74,7 +75,9 @@ enum class OrderStatus(val status: String? = null) {
     COMPLETE("Hoàn thành")
 }
 
+internal fun OrderItemStatusType.toDataModel() = NetworkOrderItemStatusType.valueOf(this.name)
+
 data class DeliveryStatus(
-    val status: OrderStatus,
+    val status: OrderItemStatusType,
     val quantity: Int
 )

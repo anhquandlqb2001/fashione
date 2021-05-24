@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentPurchaseMenuBinding
-import vn.quanprolazer.fashione.domain.models.OrderStatus
+import vn.quanprolazer.fashione.domain.models.OrderItemStatusType
 import vn.quanprolazer.fashione.presentation.adapters.PurchaseFragmentAdapter
 import vn.quanprolazer.fashione.presentation.viewmodels.PurchaseViewModel
 
@@ -106,19 +106,19 @@ class PurchaseMenuFragment : Fragment() {
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             when (position) {
                 CONFIRMING_POSITION -> {
-                    tab.text = OrderStatus.CONFIRMING.status
+                    tab.text = OrderItemStatusType.CONFIRMING.status
                 }
                 COLLECTING_POSITION -> {
-                    tab.text = OrderStatus.COLLECTING.status
+                    tab.text = OrderItemStatusType.COLLECTING.status
                 }
                 DELIVERING_POSITION -> {
-                    tab.text = OrderStatus.DELIVERING.status
+                    tab.text = OrderItemStatusType.DELIVERING.status
                 }
                 DELIVERED_POSITION -> {
-                    tab.text = OrderStatus.DELIVERED.status
+                    tab.text = OrderItemStatusType.DELIVERED.status
                 }
                 COMPLETE_POSITION -> {
-                    tab.text = OrderStatus.COMPLETE.status
+                    tab.text = OrderItemStatusType.COMPLETE.status
                 }
             }
         }.attach()

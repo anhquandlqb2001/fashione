@@ -106,23 +106,23 @@ fun ImageView.imgResource(img: Resource<ProductImage>?) {
 }
 
 @BindingAdapter("purchaseItemStatus")
-fun TextView.purchaseItemStatus(status: OrderStatus?) {
+fun TextView.purchaseItemStatus(status: OrderItemStatusType?) {
     status?.let {
         text = status.status
         when (status) {
-            OrderStatus.CONFIRMING -> setTextColor(
+            OrderItemStatusType.CONFIRMING -> setTextColor(
                 resources.getColor(
                     R.color.teal_200,
                     context.theme
                 )
             )
-            OrderStatus.DELIVERING -> setTextColor(
+            OrderItemStatusType.DELIVERING -> setTextColor(
                 resources.getColor(
                     R.color.teal_200,
                     context.theme
                 )
             )
-            OrderStatus.DELIVERED -> setTextColor(
+            OrderItemStatusType.DELIVERED -> setTextColor(
                 resources.getColor(
                     R.color.teal_700,
                     context.theme
@@ -144,9 +144,9 @@ fun LinearLayout.purchaseReviewStatus(status: ReviewStatus?) {
 
 
 @BindingAdapter("purchaseDelivered")
-fun RelativeLayout.purchaseDelivered(status: OrderStatus?) {
+fun RelativeLayout.purchaseDelivered(status: OrderItemStatusType?) {
     status?.let {
-        visibility = if (status == OrderStatus.DELIVERED) {
+        visibility = if (status == OrderItemStatusType.DELIVERED) {
             View.VISIBLE
         } else {
             View.GONE

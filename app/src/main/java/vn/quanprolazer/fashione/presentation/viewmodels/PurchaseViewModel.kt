@@ -9,7 +9,6 @@ package vn.quanprolazer.fashione.presentation.viewmodels
 import androidx.lifecycle.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.CartRepository
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
@@ -31,11 +30,11 @@ class PurchaseViewModel @Inject constructor(
      */
     fun updatePurchaseItems(position: Number) {
         when (position) {
-            CONFIRMING_POSITION -> updatePurchaseItems(OrderStatus.CONFIRMING)
-            COLLECTING_POSITION -> updatePurchaseItems(OrderStatus.COLLECTING)
-            DELIVERING_POSITION -> updatePurchaseItems(OrderStatus.DELIVERING)
-            DELIVERED_POSITION -> updatePurchaseItems(OrderStatus.DELIVERED)
-            COMPLETE_POSITION -> updatePurchaseItems(OrderStatus.COMPLETE)
+            CONFIRMING_POSITION -> updatePurchaseItems(OrderItemStatusType.CONFIRMING)
+            COLLECTING_POSITION -> updatePurchaseItems(OrderItemStatusType.COLLECTING)
+            DELIVERING_POSITION -> updatePurchaseItems(OrderItemStatusType.DELIVERING)
+            DELIVERED_POSITION -> updatePurchaseItems(OrderItemStatusType.DELIVERED)
+            COMPLETE_POSITION -> updatePurchaseItems(OrderItemStatusType.COMPLETE)
         }
     }
 
@@ -43,13 +42,13 @@ class PurchaseViewModel @Inject constructor(
         val liveData = MutableLiveData<Resource<MutableList<Purchase>>>(Resource.Loading(null))
 
         viewModelScope.launch {
-            liveData.value = purchaseRepository.getPurchaseItems(OrderStatus.CONFIRMING)
+            liveData.value = purchaseRepository.getPurchaseItems(OrderItemStatusType.CONFIRMING)
         }
         return@lazy liveData
     }
     val purchaseItems: LiveData<Resource<MutableList<Purchase>>> get() = _purchaseItems
 
-    private fun updatePurchaseItems(status: OrderStatus) {
+    private fun updatePurchaseItems(status: OrderItemStatusType) {
         _purchaseItems.value = Resource.Loading(null)
         viewModelScope.launch {
             _purchaseItems.value = purchaseRepository.getPurchaseItems(status)

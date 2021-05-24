@@ -6,13 +6,14 @@
 
 package vn.quanprolazer.fashione.data.network.models
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import vn.quanprolazer.fashione.domain.models.DeliveryStatus
-import vn.quanprolazer.fashione.domain.models.OrderStatus
+import vn.quanprolazer.fashione.domain.models.OrderItemStatusType
 
 @Serializable
 data class NetworkOrder(
@@ -90,6 +91,7 @@ data class NetworkOrderItem(
     var userId: String = "",
 )
 
+
 @Serializable
 enum class NetworkOrderItemReviewStatus {
     YES,
@@ -98,7 +100,7 @@ enum class NetworkOrderItemReviewStatus {
 
 @Serializable
 data class NetworkDeliveryStatus(
-    val status: OrderStatus,
+    val status: OrderItemStatusType,
     val quantity: Int
 )
 
@@ -122,8 +124,29 @@ enum class NetworkOrderItemStatusType {
     COMPLETE
 }
 
-@Serializable
 data class NetworkOrderItemStatus(
+    @Exclude
+    @DocumentId
+    val id: String = "",
+    @set:PropertyName("order_id")
+    @get:PropertyName("order_id")
+    var orderId: String = "",
+    @set:PropertyName("order_item_id")
+    @get:PropertyName("order_item_id")
+    var orderItemId: String = "",
+    val status: NetworkOrderItemStatusType = NetworkOrderItemStatusType.CONFIRMING,
+
+    @set:PropertyName("user_id")
+    @get:PropertyName("user_id")
+    var userId: String = "",
+
+    @set:PropertyName("created_at")
+    @get:PropertyName("created_at")
+    var createdAt: Timestamp = Timestamp.now()
+)
+
+@Serializable
+data class NetworkOrderStatus(
     @Exclude
     @DocumentId
     val id: String = "",
@@ -135,18 +158,17 @@ data class NetworkOrderItemStatus(
     @set:PropertyName("order_item_id")
     @get:PropertyName("order_item_id")
     var orderItemId: String = "",
-    val status: NetworkOrderItemStatusType = NetworkOrderItemStatusType.CONFIRMING,
+    @SerialName("current_order_item_status_id")
+    @set:PropertyName("current_order_item_status_id")
+    @get:PropertyName("current_order_item_status_id")
+    var currentOrderItemStatusId: String = "",
 
     @SerialName("user_id")
     @set:PropertyName("user_id")
     @get:PropertyName("user_id")
     var userId: String = "",
-
-    @SerialName("created_at")
-    @set:PropertyName("created_at")
-    @get:PropertyName("created_at")
-    var createdAt: String = ""
 )
+
 
 @Serializable
 data class CreateOrderRequest(

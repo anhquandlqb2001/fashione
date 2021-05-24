@@ -15,7 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentPersonalBinding
-import vn.quanprolazer.fashione.domain.models.OrderStatus
+import vn.quanprolazer.fashione.domain.models.OrderItemStatusType
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.viewmodels.PersonalViewModel
 
@@ -65,26 +65,26 @@ class PersonalFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        enumValues<OrderStatus>().forEach { status ->
+                        enumValues<OrderItemStatusType>().forEach { status ->
                             when (status) {
-                                OrderStatus.CONFIRMING -> {
+                                OrderItemStatusType.CONFIRMING -> {
                                     val expect =
-                                        it.data.find { deliveryStatus -> deliveryStatus.status == OrderStatus.CONFIRMING }
+                                        it.data.find { deliveryStatus -> deliveryStatus.status == OrderItemStatusType.CONFIRMING }
                                     binding.ibvConfirming.badgeValue = expect?.quantity ?: 0
                                 }
-                                OrderStatus.COLLECTING -> {
+                                OrderItemStatusType.COLLECTING -> {
                                     val expect =
-                                        it.data.find { deliveryStatus -> deliveryStatus.status == OrderStatus.COLLECTING }
+                                        it.data.find { deliveryStatus -> deliveryStatus.status == OrderItemStatusType.COLLECTING }
                                     binding.ibvCollecting.badgeValue = expect?.quantity ?: 0
                                 }
-                                OrderStatus.DELIVERING -> {
+                                OrderItemStatusType.DELIVERING -> {
                                     val expect =
-                                        it.data.find { deliveryStatus -> deliveryStatus.status == OrderStatus.DELIVERING }
+                                        it.data.find { deliveryStatus -> deliveryStatus.status == OrderItemStatusType.DELIVERING }
                                     binding.ibvDelivering.badgeValue = expect?.quantity ?: 0
                                 }
-                                OrderStatus.DELIVERED -> {
+                                OrderItemStatusType.DELIVERED -> {
                                     val expect =
-                                        it.data.find { deliveryStatus -> deliveryStatus.status == OrderStatus.DELIVERED }
+                                        it.data.find { deliveryStatus -> deliveryStatus.status == OrderItemStatusType.DELIVERED }
                                     binding.ibvDelivered.badgeValue = expect?.quantity ?: 0
                                 }
                             }
