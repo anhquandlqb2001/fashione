@@ -19,7 +19,7 @@ import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentReviewBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.ReviewItemAdapter
-import vn.quanprolazer.fashione.presentation.utilities.ViewDialog
+import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 import vn.quanprolazer.fashione.presentation.viewmodels.ReviewViewModel
 import javax.inject.Inject
 
@@ -43,7 +43,7 @@ class ReviewFragment : Fragment() {
         )
     }
 
-    private val loadingDialog: ViewDialog by lazy { ViewDialog(requireActivity()) }
+    private val loadingDialog: LoadingDialog by lazy { LoadingDialog(requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

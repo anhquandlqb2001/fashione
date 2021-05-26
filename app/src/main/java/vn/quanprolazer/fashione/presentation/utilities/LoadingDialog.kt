@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade
 import vn.quanprolazer.fashione.R
 
-class ViewDialog(val activity: Activity) {
+class LoadingDialog(val activity: Activity) {
     var dialog: Dialog? = null
     fun showDialog() {
         if (dialog == null) {

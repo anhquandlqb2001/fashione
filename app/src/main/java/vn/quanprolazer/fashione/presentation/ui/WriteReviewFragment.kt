@@ -17,7 +17,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentWriteReviewBinding
 import vn.quanprolazer.fashione.domain.models.Resource
-import vn.quanprolazer.fashione.presentation.utilities.ViewDialog
+import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 import vn.quanprolazer.fashione.presentation.viewmodels.WriteReviewViewModel
 import javax.inject.Inject
 
@@ -37,7 +37,7 @@ class WriteReviewFragment : Fragment() {
         )
     }
 
-    private val loadingDialog: ViewDialog by lazy { ViewDialog(requireActivity()) }
+    private val loadingDialog: LoadingDialog by lazy { LoadingDialog(requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -20,7 +20,8 @@ class NotificationViewModel @AssistedInject constructor(
     ViewModel() {
 
     private val _notificationOrderStatus: MutableLiveData<Resource<List<NotificationOrderStatus>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<NotificationOrderStatus>>>()
+        val liveData =
+            MutableLiveData<Resource<List<NotificationOrderStatus>>>(Resource.Loading(null))
         val notificationOrderStatusType =
             notificationOverviews.filter { it.type.name == NotificationTypeEnum.ORDER_STATUS }[0].type
         viewModelScope.launch {

@@ -21,7 +21,7 @@ import vn.quanprolazer.fashione.domain.models.Purchase
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.PurchaseItemAdapter
 import vn.quanprolazer.fashione.presentation.adapters.PurchaseItemListener
-import vn.quanprolazer.fashione.presentation.utilities.ViewDialog
+import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 import vn.quanprolazer.fashione.presentation.viewmodels.PurchaseViewModel
 
 class PurchaseFragment : Fragment() {
@@ -43,8 +43,8 @@ class PurchaseFragment : Fragment() {
         })
     }
 
-    private val loadingDialog: ViewDialog by lazy {
-        ViewDialog(requireActivity())
+    private val loadingDialog: LoadingDialog by lazy {
+        LoadingDialog(requireActivity())
     }
 
     override fun onCreateView(

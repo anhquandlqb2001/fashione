@@ -20,6 +20,7 @@ import vn.quanprolazer.fashione.databinding.FragmentExtendNotificationBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.NotificationExtendItemAdapter
 import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
+import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 import vn.quanprolazer.fashione.presentation.viewmodels.ExtendNotificationViewModel
 import javax.inject.Inject
 
@@ -40,6 +41,8 @@ class ExtendNotificationFragment : Fragment() {
     }
 
     private val adapter: NotificationExtendItemAdapter by lazy { NotificationExtendItemAdapter() }
+
+    private val loadingDialog: LoadingDialog by lazy { LoadingDialog(requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -68,6 +71,7 @@ class ExtendNotificationFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
+                        loadingDialog.hideDialog()
                         if (it.data.isEmpty()) {
                             binding.tvNoItem.visibility = View.VISIBLE
                             binding.rvNotificationExtend.visibility = View.GONE
@@ -77,6 +81,7 @@ class ExtendNotificationFragment : Fragment() {
                             adapter.submitList(it.data)
                         }
                     }
+                    is Resource.Loading -> loadingDialog.showDialog()
                     is Resource.Error -> Timber.e(it.exception)
                 }
             }

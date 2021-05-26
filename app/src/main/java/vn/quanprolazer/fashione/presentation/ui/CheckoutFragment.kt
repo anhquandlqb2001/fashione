@@ -22,7 +22,7 @@ import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.CheckoutItemAdapter
 import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
-import vn.quanprolazer.fashione.presentation.utilities.ViewDialog
+import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutSharedViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutViewModel
 import javax.inject.Inject
@@ -50,8 +50,8 @@ class CheckoutFragment : Fragment() {
         CheckoutItemAdapter()
     }
 
-    private val loadingDialog: ViewDialog by lazy {
-        ViewDialog(requireActivity())
+    private val loadingDialog: LoadingDialog by lazy {
+        LoadingDialog(requireActivity())
     }
 
     override fun onCreateView(
