@@ -11,7 +11,7 @@
 
         <variable
             name="notification"
-            type="vn.quanprolazer.fashione.domain.models.Notification" />
+            type="vn.quanprolazer.fashione.domain.models.NotificationOrderStatus" />
 
     </data>
 
@@ -26,7 +26,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="8dp"
-            android:src="@{notification.data.imageUrl}"
+            imageUrl="@{notification.data.payload.notification.image}"
             tools:src="@drawable/blank_cart" />
 
         <LinearLayout
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:maxLines="1"
-                android:text="@{notification.data.title}"
+                android:text="@{notification.data.payload.notification.title}"
                 android:textSize="15sp"
                 android:textStyle="bold"
                 tools:text="Giao hang thanh cong" />
@@ -50,12 +50,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{notification.data.body}"
+                android:text="@{notification.data.payload.notification.body}"
                 android:textSize="14sp"
                 tools:text="Kien hang abcxyz da giao thanh cong den ban" />
 
             <TextView
-                android:text="@{notification.createdAt}"
+                android:text="@{notification.createdAt.toDate().toString()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"

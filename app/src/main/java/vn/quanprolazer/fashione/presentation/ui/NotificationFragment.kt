@@ -12,9 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentNotificationBinding
+import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupAdapter
+import vn.quanprolazer.fashione.presentation.adapters.NotificationItemAdapter
+import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.presentation.viewmodels.NotificationViewModel
 import javax.inject.Inject
 
@@ -37,6 +42,7 @@ class NotificationFragment : Fragment() {
 
     private val notificationTypeAdapter: NotificationGroupAdapter by lazy { NotificationGroupAdapter() }
 
+    private val notificationItemAdapter: NotificationItemAdapter by lazy { NotificationItemAdapter() }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,17 +56,31 @@ class NotificationFragment : Fragment() {
             adapter = notificationTypeAdapter
         }
 
+        binding.rvNotification.apply {
+            adapter = notificationItemAdapter
+            addItemDecoration(
+                DividerItemDecoration(
+                    context, DividerItemDecoration.VERTICAL
+                )
+            )
+            addItemDecoration(MarginItemDecoration(20))
+        }
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        viewModel.notificationType.observe(viewLifecycleOwner, {
-//            it?.let {
-//                Timber.d(it.toString())
-//            }
-//        })
+        viewModel.notificationOrderStatusType.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> notificationItemAdapter.submitList(it.data)
+                    is Resource.Error -> Timber.e(it.exception)
+
+                }
+            }
+        })
     }
 
     override fun onDestroy() {

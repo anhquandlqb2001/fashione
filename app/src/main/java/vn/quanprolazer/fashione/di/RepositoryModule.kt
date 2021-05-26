@@ -82,9 +82,10 @@ class RepositoryModule {
     @Provides
     fun provideNotificationRepository(
         notificationServiceRetrofit: NotificationService,
-        userRepository: UserRepository
+        userRepository: UserRepository,
+        notificationServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.NotificationService
     ): NotificationRepository = NotificationRepositoryImpl(
-        notificationServiceRetrofit, userRepository
+        notificationServiceRetrofit, notificationServiceFirestore, userRepository
     )
 
     @Singleton

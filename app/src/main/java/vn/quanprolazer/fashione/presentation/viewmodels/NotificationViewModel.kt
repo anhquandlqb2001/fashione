@@ -6,11 +6,14 @@
 
 package vn.quanprolazer.fashione.presentation.viewmodels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.launch
+import timber.log.Timber
+import vn.quanprolazer.fashione.domain.models.NotificationOrderStatus
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
+import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
 
 class NotificationViewModel @AssistedInject constructor(
@@ -19,15 +22,15 @@ class NotificationViewModel @AssistedInject constructor(
 ) :
     ViewModel() {
 
-//    private val _notificationType: MutableLiveData<Resource<List<NotificationOverview>>> by lazy {
-//        val liveData = MutableLiveData<Resource<List<NotificationOverview>>>()
-//        viewModelScope.launch {
-//            liveData.value = notificationRepositoryFirestore.getNotificationTypes()
-//        }
-//        return@lazy liveData
-//    }
-//
-//    val notificationType: LiveData<Resource<List<NotificationOverview>>> get() = _notificationType
+    private val _notificationOrderStatusType:  MutableLiveData<Resource<List<NotificationOrderStatus>>> by lazy {
+        val liveData = MutableLiveData<Resource<List<NotificationOrderStatus>>>()
+        viewModelScope.launch {
+            liveData.value = notificationRepositoryFirestore.getNotifications("H9eDDgrDU61q9zZr49TS")
+        }
+        return@lazy liveData
+    }
+
+    val notificationOrderStatusType: LiveData<Resource<List<NotificationOrderStatus>>> get() = _notificationOrderStatusType
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {

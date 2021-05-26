@@ -7,6 +7,7 @@
 package vn.quanprolazer.fashione.domain.models
 
 import android.os.Parcelable
+import com.google.firebase.Timestamp
 import kotlinx.parcelize.Parcelize
 
 enum class NotificationTypeEnum(val text: String) {
@@ -15,21 +16,47 @@ enum class NotificationTypeEnum(val text: String) {
     PROMOTION("Khuyến mãi")
 }
 
-data class Notification(
-    val id: String,
-    val recipientId: String,
-    val typeId: String,
-    val data: NotificationOrderDataType,
-    val read: Boolean,
-    val deleted: Boolean,
-    val createdAt: String,
-)
+interface Notification {
+    val id: String
+    val recipientId: String
+    val typeId: String
+    val read: Boolean
+    val deleted: Boolean
+    val createdAt: Timestamp
+    val type: NotificationTypeEnum
+}
+
+data class NotificationOrderStatus(
+    override val id: String,
+    override val recipientId: String,
+    override val typeId: String,
+    override val read: Boolean,
+    override val deleted: Boolean,
+    override val createdAt: Timestamp,
+    override val type: NotificationTypeEnum = NotificationTypeEnum.ORDER_STATUS,
+    val data: NotificationOrderDataType
+): Notification
 
 data class NotificationOrderDataType(
-    val imageUrl: String,
-    val title: String,
-    val body: String
+    val product: NotificationOrderDataProduct,
+    val payload: NotificationPayload
 )
+
+data class NotificationPayload(
+    val notification: NotificationPayloadData
+)
+
+data class NotificationPayloadData(
+    val body: String,
+    val title: String,
+    val image: String
+)
+
+data class NotificationOrderDataProduct(
+    val orderId: String,
+    val orderItemId: String
+)
+
 
 @Parcelize
 data class NotificationType(

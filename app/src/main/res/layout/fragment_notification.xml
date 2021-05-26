@@ -45,11 +45,13 @@
                 android:text="Cập nhật đơn hàng" />
 
             <androidx.recyclerview.widget.RecyclerView
+                android:paddingHorizontal="8dp"
+                android:background="@color/white"
                 android:id="@+id/rv_notification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/list_item_notification" />
+                tools:listitem="@layout/list_item_notification_order_status" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
