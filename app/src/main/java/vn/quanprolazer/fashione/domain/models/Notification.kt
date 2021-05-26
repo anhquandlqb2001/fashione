@@ -9,6 +9,7 @@ package vn.quanprolazer.fashione.domain.models
 import android.os.Parcelable
 import com.google.firebase.Timestamp
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 enum class NotificationTypeEnum(val text: String) {
     ORDER_STATUS("Thông báo đơn hàng"),
@@ -74,6 +75,7 @@ data class NotificationOrderDataProduct(
 )
 
 
+@Serializable
 @Parcelize
 data class NotificationType(
     val id: String,
@@ -82,6 +84,7 @@ data class NotificationType(
     val imageUrl: String
 ) : Parcelable
 
+@Serializable
 @Parcelize
 data class NotificationOverview(
     val type: NotificationType,

@@ -9,42 +9,60 @@ package vn.quanprolazer.fashione.data.repositories
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import vn.quanprolazer.fashione.data.database.dao.NotificationOverviewDao
+import vn.quanprolazer.fashione.data.database.models.NotificationOverviewEntity
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService
+import vn.quanprolazer.fashione.domain.models.NotificationExtend
 import vn.quanprolazer.fashione.domain.models.NotificationOrderStatus
 import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
-import vn.quanprolazer.fashione.domain.models.NotificationExtend
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
 import javax.inject.Inject
 
 class NotificationRepositoryImpl @Inject constructor(
-    private val notificationService: NotificationService,
+    private val notificationServiceRetrofit: NotificationService,
     private val notificationServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.NotificationService,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val notificationOverviewDao: NotificationOverviewDao
 ) :
     NotificationRepository {
     override suspend fun getNotificationTypes(): Resource<NotificationOverviewResponse> {
-        return try {
-            val token = withContext(Dispatchers.Default) {
-                userRepository.getToken()
-            }
-            if (token.isNullOrBlank()) {
-                return Resource.Error(Exception("Token is null or blank"))
-            }
-            val response = withContext(Dispatchers.Default) {
-                notificationService.getNotificationOverview(token)
-            }
-            Resource.Success(
-                NotificationOverviewResponse(
-                    notifications = response.notifications.map { it.toDomainModel() },
-                    total = response.total
-                )
+        try {
+            refreshNotificationTypes()
+        } catch (e: Exception) {
+            Timber.i("right here")
+            Timber.e(e)
+        }
+
+        val notification = withContext(Dispatchers.Default) {
+            notificationOverviewDao.loadNotificationOverviews()
+        }
+        return Resource.Success(
+            NotificationOverviewResponse(
+                notifications = notification.notifications, total = notification.total
             )
+        )
+    }
+
+    override suspend fun refreshNotificationTypes() {
+        val user = userRepository.getUser().value
+        try {
+            val freshNotifications = withContext(Dispatchers.Default) {
+                user?.let { notificationServiceRetrofit.getNotificationOverview(it.uid) }
+            }
+            if (freshNotifications != null) {
+                notificationOverviewDao.save(
+                    NotificationOverviewEntity(
+                        id = Long.MAX_VALUE,
+                        notifications = freshNotifications.notifications.map { it.toDomainModel() },
+                        total = freshNotifications.total
+                    )
+                )
+            }
         } catch (e: Exception) {
             Timber.e(e)
-            Resource.Error(e)
         }
     }
 

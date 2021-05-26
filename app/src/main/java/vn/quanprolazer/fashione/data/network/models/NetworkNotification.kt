@@ -130,7 +130,10 @@ data class NetworkNotificationOrderData(
 )
 
 internal fun NetworkNotificationOrderData.toDomainModel() =
-    NotificationOrderStatusData(product = product.toDomainModel(), payload = payload.toDomainModel())
+    NotificationOrderStatusData(
+        product = product.toDomainModel(),
+        payload = payload.toDomainModel()
+    )
 
 data class NetworkNotificationPayload(
     val notification: NetworkNotificationPayloadData = NetworkNotificationPayloadData()
@@ -168,6 +171,15 @@ data class NetworkNotificationOverview(
     val type: NetworkNotificationType,
     val quantity: Int
 )
+
+//internal fun NetworkNotificationOverview.toDatabaseModel() =
+//    vn.quanprolazer.fashione.data.database.models.NotificationOverview(
+//        quantity = quantity,
+//        description = type.description,
+//        id = type.id,
+//        imageUrl = type.imageUrl,
+//        name = type.name.toDomainModel()
+//    )
 
 @Serializable
 data class NetworkNotificationOverviewResponse(

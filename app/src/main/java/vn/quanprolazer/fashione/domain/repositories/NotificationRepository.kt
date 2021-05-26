@@ -13,6 +13,8 @@ import vn.quanprolazer.fashione.domain.models.Resource
 
 interface NotificationRepository {
     suspend fun getNotificationTypes(): Resource<NotificationOverviewResponse>
+    
+    suspend fun refreshNotificationTypes()
 
     suspend fun getNotificationsOfOrderStatus(notificationTypeId: String): Resource<List<NotificationOrderStatus>>
 

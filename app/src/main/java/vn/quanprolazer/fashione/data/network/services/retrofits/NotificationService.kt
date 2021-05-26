@@ -13,7 +13,7 @@ interface NotificationService {
 
     @GET("notification/overview")
     suspend fun getNotificationOverview(
-        @Query("token")
-        idToken: String,
+        @Query("uid")
+        uid: String,
     ): NetworkNotificationOverviewResponse
 }

@@ -10,6 +10,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import vn.quanprolazer.fashione.data.database.dao.NotificationOverviewDao
 import vn.quanprolazer.fashione.data.network.services.firestores.*
 import vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService
 import vn.quanprolazer.fashione.data.network.services.retrofits.PickupAddressService
@@ -83,9 +84,13 @@ class RepositoryModule {
     fun provideNotificationRepository(
         notificationServiceRetrofit: NotificationService,
         userRepository: UserRepository,
-        notificationServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.NotificationService
+        notificationServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.NotificationService,
+        notificationOverviewDao: NotificationOverviewDao
     ): NotificationRepository = NotificationRepositoryImpl(
-        notificationServiceRetrofit, notificationServiceFirestore, userRepository
+        notificationServiceRetrofit,
+        notificationServiceFirestore,
+        userRepository,
+        notificationOverviewDao
     )
 
     @Singleton
