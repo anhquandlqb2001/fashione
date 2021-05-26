@@ -23,10 +23,10 @@ class ProductRepositoryImpl @AssistedInject constructor(
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
-    override suspend fun getProducts(source: Source): Resource<List<Product>> {
+    override suspend fun getProducts(): Resource<List<Product>> {
 
         val response = withContext(dispatcher) {
-            productService.getProducts(source)
+            productService.getProducts()
         }
 
         return when (response) {

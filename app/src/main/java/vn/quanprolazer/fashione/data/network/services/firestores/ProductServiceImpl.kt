@@ -18,10 +18,10 @@ import vn.quanprolazer.fashione.domain.models.Resource
 class ProductServiceImpl : ProductService {
 
 
-    override suspend fun getProducts(source: Source): Resource<List<NetworkProduct>> {
+    override suspend fun getProducts(): Resource<List<NetworkProduct>> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            val list = db.collection("products").get(source).await().documents.mapNotNull {
+            val list = db.collection("products").get().await().documents.mapNotNull {
                 it.toObject((NetworkProduct::class.java))
             }
             Resource.Success(list)

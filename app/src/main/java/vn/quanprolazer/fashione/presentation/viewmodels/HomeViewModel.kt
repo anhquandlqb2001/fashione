@@ -61,7 +61,7 @@ class HomeViewModel @Inject constructor(
     private val _products by lazy {
         val liveData = MutableLiveData<List<Product>>()
         viewModelScope.launch {
-            when (val getProductResponse = productRepository.getProducts(Source.SERVER)) {
+            when (val getProductResponse = productRepository.getProducts()) {
                 is Resource.Success -> liveData.value = getProductResponse.data
                 is Resource.Error -> _exception.value = getProductResponse.exception
             }

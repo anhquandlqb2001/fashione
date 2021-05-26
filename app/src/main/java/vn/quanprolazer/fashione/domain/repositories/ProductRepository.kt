@@ -11,7 +11,7 @@ import vn.quanprolazer.fashione.domain.models.*
 
 interface ProductRepository {
 
-    suspend fun getProducts(source: Source = Source.DEFAULT): Resource<List<Product>>
+    suspend fun getProducts(): Resource<List<Product>>
 
     suspend fun getProductsByCategoryId(categoryId: String): Resource<List<Product>>
 

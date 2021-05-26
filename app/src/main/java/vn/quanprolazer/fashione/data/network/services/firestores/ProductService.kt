@@ -12,7 +12,7 @@ import vn.quanprolazer.fashione.domain.models.Resource
 
 interface ProductService {
 
-    suspend fun getProducts(source: Source = Source.DEFAULT): Resource<List<NetworkProduct>>
+    suspend fun getProducts(): Resource<List<NetworkProduct>>
 
     suspend fun getProductsByCategoryId(categoryId: String): Resource<List<NetworkProduct>>
 
