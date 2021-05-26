@@ -10,9 +10,9 @@ import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import vn.quanprolazer.fashione.domain.models.NotificationOrderStatus
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
+import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
 
@@ -22,15 +22,29 @@ class NotificationViewModel @AssistedInject constructor(
 ) :
     ViewModel() {
 
-    private val _notificationOrderStatusType:  MutableLiveData<Resource<List<NotificationOrderStatus>>> by lazy {
+    private val _notificationOrderStatus: MutableLiveData<Resource<List<NotificationOrderStatus>>> by lazy {
         val liveData = MutableLiveData<Resource<List<NotificationOrderStatus>>>()
+        val notificationOrderStatusType =
+            notificationOverviews.filter { it.type.name == NotificationTypeEnum.ORDER_STATUS }[0].type
         viewModelScope.launch {
-            liveData.value = notificationRepositoryFirestore.getNotifications("H9eDDgrDU61q9zZr49TS")
+            liveData.value =
+                notificationRepositoryFirestore.getNotifications(notificationOrderStatusType.id)
         }
         return@lazy liveData
     }
 
-    val notificationOrderStatusType: LiveData<Resource<List<NotificationOrderStatus>>> get() = _notificationOrderStatusType
+    val notificationOrderStatus: LiveData<Resource<List<NotificationOrderStatus>>> get() = _notificationOrderStatus
+
+    private val _navigateToExtendNotification: MutableLiveData<NotificationTypeEnum> by lazy { MutableLiveData() }
+    val navigateToExtendNotification: LiveData<NotificationTypeEnum> get() = _navigateToExtendNotification
+
+    fun onNavigateToExtendNotification(type: NotificationTypeEnum) {
+        _navigateToExtendNotification.value = type
+    }
+
+    fun doneNavigateToExtendNotification() {
+        _navigateToExtendNotification.value = null
+    }
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {

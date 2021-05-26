@@ -12,12 +12,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentNotificationBinding
+import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupAdapter
+import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupItemListener
 import vn.quanprolazer.fashione.presentation.adapters.NotificationItemAdapter
 import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.presentation.viewmodels.NotificationViewModel
@@ -40,7 +43,13 @@ class NotificationFragment : Fragment() {
         )
     }
 
-    private val notificationTypeAdapter: NotificationGroupAdapter by lazy { NotificationGroupAdapter() }
+    private val notificationTypeAdapter: NotificationGroupAdapter by lazy {
+        NotificationGroupAdapter(object : NotificationGroupItemListener() {
+            override fun onClick(type: NotificationTypeEnum) {
+                viewModel.onNavigateToExtendNotification(type)
+            }
+        })
+    }
 
     private val notificationItemAdapter: NotificationItemAdapter by lazy { NotificationItemAdapter() }
     override fun onCreateView(
@@ -72,15 +81,27 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.notificationOrderStatusType.observe(viewLifecycleOwner, {
+        viewModel.notificationOrderStatus.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
                     is Resource.Success -> notificationItemAdapter.submitList(it.data)
                     is Resource.Error -> Timber.e(it.exception)
-
                 }
             }
         })
+
+        viewModel.navigateToExtendNotification.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController().navigate(
+                    NotificationFragmentDirections.actionNotificationFragmentToExtendNotificationFragment(
+                        it
+                    )
+                )
+                viewModel.doneNavigateToExtendNotification()
+            }
+        })
+
+
     }
 
     override fun onDestroy() {

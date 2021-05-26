@@ -15,7 +15,7 @@ import vn.quanprolazer.fashione.databinding.ListItemNotificationGroupBinding
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
 import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
 
-class NotificationGroupAdapter :
+class NotificationGroupAdapter(private val listener: NotificationGroupItemListener) :
     ListAdapter<NotificationOverview, NotificationGroupAdapter.NotificationGroupViewHolder>(
         NotificationGroupDiffUtil
     ) {
@@ -33,9 +33,13 @@ class NotificationGroupAdapter :
             }
         }
 
-        fun bind(notificationOverview: NotificationOverview) {
-            if (notificationOverview.type.name  !in ignoreNotificationGroups) {
+        fun bind(
+            notificationOverview: NotificationOverview,
+            listener: NotificationGroupItemListener
+        ) {
+            if (notificationOverview.type.name !in ignoreNotificationGroups) {
                 binding.notificationOverview = notificationOverview
+                binding.listener = listener
                 binding.executePendingBindings()
             }
         }
@@ -64,7 +68,11 @@ class NotificationGroupAdapter :
     }
 
     override fun onBindViewHolder(holder: NotificationGroupViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), listener)
     }
 
+}
+
+abstract class NotificationGroupItemListener {
+    abstract fun onClick(type: NotificationTypeEnum)
 }

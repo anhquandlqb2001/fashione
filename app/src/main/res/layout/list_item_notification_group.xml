@@ -13,6 +13,10 @@
         <variable
             name="notificationOverview"
             type="vn.quanprolazer.fashione.domain.models.NotificationOverview" />
+        
+        <variable
+            name="listener"
+            type="vn.quanprolazer.fashione.presentation.adapters.NotificationGroupItemListener" />
     </data>
 
     <RelativeLayout
@@ -20,7 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
-        android:paddingVertical="16dp">
+        android:paddingVertical="16dp"
+        android:onClick="@{() -> listener.onClick(notificationOverview.type.name)}">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_circular"

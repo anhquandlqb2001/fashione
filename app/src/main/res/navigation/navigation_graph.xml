@@ -167,6 +167,17 @@
         <argument
             android:name="notificationOverviews"
             app:argType="vn.quanprolazer.fashione.domain.models.NotificationOverview[]" />
+        <action
+            android:id="@+id/action_notificationFragment_to_extendNotificationFragment"
+            app:destination="@id/extendNotificationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/extendNotificationFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.ExtendNotificationFragment"
+        android:label="ExtendNotificationFragment" >
+        <argument
+            android:name="type"
+            app:argType="vn.quanprolazer.fashione.domain.models.NotificationTypeEnum" />
     </fragment>
 
 
