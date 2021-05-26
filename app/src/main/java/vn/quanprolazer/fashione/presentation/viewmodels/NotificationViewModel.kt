@@ -35,11 +35,11 @@ class NotificationViewModel @AssistedInject constructor(
 
     val notificationOrderStatus: LiveData<Resource<List<NotificationOrderStatus>>> get() = _notificationOrderStatus
 
-    private val _navigateToExtendNotification: MutableLiveData<NotificationTypeEnum> by lazy { MutableLiveData() }
-    val navigateToExtendNotification: LiveData<NotificationTypeEnum> get() = _navigateToExtendNotification
+    private val _navigateToExtendNotification: MutableLiveData<String> by lazy { MutableLiveData() }
+    val navigateToExtendNotification: LiveData<String> get() = _navigateToExtendNotification
 
-    fun onNavigateToExtendNotification(type: NotificationTypeEnum) {
-        _navigateToExtendNotification.value = type
+    fun onNavigateToExtendNotification(typeId: String) {
+        _navigateToExtendNotification.value = typeId
     }
 
     fun doneNavigateToExtendNotification() {

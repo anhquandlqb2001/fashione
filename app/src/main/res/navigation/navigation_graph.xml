@@ -176,8 +176,8 @@
         android:name="vn.quanprolazer.fashione.presentation.ui.ExtendNotificationFragment"
         android:label="ExtendNotificationFragment" >
         <argument
-            android:name="type"
-            app:argType="vn.quanprolazer.fashione.domain.models.NotificationTypeEnum" />
+            android:name="typeId"
+            app:argType="string" />
     </fragment>
 
 

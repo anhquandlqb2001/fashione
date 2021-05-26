@@ -45,8 +45,8 @@ class NotificationFragment : Fragment() {
 
     private val notificationTypeAdapter: NotificationGroupAdapter by lazy {
         NotificationGroupAdapter(object : NotificationGroupItemListener() {
-            override fun onClick(type: NotificationTypeEnum) {
-                viewModel.onNavigateToExtendNotification(type)
+            override fun onClick(typeId: String) {
+                viewModel.onNavigateToExtendNotification(typeId)
             }
         })
     }

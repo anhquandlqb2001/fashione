@@ -74,5 +74,5 @@ class NotificationGroupAdapter(private val listener: NotificationGroupItemListen
 }
 
 abstract class NotificationGroupItemListener {
-    abstract fun onClick(type: NotificationTypeEnum)
+    abstract fun onClick(typeId: String)
 }

@@ -11,9 +11,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
 import vn.quanprolazer.fashione.databinding.FragmentExtendNotificationBinding
+import vn.quanprolazer.fashione.presentation.viewmodels.ExtendNotificationViewModel
+import javax.inject.Inject
 
 class ExtendNotificationFragment : Fragment() {
 
@@ -21,6 +24,14 @@ class ExtendNotificationFragment : Fragment() {
 
     private val binding: FragmentExtendNotificationBinding get() = _binding!!
 
+    @Inject
+    lateinit var factory: ExtendNotificationViewModel.AssistedFactory
+    private val viewModel: ExtendNotificationViewModel by viewModels {
+        ExtendNotificationViewModel.provideFactory(
+            factory,
+            ExtendNotificationFragmentArgs.fromBundle(requireArguments()).typeId
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
