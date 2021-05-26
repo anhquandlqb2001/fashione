@@ -20,4 +20,6 @@ interface CartRepository {
     suspend fun getCartItems(): Resource<MutableList<CartItem>>
 
     suspend fun removeCartItem(cartItemId: String): Resource<Boolean>
+
+    suspend fun getCartItemCount(): Resource<Int>
 }

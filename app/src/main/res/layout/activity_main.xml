@@ -38,7 +38,7 @@
 
                 <TextView
                     android:id="@+id/tv_toolbar_title"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginEnd="?android:attr/actionBarSize"
@@ -55,7 +55,7 @@
                         android:id="@+id/iv_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_toStartOf="@id/iv_filter"
+                        android:layout_toStartOf="@id/iv_cart"
                         android:contentDescription="@string/content_description_notification_icon"
                         android:onClick="@{() -> viewModel.onClickNavigateToNotification()}"
                         app:ibv_badgeColor="#00ACC1"
@@ -67,14 +67,22 @@
                         app:srcCompat="@drawable/ic_notifications_none_black_36dp"
                         tools:ibv_badgeValue="10" />
 
-                    <ImageView
-                        android:id="@+id/iv_filter"
+                    <ru.nikartm.support.ImageBadgeView
+                        android:layout_marginEnd="4dp"
+                        android:id="@+id/iv_cart"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
-                        android:contentDescription="@string/content_description_icon_filter"
-                        app:srcCompat="@drawable/ic_filter_alt_black_36dp" />
-
+                        android:contentDescription="@string/content_description_notification_icon"
+                        android:onClick="@{() -> viewModel.onClickNavigateToCart()}"
+                        app:ibv_badgeColor="#00ACC1"
+                        app:ibv_badgeLimitValue="false"
+                        app:ibv_badgeTextColor="#ffffff"
+                        app:ibv_badgeTextSize="12sp"
+                        app:ibv_badgeTextStyle="bold"
+                        app:ibv_fixedBadgeRadius="12dp"
+                        app:srcCompat="@drawable/outline_shopping_bag_black_36dp"
+                        tools:ibv_badgeValue="10" />
                 </RelativeLayout>
 
             </androidx.appcompat.widget.Toolbar>

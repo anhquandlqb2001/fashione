@@ -66,6 +66,8 @@ class MainActivity : AppCompatActivity() {
 
         observeNavigateToNotification()
 
+        observeNavigateToCart()
+
         viewModel.notificationOverview.observe(this, {
             it?.let {
                 when (it) {
@@ -77,6 +79,28 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        viewModel.cartItemCount.observe(this, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.ivCart.badgeValue = it.data
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                }
+            }
+        })
+
+    }
+
+    private fun observeNavigateToCart() {
+        viewModel.navigateToCart.observe(this, {
+            it?.let {
+                val action =
+                    HomeFragmentDirections.actionHomeFragmentToCartFragment()
+                this.findNavController(R.id.nav_host_fragment).navigate(action)
+                viewModel.doneNavigateToCart()
+            }
+        })
     }
 
     private fun observeNavigateToNotification() {
@@ -118,7 +142,10 @@ class MainActivity : AppCompatActivity() {
                         )
                     }
 
-                    viewModel.fetchNotification()
+                    viewModel.apply {
+                        fetchNotification()
+                        fetchCartItemCount()
+                    }
 
                     menuItem.title = getString(R.string.sign_out_text)
                 }
@@ -196,7 +223,7 @@ class MainActivity : AppCompatActivity() {
                     customActionBarTitleVisibility(View.GONE)
                     toolBar.setHomeAsUpIndicator(R.drawable.ic_menu_black_36dp)
                     customActionBarTitleVisibility(View.GONE)
-                    binding.ivFilter.visibility = View.VISIBLE
+                    binding.ivCart.visibility = View.VISIBLE
                     binding.ivNotification.visibility = View.VISIBLE
                 }
                 R.id.pickupAddressFragment -> {
@@ -222,7 +249,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 else -> {
                     customActionBarTitleVisibility(View.GONE)
-                    binding.ivFilter.visibility = View.GONE
+                    binding.ivCart.visibility = View.GONE
                     binding.ivNotification.visibility = View.GONE
                     toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
                 }
@@ -234,7 +261,7 @@ class MainActivity : AppCompatActivity() {
         customActionBarTitleVisibility(View.VISIBLE)
         toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
         binding.tvToolbarTitle.text = text
-        binding.ivFilter.visibility = View.GONE
+        binding.ivCart.visibility = View.GONE
         binding.ivNotification.visibility = View.GONE
     }
 

@@ -26,6 +26,7 @@ import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.presentation.utilities.onDone
 import vn.quanprolazer.fashione.presentation.viewmodels.HomeViewModel
 
+
 @AndroidEntryPoint
 class HomeFragment : Fragment() {
 
@@ -73,6 +74,7 @@ class HomeFragment : Fragment() {
      */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         observeCategory()
 
         // Product Featured Section

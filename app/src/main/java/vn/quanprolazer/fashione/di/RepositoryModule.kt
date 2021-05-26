@@ -98,8 +98,9 @@ class RepositoryModule {
     fun provideCartRepository(
         userRepository: UserRepository,
         orderService: OrderService,
+        cartService: CartService
     ): CartRepository = CartRepositoryImpl(
-        userRepository, orderService
+        userRepository, orderService, cartService
     )
 
 }

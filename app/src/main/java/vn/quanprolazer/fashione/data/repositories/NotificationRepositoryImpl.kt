@@ -49,17 +49,18 @@ class NotificationRepositoryImpl @Inject constructor(
     override suspend fun refreshNotificationTypes() {
         val user = userRepository.getUser().value
         try {
-            val freshNotifications = withContext(Dispatchers.Default) {
-                user?.let { notificationServiceRetrofit.getNotificationOverview(it.uid) }
-            }
-            if (freshNotifications != null) {
-                notificationOverviewDao.save(
-                    NotificationOverviewEntity(
-                        id = Long.MAX_VALUE,
-                        notifications = freshNotifications.notifications.map { it.toDomainModel() },
-                        total = freshNotifications.total
+            withContext(Dispatchers.Default) {
+                val freshNotifications =
+                    user?.let { notificationServiceRetrofit.getNotificationOverview(it.uid) }
+                if (freshNotifications != null) {
+                    notificationOverviewDao.save(
+                        NotificationOverviewEntity(
+                            id = Long.MAX_VALUE,
+                            notifications = freshNotifications.notifications.map { it.toDomainModel() },
+                            total = freshNotifications.total
+                        )
                     )
-                )
+                }
             }
         } catch (e: Exception) {
             Timber.e(e)

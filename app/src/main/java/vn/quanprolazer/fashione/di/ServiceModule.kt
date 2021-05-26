@@ -62,6 +62,9 @@ class ServiceModule {
     fun provideNotificationServiceFirestore(): NotificationService = NotificationServiceImpl()
 
     @Provides
+    fun provideCartServiceFirestore(): CartService = CartServiceImpl()
+
+    @Provides
     @Singleton
     fun provideNotificationServiceRetrofit(@Named("nodejs") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService =
         retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService::class.java)

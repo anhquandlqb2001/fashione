@@ -15,26 +15,43 @@ import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
 import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
 import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.repositories.CartRepository
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val notificationRepository: NotificationRepository
+    private val notificationRepository: NotificationRepository,
+    private val cartRepository: CartRepository
 ) :
     ViewModel() {
 
     private val _navigateToNotification: MutableLiveData<List<NotificationOverview>> by lazy { MutableLiveData() }
     val navigateToNotification: LiveData<List<NotificationOverview>> get() = _navigateToNotification
 
+    private val _cartItemCount: MutableLiveData<Resource<Int>> by lazy { MutableLiveData<Resource<Int>>() }
+    val cartItemCount: LiveData<Resource<Int>> get() = _cartItemCount
+
     fun onClickNavigateToNotification() {
         if (_notificationOverview.value is Resource.Success) {
-            _navigateToNotification.value = (_notificationOverview.value as Resource.Success<NotificationOverviewResponse>).data.notifications
+            _navigateToNotification.value =
+                (_notificationOverview.value as Resource.Success<NotificationOverviewResponse>).data.notifications
         }
     }
 
     fun doneNavigateToNotification() {
         _navigateToNotification.value = null
+    }
+
+    private val _navigateToCart: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+    val navigateToCart: LiveData<Boolean> get() = _navigateToCart
+
+    fun onClickNavigateToCart() {
+        _navigateToCart.value = true
+    }
+
+    fun doneNavigateToCart() {
+        _navigateToCart.value = null
     }
 
     private val _notificationOverview: MutableLiveData<Resource<NotificationOverviewResponse>> by lazy {
@@ -50,4 +67,10 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    fun fetchCartItemCount() {
+        _cartItemCount.value = Resource.Loading(null)
+        viewModelScope.launch {
+            _cartItemCount.value = cartRepository.getCartItemCount()
+        }
+    }
 }
