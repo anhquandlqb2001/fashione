@@ -13,6 +13,7 @@ import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService
 import vn.quanprolazer.fashione.domain.models.NotificationOrderStatus
 import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
+import vn.quanprolazer.fashione.domain.models.NotificationExtend
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
@@ -47,17 +48,35 @@ class NotificationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getNotifications(notificationTypeId: String): Resource<List<NotificationOrderStatus>> {
-        val user = userRepository.getUser().value ?: return Resource.Error(Exception("Not login yet"))
+    override suspend fun getNotificationsOfOrderStatus(notificationTypeId: String): Resource<List<NotificationOrderStatus>> {
+        val user =
+            userRepository.getUser().value ?: return Resource.Error(Exception("Not login yet"))
 
         return try {
             val response = withContext(Dispatchers.Default) {
-                notificationServiceFirestore.getNotifications(
+                notificationServiceFirestore.getNotificationsOfOrderStatus(
                     user.uid,
                     notificationTypeId = notificationTypeId
                 ).map { it.toDomainModel() }
             }
-            Timber.i(response.toString())
+            Resource.Success(response)
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    override suspend fun getNotificationsExtend(notificationTypeId: String): Resource<List<NotificationExtend>> {
+        val user =
+            userRepository.getUser().value ?: return Resource.Error(Exception("Not login yet"))
+
+        return try {
+            val response = withContext(Dispatchers.Default) {
+                notificationServiceFirestore.getNotificationsExtend(
+                    user.uid,
+                    notificationTypeId = notificationTypeId
+                ).map { it.toDomainModel() }
+            }
             Resource.Success(response)
         } catch (e: Exception) {
             Timber.e(e)

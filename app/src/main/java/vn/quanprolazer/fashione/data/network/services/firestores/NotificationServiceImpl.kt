@@ -10,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import vn.quanprolazer.fashione.data.network.models.NetworkNotificationOrderStatus
+import vn.quanprolazer.fashione.data.network.models.NetworkNotificationExtend
 import vn.quanprolazer.fashione.data.network.models.NetworkNotificationType
 
 class NotificationServiceImpl : NotificationService {
@@ -19,7 +20,7 @@ class NotificationServiceImpl : NotificationService {
             .await().documents.mapNotNull { it.toObject(NetworkNotificationType::class.java) }
     }
 
-    override suspend fun getNotifications(
+    override suspend fun getNotificationsOfOrderStatus(
         recipientId: String,
         notificationTypeId: String
     ): List<NetworkNotificationOrderStatus> {
@@ -28,5 +29,16 @@ class NotificationServiceImpl : NotificationService {
             .whereEqualTo("type_id", notificationTypeId)
             .orderBy("created_at", Query.Direction.DESCENDING).get()
             .await().documents.mapNotNull { it.toObject(NetworkNotificationOrderStatus::class.java) }
+    }
+
+    override suspend fun getNotificationsExtend(
+        recipientId: String,
+        notificationTypeId: String
+    ): List<NetworkNotificationExtend> {
+        val db = FirebaseFirestore.getInstance()
+        return db.collection("notifications").whereEqualTo("recipient_id", recipientId)
+            .whereEqualTo("type_id", notificationTypeId)
+            .orderBy("created_at", Query.Direction.DESCENDING).get()
+            .await().documents.mapNotNull { it.toObject(NetworkNotificationExtend::class.java) }
     }
 }

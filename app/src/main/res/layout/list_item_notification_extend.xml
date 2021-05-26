@@ -11,7 +11,7 @@
 
         <variable
             name="notification"
-            type="vn.quanprolazer.fashione.domain.models.Notification&lt;vn.quanprolazer.fashione.domain.models.NotificationOrderStatusData&gt;" />
+            type="vn.quanprolazer.fashione.domain.models.NotificationExtend" />
 
     </data>
 

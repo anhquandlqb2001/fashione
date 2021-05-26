@@ -6,14 +6,31 @@
 
 package vn.quanprolazer.fashione.presentation.viewmodels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import kotlinx.coroutines.launch
+import vn.quanprolazer.fashione.domain.models.NotificationExtend
+import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
 
-class ExtendNotificationViewModel @AssistedInject constructor(@Assisted private val notificationTypeId: String) :
+class ExtendNotificationViewModel @AssistedInject constructor(
+    private val notificationRepositoryFirestore: NotificationRepository,
+    @Assisted private val notificationTypeId: String
+) :
     ViewModel() {
 
+    private val _notificationsOfPromotion: MutableLiveData<Resource<List<NotificationExtend>>> by lazy {
+        val liveData = MutableLiveData<Resource<List<NotificationExtend>>>()
+        viewModelScope.launch {
+            liveData.value =
+                notificationRepositoryFirestore.getNotificationsExtend(
+                    notificationTypeId
+                )
+        }
+        return@lazy liveData
+    }
+    val notificationsOfPromotion: LiveData<Resource<List<NotificationExtend>>> get() = _notificationsOfPromotion
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {

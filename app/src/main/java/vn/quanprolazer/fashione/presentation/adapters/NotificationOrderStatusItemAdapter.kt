@@ -11,21 +11,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import vn.quanprolazer.fashione.databinding.ListItemNotificationOrderStatusBinding
 import vn.quanprolazer.fashione.domain.models.NotificationOrderStatus
 
-
-private const val ITEM_VIEW_TYPE_ORDER_STATUS = 0
-private const val ITEM_VIEW_TYPE_PROMOTION = 1
 
 class NotificationItemAdapter :
     ListAdapter<NotificationOrderStatus, NotificationItemAdapter.NotificationOrderStatusViewHolder>(
         DiffCallback
     ) {
-
-    private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     class NotificationOrderStatusViewHolder private constructor(val binding: ListItemNotificationOrderStatusBinding) :
         RecyclerView.ViewHolder(binding.root) {

@@ -50,6 +50,46 @@ interface NetworkNotification {
     val type: NetworkNotificationTypeEnum
 }
 
+data class NetworkNotificationExtend(
+    @DocumentId
+    override val id: String = "",
+    @set:PropertyName("recipient_id")
+    @get:PropertyName("recipient_id")
+    override var recipientId: String = "",
+    @set:PropertyName("type_id")
+    @get:PropertyName("type_id")
+    override var typeId: String = "",
+    override val read: Boolean = false,
+    override val deleted: Boolean = false,
+    @set:PropertyName("created_at")
+    @get:PropertyName("created_at")
+    override var createdAt: Timestamp = Timestamp.now(),
+    override val type: NetworkNotificationTypeEnum = NetworkNotificationTypeEnum.PROMOTION,
+    val data: NetworkNotificationExtendData = NetworkNotificationExtendData(
+        NetworkNotificationPayload(NetworkNotificationPayloadData())
+    )
+) : NetworkNotification
+
+internal fun NetworkNotificationExtend.toDomainModel() =
+    NotificationExtend(
+        id = id,
+        recipientId = recipientId,
+        typeId = typeId,
+        type = type.toDomainModel(),
+        data = data.toDomainModel(),
+        read = read,
+        deleted = deleted, createdAt = createdAt
+    )
+
+data class NetworkNotificationExtendData(
+    val payload: NetworkNotificationPayload = NetworkNotificationPayload(
+        NetworkNotificationPayloadData()
+    )
+)
+
+internal fun NetworkNotificationExtendData.toDomainModel() =
+    NotificationExtendData(payload = payload.toDomainModel())
+
 data class NetworkNotificationOrderStatus(
     @DocumentId
     override val id: String = "",
@@ -65,7 +105,7 @@ data class NetworkNotificationOrderStatus(
     @get:PropertyName("created_at")
     override var createdAt: Timestamp = Timestamp.now(),
     override val type: NetworkNotificationTypeEnum = NetworkNotificationTypeEnum.ORDER_STATUS,
-    val data: NetworkNotificationOrderDataType = NetworkNotificationOrderDataType(
+    val data: NetworkNotificationOrderData = NetworkNotificationOrderData(
         NetworkNotificationOrderDataProduct(),
         NetworkNotificationPayload(NetworkNotificationPayloadData())
     )
@@ -82,15 +122,15 @@ internal fun NetworkNotificationOrderStatus.toDomainModel() =
         deleted = deleted, createdAt = createdAt
     )
 
-data class NetworkNotificationOrderDataType(
+data class NetworkNotificationOrderData(
     val product: NetworkNotificationOrderDataProduct = NetworkNotificationOrderDataProduct(),
     val payload: NetworkNotificationPayload = NetworkNotificationPayload(
         NetworkNotificationPayloadData()
     )
 )
 
-internal fun NetworkNotificationOrderDataType.toDomainModel() =
-    NotificationOrderDataType(product = product.toDomainModel(), payload = payload.toDomainModel())
+internal fun NetworkNotificationOrderData.toDomainModel() =
+    NotificationOrderStatusData(product = product.toDomainModel(), payload = payload.toDomainModel())
 
 data class NetworkNotificationPayload(
     val notification: NetworkNotificationPayloadData = NetworkNotificationPayloadData()

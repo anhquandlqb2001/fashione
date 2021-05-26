@@ -16,7 +16,7 @@ enum class NotificationTypeEnum(val text: String) {
     PROMOTION("Khuyến mãi")
 }
 
-interface Notification {
+interface Notification<T> {
     val id: String
     val recipientId: String
     val typeId: String
@@ -24,7 +24,23 @@ interface Notification {
     val deleted: Boolean
     val createdAt: Timestamp
     val type: NotificationTypeEnum
+    val data: T
 }
+
+data class NotificationExtend(
+    override val id: String,
+    override val recipientId: String,
+    override val typeId: String,
+    override val read: Boolean,
+    override val deleted: Boolean,
+    override val createdAt: Timestamp,
+    override val type: NotificationTypeEnum = NotificationTypeEnum.PROMOTION,
+    override val data: NotificationExtendData
+) : Notification<NotificationExtendData>
+
+data class NotificationExtendData(
+    val payload: NotificationPayload
+)
 
 data class NotificationOrderStatus(
     override val id: String,
@@ -34,10 +50,10 @@ data class NotificationOrderStatus(
     override val deleted: Boolean,
     override val createdAt: Timestamp,
     override val type: NotificationTypeEnum = NotificationTypeEnum.ORDER_STATUS,
-    val data: NotificationOrderDataType
-): Notification
+    override val data: NotificationOrderStatusData
+) : Notification<NotificationOrderStatusData>
 
-data class NotificationOrderDataType(
+data class NotificationOrderStatusData(
     val product: NotificationOrderDataProduct,
     val payload: NotificationPayload
 )

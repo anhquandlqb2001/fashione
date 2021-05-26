@@ -10,10 +10,7 @@ import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import vn.quanprolazer.fashione.domain.models.NotificationOrderStatus
-import vn.quanprolazer.fashione.domain.models.NotificationOverview
-import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
-import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
 
 class NotificationViewModel @AssistedInject constructor(
@@ -28,7 +25,9 @@ class NotificationViewModel @AssistedInject constructor(
             notificationOverviews.filter { it.type.name == NotificationTypeEnum.ORDER_STATUS }[0].type
         viewModelScope.launch {
             liveData.value =
-                notificationRepositoryFirestore.getNotifications(notificationOrderStatusType.id)
+                notificationRepositoryFirestore.getNotificationsOfOrderStatus(
+                    notificationOrderStatusType.id
+                )
         }
         return@lazy liveData
     }
