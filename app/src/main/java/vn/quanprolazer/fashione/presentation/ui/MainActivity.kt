@@ -14,6 +14,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
@@ -199,46 +200,25 @@ class MainActivity : AppCompatActivity() {
                     binding.ivNotification.visibility = View.VISIBLE
                 }
                 R.id.pickupAddressFragment -> {
-                    customActionBarTitleVisibility(View.VISIBLE)
-                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
-                    binding.tvToolbarTitle.text = "Địa chỉ nhận hàng"
-                    binding.ivFilter.visibility = View.GONE
-                    binding.ivNotification.visibility = View.GONE
+                    setupFragmentWithoutIcon(toolBar, "Địa chỉ nhận hàng")
                 }
                 R.id.addPickupAddressFragment -> {
-                    customActionBarTitleVisibility(View.VISIBLE)
-                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
-                    binding.tvToolbarTitle.text = "Thêm địa chỉ nhận hàng"
-                    binding.ivFilter.visibility = View.GONE
-                    binding.ivNotification.visibility = View.GONE
+                    setupFragmentWithoutIcon(toolBar, "Thêm địa chỉ nhận hàng")
                 }
                 R.id.personalFragment -> {
-                    customActionBarTitleVisibility(View.VISIBLE)
-                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
-                    binding.tvToolbarTitle.text = "Cá nhân"
-                    binding.ivFilter.visibility = View.GONE
-                    binding.ivNotification.visibility = View.GONE
+                    setupFragmentWithoutIcon(toolBar, "Cá nhận")
                 }
                 R.id.purchaseMenuFragment -> {
-                    customActionBarTitleVisibility(View.VISIBLE)
-                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
-                    binding.tvToolbarTitle.text = "Đơn mua"
-                    binding.ivFilter.visibility = View.GONE
-                    binding.ivNotification.visibility = View.GONE
+                    setupFragmentWithoutIcon(toolBar, "Đơn mua")
                 }
                 R.id.writeReviewFragment -> {
-                    customActionBarTitleVisibility(View.VISIBLE)
-                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
-                    binding.tvToolbarTitle.text = "Đánh giá"
-                    binding.ivFilter.visibility = View.GONE
-                    binding.ivNotification.visibility = View.GONE
+                    setupFragmentWithoutIcon(toolBar, "Đánh giá sản phẩm")
                 }
                 R.id.reviewFragment -> {
-                    customActionBarTitleVisibility(View.VISIBLE)
-                    toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
-                    binding.tvToolbarTitle.text = "Đánh giá"
-                    binding.ivFilter.visibility = View.GONE
-                    binding.ivNotification.visibility = View.GONE
+                    setupFragmentWithoutIcon(toolBar, "Đánh giá")
+                }
+                R.id.notificationFragment -> {
+                    setupFragmentWithoutIcon(toolBar, "Thông báo")
                 }
                 else -> {
                     customActionBarTitleVisibility(View.GONE)
@@ -248,6 +228,14 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun setupFragmentWithoutIcon(toolBar: ActionBar, text: String) {
+        customActionBarTitleVisibility(View.VISIBLE)
+        toolBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_black_36dp)
+        binding.tvToolbarTitle.text = text
+        binding.ivFilter.visibility = View.GONE
+        binding.ivNotification.visibility = View.GONE
     }
 
     private fun customActionBarTitleVisibility(visibility: Int) {
