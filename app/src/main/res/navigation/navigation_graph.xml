@@ -34,7 +34,18 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_homeFragment_to_notificationFragment"
-            app:destination="@id/notificationFragment" />
+            app:destination="@id/notificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_homeFragment_to_videosFragment"
+            app:destination="@id/videosFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
     </fragment>
     <fragment
         android:id="@+id/productFragment"
@@ -46,7 +57,8 @@
             app:argType="vn.quanprolazer.fashione.domain.models.Product" />
         <action
             android:id="@+id/action_productFragment_to_bottomSheetProductVariantFragment"
-            app:destination="@id/bottomSheetProductVariantFragment" />
+            app:destination="@id/bottomSheetProductVariantFragment"
+            />
         <action
             android:id="@+id/action_productFragment_to_reviewFragment"
             app:destination="@id/reviewFragment" />
@@ -179,6 +191,18 @@
             android:name="typeId"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/liveVideoFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.LiveVideoFragment"
+        android:label="LiveVideoFragment" >
+        <argument
+            android:name="uri"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/videosFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.VideosFragment"
+        android:label="VideosFragment" />
 
 
 </navigation>

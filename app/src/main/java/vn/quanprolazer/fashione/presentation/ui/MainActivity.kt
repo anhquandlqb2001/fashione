@@ -181,6 +181,9 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_item_personal -> {
                     navigateToFragment(R.id.personalFragment)
                 }
+                R.id.menu_item_videos -> {
+                    navigateToFragment(R.id.videosFragment)
+                }
                 else -> {
                 }
             }
@@ -246,6 +249,9 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.notificationFragment -> {
                     setupFragmentWithoutIcon(toolBar, "Thông báo")
+                }
+                R.id.videosFragment -> {
+                    setupFragmentWithoutIcon(toolBar, "Trực tiếp")
                 }
                 else -> {
                     customActionBarTitleVisibility(View.GONE)

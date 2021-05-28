@@ -15,8 +15,8 @@
             android:title="@string/menu_item_cart_text"
             android:id="@+id/menu_item_cart" />
         <item
-            android:title="@string/menu_item_favourite_text"
-            android:id="@+id/menu_item_favourite" />
+            android:title="Trực tiếp"
+            android:id="@+id/menu_item_videos" />
     </group>
 
     <group>
