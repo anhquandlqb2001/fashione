@@ -14,8 +14,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import vn.quanprolazer.fashione.domain.models.LiveVideo
 import vn.quanprolazer.fashione.domain.models.Resource
-import vn.quanprolazer.fashione.domain.models.Video
 import vn.quanprolazer.fashione.domain.repositories.VideoRepository
 import javax.inject.Inject
 
@@ -23,12 +23,12 @@ import javax.inject.Inject
 class VideoViewModel @Inject constructor(private val videoRepository: VideoRepository) :
     ViewModel() {
 
-    private val _liveVideos: MutableLiveData<Resource<List<Video>>> by lazy {
+    private val _liveVideos: MutableLiveData<Resource<List<LiveVideo>>> by lazy {
         MutableLiveData(
             Resource.Loading(null)
         )
     }
-    val liveVideos: LiveData<Resource<List<Video>>> get() = _liveVideos
+    val liveVideos: LiveData<Resource<List<LiveVideo>>> get() = _liveVideos
 
     init {
         viewModelScope.launch {
@@ -38,5 +38,16 @@ class VideoViewModel @Inject constructor(private val videoRepository: VideoRepos
                     _liveVideos.value = it
                 }
         }
+    }
+
+    private val _navigateToVideo: MutableLiveData<String> by lazy { MutableLiveData() }
+    val navigateToVideo: LiveData<String> get() = _navigateToVideo
+
+    fun onClickVideo(uri: String) {
+        _navigateToVideo.value = uri
+    }
+
+    fun doneNavigateToVideo() {
+        _navigateToVideo.value = null
     }
 }

@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.exoplayer2.ExoPlaybackException
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -18,23 +19,26 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
-import timber.log.Timber
-import vn.quanprolazer.fashione.databinding.FragmentLiveVideoBinding
+import com.google.android.material.snackbar.Snackbar
+import vn.quanprolazer.fashione.databinding.FragmentVideoPlayerBinding
+import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 
 class LiveVideoFragment : Fragment() {
 
-    private var _binding: FragmentLiveVideoBinding? = null
+    private var _binding: FragmentVideoPlayerBinding? = null
 
     /** This property is only valid between onCreateView and onDestroyView. */
     private val binding get() = _binding!!
 
     private val uri: String by lazy { LiveVideoFragmentArgs.fromBundle(requireArguments()).uri }
 
+    private val loadingDialog: LoadingDialog by lazy { LoadingDialog(requireActivity()) }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLiveVideoBinding.inflate(inflater, container, false)
+        _binding = FragmentVideoPlayerBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -50,18 +54,41 @@ class LiveVideoFragment : Fragment() {
             .createMediaSource(MediaItem.fromUri(uri))
 
         val player = SimpleExoPlayer.Builder(requireContext()).build()
-        player.setMediaSource(hlsMediaSource);
+        player.setMediaSource(hlsMediaSource)
 
         player.addListener(object : Player.Listener {
             override fun onPlayerError(error: ExoPlaybackException) {
-                Timber.e("Loi ne $error")
+                when (error.type) {
+                    ExoPlaybackException.TYPE_SOURCE -> {
+                        Snackbar.make(binding.root, "Video đã ngừng phát", Snackbar.LENGTH_SHORT)
+                            .show()
+                    }
+                    else -> {
+                        Snackbar.make(binding.root, "Video đã ngừng phát", Snackbar.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+                findNavController().popBackStack()
+                loadingDialog.hideDialog()
+            }
+
+            override fun onIsLoadingChanged(isLoading: Boolean) {
+                super.onIsLoadingChanged(isLoading)
+                if (isLoading) {
+                    loadingDialog.showDialog()
+                }
+            }
+
+            override fun onIsPlayingChanged(isPlaying: Boolean) {
+                super.onIsPlayingChanged(isPlaying)
+                if (isPlaying) {
+                    loadingDialog.hideDialog()
+                }
             }
         })
 
         val playerView = binding.pvVideo
         playerView.player = player
-//        val mediaItem: MediaItem = MediaItem.fromUri(uri)
-//        player.setMediaItem(mediaItem)
         player.prepare()
         player.play()
     }

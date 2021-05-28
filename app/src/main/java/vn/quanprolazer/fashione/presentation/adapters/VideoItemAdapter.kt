@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListItemVideoBinding
-import vn.quanprolazer.fashione.domain.models.Video
+import vn.quanprolazer.fashione.domain.models.LiveVideo
 
 class VideoItemAdapter(private val listener: VideoItemListener) :
-    ListAdapter<Video, VideoItemAdapter.VideoViewHolder>(VideoDiff) {
+    ListAdapter<LiveVideo, VideoItemAdapter.VideoViewHolder>(VideoDiff) {
     class VideoViewHolder(private val binding: ListItemVideoBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(video: Video, listener: VideoItemListener) {
+        fun bind(video: LiveVideo, listener: VideoItemListener) {
             binding.video = video
             binding.listener = listener
             binding.executePendingBindings()
@@ -34,12 +34,12 @@ class VideoItemAdapter(private val listener: VideoItemListener) :
 
     }
 
-    object VideoDiff : DiffUtil.ItemCallback<Video>() {
-        override fun areItemsTheSame(oldItem: Video, newItem: Video): Boolean {
+    object VideoDiff : DiffUtil.ItemCallback<LiveVideo>() {
+        override fun areItemsTheSame(oldItem: LiveVideo, newItem: LiveVideo): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Video, newItem: Video): Boolean {
+        override fun areContentsTheSame(oldItem: LiveVideo, newItem: LiveVideo): Boolean {
             return oldItem == newItem
         }
     }

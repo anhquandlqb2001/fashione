@@ -6,7 +6,7 @@
 
 package vn.quanprolazer.fashione.domain.models
 
-data class Video(
+data class LiveVideo(
     val id: String,
     val uri: String,
     val thumbnailUrl: String,

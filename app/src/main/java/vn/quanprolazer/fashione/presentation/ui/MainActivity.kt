@@ -253,6 +253,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.videosFragment -> {
                     setupFragmentWithoutIcon(toolBar, "Trực tiếp")
                 }
+                R.id.videoPlayerFragment -> setupFragmentWithoutIcon(toolBar, "Đang phát video")
                 else -> {
                     customActionBarTitleVisibility(View.GONE)
                     binding.ivCart.visibility = View.GONE

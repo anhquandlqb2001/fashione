@@ -11,7 +11,7 @@
 
         <variable
             name="video"
-            type="vn.quanprolazer.fashione.domain.models.Video" />
+            type="vn.quanprolazer.fashione.domain.models.LiveVideo" />
 
         <variable
             name="listener"

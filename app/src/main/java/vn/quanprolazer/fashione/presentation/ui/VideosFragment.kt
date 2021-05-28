@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -31,15 +32,15 @@ class VideosFragment : Fragment() {
     /** This property is only valid between onCreateView and onDestroyView. */
     private val binding get() = _binding!!
 
+    private val viewModel: VideoViewModel by viewModels()
+
     private val videoAdapter: VideoItemAdapter by lazy {
         VideoItemAdapter(object : VideoItemListener() {
             override fun onClick(uri: String) {
-
+                viewModel.onClickVideo(uri)
             }
         })
     }
-
-    private val viewModel: VideoViewModel by viewModels()
 
     private val loadingDialog: LoadingDialog by lazy { LoadingDialog(requireActivity()) }
 
@@ -74,6 +75,14 @@ class VideosFragment : Fragment() {
                     }
                     is Resource.Error -> Timber.e(it.exception)
                 }
+            }
+        })
+
+        viewModel.navigateToVideo.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController()
+                    .navigate(VideosFragmentDirections.actionVideosFragmentToLiveVideoFragment(it))
+                viewModel.doneNavigateToVideo()
             }
         })
 

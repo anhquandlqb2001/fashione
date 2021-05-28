@@ -192,9 +192,9 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/liveVideoFragment"
+        android:id="@+id/videoPlayerFragment"
         android:name="vn.quanprolazer.fashione.presentation.ui.LiveVideoFragment"
-        android:label="LiveVideoFragment" >
+        android:label="VideoPlayerFragment">
         <argument
             android:name="uri"
             app:argType="string" />
@@ -202,7 +202,11 @@
     <fragment
         android:id="@+id/videosFragment"
         android:name="vn.quanprolazer.fashione.presentation.ui.VideosFragment"
-        android:label="VideosFragment" />
+        android:label="VideosFragment" >
+        <action
+            android:id="@+id/action_videosFragment_to_liveVideoFragment"
+            app:destination="@id/videoPlayerFragment" />
+    </fragment>
 
 
 </navigation>

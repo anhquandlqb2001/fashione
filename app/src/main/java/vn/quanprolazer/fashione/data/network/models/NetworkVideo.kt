@@ -9,7 +9,7 @@ package vn.quanprolazer.fashione.data.network.models
 import com.google.firebase.firestore.PropertyName
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import vn.quanprolazer.fashione.domain.models.Video
+import vn.quanprolazer.fashione.domain.models.LiveVideo
 
 @Serializable
 data class NetworkVideo(
@@ -22,4 +22,4 @@ data class NetworkVideo(
     val title: String = ""
 )
 
-internal fun NetworkVideo.toDomainModel() = Video(id, uri, thumbnailUrl, title)
+internal fun NetworkVideo.toDomainModel() = LiveVideo(id, uri, thumbnailUrl, title)
