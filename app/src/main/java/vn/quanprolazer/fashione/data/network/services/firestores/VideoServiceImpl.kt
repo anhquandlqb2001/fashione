@@ -20,9 +20,13 @@ class VideoServiceImpl : VideoService {
         val db = FirebaseFirestore.getInstance()
         val videoDocument = db.collection("live_videos")
         val subscription = videoDocument.addSnapshotListener { snapshot, exception ->
-            if (snapshot == null) offer(emptyList())
             if (exception != null) {
                 Timber.e(exception)
+                return@addSnapshotListener
+            }
+            if (snapshot?.documents.isNullOrEmpty()) {
+                offer(emptyList())
+                return@addSnapshotListener
             }
             if (snapshot != null) {
                 if (!snapshot.isEmpty) {
