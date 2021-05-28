@@ -7,6 +7,8 @@
 package vn.quanprolazer.fashione.presentation.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -67,8 +69,17 @@ class VideosFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        videoAdapter.submitList(it.data)
-                        loadingDialog.hideDialog()
+                        if (it.data.isEmpty()) {
+                            binding.llNoVideo.visibility = View.VISIBLE
+                            binding.rvVideos.visibility = View.GONE
+                        } else {
+                            binding.llNoVideo.visibility = View.GONE
+                            binding.rvVideos.visibility = View.VISIBLE
+                            videoAdapter.submitList(it.data)
+                        }
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            loadingDialog.hideDialog()
+                        }, 800)
                     }
                     is Resource.Loading -> {
                         loadingDialog.showDialog()

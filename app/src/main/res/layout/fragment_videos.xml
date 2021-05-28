@@ -11,9 +11,9 @@
 
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="8dp"
         tools:context=".presentation.ui.VideosFragment">
 
@@ -21,7 +21,31 @@
             android:id="@+id/rv_videos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             tools:listitem="@layout/list_item_video" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/ll_no_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:src="@drawable/outline_videocam_off_black_48dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Hiện không có video trực tiếp nào"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
 </layout>
