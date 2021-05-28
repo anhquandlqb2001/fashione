@@ -26,11 +26,13 @@ import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 class LiveVideoFragment : Fragment() {
 
     private var _binding: FragmentVideoPlayerBinding? = null
-
     /** This property is only valid between onCreateView and onDestroyView. */
     private val binding get() = _binding!!
 
     private val uri: String by lazy { LiveVideoFragmentArgs.fromBundle(requireArguments()).uri }
+
+    private var _player: SimpleExoPlayer? = null
+    private val player get() = _player!!
 
     private val loadingDialog: LoadingDialog by lazy { LoadingDialog(requireActivity()) }
 
@@ -39,6 +41,8 @@ class LiveVideoFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentVideoPlayerBinding.inflate(inflater, container, false)
+
+        _player = SimpleExoPlayer.Builder(requireContext()).build()
 
         return binding.root
     }
@@ -53,7 +57,6 @@ class LiveVideoFragment : Fragment() {
             .setAllowChunklessPreparation(true)
             .createMediaSource(MediaItem.fromUri(uri))
 
-        val player = SimpleExoPlayer.Builder(requireContext()).build()
         player.setMediaSource(hlsMediaSource)
 
         player.addListener(object : Player.Listener {
@@ -96,6 +99,7 @@ class LiveVideoFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+        _player = null
     }
 
 }
