@@ -22,12 +22,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginBottom="16dp"
         android:onClick="@{() -> listener.onClick(video.uri)}">
 
         <ImageView
+            imageUrl="@{video.thumbnailUrl}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@{video.thumbnailUrl}"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
             tools:src="@drawable/blank_cart" />
 
         <TextView
@@ -39,6 +41,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp"
             android:text="@{video.title}"
+            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
             tools:text="Ban hang ne" />

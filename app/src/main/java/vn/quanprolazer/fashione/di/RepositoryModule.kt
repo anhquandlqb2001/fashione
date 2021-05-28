@@ -103,4 +103,12 @@ class RepositoryModule {
         userRepository, orderService, cartService
     )
 
+    @Singleton
+    @Provides
+    fun provideVideoRepository(
+        videoService: VideoService
+    ): VideoRepository = VideoRepositoryImpl(
+        videoService
+    )
+
 }

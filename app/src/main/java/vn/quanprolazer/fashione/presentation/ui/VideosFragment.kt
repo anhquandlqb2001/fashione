@@ -11,11 +11,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentVideosBinding
+import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.VideoItemAdapter
 import vn.quanprolazer.fashione.presentation.adapters.VideoItemListener
+import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
+import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
+import vn.quanprolazer.fashione.presentation.viewmodels.VideoViewModel
 
+@AndroidEntryPoint
 class VideosFragment : Fragment() {
 
     private var _binding: FragmentVideosBinding? = null
@@ -26,10 +34,14 @@ class VideosFragment : Fragment() {
     private val videoAdapter: VideoItemAdapter by lazy {
         VideoItemAdapter(object : VideoItemListener() {
             override fun onClick(uri: String) {
-                TODO("Not yet implemented")
+
             }
         })
     }
+
+    private val viewModel: VideoViewModel by viewModels()
+
+    private val loadingDialog: LoadingDialog by lazy { LoadingDialog(requireActivity()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,6 +53,8 @@ class VideosFragment : Fragment() {
 
         binding.rvVideos.layoutManager =
             GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+        binding.rvVideos.adapter = videoAdapter
+        binding.rvVideos.addItemDecoration(MarginItemDecoration(20))
 
         return binding.root
     }
@@ -48,7 +62,20 @@ class VideosFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        
+        viewModel.liveVideos.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        videoAdapter.submitList(it.data)
+                        loadingDialog.hideDialog()
+                    }
+                    is Resource.Loading -> {
+                        loadingDialog.showDialog()
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                }
+            }
+        })
 
     }
 
@@ -56,5 +83,4 @@ class VideosFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
 }
