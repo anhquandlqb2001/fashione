@@ -8,15 +8,12 @@ package vn.quanprolazer.fashione.presentation.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -142,10 +139,8 @@ class CartFragment : Fragment() {
     private fun observeNavigateToCheckout() {
         bottomCheckoutViewModel.navigateToCheckoutScreen.observe(viewLifecycleOwner, {
             it?.let {
-                val options = NavOptions.Builder().setLaunchSingleTop(true).build()
                 this.findNavController().navigate(
-                    CartFragmentDirections.actionCartFragmentToCheckoutFragment(it.toTypedArray()),
-                    options
+                    CartFragmentDirections.actionCartFragmentToCheckoutFragment(it.toTypedArray())
                 )
                 bottomCheckoutViewModel.onNavigateSuccess()
             }
