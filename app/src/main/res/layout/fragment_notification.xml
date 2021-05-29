@@ -13,7 +13,6 @@
         <variable
             name="viewModel"
             type="vn.quanprolazer.fashione.presentation.viewmodels.NotificationViewModel" />
-
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -22,13 +21,13 @@
 
         <LinearLayout
             android:id="@+id/ll_main"
-            android:visibility="invisible"
-            tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_color"
             android:orientation="vertical"
-            tools:context=".presentation.ui.NotificationFragment">
+            android:visibility="invisible"
+            tools:context=".presentation.ui.NotificationFragment"
+            tools:visibility="visible">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_notification_group"
@@ -37,21 +36,21 @@
                 android:background="@color/white"
                 android:paddingHorizontal="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
                 tools:listitem="@layout/list_item_notification_group" />
 
             <TextView
-                android:layout_marginHorizontal="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
                 android:paddingVertical="4dp"
-                android:text="Cập nhật đơn hàng" />
+                android:text="@string/text_notification_type_order_status" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:paddingHorizontal="8dp"
-                android:background="@color/white"
                 android:id="@+id/rv_notification"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/white"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/list_item_notification_order_status" />
 

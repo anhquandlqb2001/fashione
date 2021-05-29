@@ -16,10 +16,11 @@
     </data>
 
     <RelativeLayout
+        watched="@{notification.read}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:paddingVertical="8dp">
+        android:paddingVertical="4dp">
 
         <ImageView
             android:id="@+id/iv_product"

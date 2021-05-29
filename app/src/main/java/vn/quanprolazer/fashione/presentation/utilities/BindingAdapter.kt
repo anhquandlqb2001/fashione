@@ -181,3 +181,11 @@ fun RecyclerView.notificationOverviewResponse(notificationOverviewResponse: Noti
         (this.adapter as NotificationGroupAdapter).submitList(notificationOverviewResponse.notifications)
     }
 }
+
+@BindingAdapter("watched")
+fun RelativeLayout.watched(watched: Boolean?) {
+    watched?.let {
+        if (watched) foreground = (resources.getDrawable(R.color.notification_watched))
+        else null
+    }
+}
