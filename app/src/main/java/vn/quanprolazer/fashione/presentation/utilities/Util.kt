@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.google.android.material.textfield.TextInputEditText
+import com.google.firebase.Timestamp
 import org.json.JSONArray
 import org.json.JSONObject
 import java.text.NumberFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
@@ -179,4 +181,9 @@ fun <T> MutableLiveData<MutableList<T>>.removeItemAt(index: Int) {
     } else {
         this.value = mutableListOf()
     }
+}
+
+fun fromTimestamp(timestamp: Timestamp): String {
+    val sdf = SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.CHINESE)
+    return sdf.format(timestamp.toDate())
 }

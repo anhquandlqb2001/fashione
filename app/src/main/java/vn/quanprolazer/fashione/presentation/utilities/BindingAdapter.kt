@@ -14,10 +14,12 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.request.RequestOptions
+import com.google.firebase.Timestamp
 import vn.quanprolazer.fashione.GlideApp
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupAdapter
+import java.util.*
 
 @BindingAdapter("imageUrl")
 fun ImageView.loadImage(imageUrl: String?) {
@@ -172,7 +174,7 @@ fun TextView.rate(rate: Int?) {
 @BindingAdapter(value = ["createdAt", "variantName", "variantValue"])
 fun TextView.reviewProduct(createdAt: String?, variantName: String?, variantValue: String?) {
     if (createdAt == null || variantName == null || variantValue == null) text = ""
-    text = "${createdAt} | ${variantName} - ${variantValue}"
+    text = "${fromTimestamp(Timestamp(Date(createdAt)))} | ${variantName} - ${variantValue}"
 }
 
 @BindingAdapter("notificationOverviewResponse")
@@ -187,5 +189,12 @@ fun RelativeLayout.watched(watched: Boolean?) {
     watched?.let {
         if (watched) foreground = (resources.getDrawable(R.color.notification_watched))
         else null
+    }
+}
+
+@BindingAdapter("timestamp")
+fun TextView.timestamp(timestamp: Timestamp?) {
+    timestamp?.let {
+        text = fromTimestamp(timestamp)
     }
 }
