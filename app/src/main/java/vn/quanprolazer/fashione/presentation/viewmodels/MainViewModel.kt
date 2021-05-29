@@ -78,4 +78,15 @@ class MainViewModel @Inject constructor(
                 .collect { _cartItemCount.value = it }
         }
     }
+
+    private val _notificationCount: MutableLiveData<Resource<Int>> by lazy { MutableLiveData<Resource<Int>>() }
+    val notificationCount: LiveData<Resource<Int>> get() = _notificationCount
+
+    fun fetchNotificationCount() {
+        _notificationCount.value = Resource.Loading(null)
+        viewModelScope.launch {
+            notificationRepository.getNotificationCount().catch { e -> Timber.e(e) }
+                .collect { _notificationCount.value = it }
+        }
+    }
 }

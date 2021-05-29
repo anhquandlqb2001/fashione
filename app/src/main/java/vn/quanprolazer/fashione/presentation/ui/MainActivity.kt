@@ -68,11 +68,22 @@ class MainActivity : AppCompatActivity() {
 
         observeNavigateToCart()
 
-        viewModel.notificationOverview.observe(this, {
+//        viewModel.notificationOverview.observe(this, {
+//            it?.let {
+//                when (it) {
+//                    is Resource.Success -> {
+//                        binding.ivNotification.badgeValue = it.data.total
+//                    }
+//                    is Resource.Error -> Timber.e(it.exception)
+//                }
+//            }
+//        })
+
+        viewModel.notificationCount.observe(this, {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        binding.ivNotification.badgeValue = it.data.total
+                        binding.ivNotification.badgeValue = it.data
                     }
                     is Resource.Error -> Timber.e(it.exception)
                 }
@@ -145,6 +156,7 @@ class MainActivity : AppCompatActivity() {
                     viewModel.apply {
                         fetchNotification()
                         fetchCartItemCount()
+                        fetchNotificationCount()
                     }
 
                     menuItem.title = getString(R.string.sign_out_text)

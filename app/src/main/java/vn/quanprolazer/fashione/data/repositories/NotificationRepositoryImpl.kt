@@ -7,6 +7,8 @@
 package vn.quanprolazer.fashione.data.repositories
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.database.dao.NotificationOverviewDao
@@ -28,6 +30,10 @@ class NotificationRepositoryImpl @Inject constructor(
     private val notificationOverviewDao: NotificationOverviewDao
 ) :
     NotificationRepository {
+    override suspend fun getNotificationCount(): Flow<Resource<Int>> =
+        notificationServiceFirestore.getNotificationCount(userRepository.getUser().value?.uid!!)
+            .map { Resource.Success(it) }
+
     override suspend fun getNotificationTypes(): Resource<NotificationOverviewResponse> {
         try {
             refreshNotificationTypes()
