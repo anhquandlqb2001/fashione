@@ -150,6 +150,7 @@ class MainActivity : AppCompatActivity() {
                         fetchNotificationCount()
                     }
 
+                    binding.navigationView.menu.findItem(R.id.menu_item_personal).isVisible = true
                     menuItem.title = getString(R.string.sign_out_text)
                 }
                 else -> {
@@ -158,6 +159,7 @@ class MainActivity : AppCompatActivity() {
                         closeDrawerWithAnimation()
                         true
                     }
+                    binding.navigationView.menu.findItem(R.id.menu_item_personal).isVisible = false
                     menuItem.title = getString(R.string.login)
                 }
             }
