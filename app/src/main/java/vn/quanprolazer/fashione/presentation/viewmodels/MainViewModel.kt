@@ -11,7 +11,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
 import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
 import vn.quanprolazer.fashione.domain.models.Resource
@@ -29,8 +32,6 @@ class MainViewModel @Inject constructor(
     private val _navigateToNotification: MutableLiveData<List<NotificationOverview>> by lazy { MutableLiveData() }
     val navigateToNotification: LiveData<List<NotificationOverview>> get() = _navigateToNotification
 
-    private val _cartItemCount: MutableLiveData<Resource<Int>> by lazy { MutableLiveData<Resource<Int>>() }
-    val cartItemCount: LiveData<Resource<Int>> get() = _cartItemCount
 
     fun onClickNavigateToNotification() {
         if (_notificationOverview.value is Resource.Success) {
@@ -67,10 +68,14 @@ class MainViewModel @Inject constructor(
         }
     }
 
+    private val _cartItemCount: MutableLiveData<Resource<Int>> by lazy { MutableLiveData<Resource<Int>>() }
+    val cartItemCount: LiveData<Resource<Int>> get() = _cartItemCount
+
     fun fetchCartItemCount() {
         _cartItemCount.value = Resource.Loading(null)
         viewModelScope.launch {
-            _cartItemCount.value = cartRepository.getCartItemCount()
+            cartRepository.getCartItemCount().catch { e -> Timber.e(e) }
+                .collect { _cartItemCount.value = it }
         }
     }
 }

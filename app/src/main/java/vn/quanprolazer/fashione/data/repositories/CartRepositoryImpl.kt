@@ -10,8 +10,9 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.CartService
 import vn.quanprolazer.fashione.domain.models.AddToCartItem
@@ -89,17 +90,7 @@ class CartRepositoryImpl @AssistedInject constructor(
         }
     }
 
-    override suspend fun getCartItemCount(): Resource<Int> {
-        val user =
-            userRepository.getUser().value ?: return Resource.Error(Exception("Not login yet"))
-        return try {
-            val response = withContext(defaultDispatcher) {
-                cartService.getCartItemCount(user.uid)
-            }
-            Resource.Success(response)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
-    }
+    override suspend fun getCartItemCount(): Flow<Resource<Int>> =
+        cartService.getCartItemCount(userRepository.getUser().value?.uid!!)
+            .map { Resource.Success(it) }
 }

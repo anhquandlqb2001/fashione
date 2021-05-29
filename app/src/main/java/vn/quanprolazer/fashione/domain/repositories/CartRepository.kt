@@ -6,6 +6,7 @@
 
 package vn.quanprolazer.fashione.domain.repositories
 
+import kotlinx.coroutines.flow.Flow
 import vn.quanprolazer.fashione.domain.models.AddToCartItem
 import vn.quanprolazer.fashione.domain.models.CartItem
 import vn.quanprolazer.fashione.domain.models.Resource
@@ -21,5 +22,5 @@ interface CartRepository {
 
     suspend fun removeCartItem(cartItemId: String): Resource<Boolean>
 
-    suspend fun getCartItemCount(): Resource<Int>
+    suspend fun getCartItemCount(): Flow<Resource<Int>>
 }

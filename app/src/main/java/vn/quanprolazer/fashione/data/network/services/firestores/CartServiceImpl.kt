@@ -8,6 +8,10 @@ package vn.quanprolazer.fashione.data.network.services.firestores
 
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.NetworkCartItem
@@ -16,12 +20,26 @@ import vn.quanprolazer.fashione.domain.models.AddToCartItem
 import vn.quanprolazer.fashione.domain.models.Resource
 
 class CartServiceImpl : CartService {
-    override suspend fun getCartItemCount(userId: String): Int {
+    @ExperimentalCoroutinesApi
+    override suspend fun getCartItemCount(userId: String): Flow<Int> = callbackFlow {
         val db = FirebaseFirestore.getInstance()
-        return db.collection("carts")
-            .get()
-            .await()
-            .documents.size
+        val subscription = db.collection("carts").whereEqualTo("user_id", userId)
+            .addSnapshotListener { snapshot, exception ->
+                if (exception != null) {
+                    Timber.e(exception)
+                    return@addSnapshotListener
+                }
+                if (snapshot?.documents.isNullOrEmpty()) {
+                    offer(0)
+                    return@addSnapshotListener
+                }
+                if (snapshot != null) {
+                    if (!snapshot.isEmpty) {
+                        offer(snapshot.documents.size)
+                    }
+                }
+            }
+        awaitClose { subscription.remove() }
     }
 
     /**
