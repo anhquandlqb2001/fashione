@@ -146,11 +146,12 @@ fun LinearLayout.purchaseReviewStatus(status: ReviewStatus?) {
 @BindingAdapter("purchaseDelivered")
 fun RelativeLayout.purchaseDelivered(status: OrderItemStatusType?) {
     status?.let {
-        visibility = if (status == OrderItemStatusType.DELIVERED || status == OrderItemStatusType.COMPLETE) {
-            View.VISIBLE
-        } else {
-            View.GONE
-        }
+        visibility =
+            if (status == OrderItemStatusType.DELIVERED || status == OrderItemStatusType.COMPLETE) {
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
     }
 }
 
@@ -174,9 +175,9 @@ fun TextView.reviewProduct(createdAt: String?, variantName: String?, variantValu
     text = "${createdAt} | ${variantName} - ${variantValue}"
 }
 
-@BindingAdapter("listItemNotificationOverview")
-fun RecyclerView.listItemNotificationOverview(listItemNotificationOverview: List<NotificationOverview>?) {
-    listItemNotificationOverview?.let {
-        (this.adapter as NotificationGroupAdapter).submitList(listItemNotificationOverview)
+@BindingAdapter("notificationOverviewResponse")
+fun RecyclerView.notificationOverviewResponse(notificationOverviewResponse: NotificationOverviewResponse?) {
+    notificationOverviewResponse?.let {
+        (this.adapter as NotificationGroupAdapter).submitList(notificationOverviewResponse.notifications)
     }
 }

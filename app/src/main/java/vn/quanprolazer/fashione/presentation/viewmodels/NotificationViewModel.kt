@@ -6,34 +6,44 @@
 
 package vn.quanprolazer.fashione.presentation.viewmodels
 
-import androidx.lifecycle.*
-import dagger.assisted.Assisted
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import vn.quanprolazer.fashione.domain.models.*
+import vn.quanprolazer.fashione.domain.models.NotificationOrderStatus
+import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
+import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository
+import javax.inject.Inject
 
-class NotificationViewModel @AssistedInject constructor(
-    private val notificationRepositoryFirestore: NotificationRepository,
-    @Assisted val notificationOverviews: List<NotificationOverview>
+@HiltViewModel
+class NotificationViewModel @Inject constructor(
+    private val notificationRepository: NotificationRepository
 ) :
     ViewModel() {
 
-    private val _notificationOrderStatus: MutableLiveData<Resource<List<NotificationOrderStatus>>> by lazy {
-        val liveData =
-            MutableLiveData<Resource<List<NotificationOrderStatus>>>(Resource.Loading(null))
-        val notificationOrderStatusType =
-            notificationOverviews.filter { it.type.name == NotificationTypeEnum.ORDER_STATUS }[0].type
+    private val _notificationOrderStatus: MutableLiveData<Resource<List<NotificationOrderStatus>>> by lazy { MutableLiveData() }
+    val notificationOrderStatus: LiveData<Resource<List<NotificationOrderStatus>>> get() = _notificationOrderStatus
+
+    fun fetchNotificationsOrderStatus(id: String) {
         viewModelScope.launch {
-            liveData.value =
-                notificationRepositoryFirestore.getNotificationsOfOrderStatus(
-                    notificationOrderStatusType.id
-                )
+            _notificationOrderStatus.value =
+                notificationRepository.getNotificationsOfOrderStatus(id)
+        }
+    }
+
+    private val _notificationOverview: MutableLiveData<Resource<NotificationOverviewResponse>> by lazy {
+        val liveData =
+            MutableLiveData<Resource<NotificationOverviewResponse>>(Resource.Loading(null))
+        viewModelScope.launch {
+            liveData.value = notificationRepository.getNotificationTypes()
         }
         return@lazy liveData
     }
-
-    val notificationOrderStatus: LiveData<Resource<List<NotificationOrderStatus>>> get() = _notificationOrderStatus
+    val notificationOverview: LiveData<Resource<NotificationOverviewResponse>> get() = _notificationOverview
 
     private val _navigateToExtendNotification: MutableLiveData<String> by lazy { MutableLiveData() }
     val navigateToExtendNotification: LiveData<String> get() = _navigateToExtendNotification
@@ -44,21 +54,5 @@ class NotificationViewModel @AssistedInject constructor(
 
     fun doneNavigateToExtendNotification() {
         _navigateToExtendNotification.value = null
-    }
-
-    @dagger.assisted.AssistedFactory
-    interface AssistedFactory {
-        fun create(notificationOverviews: List<NotificationOverview>): NotificationViewModel
-    }
-
-    companion object {
-        fun provideFactory(
-            assistedFactory: AssistedFactory, notificationOverviews: List<NotificationOverview>
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return assistedFactory.create(notificationOverviews) as T
-            }
-        }
     }
 }

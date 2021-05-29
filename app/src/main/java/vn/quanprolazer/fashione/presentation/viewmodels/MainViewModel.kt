@@ -29,15 +29,12 @@ class MainViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _navigateToNotification: MutableLiveData<List<NotificationOverview>> by lazy { MutableLiveData() }
-    val navigateToNotification: LiveData<List<NotificationOverview>> get() = _navigateToNotification
+    private val _navigateToNotification: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+    val navigateToNotification: LiveData<Boolean> get() = _navigateToNotification
 
 
     fun onClickNavigateToNotification() {
-        if (_notificationOverview.value is Resource.Success) {
-            _navigateToNotification.value =
-                (_notificationOverview.value as Resource.Success<NotificationOverviewResponse>).data.notifications
-        }
+        _navigateToNotification.value = true
     }
 
     fun doneNavigateToNotification() {
@@ -53,19 +50,6 @@ class MainViewModel @Inject constructor(
 
     fun doneNavigateToCart() {
         _navigateToCart.value = null
-    }
-
-    private val _notificationOverview: MutableLiveData<Resource<NotificationOverviewResponse>> by lazy {
-        MutableLiveData(
-            Resource.Loading(null)
-        )
-    }
-    val notificationOverview: LiveData<Resource<NotificationOverviewResponse>> get() = _notificationOverview
-
-    fun fetchNotification() {
-        viewModelScope.launch {
-            _notificationOverview.value = notificationRepository.getNotificationTypes()
-        }
     }
 
     private val _cartItemCount: MutableLiveData<Resource<Int>> by lazy { MutableLiveData<Resource<Int>>() }

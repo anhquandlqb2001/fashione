@@ -17,14 +17,15 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentNotificationBinding
+import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupAdapter
 import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupItemListener
 import vn.quanprolazer.fashione.presentation.adapters.NotificationItemAdapter
-import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
+import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
+import vn.quanprolazer.fashione.presentation.utilities.notificationOverviewResponse
 import vn.quanprolazer.fashione.presentation.viewmodels.NotificationViewModel
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class NotificationFragment : Fragment() {
@@ -34,14 +35,7 @@ class NotificationFragment : Fragment() {
     /** This property is only valid between onCreateView and onDestroyView. */
     private val binding get() = _binding!!
 
-    @Inject
-    lateinit var viewModelFactory: NotificationViewModel.AssistedFactory
-    private val viewModel: NotificationViewModel by viewModels {
-        NotificationViewModel.provideFactory(
-            viewModelFactory,
-            NotificationFragmentArgs.fromBundle(requireArguments()).notificationOverviews.toList()
-        )
-    }
+    private val viewModel: NotificationViewModel by viewModels()
 
     private val notificationTypeAdapter: NotificationGroupAdapter by lazy {
         NotificationGroupAdapter(object : NotificationGroupItemListener() {
@@ -84,15 +78,30 @@ class NotificationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.notificationOverview.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.rvNotificationGroup.notificationOverviewResponse(it.data)
+                        viewModel.fetchNotificationsOrderStatus(it.data.notifications.filter { notificationOverview -> notificationOverview.type.name == NotificationTypeEnum.ORDER_STATUS }[0].type.id)
+                    }
+                    is Resource.Loading -> {
+                        loadingDialog.showDialog()
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                }
+            }
+        })
+
         viewModel.notificationOrderStatus.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        loadingDialog.hideDialog()
+                        binding.llMain.visibility = View.VISIBLE
                         notificationItemAdapter.submitList(it.data)
+                        loadingDialog.hideDialog()
                     }
                     is Resource.Loading -> {
-                        loadingDialog.showDialog()
                     }
                     is Resource.Error -> Timber.e(it.exception)
                 }

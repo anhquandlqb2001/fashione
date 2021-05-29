@@ -21,6 +21,9 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/ll_main"
+            android:visibility="invisible"
+            tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background_color"
@@ -34,7 +37,6 @@
                 android:background="@color/white"
                 android:paddingHorizontal="8dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:listItemNotificationOverview="@{viewModel.notificationOverviews}"
                 tools:listitem="@layout/list_item_notification_group" />
 
             <TextView

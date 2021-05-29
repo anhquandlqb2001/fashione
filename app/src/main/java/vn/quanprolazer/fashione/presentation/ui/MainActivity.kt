@@ -68,17 +68,6 @@ class MainActivity : AppCompatActivity() {
 
         observeNavigateToCart()
 
-//        viewModel.notificationOverview.observe(this, {
-//            it?.let {
-//                when (it) {
-//                    is Resource.Success -> {
-//                        binding.ivNotification.badgeValue = it.data.total
-//                    }
-//                    is Resource.Error -> Timber.e(it.exception)
-//                }
-//            }
-//        })
-
         viewModel.notificationCount.observe(this, {
             it?.let {
                 when (it) {
@@ -100,7 +89,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
-
     }
 
     private fun observeNavigateToCart() {
@@ -118,7 +106,7 @@ class MainActivity : AppCompatActivity() {
         viewModel.navigateToNotification.observe(this, {
             it?.let {
                 val action =
-                    HomeFragmentDirections.actionHomeFragmentToNotificationFragment(it.toTypedArray())
+                    HomeFragmentDirections.actionHomeFragmentToNotificationFragment()
                 this.findNavController(R.id.nav_host_fragment).navigate(action)
                 viewModel.doneNavigateToNotification()
             }
@@ -154,7 +142,6 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     viewModel.apply {
-                        fetchNotification()
                         fetchCartItemCount()
                         fetchNotificationCount()
                     }
