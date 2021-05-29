@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentNotificationBinding
 import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
 import vn.quanprolazer.fashione.domain.models.Resource
@@ -88,7 +88,20 @@ class NotificationFragment : Fragment() {
                     is Resource.Loading -> {
                         loadingDialog.showDialog()
                     }
-                    is Resource.Error -> Timber.e(it.exception)
+                    is Resource.Error -> {
+                        binding.llNotLogin.visibility = View.VISIBLE
+                        loadingDialog.hideDialog()
+                        when (it.exception.message) {
+                            "NOT_LOGIN" -> {
+                                Snackbar.make(
+                                    binding.root,
+                                    "Bạn phải đăng nhập trước",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+//                        this.findNavController().popBackStack()
+                    }
                 }
             }
         })
@@ -103,7 +116,18 @@ class NotificationFragment : Fragment() {
                     }
                     is Resource.Loading -> {
                     }
-                    is Resource.Error -> Timber.e(it.exception)
+                    is Resource.Error -> {
+                        when (it.exception.message) {
+                            "NOT_LOGIN" -> {
+                                Snackbar.make(
+                                    binding.root,
+                                    "Bạn phải đăng nhập trước",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                        this.findNavController().popBackStack()
+                    }
                 }
             }
         })

@@ -35,10 +35,10 @@ class NotificationRepositoryImpl @Inject constructor(
             .map { Resource.Success(it) }
 
     override suspend fun getNotificationTypes(): Resource<NotificationOverviewResponse> {
+        if (userRepository.getUser().value == null) return Resource.Error(Exception("NOT_LOGIN"))
         try {
             refreshNotificationTypes()
         } catch (e: Exception) {
-            Timber.i("right here")
             Timber.e(e)
         }
 
@@ -75,7 +75,7 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override suspend fun getNotificationsOfOrderStatus(notificationTypeId: String): Resource<List<NotificationOrderStatus>> {
         val user =
-            userRepository.getUser().value ?: return Resource.Error(Exception("Not login yet"))
+            userRepository.getUser().value ?: return Resource.Error(Exception("NOT_LOGIN"))
 
         return try {
             val response = withContext(Dispatchers.Default) {
@@ -93,7 +93,7 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override suspend fun getNotificationsExtend(notificationTypeId: String): Resource<List<NotificationExtend>> {
         val user =
-            userRepository.getUser().value ?: return Resource.Error(Exception("Not login yet"))
+            userRepository.getUser().value ?: return Resource.Error(Exception("NOT_LOGIN"))
 
         return try {
             val response = withContext(Dispatchers.Default) {
