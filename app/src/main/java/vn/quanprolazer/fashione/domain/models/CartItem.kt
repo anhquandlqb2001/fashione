@@ -16,8 +16,8 @@ data class CartItem(
     val variantValue: String,
     var quantity: Int,
     var price: String,
-    var cartItemImg: Resource<ProductImage>?,
-    var product: Resource<Product>? = null,
+    var cartItemImg: ProductImage?,
+    var product: Product? = null,
     var isChecked: Boolean = false
 )
 
@@ -38,10 +38,10 @@ internal fun CartItem.toCheckoutItem() = CheckoutItem(
     userId,
     variantId,
     variantOptionId,
-    (product as Resource.Success).data.name,
+    productName = product?.name ?: "",
     variantValue,
     variantName,
     quantity,
     price,
-    (cartItemImg as Resource.Success).data.url
+    cartItemImg = cartItemImg?.url ?: ""
 )

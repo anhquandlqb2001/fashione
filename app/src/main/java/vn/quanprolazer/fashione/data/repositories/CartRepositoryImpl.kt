@@ -13,8 +13,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.CartService
+import vn.quanprolazer.fashione.data.network.services.firestores.ProductService
 import vn.quanprolazer.fashione.domain.models.AddToCartItem
 import vn.quanprolazer.fashione.domain.models.CartItem
 import vn.quanprolazer.fashione.domain.models.Resource
@@ -25,6 +27,7 @@ import vn.quanprolazer.fashione.domain.repositories.UserRepository
 class CartRepositoryImpl @AssistedInject constructor(
     private val userRepository: UserRepository,
     private val cartService: CartService,
+    private val productService: ProductService,
     @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) :
     CartRepository {
@@ -41,16 +44,35 @@ class CartRepositoryImpl @AssistedInject constructor(
     }
 
     override suspend fun getCartItems(): Resource<MutableList<CartItem>> {
-        val result = withContext(defaultDispatcher) {
-            cartService.getCartItems(userRepository.getUser().value!!.uid)
-        }
+        val user =
+            userRepository.getUser().value ?: return Resource.Error(Exception("Not login yet"))
 
-        return when (result) {
-            is Resource.Success -> Resource.Success(
-                result.data.map { it.toDomainModel() }.toMutableList()
-            )
-            is Resource.Error -> Resource.Error(result.exception)
-            else -> Resource.Loading(null)
+        return try {
+            val cartItems = cartService.getCartItems(user.uid).map {
+                val productImage =
+                    productService.getProductImageByVariantId(it.variantId).toDomainModel()
+                val product =
+                    productService.getProductByProductId(it.productId).toDomainModel()
+                val price =
+                    productService.getProductVariantOption(it.variantOptionId).toDomainModel()
+                return@map CartItem(
+                    id = it.id,
+                    productId = it.productId,
+                    cartItemImg = productImage,
+                    quantity = it.quantity,
+                    product = product,
+                    userId = it.userId,
+                    variantName = it.variantName,
+                    price = price.price,
+                    variantValue = it.variantValue,
+                    variantOptionId = it.variantOptionId,
+                    variantId = it.variantId
+                )
+            }
+            Resource.Success(cartItems.toMutableList())
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
         }
     }
 

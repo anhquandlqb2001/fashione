@@ -21,14 +21,14 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginBottom="8dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_marginVertical="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp">
 
             <CheckBox
                 android:id="@+id/cb_buy"
@@ -42,7 +42,7 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                cartImage="@{cartItem.cartItemImg}"
+                imageUrl="@{cartItem.cartItemImg.url}"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 app:layout_constraintStart_toEndOf="@id/cb_buy"
@@ -51,10 +51,10 @@
 
             <TextView
                 android:id="@+id/textView3"
-                cartItemName="@{cartItem.product}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:text="@{cartItem.product.name}"
                 android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@+id/imageView2"
                 app:layout_constraintTop_toTopOf="parent"

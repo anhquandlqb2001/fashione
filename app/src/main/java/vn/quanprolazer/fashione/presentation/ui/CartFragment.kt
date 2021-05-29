@@ -81,13 +81,6 @@ class CartFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        if (viewModel.flagFirstTimeLoad) {
-                            viewModel.updateCartItemsImage()
-                            viewModel.updateCartItemsProductName()
-                            viewModel.updateCartItemsPrice()
-                            viewModel.doneFirstTimeLoad()
-                        }
-
                         if (it.data.size == 0) {
                             updateBlankCartFragmentVisibility(View.VISIBLE)
                             updateLoadingProgressVisibility(View.GONE)
@@ -95,17 +88,16 @@ class CartFragment : Fragment() {
                             return@let
                         }
 
+                        adapter.submitList(it.data)
+
                         checkoutSharedViewModel.updateOrderData(it.data)
 
                         updateBlankCartFragmentVisibility(View.GONE)
+                        updateBottomCheckoutVisibility(true)
+                        updateLoadingProgressVisibility(View.INVISIBLE)
+                        updateBottomCheckoutVisibility(true)
 
-                        Handler(Looper.getMainLooper()).postDelayed({
-                            updateBottomCheckoutVisibility(true)
-                            adapter.submitList(it.data)
-                            updateLoadingProgressVisibility(View.INVISIBLE)
-                            updateBottomCheckoutVisibility(true)
-                            binding.rvCart.visibility = View.VISIBLE
-                        }, 800)
+                        binding.rvCart.visibility = View.VISIBLE
                     }
                     is Resource.Loading -> {
                         updateCartUILoading()

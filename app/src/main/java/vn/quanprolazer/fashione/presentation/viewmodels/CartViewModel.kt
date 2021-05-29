@@ -22,8 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val cartRepository: CartRepository,
-    private val productRepository: ProductRepository
+    private val cartRepository: CartRepository
 ) : ViewModel() {
 
     private val _cartItems: MutableLiveData<Resource<MutableList<CartItem>>> by lazy {
@@ -37,53 +36,10 @@ class CartViewModel @Inject constructor(
     val cartItems: LiveData<Resource<MutableList<CartItem>>> get() = _cartItems
 
     private var _flagFirstTimeLoad: Boolean = true
-
     val flagFirstTimeLoad: Boolean get() = _flagFirstTimeLoad
 
     fun doneFirstTimeLoad() {
         _flagFirstTimeLoad = false
-    }
-
-    fun updateCartItemsImage() {
-        (_cartItems.value as Resource.Success).data.mapInPlace {
-            if (it.cartItemImg != null) return
-            viewModelScope.launch {
-                when (val cartItemImage =
-                    productRepository.getProductImageByProductVariantId(it.variantId)) {
-                    is Resource.Success -> it.cartItemImg = Resource.Success(cartItemImage.data)
-                    is Resource.Error -> Resource.Error(cartItemImage.exception)
-                    is Resource.Loading -> it.cartItemImg = null
-                }
-            }
-            it
-        }
-    }
-
-    fun updateCartItemsProductName() {
-        (_cartItems.value as Resource.Success).data.mapInPlace {
-            if (it.product != null) return
-            viewModelScope.launch {
-                when (val product = productRepository.getProductByProductId(it.productId)) {
-                    is Resource.Success -> it.product = Resource.Success(product.data)
-                    is Resource.Error -> Resource.Error(product.exception)
-                    is Resource.Loading -> it.product = Resource.Loading(null)
-                }
-            }
-            it
-        }
-    }
-
-    fun updateCartItemsPrice() {
-        (_cartItems.value as Resource.Success).data.mapInPlace {
-            if (it.product != null) return
-            viewModelScope.launch {
-                when (val product = productRepository.getProductVariantOption(it.variantOptionId)) {
-                    is Resource.Success -> it.price = product.data.price
-                    is Resource.Error -> Resource.Error(product.exception)
-                }
-            }
-            it
-        }
     }
 
     fun onQuantityControlClick(cartItem: CartItem, value: Int) {

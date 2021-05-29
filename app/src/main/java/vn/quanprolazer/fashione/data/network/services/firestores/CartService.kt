@@ -22,7 +22,7 @@ interface CartService {
 
     suspend fun updateCartItem(cartItemId: String, quantity: Int): Boolean
 
-    suspend fun getCartItems(userId: String): Resource<List<NetworkCartItem>>
+    suspend fun getCartItems(userId: String): List<NetworkCartItem>
 
     suspend fun removeCartItem(cartItemId: String): Boolean
 

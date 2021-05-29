@@ -17,7 +17,6 @@ import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.NetworkCartItem
 import vn.quanprolazer.fashione.data.network.toHashMap
 import vn.quanprolazer.fashione.domain.models.AddToCartItem
-import vn.quanprolazer.fashione.domain.models.Resource
 
 class CartServiceImpl : CartService {
     @ExperimentalCoroutinesApi
@@ -82,17 +81,11 @@ class CartServiceImpl : CartService {
         return true
     }
 
-    override suspend fun getCartItems(userId: String): Resource<List<NetworkCartItem>> {
+    override suspend fun getCartItems(userId: String): List<NetworkCartItem> {
         val db = FirebaseFirestore.getInstance()
-        return try {
-            val response = db.collection("carts").whereEqualTo("user_id", userId).get()
-                .await().documents.mapNotNull { it.toObject(NetworkCartItem::class.java) }
 
-            Resource.Success(response)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
+        return db.collection("carts").whereEqualTo("user_id", userId).get()
+            .await().documents.mapNotNull { it.toObject(NetworkCartItem::class.java) }
     }
 
     override suspend fun updateCartItem(cartItemId: String, quantity: Int): Boolean {

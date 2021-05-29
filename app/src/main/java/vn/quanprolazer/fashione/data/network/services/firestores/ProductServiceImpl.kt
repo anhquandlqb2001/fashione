@@ -8,7 +8,6 @@
 package vn.quanprolazer.fashione.data.network.services.firestores
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.*
@@ -31,18 +30,10 @@ class ProductServiceImpl : ProductService {
         }
     }
 
-    override suspend fun getProductByProductId(productId: String): Resource<NetworkProduct> {
+    override suspend fun getProductByProductId(productId: String): NetworkProduct {
         val db = FirebaseFirestore.getInstance()
-        return try {
-            val response =
-                db.collection("products").document(productId).get()
-                    .await()
-
-            Resource.Success(response.toObject(NetworkProduct::class.java)!!)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
+        return db.collection("products").document(productId).get()
+            .await().toObject(NetworkProduct::class.java)!!
     }
 
     override suspend fun getProductDetailByProductId(productId: String): Resource<NetworkProductDetail> {
@@ -89,19 +80,11 @@ class ProductServiceImpl : ProductService {
         }
     }
 
-    override suspend fun getProductVariantOption(variantOptionId: String): Resource<NetworkProductVariantOption> {
+    override suspend fun getProductVariantOption(variantOptionId: String): NetworkProductVariantOption {
         val db = FirebaseFirestore.getInstance()
-        return try {
-            val response =
-                db.collection("product_variant_options").document(variantOptionId).get()
-                    .await().toObject(NetworkProductVariantOption::class.java)
-                    ?: return Resource.Error(Exception("Product Variant Option not exist"))
+        return db.collection("product_variant_options").document(variantOptionId).get()
+            .await().toObject(NetworkProductVariantOption::class.java)!!
 
-            Resource.Success(response)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
     }
 
     override suspend fun getProductsByCategoryId(categoryId: String): Resource<List<NetworkProduct>> {
@@ -145,18 +128,11 @@ class ProductServiceImpl : ProductService {
         }
     }
 
-    override suspend fun getProductImageByVariantId(variantId: String): Resource<NetworkProductImage> {
+    override suspend fun getProductImageByVariantId(variantId: String): NetworkProductImage {
         val db = FirebaseFirestore.getInstance()
-        return try {
-            val response =
-                db.collection("product_images").whereEqualTo("variant_id", variantId).get()
-                    .await().documents.mapNotNull { it.toObject(NetworkProductImage::class.java) }
+        return db.collection("product_images").whereEqualTo("variant_id", variantId).get()
+            .await().documents.mapNotNull { it.toObject(NetworkProductImage::class.java) }[0]
 
-            Resource.Success(response[0])
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
     }
 
 }
