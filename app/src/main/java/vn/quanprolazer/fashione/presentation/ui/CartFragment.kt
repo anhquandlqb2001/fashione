@@ -32,6 +32,7 @@ import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.presentation.adapters.CartItemListener
 import vn.quanprolazer.fashione.presentation.utilities.ItemSwipeHandler
+import vn.quanprolazer.fashione.presentation.utilities.SpacesItemDecoration
 import vn.quanprolazer.fashione.presentation.viewmodels.BottomCheckoutViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.CartViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutSharedViewModel
@@ -61,6 +62,7 @@ class CartFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         setupViewModel()
+        setupRecyclerViewAdapter()
 
         return binding.root
     }
@@ -74,7 +76,6 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupRecyclerViewAdapter()
 
         viewModel.cartItems.observe(viewLifecycleOwner, {
             it?.let {
@@ -128,10 +129,12 @@ class CartFragment : Fragment() {
                 viewModel.refreshList()
             }
         })
+        setupItemTouchHelper()
+
         binding.rvCart.adapter = adapter
         binding.rvCart.layoutManager =
             WrapContentLinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        setupItemTouchHelper()
+        binding.rvCart.addItemDecoration(SpacesItemDecoration(20))
     }
 
     private fun setupItemTouchHelper() {

@@ -100,15 +100,17 @@ class MarginItemDecoration(
 }
 
 /**
- *  LinearLayout single line horizontal
+ * Linearlayout vertical margin space
  */
 class SpacesItemDecoration(private val space: Int) : ItemDecoration() {
     override fun getItemOffsets(
         outRect: Rect, view: View,
         parent: RecyclerView, state: RecyclerView.State
     ) {
-        outRect.left = space
-        outRect.right = space
+        if (parent.getChildAdapterPosition(view) < 1) {
+            outRect.top = space
+        }
+        outRect.bottom = space
     }
 }
 

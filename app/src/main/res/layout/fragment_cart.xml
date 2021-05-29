@@ -5,7 +5,6 @@
   -->
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -15,39 +14,43 @@
             type="vn.quanprolazer.fashione.presentation.viewmodels.CartViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".presentation.ui.CartFragment">
-
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/cp_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
             android:indeterminate="true"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:visibility="gone" />
 
         <include
             android:id="@+id/f_blank_cart"
-            layout="@layout/include_cart_blank" />
+            layout="@layout/include_cart_blank"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"/>
 
 
         <androidx.recyclerview.widget.RecyclerView
+            android:paddingBottom="1dp"
             android:id="@+id/rv_cart"
             cartItems="@{viewModel.cartItems}"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/relativeLayout"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:background="@color/background_color"
             android:visibility="invisible"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/list_item_cart"
             tools:visibility="visible" />
 
@@ -56,9 +59,7 @@
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_alignParentBottom="true">
 
             <include
                 android:id="@+id/f_bottom_checkout"
@@ -66,5 +67,5 @@
 
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 </layout>
