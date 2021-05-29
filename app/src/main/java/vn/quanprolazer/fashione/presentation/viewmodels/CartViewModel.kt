@@ -35,13 +35,6 @@ class CartViewModel @Inject constructor(
 
     val cartItems: LiveData<Resource<MutableList<CartItem>>> get() = _cartItems
 
-    private var _flagFirstTimeLoad: Boolean = true
-    val flagFirstTimeLoad: Boolean get() = _flagFirstTimeLoad
-
-    fun doneFirstTimeLoad() {
-        _flagFirstTimeLoad = false
-    }
-
     fun onQuantityControlClick(cartItem: CartItem, value: Int) {
         viewModelScope.launch {
             cartRepository.updateCartItem(cartItem.id, value)

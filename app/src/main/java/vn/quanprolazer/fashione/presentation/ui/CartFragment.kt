@@ -81,7 +81,6 @@ class CartFragment : Fragment() {
                         if (it.data.size == 0) {
                             updateBlankCartFragmentVisibility(View.VISIBLE)
                             updateLoadingProgressVisibility(View.GONE)
-                            updateBottomCheckoutVisibility(false)
                             return@let
                         }
 
@@ -90,9 +89,7 @@ class CartFragment : Fragment() {
                         checkoutSharedViewModel.updateOrderData(it.data)
 
                         updateBlankCartFragmentVisibility(View.GONE)
-                        updateBottomCheckoutVisibility(true)
                         updateLoadingProgressVisibility(View.INVISIBLE)
-                        updateBottomCheckoutVisibility(true)
 
                         binding.rvCart.visibility = View.VISIBLE
                     }
@@ -101,6 +98,17 @@ class CartFragment : Fragment() {
                     }
                     else -> {
                     }
+                }
+            }
+        })
+
+        checkoutSharedViewModel.orderData.observe(viewLifecycleOwner, {
+            it?.let {
+                Timber.i(it.items.isEmpty().toString())
+                if (it.items.isEmpty()) {
+                    updateBottomCheckoutVisibility(false)
+                } else {
+                    updateBottomCheckoutVisibility(true)
                 }
             }
         })
