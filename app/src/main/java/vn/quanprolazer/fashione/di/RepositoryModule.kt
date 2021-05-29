@@ -97,10 +97,9 @@ class RepositoryModule {
     @Provides
     fun provideCartRepository(
         userRepository: UserRepository,
-        orderService: OrderService,
         cartService: CartService
     ): CartRepository = CartRepositoryImpl(
-        userRepository, orderService, cartService
+        userRepository, cartService
     )
 
     @Singleton

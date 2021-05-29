@@ -14,35 +14,34 @@ import kotlinx.coroutines.withContext
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.CartService
-import vn.quanprolazer.fashione.data.network.services.firestores.OrderService
-import vn.quanprolazer.fashione.domain.models.*
+import vn.quanprolazer.fashione.domain.models.AddToCartItem
+import vn.quanprolazer.fashione.domain.models.CartItem
+import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.domain.models.toNetworkModel
 import vn.quanprolazer.fashione.domain.repositories.CartRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
 
 class CartRepositoryImpl @AssistedInject constructor(
     private val userRepository: UserRepository,
-    private val orderService: OrderService,
     private val cartService: CartService,
     @Assisted private val defaultDispatcher: CoroutineDispatcher = Dispatchers.Default
 ) :
     CartRepository {
 
     override suspend fun addToCart(addToCartItem: AddToCartItem): Resource<Boolean> {
-        val result = withContext(defaultDispatcher) {
-            orderService.addToCart(addToCartItem, userRepository.getUser().value!!.uid)
-        }
-
-        return when (result) {
-            is Resource.Success -> Resource.Success(true)
-            is Resource.Error -> Resource.Error(result.exception)
-            else -> Resource.Loading(null)
-
+        return try {
+            withContext(defaultDispatcher) {
+                cartService.addToCart(addToCartItem, userRepository.getUser().value!!.uid)
+            }
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 
     override suspend fun getCartItems(): Resource<MutableList<CartItem>> {
         val result = withContext(defaultDispatcher) {
-            orderService.getCartItems(userRepository.getUser().value!!.uid)
+            cartService.getCartItems(userRepository.getUser().value!!.uid)
         }
 
         return when (result) {
@@ -56,32 +55,38 @@ class CartRepositoryImpl @AssistedInject constructor(
 
 
     override suspend fun updateCartItem(cartItemId: String, quantity: Int): Resource<Boolean> {
-        val result = withContext(defaultDispatcher) {
-            orderService.updateCartItem(cartItemId, quantity)
-        }
-        return when (result) {
-            is Resource.Success -> Resource.Success(result.data)
-            is Resource.Error -> Resource.Error(result.exception)
-            else -> Resource.Loading(null)
+        return try {
+            withContext(defaultDispatcher) {
+                cartService.updateCartItem(cartItemId, quantity)
+            }
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
     }
 
     override suspend fun removeCartItem(cartItemId: String): Resource<Boolean> {
-        val result = withContext(defaultDispatcher) {
-            orderService.removeCartItem(cartItemId)
+        return try {
+            withContext(defaultDispatcher) {
+                cartService.removeCartItem(cartItemId)
+            }
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
-
-        return fromResult(result)
     }
 
     override suspend fun undoDeleteCartItem(cartItem: CartItem): Resource<Boolean> {
-        val result = withContext(defaultDispatcher) {
-            orderService.addToCart(
-                cartItem.toNetworkModel(), userRepository.getUser().value!!.uid, cartItem.id
-            )
+        return try {
+            withContext(defaultDispatcher) {
+                cartService.addToCart(
+                    cartItem.toNetworkModel(), userRepository.getUser().value!!.uid, cartItem.id
+                )
+            }
+            Resource.Success(true)
+        } catch (e: Exception) {
+            Resource.Error(e)
         }
-
-        return fromResult(result)
     }
 
     override suspend fun getCartItemCount(): Resource<Int> {
