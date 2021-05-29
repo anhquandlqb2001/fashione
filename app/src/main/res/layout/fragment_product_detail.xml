@@ -30,7 +30,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
-                android:layout_marginBottom="50sp">
+                android:layout_above="@id/btn_buy">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -271,10 +271,10 @@
             </androidx.core.widget.NestedScrollView>
 
             <Button
+                shouldDisplayBuyButton="@{viewModel.buyButtonVisibility}"
                 android:id="@+id/btn_buy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/sv_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginHorizontal="16sp"
                 android:onClick="@{() -> viewModel.onNavigateToBottomSheet(viewModel.product)}"

@@ -198,3 +198,13 @@ fun TextView.timestamp(timestamp: Timestamp?) {
         text = fromTimestamp(timestamp)
     }
 }
+
+@BindingAdapter("shouldDisplayBuyButton")
+fun Button.shouldDisplayBuyButton(state: AuthenticationState?) {
+    state?.let {
+        when(state) {
+            AuthenticationState.AUTHENTICATED -> visibility = View.VISIBLE
+            else -> visibility = View.GONE
+        }
+    }
+}

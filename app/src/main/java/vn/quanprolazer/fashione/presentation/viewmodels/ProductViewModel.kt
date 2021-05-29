@@ -12,15 +12,14 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
-import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
+import vn.quanprolazer.fashione.domain.repositories.UserRepository
 
 
 class ProductViewModel @AssistedInject constructor(
     private val productRepository: ProductRepository,
-    private val reviewRepository: ReviewRepository,
+    private val userRepository: UserRepository,
     @Assisted val product: Product
 ) : ViewModel() {
-
 
     private val _productImages by lazy {
         val liveData = MutableLiveData<Resource<List<ProductImage>>>()
@@ -98,6 +97,8 @@ class ProductViewModel @AssistedInject constructor(
     fun doneNavigateToReview() {
         _navigateToReview.value = null
     }
+
+    val buyButtonVisibility: LiveData<AuthenticationState> by lazy { userRepository.getAuthenticateState() }
 
     @dagger.assisted.AssistedFactory
     interface AssistedFactory {
