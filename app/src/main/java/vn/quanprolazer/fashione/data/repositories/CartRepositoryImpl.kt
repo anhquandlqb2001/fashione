@@ -45,7 +45,7 @@ class CartRepositoryImpl @AssistedInject constructor(
 
     override suspend fun getCartItems(): Resource<MutableList<CartItem>> {
         val user =
-            userRepository.getUser().value ?: return Resource.Error(Exception("Not login yet"))
+            userRepository.getUser().value ?: return Resource.Error(Exception("NOT_LOGIN"))
 
         return try {
             val cartItems = cartService.getCartItems(user.uid).map {

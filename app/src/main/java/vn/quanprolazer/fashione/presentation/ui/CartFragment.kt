@@ -96,7 +96,19 @@ class CartFragment : Fragment() {
                     is Resource.Loading -> {
                         updateCartUILoading()
                     }
-                    else -> {
+                    is Resource.Error -> {
+                        binding.llNotLogin.visibility = View.VISIBLE
+                        updateBlankCartFragmentVisibility(View.GONE)
+                        updateLoadingProgressVisibility(View.INVISIBLE)
+                        when (it.exception.message) {
+                            "NOT_LOGIN" -> {
+                                Snackbar.make(
+                                    binding.root,
+                                    "Bạn phải đăng nhập trước",
+                                    Snackbar.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
                     }
                 }
             }
