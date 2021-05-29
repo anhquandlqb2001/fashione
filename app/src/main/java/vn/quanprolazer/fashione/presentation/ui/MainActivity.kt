@@ -129,8 +129,12 @@ class MainActivity : AppCompatActivity() {
                 AuthenticationState.AUTHENTICATED -> {
                     menuItem.setOnMenuItemClickListener {
                         AuthUI.getInstance().signOut(applicationContext)
-                        closeDrawerWithAnimation()
                         logoutSuccess()
+                        binding.apply {
+                            ivNotification.badgeValue = 0
+                            ivCart.badgeValue = 0
+                        }
+                        closeDrawerWithAnimation()
                         true
                     }
 
