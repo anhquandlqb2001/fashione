@@ -90,7 +90,7 @@ class ProductServiceImpl : ProductService {
     override suspend fun getProductsByCategoryId(categoryId: String): Resource<List<NetworkProduct>> {
         val db = FirebaseFirestore.getInstance()
         return try {
-            val response = db.collection("products").whereEqualTo("category_id", categoryId).get()
+            val response = db.collection("products").whereArrayContains("category_ids", categoryId).get()
                 .await().documents.mapNotNull { it.toObject(NetworkProduct::class.java) }
 
             Resource.Success(response)

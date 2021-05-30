@@ -28,10 +28,10 @@ data class NetworkProduct(
     @SerialName("id")
     @DocumentId
     val id: String? = "",
-    @set:PropertyName("category_id")
-    @get:PropertyName("category_id")
-    @SerialName("category_id")
-    var categoryId: String = "",
+    @set:PropertyName("category_ids")
+    @get:PropertyName("category_ids")
+    @SerialName("category_ids")
+    var categoryIds: List<String> = listOf(),
     @SerialName("name")
     val name: String = "",
     @SerialName("thumbnail_url")
@@ -43,7 +43,7 @@ data class NetworkProduct(
 )
 
 internal fun NetworkProduct.toDomainModel() = Product(
-    id.orEmpty(), categoryId, name, thumbnailUrl, price
+    id.orEmpty(), categoryIds, name, thumbnailUrl, price
 )
 
 

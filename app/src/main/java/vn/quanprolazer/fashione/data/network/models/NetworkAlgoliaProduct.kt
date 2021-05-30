@@ -14,8 +14,8 @@ import vn.quanprolazer.fashione.domain.models.Product
 data class NetworkAlgoliaProduct(
     @SerialName("id")
     val id: String = "",
-    @SerialName("category_id")
-    val category_id: String = "",
+    @SerialName("category_ids")
+    val category_ids: List<String> = listOf(),
     @SerialName("name")
     val name: String = "",
     @SerialName("thumbnail_url")
@@ -25,5 +25,5 @@ data class NetworkAlgoliaProduct(
 )
 
 internal fun NetworkAlgoliaProduct.toDomainModel() = Product(
-    id, category_id, name, thumbnail_url, price
+    id, category_ids, name, thumbnail_url, price
 )
