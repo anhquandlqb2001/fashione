@@ -14,13 +14,37 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nsv_review"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:context=".presentation.ui.ReviewFragment">
+
+            <LinearLayout
+                android:id="@+id/ll_no_review"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="200dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <ImageView
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/outline_visibility_off_black_48dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chưa có nhận xét nào"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_review"
@@ -32,13 +56,13 @@
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/cpi_loading"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/rv_review"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:indeterminate="true"
+                android:visibility="gone"
                 app:indicatorColor="@color/teal_700" />
 
             <TextView

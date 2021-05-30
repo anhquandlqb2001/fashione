@@ -55,7 +55,7 @@ class ReviewServiceImpl : ReviewService {
     override suspend fun getRatings(productId: String): List<NetworkRating> {
         val db = FirebaseFirestore.getInstance()
         val response =
-            db.collection("review_ratings").get()
+            db.collection("review_ratings").whereEqualTo("product_id", productId).get()
                 .await().documents.mapNotNull { it.toObject(NetworkRating::class.java) }
 
         if (response.isEmpty()) return listOf()

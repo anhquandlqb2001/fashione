@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
@@ -78,18 +79,22 @@ class ReviewFragment : Fragment() {
                 when (it) {
                     is Resource.Success -> {
                         if (it.data.isEmpty()) {
+                            binding.llNoReview.visibility = View.VISIBLE
                             binding.rvReview.visibility = View.GONE
                         } else {
-                            loadingDialog.hideDialog()
+                            binding.llNoReview.visibility = View.GONE
                             binding.rvReview.visibility = View.VISIBLE
                             reviewItemAdapter.submitList(it.data)
                             binding.cpiLoading.visibility = View.GONE
                         }
+                        loadingDialog.hideDialog()
                     }
                     is Resource.Loading -> {
                         loadingDialog.showDialog()
                     }
                     is Resource.Error -> {
+                        loadingDialog.hideDialog()
+                        this.findNavController().popBackStack()
                         binding.rvReview.visibility = View.GONE
                         Timber.e(it.exception)
                     }
