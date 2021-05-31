@@ -24,7 +24,7 @@ import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupItemListe
 import vn.quanprolazer.fashione.presentation.adapters.NotificationItemAdapter
 import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
-import vn.quanprolazer.fashione.presentation.utilities.notificationOverviewResponse
+import vn.quanprolazer.fashione.presentation.utilities.bindings.notificationOverviewResponse
 import vn.quanprolazer.fashione.presentation.viewmodels.NotificationViewModel
 
 @AndroidEntryPoint

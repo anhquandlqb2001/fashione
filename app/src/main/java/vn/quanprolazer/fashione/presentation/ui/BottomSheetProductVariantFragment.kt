@@ -19,7 +19,7 @@ import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentBottomSheetProductVariantBinding
 import vn.quanprolazer.fashione.domain.models.ProductVariantOption
 import vn.quanprolazer.fashione.domain.models.Resource
-import vn.quanprolazer.fashione.presentation.utilities.setProductVariantQty
+import vn.quanprolazer.fashione.presentation.utilities.bindings.setProductVariantQty
 import vn.quanprolazer.fashione.presentation.viewmodels.BottomSheetProductVariantViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.ProductSharedViewModel
 import javax.inject.Inject

@@ -23,6 +23,9 @@ import java.util.*
 
 private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
 
+const val PRODUCT_NAME_LIMIT = 10
+
+
 /**
  * Truncate long text with a preference for word boundaries and without trailing punctuation.
  */
