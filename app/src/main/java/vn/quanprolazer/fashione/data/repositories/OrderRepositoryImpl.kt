@@ -45,14 +45,13 @@ class OrderRepositoryImpl @AssistedInject constructor(
     override suspend fun updateOrderReviewStatus(
         status: ReviewStatus,
         orderItemId: String
-    ): Resource<Boolean> {
-        val updateOrderReviewStatusResponse = withContext(defaultDispatcher) {
+    ) = try {
+        withContext(defaultDispatcher) {
             orderService.updateOrderReviewStatus(reviewStatus = status, orderItemId)
         }
-        return when (updateOrderReviewStatusResponse) {
-            is Resource.Success -> Resource.Success(true)
-            else -> Resource.Error(Exception("Error when update review status"))
-        }
+        Resource.Success(true)
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
     override suspend fun getDeliveryStatus(): Resource<List<DeliveryStatus>> {
