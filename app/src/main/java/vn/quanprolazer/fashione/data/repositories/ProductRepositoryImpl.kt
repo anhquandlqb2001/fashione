@@ -15,7 +15,9 @@ import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.SearchServiceImpl
 import vn.quanprolazer.fashione.data.network.services.firestores.ProductService
-import vn.quanprolazer.fashione.domain.models.*
+import vn.quanprolazer.fashione.domain.models.Product
+import vn.quanprolazer.fashione.domain.models.ProductVariantOption
+import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
 
 class ProductRepositoryImpl @AssistedInject constructor(
@@ -23,29 +25,22 @@ class ProductRepositoryImpl @AssistedInject constructor(
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
-    override suspend fun getProducts(): Resource<List<Product>> {
-
+    override suspend fun getProducts() = try {
         val response = withContext(dispatcher) {
             productService.getProducts()
         }
-
-        return when (response) {
-            is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Loading -> Resource.Loading
-            is Resource.Error -> Resource.Error(response.exception)
-        }
+        Resource.Success(response.map { it.toDomainModel() })
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
-    override suspend fun getProductsByCategoryId(categoryId: String): Resource<List<Product>> {
+    override suspend fun getProductsByCategoryId(categoryId: String) = try {
         val response = withContext(dispatcher) {
             productService.getProductsByCategoryId(categoryId)
         }
-
-        return when (response) {
-            is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Loading -> Resource.Loading
-            is Resource.Error -> Resource.Error(response.exception)
-        }
+        Resource.Success(response.map { it.toDomainModel() })
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
     override suspend fun findProductsByQuery(query: String): Resource<List<Product>> {
@@ -60,77 +55,58 @@ class ProductRepositoryImpl @AssistedInject constructor(
         }
     }
 
-    override suspend fun getProductDetailByProductId(productId: String): Resource<ProductDetail> {
+    override suspend fun getProductDetailByProductId(productId: String) = try {
         val response = withContext(dispatcher) {
             productService.getProductDetailByProductId(productId)
         }
-
-        return when (response) {
-            is Resource.Success -> Resource.Success(response.data.toDomainModel())
-            is Resource.Loading -> Resource.Loading
-            is Resource.Error -> Resource.Error(response.exception)
-        }
-
+        Resource.Success(response.toDomainModel())
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
-    override suspend fun getProductVariantsByProductId(productId: String): Resource<MutableList<ProductVariant>> {
+    override suspend fun getProductVariantsByProductId(productId: String) = try {
         val response = withContext(dispatcher) {
             productService.getProductVariantsByProductId(productId)
         }
-
-        return when (response) {
-            is Resource.Success -> Resource.Success(
-                response.data.map { it.toDomainModel() }.toMutableList()
-            )
-            is Resource.Loading -> Resource.Loading
-            is Resource.Error -> Resource.Error(response.exception)
-        }
+        Resource.Success(mutableListOf(response[0].toDomainModel()))
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
-    override suspend fun getProductVariantOptionsByVariantId(variantId: String): Resource<List<ProductVariantOption>> {
+    override suspend fun getProductVariantOptionsByVariantId(variantId: String) = try {
         val response = withContext(dispatcher) {
             productService.getProductVariantOptionsByVariantId(variantId)
         }
-        return when (response) {
-            is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Error -> Resource.Error(response.exception)
-            else -> Resource.Loading
-        }
+        Resource.Success(response.map { it.toDomainModel() })
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
-    override suspend fun getProductImagesByProductId(productId: String): Resource<List<ProductImage>> {
+    override suspend fun getProductImagesByProductId(productId: String) = try {
         val response = withContext(dispatcher) {
             productService.getProductImagesByProductId(productId)
         }
-
-        return when (response) {
-            is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Loading -> Resource.Loading
-            is Resource.Error -> Resource.Error(response.exception)
-        }
+        Resource.Success(response.map { it.toDomainModel() })
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
-    override suspend fun getProductImageByProductId(productId: String): Resource<ProductImage> {
+    override suspend fun getProductImageByProductId(productId: String) = try {
         val response = withContext(dispatcher) {
             productService.getProductImageByProductId(productId)
         }
-
-        return when (response) {
-            is Resource.Success -> Resource.Success(response.data.toDomainModel())
-            is Resource.Loading -> Resource.Loading
-            is Resource.Error -> Resource.Error(response.exception)
-        }
+        Resource.Success(response.toDomainModel())
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
-    override suspend fun getProductImageByProductVariantId(variantId: String): Resource<ProductImage> {
-        return try {
-            Resource.Success(withContext(dispatcher) {
-                (productService.getProductImageByVariantId(variantId))
-            }.toDomainModel())
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
+    override suspend fun getProductImageByProductVariantId(variantId: String) = try {
+        val response = withContext(dispatcher) {
+            productService.getProductImageByVariantId(variantId)
         }
+        Resource.Success(response.toDomainModel())
+    } catch (e: Exception) {
+        Resource.Error(e)
     }
 
     override suspend fun getProductByProductId(productId: String): Resource<Product> {
