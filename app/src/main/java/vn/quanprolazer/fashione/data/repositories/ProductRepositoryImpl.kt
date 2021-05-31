@@ -43,16 +43,14 @@ class ProductRepositoryImpl @AssistedInject constructor(
         Resource.Error(e)
     }
 
-    override suspend fun findProductsByQuery(query: String): Resource<List<Product>> {
+    override suspend fun findProductsByQuery(query: String) = try {
         val response = withContext(dispatcher) {
             SearchServiceImpl.findProductsByQuery(query)
         }
-
-        return when (response) {
-            is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Loading -> Resource.Loading
-            is Resource.Error -> Resource.Error(response.exception)
-        }
+        Resource.Success(response.map { it.toDomainModel() })
+    } catch (e: Exception) {
+        Timber.e(e)
+        Resource.Error(e)
     }
 
     override suspend fun getProductDetailByProductId(productId: String) = try {

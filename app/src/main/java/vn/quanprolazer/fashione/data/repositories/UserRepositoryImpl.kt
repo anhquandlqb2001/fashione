@@ -33,43 +33,39 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUser() = FirebaseUserLiveData
 
-    override suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<Boolean> {
-        return withContext(Dispatchers.IO) {
+    override suspend fun addPickupAddress(pickupAddress: NewPickupAddress) = try {
+        withContext(Dispatchers.IO) {
             userService.addPickupAddress(pickupAddress)
         }
+        Resource.Success(true)
+    } catch (e: Exception) {
+        Timber.e(e)
+        Resource.Error(e)
     }
 
     override suspend fun getPickupAddresses(): Resource<List<PickupAddress>> {
-        val user = getUser()
-        val data = withContext(Dispatchers.IO) {
-            userService.getPickupAddresses(user.value!!.uid)
-        }
-
-        return when (data) {
-            is Resource.Success -> {
-                Resource.Success(data.data.map { it.toDomainModel() })
+        val user = getUser().value ?: return Resource.Error(Exception("NOT_LOGIN"))
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                userService.getPickupAddresses(user.uid)
             }
-            is Resource.Loading -> {
-                Resource.Loading
-            }
-            is Resource.Error -> Resource.Error(data.exception)
+            Resource.Success(response.map { it.toDomainModel() })
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
         }
     }
 
     override suspend fun getDefaultPickupAddress(): Resource<PickupAddress> {
-        val user = getUser()
-        val data = withContext(Dispatchers.IO) {
-            userService.getDefaultPickupAddress(user.value!!.uid)
-        }
-
-        return when (data) {
-            is Resource.Success -> {
-                Resource.Success(data.data.toDomainModel())
+        val user = getUser().value ?: return Resource.Error(Exception("NOT_LOGIN"))
+        return try {
+            val response = withContext(Dispatchers.IO) {
+                userService.getDefaultPickupAddress(user.uid)
             }
-            is Resource.Loading -> {
-                Resource.Loading
-            }
-            is Resource.Error -> Resource.Error(data.exception)
+            Resource.Success(response.toDomainModel())
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
         }
     }
 

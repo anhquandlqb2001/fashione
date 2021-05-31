@@ -15,5 +15,5 @@ interface SearchService : CoroutineScope {
 
     val index: Index
 
-    suspend fun findProductsByQuery(query: String): Resource<List<NetworkAlgoliaProduct>>
+    suspend fun findProductsByQuery(query: String): List<NetworkAlgoliaProduct>
 }
