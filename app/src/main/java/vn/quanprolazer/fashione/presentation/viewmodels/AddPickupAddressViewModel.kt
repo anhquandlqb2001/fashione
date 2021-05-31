@@ -94,7 +94,7 @@ class AddPickupAddressViewModel @Inject constructor(
     val onSavePickupAddress: LiveData<Resource<Boolean>> get() = _onSavePickupAddress
 
     fun onClickSave() {
-        _onSavePickupAddress.value = Resource.Loading(null)
+        _onSavePickupAddress.value = Resource.Loading
 
         _addPickupAddress.value = NewPickupAddress(
             userRepository.getUser().value?.uid.toString(),

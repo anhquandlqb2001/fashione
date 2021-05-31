@@ -50,7 +50,7 @@ class UserRepositoryImpl @Inject constructor(
                 Resource.Success(data.data.map { it.toDomainModel() })
             }
             is Resource.Loading -> {
-                Resource.Loading(null)
+                Resource.Loading
             }
             is Resource.Error -> Resource.Error(data.exception)
         }
@@ -67,7 +67,7 @@ class UserRepositoryImpl @Inject constructor(
                 Resource.Success(data.data.toDomainModel())
             }
             is Resource.Loading -> {
-                Resource.Loading(null)
+                Resource.Loading
             }
             is Resource.Error -> Resource.Error(data.exception)
         }

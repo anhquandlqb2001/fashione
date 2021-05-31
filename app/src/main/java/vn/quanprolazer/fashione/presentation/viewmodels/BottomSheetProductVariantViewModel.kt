@@ -51,7 +51,7 @@ class BottomSheetProductVariantViewModel @AssistedInject constructor(
                     productRepository.getProductVariantOptionsByVariantId(it.id)) {
                     is Resource.Success -> it.options = Resource.Success(productVariantOptions.data)
                     is Resource.Error -> Resource.Error(productVariantOptions.exception)
-                    is Resource.Loading -> it.options = Resource.Loading(null)
+                    is Resource.Loading -> it.options = Resource.Loading
                 }
             }
             it

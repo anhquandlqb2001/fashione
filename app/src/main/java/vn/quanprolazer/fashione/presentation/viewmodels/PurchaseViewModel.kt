@@ -39,7 +39,7 @@ class PurchaseViewModel @Inject constructor(
     }
 
     private val _purchaseItems: MutableLiveData<Resource<MutableList<Purchase>>> by lazy {
-        val liveData = MutableLiveData<Resource<MutableList<Purchase>>>(Resource.Loading(null))
+        val liveData = MutableLiveData<Resource<MutableList<Purchase>>>(Resource.Loading)
 
         viewModelScope.launch {
             liveData.value = purchaseRepository.getPurchaseItems(OrderItemStatusType.CONFIRMING)
@@ -49,7 +49,7 @@ class PurchaseViewModel @Inject constructor(
     val purchaseItems: LiveData<Resource<MutableList<Purchase>>> get() = _purchaseItems
 
     private fun updatePurchaseItems(status: OrderItemStatusType) {
-        _purchaseItems.value = Resource.Loading(null)
+        _purchaseItems.value = Resource.Loading
         viewModelScope.launch {
             _purchaseItems.value = purchaseRepository.getPurchaseItems(status)
         }
@@ -79,7 +79,7 @@ class PurchaseViewModel @Inject constructor(
     }
 
     fun onClickReOrder(purchase: Purchase) {
-        _addToCartResponse.value = Resource.Loading(null)
+        _addToCartResponse.value = Resource.Loading
 
         val addToCartItem = AddToCartItem(
             productId = purchase.productId,

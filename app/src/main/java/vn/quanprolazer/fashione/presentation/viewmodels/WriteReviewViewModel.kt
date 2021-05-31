@@ -75,7 +75,7 @@ class WriteReviewViewModel @AssistedInject constructor(
     var isDialogShowing = false
 
     fun onClickAddReview() {
-        _addReviewStatus.value = Resource.Loading(null)
+        _addReviewStatus.value = Resource.Loading
 
         val review = Review(
             productId = purchaseToAddReview.product.id,

@@ -53,7 +53,7 @@ class PersonalViewModel @Inject constructor(
     }
 
     private val _deliveryStatus: MutableLiveData<Resource<List<DeliveryStatus>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<DeliveryStatus>>>(Resource.Loading(null))
+        val liveData = MutableLiveData<Resource<List<DeliveryStatus>>>(Resource.Loading)
         viewModelScope.launch {
             liveData.value = orderRepository.getDeliveryStatus()
         }

@@ -26,7 +26,7 @@ class CartViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _cartItems: MutableLiveData<Resource<MutableList<CartItem>>> by lazy {
-        val liveData = MutableLiveData<Resource<MutableList<CartItem>>>(Resource.Loading(null))
+        val liveData = MutableLiveData<Resource<MutableList<CartItem>>>(Resource.Loading)
         viewModelScope.launch {
             liveData.value = cartRepository.getCartItems()
         }

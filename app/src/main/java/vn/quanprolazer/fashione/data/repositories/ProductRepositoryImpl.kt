@@ -31,7 +31,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
         return when (response) {
             is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Loading -> Resource.Loading
             is Resource.Error -> Resource.Error(response.exception)
         }
     }
@@ -43,7 +43,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
         return when (response) {
             is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Loading -> Resource.Loading
             is Resource.Error -> Resource.Error(response.exception)
         }
     }
@@ -55,7 +55,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
         return when (response) {
             is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Loading -> Resource.Loading
             is Resource.Error -> Resource.Error(response.exception)
         }
     }
@@ -67,7 +67,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
         return when (response) {
             is Resource.Success -> Resource.Success(response.data.toDomainModel())
-            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Loading -> Resource.Loading
             is Resource.Error -> Resource.Error(response.exception)
         }
 
@@ -82,7 +82,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
             is Resource.Success -> Resource.Success(
                 response.data.map { it.toDomainModel() }.toMutableList()
             )
-            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Loading -> Resource.Loading
             is Resource.Error -> Resource.Error(response.exception)
         }
     }
@@ -94,7 +94,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
         return when (response) {
             is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
             is Resource.Error -> Resource.Error(response.exception)
-            else -> Resource.Loading(null)
+            else -> Resource.Loading
         }
     }
 
@@ -105,7 +105,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
         return when (response) {
             is Resource.Success -> Resource.Success(response.data.map { it.toDomainModel() })
-            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Loading -> Resource.Loading
             is Resource.Error -> Resource.Error(response.exception)
         }
     }
@@ -117,7 +117,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
         return when (response) {
             is Resource.Success -> Resource.Success(response.data.toDomainModel())
-            is Resource.Loading -> Resource.Loading(null)
+            is Resource.Loading -> Resource.Loading
             is Resource.Error -> Resource.Error(response.exception)
         }
     }

@@ -33,7 +33,7 @@ class HomeViewModel @Inject constructor(
      * Encapsulation
      */
     private val _categories: MutableLiveData<Resource<List<Category>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<Category>>>(Resource.Loading(null))
+        val liveData = MutableLiveData<Resource<List<Category>>>(Resource.Loading)
         viewModelScope.launch {
             liveData.value = categoryRepository.getCategoryList()
         }

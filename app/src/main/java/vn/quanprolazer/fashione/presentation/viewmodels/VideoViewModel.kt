@@ -25,7 +25,7 @@ class VideoViewModel @Inject constructor(private val videoRepository: VideoRepos
 
     private val _liveVideos: MutableLiveData<Resource<List<LiveVideo>>> by lazy {
         MutableLiveData(
-            Resource.Loading(null)
+            Resource.Loading
         )
     }
     val liveVideos: LiveData<Resource<List<LiveVideo>>> get() = _liveVideos

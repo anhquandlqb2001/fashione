@@ -49,7 +49,7 @@ class ReviewViewModel @AssistedInject constructor(
 
     private val _reviewWithRatings: MutableLiveData<Resource<MutableList<ReviewRetrofit>>> by lazy {
         val liveData =
-            MutableLiveData<Resource<MutableList<ReviewRetrofit>>>(Resource.Loading(null))
+            MutableLiveData<Resource<MutableList<ReviewRetrofit>>>(Resource.Loading)
         viewModelScope.launch {
             when (val response = reviewRepository.getReviews(productId, _lastVisibleId)) {
                 is Resource.Success -> {

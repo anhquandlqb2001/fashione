@@ -92,7 +92,7 @@ class CheckoutViewModel @AssistedInject constructor(
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onOrderClick() {
-        _navigateToOrderSuccess.value = Resource.Loading(null)
+        _navigateToOrderSuccess.value = Resource.Loading
 
         val order = Order(
             userId = userRepository.getUser().value!!.uid,

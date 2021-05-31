@@ -37,7 +37,7 @@ class NotificationViewModel @Inject constructor(
 
     private val _notificationOverview: MutableLiveData<Resource<NotificationOverviewResponse>> by lazy {
         val liveData =
-            MutableLiveData<Resource<NotificationOverviewResponse>>(Resource.Loading(null))
+            MutableLiveData<Resource<NotificationOverviewResponse>>(Resource.Loading)
         viewModelScope.launch {
             liveData.value = notificationRepository.getNotificationTypes()
         }

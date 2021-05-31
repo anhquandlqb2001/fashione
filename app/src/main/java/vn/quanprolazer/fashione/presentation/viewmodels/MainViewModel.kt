@@ -56,7 +56,7 @@ class MainViewModel @Inject constructor(
     val cartItemCount: LiveData<Resource<Int>> get() = _cartItemCount
 
     fun fetchCartItemCount() {
-        _cartItemCount.value = Resource.Loading(null)
+        _cartItemCount.value = Resource.Loading
         viewModelScope.launch {
             cartRepository.getCartItemCount().catch { e -> Timber.e(e) }
                 .collect { _cartItemCount.value = it }
@@ -67,7 +67,7 @@ class MainViewModel @Inject constructor(
     val notificationCount: LiveData<Resource<Int>> get() = _notificationCount
 
     fun fetchNotificationCount() {
-        _notificationCount.value = Resource.Loading(null)
+        _notificationCount.value = Resource.Loading
         viewModelScope.launch {
             notificationRepository.getNotificationCount().catch { e -> Timber.e(e) }
                 .collect { _notificationCount.value = it }

@@ -21,7 +21,7 @@ class ExtendNotificationViewModel @AssistedInject constructor(
     ViewModel() {
 
     private val _notificationsOfPromotion: MutableLiveData<Resource<List<NotificationExtend>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<NotificationExtend>>>(Resource.Loading(null))
+        val liveData = MutableLiveData<Resource<List<NotificationExtend>>>(Resource.Loading)
         viewModelScope.launch {
             liveData.value =
                 notificationRepositoryFirestore.getNotificationsExtend(
