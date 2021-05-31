@@ -8,28 +8,17 @@
 package vn.quanprolazer.fashione.data.network.services.firestores
 
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Source
 import kotlinx.coroutines.tasks.await
-import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.NetworkCategory
-import vn.quanprolazer.fashione.domain.models.Resource
 
 class CategoryServiceImpl : CategoryService {
-    override suspend fun getCategoryList(source: Source): Resource<List<NetworkCategory>> {
-        val db = FirebaseFirestore.getInstance()
-        return try {
-            val list = db.collection("categories")
-                .get(source)
-                .await()
-                .documents
-                .mapNotNull {
-                    it.toObject((NetworkCategory::class.java))
-                }
+    override suspend fun getCategoryList() =
+        FirebaseFirestore.getInstance().collection("categories")
+            .get()
+            .await()
+            .documents
+            .mapNotNull {
+                it.toObject((NetworkCategory::class.java))
+            }
 
-            return Resource.Success(list)
-        } catch (e: Exception) {
-            Timber.e(e)
-            Resource.Error(e)
-        }
-    }
 }

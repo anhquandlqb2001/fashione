@@ -11,7 +11,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.firestore.Source
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.Category
@@ -33,13 +32,10 @@ class HomeViewModel @Inject constructor(
      *
      * Encapsulation
      */
-    private val _categories by lazy {
-        val liveData = MutableLiveData<List<Category>>()
+    private val _categories: MutableLiveData<Resource<List<Category>>> by lazy {
+        val liveData = MutableLiveData<Resource<List<Category>>>(Resource.Loading(null))
         viewModelScope.launch {
-            when (val getCategoryResponse = categoryRepository.getCategoryList()) {
-                is Resource.Success -> liveData.value = getCategoryResponse.data
-                is Resource.Error -> _exception.value = getCategoryResponse.exception
-            }
+            liveData.value = categoryRepository.getCategoryList()
         }
         return@lazy liveData
     }
@@ -48,9 +44,7 @@ class HomeViewModel @Inject constructor(
      * Variable to store list of available category
      * Data for display Category RecycleView
      */
-    val categories: LiveData<List<Category>> by lazy {
-        _categories
-    }
+    val categories: LiveData<Resource<List<Category>>> get() = _categories
 
     /**
      * Variable to store list of available product

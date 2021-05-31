@@ -16,8 +16,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
+import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.CategoryAdapter
 import vn.quanprolazer.fashione.presentation.adapters.OnClickCategoryListener
 import vn.quanprolazer.fashione.presentation.adapters.OnClickListener
@@ -111,8 +113,15 @@ class HomeFragment : Fragment() {
 
     private fun observeCategory() {
         viewModel.categories.observe(viewLifecycleOwner, {
-            it?.apply {
-                categoryAdapter.submitList(it)
+            it?.let {
+                when (it) {
+                    is Resource.Success -> categoryAdapter.submitList(it.data)
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Error ->
+                        Timber.e(it.exception)
+
+                }
             }
         })
     }

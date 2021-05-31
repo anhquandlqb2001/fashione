@@ -14,6 +14,4 @@ interface CategoryRepository {
 
     suspend fun getCategoryList(): Resource<List<Category>>
 
-    suspend fun getCategoryListFromLocal(): Resource<List<Category>>
-
 }
