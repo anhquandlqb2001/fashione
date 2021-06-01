@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.domain.models.CartItem
 import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
+import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.CartItemAdapter
 import vn.quanprolazer.fashione.presentation.adapters.NotificationGroupAdapter
@@ -35,6 +36,6 @@ fun RecyclerView.setCartItems(cartItems: LiveData<Resource<List<CartItem>>>?) {
 @BindingAdapter("notificationOverviewResponse")
 fun RecyclerView.notificationOverviewResponse(notificationOverviewResponse: NotificationOverviewResponse?) {
     notificationOverviewResponse?.let {
-        (this.adapter as NotificationGroupAdapter).submitList(notificationOverviewResponse.notifications)
+        (this.adapter as NotificationGroupAdapter).submitList(notificationOverviewResponse.notifications.filter { it.type.name != NotificationTypeEnum.ORDER_STATUS })
     }
 }

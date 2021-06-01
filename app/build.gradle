@@ -143,6 +143,7 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
 
+    //exoplayer2
     implementation "com.google.android.exoplayer:exoplayer:$exo_version"
     implementation "com.google.android.exoplayer:exoplayer-core:$exo_version"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exo_version"

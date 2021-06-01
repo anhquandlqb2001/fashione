@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentNotificationBinding
 import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
 import vn.quanprolazer.fashione.domain.models.Resource
@@ -89,6 +90,7 @@ class NotificationFragment : Fragment() {
                         loadingDialog.showDialog()
                     }
                     is Resource.Error -> {
+                        Timber.e(it.exception)
                         binding.llNotLogin.visibility = View.VISIBLE
                         loadingDialog.hideDialog()
                         when (it.exception.message) {
@@ -117,6 +119,7 @@ class NotificationFragment : Fragment() {
                     is Resource.Loading -> {
                     }
                     is Resource.Error -> {
+                        loadingDialog.hideDialog()
                         when (it.exception.message) {
                             "NOT_LOGIN" -> {
                                 Snackbar.make(

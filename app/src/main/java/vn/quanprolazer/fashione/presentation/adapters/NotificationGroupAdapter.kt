@@ -20,10 +20,10 @@ class NotificationGroupAdapter(private val listener: NotificationGroupItemListen
         NotificationGroupDiffUtil
     ) {
 
+
     class NotificationGroupViewHolder(private val binding: ListItemNotificationGroupBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val ignoreNotificationGroups = listOf(NotificationTypeEnum.ORDER_STATUS)
 
         companion object {
             fun from(parent: ViewGroup): NotificationGroupViewHolder {
@@ -37,15 +37,12 @@ class NotificationGroupAdapter(private val listener: NotificationGroupItemListen
             notificationOverview: NotificationOverview,
             listener: NotificationGroupItemListener
         ) {
-            if (notificationOverview.type.name !in ignoreNotificationGroups) {
-                binding.notificationOverview = notificationOverview
-                binding.listener = listener
-                binding.executePendingBindings()
-            }
+            binding.notificationOverview = notificationOverview
+            binding.listener = listener
+            binding.executePendingBindings()
+
         }
     }
-
-    override fun getItemCount() = currentList.size - 1
 
     object NotificationGroupDiffUtil : DiffUtil.ItemCallback<NotificationOverview>() {
         override fun areItemsTheSame(
@@ -68,7 +65,8 @@ class NotificationGroupAdapter(private val listener: NotificationGroupItemListen
     }
 
     override fun onBindViewHolder(holder: NotificationGroupViewHolder, position: Int) {
-        holder.bind(getItem(position), listener)
+        val item = getItem(position)
+        holder.bind(item, listener)
     }
 
 }

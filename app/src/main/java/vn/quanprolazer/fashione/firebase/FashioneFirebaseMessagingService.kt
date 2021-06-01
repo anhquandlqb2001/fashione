@@ -19,7 +19,7 @@ class FashioneFirebaseMessagingService : FirebaseMessagingService() {
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         // Check if message contains a notification payload, send notification
         remoteMessage.notification?.let {
-            sendNotification(it.body!!)
+            it.body?.let { it1 -> sendNotification(it1) }
         }
 
     }

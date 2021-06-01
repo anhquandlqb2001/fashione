@@ -178,6 +178,7 @@ class HomeViewModel @Inject constructor(
         _navigateToSearchResultByText.value = null
         _navigateToProductDetail.value = null
     }
+
 }
 
 
