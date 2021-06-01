@@ -9,9 +9,7 @@
     <string name="menu_item_home_text">Trang chủ</string>
     <string name="menu_item_profile_text">Cá nhân</string>
     <string name="menu_item_cart_text">Giỏ hàng</string>
-    <string name="menu_item_favourite_text">Favourite</string>
     <string name="content_description_notification_icon">Notification icon</string>
-    <string name="content_description_icon_filter">Icon filter</string>
     <string name="search_product_text">Tìm kiếm sản phẩm</string>
     <string name="header_category_text">Danh mục</string>
     <string name="header_featured_text">Đặc sắc</string>
@@ -19,7 +17,6 @@
     <string name="header_best_sell_text">Bán chạy nhất</string>
     <string name="header_suggest_product_text">Gợi ý hôm nay</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="text_choose_color">Chọn màu</string>
     <string name="text_choose_size">Chọn kích cỡ</string>
     <string name="text_add_to_cart">THÊM VÀO GIỎ HÀNG</string>
@@ -34,7 +31,6 @@
 
     <string name="total_price_text">Tổng: %s</string>
     <string name="address_text">Địa chỉ nhận hàng</string>
-    <string name="total_price_checkout_text">Tổng số tiền:</string>
     <string name="txt_address">Địa chỉ</string>
     <string name="txt_receiver_name">Tên người nhận</string>
     <string name="txt_phone_number">Số điện thoại</string>
@@ -45,11 +41,8 @@
     <string name="txt_organization_type">Cơ quan</string>
     <string name="btn_save">Lưu</string>
     <string name="txt_pickup_tye">Chọn loại địa chỉ:</string>
-    <string name="txt_subdistrict_or_village_input">Nhập phường / xã</string>
     <string name="txt_subdistrict_or_village">Phường/Xã</string>
-    <string name="txt_district_or_town_input">Nhập quận / huyện</string>
     <string name="txt_district_or_town">Quận/Huyện</string>
-    <string name="txt_province_or_city_input">Nhập tỉnh / thành phố</string>
     <string name="txt_province_or_city">Tỉnh/Thành phố</string>
     <string name="text_update_address_pickup">Sửa</string>
     <string name="text_no_default">Nhấp để chọn địa điểm ship</string>

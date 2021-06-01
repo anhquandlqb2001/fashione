@@ -23,14 +23,8 @@
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
-    <style name="CustomTheme" parent="Theme.AppCompat.Light">
-
-        <item name="contentInsetStart">0dp</item>
-        <item name="contentInsetEnd">0dp</item>
-    </style>
-
     <style name="SplashTheme" parent="Theme.Fashione">
-        <item name="android:windowBackground">@drawable/loding_screen</item>
+        <item name="android:windowBackground">@drawable/splash_screen</item>
         <!--        <item name="android:navigationBarColor">?attr/colorPrimary</item>-->
         <!--        <item name="android:statusBarColor">?attr/colorPrimary</item>-->
         <item name="android:windowNoTitle">true</item>
@@ -42,10 +36,6 @@
         <item name="android:textSize">16sp</item>
         <item name="fontFamily">@font/roboto</item>
         <item name="android:fontFamily">@font/roboto</item>
-    </style>
-
-    <style name="CategoryButton" parent="TextAppearance.AppCompat.Widget.Button">
-        <item name="colorPrimary">@null</item> <!-- HERE -->
     </style>
 
     <!-- Style for a button in the quantity picker -->
