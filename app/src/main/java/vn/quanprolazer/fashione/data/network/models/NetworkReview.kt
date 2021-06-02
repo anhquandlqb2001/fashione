@@ -107,7 +107,7 @@ internal fun NetworkReviewRetrofitResponse.toDomainModel() =
 @Serializable
 data class NetworkReviewRetrofit(
     val id: String,
-    val username: String,
+    val username: String = "Ẩn danh",
     @SerialName("created_at")
     val createdAt: String,
     @SerialName("order_item_id")

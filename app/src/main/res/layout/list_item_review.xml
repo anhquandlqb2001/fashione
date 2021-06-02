@@ -38,6 +38,7 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:layout_marginStart="4dp"
             android:id="@+id/tv_reviewer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,6 +47,7 @@
             tools:text="Quan Phan" />
 
         <LinearLayout
+            android:layout_marginStart="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_reviewer"
