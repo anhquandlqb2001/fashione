@@ -11,6 +11,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.analytics.ktx.logEvent
+import com.google.firebase.ktx.Firebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.Category
@@ -167,6 +171,7 @@ class HomeViewModel @Inject constructor(
      */
     fun onClickProduct(product: Product) {
         _navigateToProductDetail.value = product
+        logAnalyticsEvent(product.id)
     }
 
     /**
@@ -179,6 +184,18 @@ class HomeViewModel @Inject constructor(
         _navigateToProductDetail.value = null
     }
 
+
+    /* Analytics */
+    private val firebaseAnalytics = Firebase.analytics
+    /**
+     * Logs an event in Firebase Analytics that is used in aggregate to train the recommendations
+     * model.
+     */
+    private fun logAnalyticsEvent(id: String) {
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_ITEM) {
+            param(FirebaseAnalytics.Param.ITEM_ID, id)
+        }
+    }
 }
 
 
