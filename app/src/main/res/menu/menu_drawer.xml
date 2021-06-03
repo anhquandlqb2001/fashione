@@ -23,6 +23,9 @@
         <item android:title="@string/menu_item_personal_sub_title">
             <menu>
                 <item
+                    android:title="Nhắn tin"
+                    android:id="@+id/menu_item_message" />
+                <item
                     android:title="@string/menu_item_profile_text"
                     android:id="@+id/menu_item_personal" />
                 <item

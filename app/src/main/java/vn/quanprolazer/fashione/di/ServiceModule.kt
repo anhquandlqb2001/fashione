@@ -39,6 +39,9 @@ class ServiceModule {
     fun provideVideoService(): VideoService = VideoServiceImpl()
 
     @Provides
+    fun provideMessageService(): MessageService = MessageServiceImpl()
+
+    @Provides
     @Singleton
     fun providePickupAddressService(@Named("address") retrofit: Retrofit): PickupAddressService =
         retrofit.create(PickupAddressService::class.java)

@@ -120,4 +120,13 @@ class RepositoryModule {
         videoService
     )
 
+    @Singleton
+    @Provides
+    fun provideMessageRepository(
+        messageService: MessageService,
+        userRepository: UserRepository
+    ): MessageRepository = MessageRepositoryImpl(
+        messageService, userRepository
+    )
+
 }

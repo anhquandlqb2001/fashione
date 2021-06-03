@@ -259,6 +259,10 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="vn.quanprolazer.fashione.presentation.ui.MessageFragment"
+        android:label="MessageFragment" />
 
 
 </navigation>

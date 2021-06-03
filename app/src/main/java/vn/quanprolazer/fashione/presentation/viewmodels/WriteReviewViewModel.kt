@@ -6,8 +6,6 @@
 
 package vn.quanprolazer.fashione.presentation.viewmodels
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -19,8 +17,6 @@ import vn.quanprolazer.fashione.domain.models.Review
 import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
 import vn.quanprolazer.fashione.presentation.utilities.LiveDataValidator
 import vn.quanprolazer.fashione.presentation.utilities.LiveDataValidatorResolver
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 class WriteReviewViewModel @AssistedInject constructor(
     private val reviewRepository: ReviewRepository,

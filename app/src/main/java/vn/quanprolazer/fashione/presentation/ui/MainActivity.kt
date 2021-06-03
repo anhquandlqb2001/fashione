@@ -189,6 +189,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.menu_item_videos -> {
                     navigateToFragment(R.id.videosFragment)
                 }
+                R.id.menu_item_message -> navigateToFragment(R.id.messageFragment)
                 else -> {
                 }
             }
