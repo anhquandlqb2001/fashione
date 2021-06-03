@@ -53,7 +53,6 @@ class MessageFragment : Fragment() {
 
         viewModel.apply {
             fetchMessage()
-            observeRecentlyIncomingMessage()
         }
 
         viewModel.messages.observe(viewLifecycleOwner, {
@@ -62,6 +61,7 @@ class MessageFragment : Fragment() {
                     is Resource.Success -> {
                         adapter.bindMessages(it.data)
                         scrollToBottom(it.data.size - 1)
+                        viewModel.observeRecentlyIncomingMessage()
                     }
                     is Resource.Loading -> {
                     }

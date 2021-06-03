@@ -71,7 +71,9 @@ class MessageAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(MessageDif
             val item = DataItem.IncomingMessage(message)
             val items = mutableListOf<DataItem>()
             items.addAll(currentList)
-            items.add(item)
+            if (items.find { it.id == item.id } == null) {
+                items.add(item)
+            }
             withContext(Dispatchers.Default) {
                 submitList(items)
             }
