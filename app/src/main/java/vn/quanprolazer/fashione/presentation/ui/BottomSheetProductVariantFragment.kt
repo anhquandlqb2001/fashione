@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.chip.Chip
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentBottomSheetProductVariantBinding
 import vn.quanprolazer.fashione.domain.models.ProductVariantOption
@@ -91,6 +92,7 @@ class BottomSheetProductVariantFragment : BottomSheetDialogFragment() {
     private fun observeProductVariant() {
         viewModel.productVariants.observe(viewLifecycleOwner, {
             it?.let {
+                Timber.i(it.toString())
 
                 viewModel.updateProductVariantOptions()
 

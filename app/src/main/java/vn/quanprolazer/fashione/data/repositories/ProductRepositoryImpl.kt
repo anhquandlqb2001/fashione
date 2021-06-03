@@ -140,7 +140,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
         val response = withContext(dispatcher) {
             productService.getProductVariantsByProductId(productId)
         }
-        Resource.Success(mutableListOf(response[0].toDomainModel()))
+        Resource.Success(response.map { it.toDomainModel() }.toMutableList())
     } catch (e: Exception) {
         Resource.Error(e)
     }
