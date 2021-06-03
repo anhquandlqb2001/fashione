@@ -8,12 +8,14 @@ package vn.quanprolazer.fashione.data.database.models
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import vn.quanprolazer.fashione.domain.models.NotificationOverview
+import kotlinx.serialization.SerialName
+import java.util.*
 
 @Entity
-data class NotificationOverviewEntity(
+data class ProductMostViewIdEntity(
     @PrimaryKey
     val id: Long,
-    val notifications: List<NotificationOverview>,
-    val total: Int
+    val ids: List<String>,
+    @SerialName(value = "last_update")
+    var lastUpdate: Date = Date(System.currentTimeMillis())
 )

@@ -12,6 +12,8 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import vn.quanprolazer.fashione.data.database.dao.ProductMostViewIdDao
+import vn.quanprolazer.fashione.data.database.models.ProductMostViewIdEntity
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.SearchServiceImpl
@@ -19,12 +21,14 @@ import vn.quanprolazer.fashione.data.network.services.firestores.ProductService
 import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
+import java.util.concurrent.TimeUnit
 import kotlin.math.round
 
 class ProductRepositoryImpl @AssistedInject constructor(
     private val productService: ProductService,
     private val reviewService: ReviewService,
     private val productRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.ProductService,
+    private val productMostViewIdDao: ProductMostViewIdDao,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
@@ -85,11 +89,32 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
     override suspend fun getHighViewProducts() = try {
         withContext(dispatcher) {
-            val ids = productRetrofitService.getHighViewProductIds().ids
+            refreshMostViewProductIds()
+            val ids = productMostViewIdDao.loadProductMostView().ids
             Resource.Success(productService.getProducts(ids).map { it.toDomainModel() })
         }
     } catch (e: Exception) {
         Resource.Error(e)
+    }
+
+    private suspend fun refreshMostViewProductIds() {
+        val idExists = productMostViewIdDao.hasId(FRESH_TIMEOUT)
+        if (idExists == 0) {
+            withContext(dispatcher) {
+                val recentProductIds = productRetrofitService.getHighViewProductIds().ids
+                productMostViewIdDao.save(
+                    ProductMostViewIdEntity(
+                        id = Long.MAX_VALUE,
+                        ids = recentProductIds
+                    )
+                )
+            }
+        }
+
+    }
+
+    companion object {
+        val FRESH_TIMEOUT = TimeUnit.DAYS.toMillis(1)
     }
 
     override suspend fun findProductsByQuery(query: String) = try {

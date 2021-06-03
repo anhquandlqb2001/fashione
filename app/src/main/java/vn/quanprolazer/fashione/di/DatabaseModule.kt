@@ -14,6 +14,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import vn.quanprolazer.fashione.data.database.databases.NotificationDatabase
+import vn.quanprolazer.fashione.data.database.databases.ProductDatabase
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -24,4 +25,9 @@ class DatabaseModule {
     @Singleton
     fun provideNotificationDatabase(@ApplicationContext context: Context): NotificationDatabase =
         Room.databaseBuilder(context, NotificationDatabase::class.java, "notifications").build()
+
+    @Provides
+    @Singleton
+    fun provideProductDatabase(@ApplicationContext context: Context): ProductDatabase =
+        Room.databaseBuilder(context, ProductDatabase::class.java, "products").build()
 }

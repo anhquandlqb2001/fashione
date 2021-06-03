@@ -11,16 +11,37 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
+import java.util.*
 
 class Converters {
 
     @TypeConverter
-    fun listToJson(list: List<NotificationOverview>): String {
+    fun notificationOverviewToJson(list: List<NotificationOverview>): String {
         return Json.encodeToString(list)
     }
 
     @TypeConverter
-    fun jsonToList(list: String): List<NotificationOverview> {
+    fun jsonToNotificationOverview(list: String): List<NotificationOverview> {
         return Json.decodeFromString(list)
+    }
+
+    @TypeConverter
+    fun productMostViewToJson(list: List<String>): String {
+        return Json.encodeToString(list)
+    }
+
+    @TypeConverter
+    fun jsonToProductMostView(data: String): List<String> {
+        return Json.decodeFromString(data)
+    }
+
+    @TypeConverter
+    fun toDate(dateLong: Long?): Date? {
+        return dateLong?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun fromDate(date: Date?): Long? {
+        return date?.time
     }
 }
