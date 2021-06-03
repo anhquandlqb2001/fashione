@@ -77,10 +77,15 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.apply {
+            fetchHighRateProduct()
+            fetchRecentProduct()
+        }
+
         observeCategory()
 
         // Product Featured Section
-        setupProductFeaturedSection()
+        setupProductHighRateSection()
         // End Product Featured Section
 
 
@@ -89,7 +94,7 @@ class HomeFragment : Fragment() {
         // End Product Best Sell Section
 
         // Product Suggest Section
-        setupProductSuggestSection()
+        setupProductRecentSection()
         // End Product Suggest Section
 
 
@@ -175,14 +180,19 @@ class HomeFragment : Fragment() {
         })
     }
 
-    private fun setupProductSuggestSection() {
+    private fun setupProductRecentSection() {
         val productSuggestAdapter = ProductAdapter(OnClickListener {
             viewModel.onClickProduct(it)
         })
         binding.rvSuggestProduct.adapter = productSuggestAdapter
-        viewModel.products.observe(viewLifecycleOwner, {
+        viewModel.recentProducts.observe(viewLifecycleOwner, {
             it?.let {
-                productSuggestAdapter.submitList(it)
+                when (it) {
+                    is Resource.Success -> productSuggestAdapter.submitList(it.data)
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                }
             }
         })
 
@@ -199,22 +209,32 @@ class HomeFragment : Fragment() {
             viewModel.onClickProduct(it)
         })
         binding.rvBestSell.adapter = productBestSellAdapter
-        viewModel.products.observe(viewLifecycleOwner, {
+        viewModel.recentProducts.observe(viewLifecycleOwner, {
             it?.let {
-                productBestSellAdapter.submitList(it)
+                when (it) {
+                    is Resource.Success -> productBestSellAdapter.submitList(it.data)
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                }
             }
         })
     }
 
-    private fun setupProductFeaturedSection() {
+    private fun setupProductHighRateSection() {
         val productFeaturedAdapter = ProductAdapter(OnClickListener {
             viewModel.onClickProduct(it)
         })
 
         binding.rvFeatured.adapter = productFeaturedAdapter
-        viewModel.products.observe(viewLifecycleOwner, {
+        viewModel.highRateProducts.observe(viewLifecycleOwner, {
             it?.let {
-                productFeaturedAdapter.submitList(it)
+                when (it) {
+                    is Resource.Success -> productFeaturedAdapter.submitList(it.data)
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                }
             }
         })
     }

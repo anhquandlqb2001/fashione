@@ -39,13 +39,19 @@ data class NetworkProduct(
     @get:PropertyName("thumbnail_url")
     var thumbnailUrl: String = "",
     @SerialName("price")
-    val price: String = ""
+    val price: String = "",
+    @SerialName("created_at")
+    val createdAt: String = ""
 )
 
 internal fun NetworkProduct.toDomainModel() = Product(
     id.orEmpty(), categoryIds, name, thumbnailUrl, price
 )
 
+data class NetworkProductResponse(
+    val products: List<NetworkProduct> = emptyList(),
+    val lastVisibleId: String?
+)
 
 /**
  * Model name: product_details

@@ -29,6 +29,15 @@ data class Product(
     val price: String
 ) : Parcelable
 
+data class ProductResponse(
+    val products: MutableList<Product>,
+    val lastVisibleId: String?
+)
+
+data class ProductWithRate(
+    val id: String,
+    val rate: Double
+)
 
 @Parcelize
 data class ProductDetail(

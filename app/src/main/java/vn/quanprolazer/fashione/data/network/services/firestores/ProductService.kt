@@ -10,7 +10,13 @@ import vn.quanprolazer.fashione.data.network.models.*
 
 interface ProductService {
 
-    suspend fun getProducts(): List<NetworkProduct>
+    suspend fun getRecentProducts(): NetworkProductResponse
+
+    suspend fun getRecentProducts(documentId: String): NetworkProductResponse
+
+    suspend fun getRecentProductIds(): List<String>
+
+    suspend fun getProducts(list: List<String>): List<NetworkProduct>
 
     suspend fun getProductsByCategoryId(categoryId: String): List<NetworkProduct>
 

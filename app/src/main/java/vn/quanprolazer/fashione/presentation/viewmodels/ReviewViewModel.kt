@@ -12,6 +12,7 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
+import vn.quanprolazer.fashione.helpers.round
 
 class ReviewViewModel @AssistedInject constructor(
     private val reviewRepository: ReviewRepository,
@@ -102,10 +103,4 @@ class ReviewViewModel @AssistedInject constructor(
             }
         }
     }
-}
-
-private fun Double.round(decimals: Int): Double {
-    var multiplier = 1.0
-    repeat(decimals) { multiplier *= 10 }
-    return kotlin.math.round(this * multiplier) / multiplier
 }

@@ -51,28 +51,52 @@ class HomeViewModel @Inject constructor(
     val categories: LiveData<Resource<List<Category>>> get() = _categories
 
     /**
+     * Variable to store if next recent product is exist
+     */
+    private var recentProductDocumentId: String? = null
+
+    /**
      * Variable to store list of available product
      * Data for display Product RecycleView
      *
      * Encapsulation
      */
-    private val _products by lazy {
-        val liveData = MutableLiveData<List<Product>>()
-        viewModelScope.launch {
-            when (val getProductResponse = productRepository.getProducts()) {
-                is Resource.Success -> liveData.value = getProductResponse.data
-                is Resource.Error -> _exception.value = getProductResponse.exception
-            }
-        }
-        return@lazy liveData
-    }
+    private val _recentProducts: MutableLiveData<Resource<MutableList<Product>>>
+            by lazy { MutableLiveData<Resource<MutableList<Product>>>() }
 
     /**
      * Variable to store list of available product
      * Data for display Product RecycleView
      */
-    val products: LiveData<List<Product>> by lazy {
-        _products
+    val recentProducts: LiveData<Resource<MutableList<Product>>> get() = _recentProducts
+
+    fun fetchRecentProduct() {
+        _recentProducts.value = Resource.Loading
+        viewModelScope.launch {
+            when (val data = productRepository.getRecentProducts(recentProductDocumentId)) {
+                is Resource.Success -> {
+                    _recentProducts.value = Resource.Success(data.data.products)
+                    recentProductDocumentId = data.data.lastVisibleId
+                }
+                is Resource.Error -> {
+                    _recentProducts.value = Resource.Error(data.exception)
+                    recentProductDocumentId = null
+                }
+            }
+        }
+    }
+
+
+    private val _highRateProducts: MutableLiveData<Resource<List<Product>>>
+            by lazy { MutableLiveData<Resource<List<Product>>>() }
+
+    val highRateProducts: LiveData<Resource<List<Product>>> get() = _highRateProducts
+
+    fun fetchHighRateProduct() {
+        _highRateProducts.value = Resource.Loading
+        viewModelScope.launch {
+            _highRateProducts.value = productRepository.getHighRatingProducts()
+        }
     }
 
     /**
@@ -187,6 +211,7 @@ class HomeViewModel @Inject constructor(
 
     /* Analytics */
     private val firebaseAnalytics = Firebase.analytics
+
     /**
      * Logs an event in Firebase Analytics that is used in aggregate to train the recommendations
      * model.

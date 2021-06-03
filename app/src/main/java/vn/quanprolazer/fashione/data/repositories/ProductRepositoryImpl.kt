@@ -12,27 +12,66 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.SearchServiceImpl
 import vn.quanprolazer.fashione.data.network.services.firestores.ProductService
-import vn.quanprolazer.fashione.domain.models.Product
-import vn.quanprolazer.fashione.domain.models.ProductVariantOption
-import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
+import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
+import kotlin.math.round
 
 class ProductRepositoryImpl @AssistedInject constructor(
     private val productService: ProductService,
+    private val reviewService: ReviewService,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
-    override suspend fun getProducts() = try {
-        val response = withContext(dispatcher) {
-            productService.getProducts()
+    override suspend fun getRecentProducts(documentId: String?) = try {
+        val response = if (documentId.isNullOrEmpty()) {
+            withContext(dispatcher) {
+                productService.getRecentProducts()
+            }
+        } else {
+            withContext(dispatcher) {
+                productService.getRecentProducts(documentId = documentId)
+            }
         }
-        Resource.Success(response.map { it.toDomainModel() })
+        Resource.Success(
+            ProductResponse(
+                products = response.products.map { it.toDomainModel() }.toMutableList(),
+                lastVisibleId = response.lastVisibleId
+            )
+        )
     } catch (e: Exception) {
         Resource.Error(e)
     }
+
+    override suspend fun getHighRatingProducts(): Resource<List<Product>> {
+        return try {
+            withContext(dispatcher) {
+                val recentProductIds = productService.getRecentProductIds()
+                if (recentProductIds.isNullOrEmpty()) return@withContext Resource.Success(listOf<Product>())
+                val productWithRates = recentProductIds.map { productId ->
+                    val rate = calculateAverageRating(
+                        reviewService.getRatings(
+                            productId
+                        )
+                    )
+                    ProductWithRate(id = productId, rate = rate)
+                }.sortedBy { it.rate }
+                val products = productService.getProducts(productWithRates.map { it.id })
+                Resource.Success(products.map { it.toDomainModel() })
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
+        }
+    }
+
+    private fun calculateAverageRating(list: List<NetworkRating>) =
+        round((list.sumBy { it.rate }.toDouble() / list.size))
+
 
     override suspend fun getProductsByCategoryId(categoryId: String) = try {
         val response = withContext(dispatcher) {

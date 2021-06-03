@@ -7,18 +7,78 @@
 
 package vn.quanprolazer.fashione.data.network.services.firestores
 
+import com.google.firebase.Timestamp
+import com.google.firebase.firestore.FieldPath
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 import vn.quanprolazer.fashione.data.network.models.*
-
+import java.util.*
 
 class ProductServiceImpl : ProductService {
 
-    override suspend fun getProducts() =
-        FirebaseFirestore.getInstance().collection("products").get().await().documents.mapNotNull {
-            it.toObject((NetworkProduct::class.java))
-        }
+    companion object {
+        private const val DEFAULT_HORIZONTAL_ITEM_COUNT = 10
+    }
 
+    override suspend fun getRecentProducts(): NetworkProductResponse {
+        val networkProducts = FirebaseFirestore
+            .getInstance()
+            .collection("products")
+            .orderBy("created_at", Query.Direction.DESCENDING)
+            .limit((DEFAULT_HORIZONTAL_ITEM_COUNT + 1).toLong())
+            .get()
+            .await()
+            .documents.mapNotNull {
+                it.toObject((NetworkProduct::class.java))
+            }
+        return NetworkProductResponse(
+            products = networkProducts,
+            lastVisibleId = getLastVisibleDocumentId(networkProducts)
+        )
+    }
+
+    override suspend fun getRecentProducts(documentId: String): NetworkProductResponse {
+        val collection = FirebaseFirestore.getInstance()
+            .collection("products")
+        val ref = collection.document(documentId)
+        val networkProducts = FirebaseFirestore
+            .getInstance()
+            .collection("products")
+            .orderBy("created_at", Query.Direction.DESCENDING)
+            .limit((DEFAULT_HORIZONTAL_ITEM_COUNT + 1).toLong())
+            .startAt(ref)
+            .get()
+            .await()
+            .documents.mapNotNull {
+                it.toObject((NetworkProduct::class.java))
+            }
+        return NetworkProductResponse(
+            products = networkProducts,
+            lastVisibleId = networkProducts[DEFAULT_HORIZONTAL_ITEM_COUNT].id
+        )
+    }
+
+    override suspend fun getRecentProductIds(): List<String> {
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.MONTH, -1)
+        return FirebaseFirestore
+            .getInstance()
+            .collection("products")
+            .whereGreaterThan("created_at", Timestamp(calendar.time))
+            .whereLessThan("created_at", Timestamp.now())
+            .get()
+            .await()
+            .documents.mapNotNull {
+                it.id
+            }
+    }
+
+    override suspend fun getProducts(list: List<String>) =
+        FirebaseFirestore.getInstance().collection("products")
+            .whereIn(FieldPath.documentId(), list)
+            .get()
+            .await().documents.mapNotNull { it.toObject(NetworkProduct::class.java) }
 
     override suspend fun getProductByProductId(productId: String) =
         FirebaseFirestore.getInstance().collection("products").document(productId).get()
@@ -72,4 +132,8 @@ class ProductServiceImpl : ProductService {
             .whereEqualTo("variant_id", variantId).get()
             .await().documents.mapNotNull { it.toObject(NetworkProductImage::class.java) }[0]
 
+    fun getLastVisibleDocumentId(prods: List<NetworkProduct>): String? {
+        if (prods.size == DEFAULT_HORIZONTAL_ITEM_COUNT) return prods[prods.size - 1].id;
+        return null
+    }
 }

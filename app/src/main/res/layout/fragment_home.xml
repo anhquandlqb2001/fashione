@@ -235,7 +235,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto"
-                                android:text="@string/header_suggest_product_text"
+                                android:text="@string/text_new_prod"
                                 android:textColor="@color/section_text_color"
                                 android:textSize="20sp" />
 

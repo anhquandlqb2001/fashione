@@ -6,12 +6,13 @@
 
 package vn.quanprolazer.fashione.domain.repositories
 
-import com.google.firebase.firestore.Source
 import vn.quanprolazer.fashione.domain.models.*
 
 interface ProductRepository {
 
-    suspend fun getProducts(): Resource<List<Product>>
+    suspend fun getRecentProducts(documentId: String? = null): Resource<ProductResponse>
+
+    suspend fun getHighRatingProducts(): Resource<List<Product>>
 
     suspend fun getProductsByCategoryId(categoryId: String): Resource<List<Product>>
 
