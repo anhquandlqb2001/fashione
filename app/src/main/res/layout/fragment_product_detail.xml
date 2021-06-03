@@ -29,8 +29,8 @@
                 android:id="@+id/sv_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_above="@id/btn_buy">
+                android:layout_above="@id/btn_buy"
+                android:layout_alignParentTop="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -271,8 +271,8 @@
             </androidx.core.widget.NestedScrollView>
 
             <Button
-                shouldDisplayBuyButton="@{viewModel.buyButtonVisibility}"
                 android:id="@+id/btn_buy"
+                shouldDisplayBuyButton="@{viewModel.buyButtonVisibility}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"

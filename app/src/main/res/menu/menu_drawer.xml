@@ -8,29 +8,29 @@
 
     <group>
         <item
-            android:title="@string/menu_item_home_text"
-            android:id="@+id/menu_item_home" />
+            android:id="@+id/menu_item_home"
+            android:title="@string/menu_item_home_text" />
 
         <item
-            android:title="@string/menu_item_cart_text"
-            android:id="@+id/menu_item_cart" />
+            android:id="@+id/menu_item_cart"
+            android:title="@string/menu_item_cart_text" />
         <item
-            android:title="Trực tiếp"
-            android:id="@+id/menu_item_videos" />
+            android:id="@+id/menu_item_videos"
+            android:title="Trực tiếp" />
     </group>
 
     <group>
         <item android:title="@string/menu_item_personal_sub_title">
             <menu>
                 <item
-                    android:title="Nhắn tin"
-                    android:id="@+id/menu_item_message" />
+                    android:id="@+id/menu_item_message"
+                    android:title="Nhắn tin" />
                 <item
-                    android:title="@string/menu_item_profile_text"
-                    android:id="@+id/menu_item_personal" />
+                    android:id="@+id/menu_item_personal"
+                    android:title="@string/menu_item_profile_text" />
                 <item
-                    android:title="@string/login"
-                    android:id="@+id/menu_item_login" />
+                    android:id="@+id/menu_item_login"
+                    android:title="@string/login" />
             </menu>
         </item>
     </group>

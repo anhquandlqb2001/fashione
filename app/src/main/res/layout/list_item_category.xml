@@ -28,28 +28,28 @@
             android:id="@+id/iv_category"
             android:layout_width="150dp"
             android:layout_height="80dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/button_gradient_category"
-            tools:background="@color/black_light"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="8dp" />
+            tools:background="@color/black_light" />
 
         <TextView
             android:id="@+id/rv_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxEms="10"
+            android:singleLine="false"
             android:text="@{category.name}"
-            android:textSize="15sp"
             android:textColor="@color/white"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_category"
             app:layout_constraintEnd_toEndOf="@id/iv_category"
             app:layout_constraintStart_toStartOf="@+id/iv_category"
             app:layout_constraintTop_toTopOf="@+id/iv_category"
-            tools:text="Me va be"
-            android:maxEms="10"
-            android:singleLine="false" />
+            tools:text="Me va be" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

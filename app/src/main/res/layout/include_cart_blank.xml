@@ -18,8 +18,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:visibility="visible"
-        android:visibility="@{visibility, default=gone}">
+        android:visibility="@{visibility, default=gone}"
+        tools:visibility="visible">
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/appCompatImageView"
@@ -36,8 +36,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:textSize="20sp"
             android:text="@string/text_blank_cart"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="@+id/appCompatImageView"
             app:layout_constraintHorizontal_bias="0.509"
             app:layout_constraintStart_toStartOf="@+id/appCompatImageView"
@@ -47,8 +47,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textSize="14sp"
             android:text="Tiếp tục mua sắm từ Fashione nhé"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/textView2"
             app:layout_constraintStart_toStartOf="@+id/textView2"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />

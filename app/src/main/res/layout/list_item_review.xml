@@ -30,27 +30,27 @@
 
             <ImageView
                 android:id="@+id/iv_personal"
+                imageUrl="@{review.photoUrl}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                imageUrl="@{review.photoUrl}"
                 tools:src="@drawable/blank_cart" />
         </androidx.cardview.widget.CardView>
 
         <TextView
-            android:layout_marginStart="4dp"
             android:id="@+id/tv_reviewer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
             android:layout_toEndOf="@id/cv_circular"
             android:text="@{review.username}"
             tools:text="Quan Phan" />
 
         <LinearLayout
-            android:layout_marginStart="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_reviewer"
+            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:layout_toEndOf="@id/cv_circular"
             android:orientation="horizontal">
@@ -90,14 +90,14 @@
             tools:text="ahdkjahsjkdhaksjdhakjshdajkshdkajshdkjashdkajshdkja" />
 
         <TextView
-            android:layout_marginTop="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv_review_content"
-            android:textSize="12sp"
             createdAt="@{review.createdAt}"
             variantName="@{review.variantName}"
             variantValue="@{review.variantValue}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_review_content"
+            android:layout_marginTop="4dp"
+            android:textSize="12sp"
             tools:text="12/07/2021 17:40 | Vang - XXL" />
 
     </RelativeLayout>

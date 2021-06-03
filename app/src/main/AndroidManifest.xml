@@ -9,14 +9,14 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:usesCleartextTraffic="true"
         android:name=".FashioneApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/SplashTheme">
+        android:theme="@style/SplashTheme"
+        android:usesCleartextTraffic="true">
         <activity android:name="vn.quanprolazer.fashione.presentation.ui.MainActivity">
 
             <intent-filter>

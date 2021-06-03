@@ -66,8 +66,8 @@
                 tools:ignore="Autofill">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
                     android:id="@+id/et_message"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@={viewModel.message}" />
             </com.google.android.material.textfield.TextInputLayout>

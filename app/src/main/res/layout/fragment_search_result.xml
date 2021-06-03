@@ -23,11 +23,11 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.textToDisplay}"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@+id/start_guideline"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/header_featured_text"
-            android:text="@{viewModel.textToDisplay}" />
+            tools:text="@string/header_featured_text" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_searchResult"

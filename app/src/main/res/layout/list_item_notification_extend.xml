@@ -55,10 +55,10 @@
                 tools:text="Kien hang abcxyz da giao thanh cong den ban" />
 
             <TextView
+                timestamp="@{notification.createdAt}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                timestamp="@{notification.createdAt}"
                 android:textSize="12sp"
                 tools:text="12/06/2001" />
         </LinearLayout>

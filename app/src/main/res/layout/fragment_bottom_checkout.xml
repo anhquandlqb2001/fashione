@@ -21,20 +21,20 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
         android:id="@+id/cl_main"
-        shouldDisplayBottomCheckout="@{viewModel.visibleBottomCheckout}">
+        shouldDisplayBottomCheckout="@{viewModel.visibleBottomCheckout}"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
 
         <TextView
+            totalPrice="@{sharedViewModel.orderData}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            tools:text="Tong tien: 235.00d"
             app:layout_constraintBottom_toBottomOf="@+id/button"
             app:layout_constraintEnd_toStartOf="@+id/button"
             app:layout_constraintTop_toTopOf="@+id/button"
-            totalPrice="@{sharedViewModel.orderData}" />
+            tools:text="Tong tien: 235.00d" />
 
         <Button
             android:id="@+id/button"
@@ -42,12 +42,12 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/teal_700"
+            android:onClick="@{() -> viewModel.onNavigateToCheckoutScreen(sharedViewModel.orderData)}"
             android:text="@string/pay_text"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:onClick="@{() -> viewModel.onNavigateToCheckoutScreen(sharedViewModel.orderData)}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

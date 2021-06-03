@@ -25,8 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:gravity="center_vertical"
-        android:paddingVertical="16dp"
-        android:onClick="@{() -> listener.onClick(notificationOverview.type.id)}">
+        android:onClick="@{() -> listener.onClick(notificationOverview.type.id)}"
+        android:paddingVertical="16dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_circular"
@@ -90,12 +90,12 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
-                    android:textAlignment="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:text="@{String.valueOf(notificationOverview.quantity)}"
+                    android:textAlignment="center"
                     android:textColor="@color/white"
                     tools:text="10" />
             </RelativeLayout>

@@ -68,11 +68,11 @@
                         tools:ibv_badgeValue="10" />
 
                     <ru.nikartm.support.ImageBadgeView
-                        android:layout_marginEnd="4dp"
                         android:id="@+id/iv_cart"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="4dp"
                         android:contentDescription="@string/content_description_notification_icon"
                         android:onClick="@{() -> viewModel.onClickNavigateToCart()}"
                         app:ibv_badgeColor="#00ACC1"
