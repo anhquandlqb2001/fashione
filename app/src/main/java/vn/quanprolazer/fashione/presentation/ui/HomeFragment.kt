@@ -22,7 +22,6 @@ import vn.quanprolazer.fashione.databinding.FragmentHomeBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.CategoryAdapter
 import vn.quanprolazer.fashione.presentation.adapters.OnClickCategoryListener
-import vn.quanprolazer.fashione.presentation.adapters.OnClickListener
 import vn.quanprolazer.fashione.presentation.adapters.ProductAdapter
 import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.presentation.utilities.onDone
@@ -182,7 +181,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupProductRecentSection() {
-        val productRecentAdapter = ProductAdapter(OnClickListener {
+        val productRecentAdapter = ProductAdapter(ProductAdapter.OnClickListener {
             viewModel.onClickProduct(it)
         })
         binding.rvSuggestProduct.adapter = productRecentAdapter
@@ -206,7 +205,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupProductHighViewSection() {
-        val productHightViewAdapter = ProductAdapter(OnClickListener {
+        val productHightViewAdapter = ProductAdapter(ProductAdapter.OnClickListener {
             viewModel.onClickProduct(it)
         })
         binding.rvBestSell.adapter = productHightViewAdapter
@@ -223,7 +222,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupProductHighRateSection() {
-        val productHighRateAdapter = ProductAdapter(OnClickListener {
+        val productHighRateAdapter = ProductAdapter(ProductAdapter.OnClickListener {
             viewModel.onClickProduct(it)
         })
 

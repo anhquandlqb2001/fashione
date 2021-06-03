@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import vn.quanprolazer.fashione.databinding.FragmentSearchResultBinding
 import vn.quanprolazer.fashione.domain.models.Resource
-import vn.quanprolazer.fashione.presentation.adapters.OnClickListener
 import vn.quanprolazer.fashione.presentation.adapters.ProductAdapter
 import vn.quanprolazer.fashione.presentation.viewmodels.SearchResultViewModel
 import javax.inject.Inject
@@ -38,7 +37,7 @@ class SearchResultFragment : Fragment() {
     }
 
     private val productResultAdapter: ProductAdapter by lazy {
-        ProductAdapter(OnClickListener {
+        ProductAdapter(ProductAdapter.OnClickListener {
             viewModel.onClickProduct(it)
         })
     }

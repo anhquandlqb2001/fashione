@@ -45,20 +45,21 @@ class ProductAdapter(private val clickListener: OnClickListener) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         (holder as ProductViewHolder).bind(getItem(position), clickListener)
     }
-}
 
+    class ProductDiffUtil : DiffUtil.ItemCallback<Product>() {
+        override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem.id == newItem.id
+        }
 
-class ProductDiffUtil : DiffUtil.ItemCallback<Product>() {
-    override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+            return oldItem == newItem
+        }
+
     }
 
-    override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
-        return oldItem == newItem
+    class OnClickListener(val clickListener: (product: Product) -> Unit) {
+        fun onClick(product: Product) = clickListener(product)
     }
-
 }
 
-class OnClickListener(val clickListener: (product: Product) -> Unit) {
-    fun onClick(product: Product) = clickListener(product)
-}
+

@@ -4,8 +4,8 @@
   ~ An android shopping app writing in Kotlin
   -->
 
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -16,10 +16,10 @@
 
         <variable
             name="clickListener"
-            type="vn.quanprolazer.fashione.presentation.adapters.OnClickListener" />
+            type="vn.quanprolazer.fashione.presentation.adapters.ProductAdapter.OnClickListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="@{() -> clickListener.onClick(product)}">
@@ -28,36 +28,28 @@
             android:id="@+id/iv_product"
             android:layout_width="170dp"
             android:layout_height="180dp"
-            app:layout_constraintBottom_toTopOf="@id/tv_product_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:src="@drawable/i_shopping_cart_splash_screen"
+            android:layout_marginEnd="8dp"
             app:imageUrl="@{product.thumbnailUrl}"
-            android:layout_marginEnd="8dp" />
+            tools:src="@drawable/i_shopping_cart_splash_screen" />
 
         <TextView
             android:id="@+id/tv_product_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/iv_product"
-            app:layout_constraintTop_toBottomOf="@+id/iv_product"
-            tools:text="Ao quan dep trai"
+            android:layout_below="@id/iv_product"
+            android:textSize="15sp"
             app:productName="@{product.name}"
-            android:textSize="15sp" />
+            tools:text="Ao quan dep trai" />
 
         <TextView
             android:id="@+id/tv_product_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@+id/iv_product"
-            app:layout_constraintTop_toBottomOf="@+id/tv_product_name"
-            tools:text="23.000"
+            android:layout_below="@id/tv_product_name"
+            android:textSize="15sp"
             app:productPrice="@{product.price}"
-            android:textSize="15sp" />
+            tools:text="23.000" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </layout>
