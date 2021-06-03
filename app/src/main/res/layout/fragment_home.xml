@@ -94,7 +94,6 @@
                             android:orientation="horizontal"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:listitem="@layout/list_item_category" />
-
                     </RelativeLayout>
 
 
@@ -127,26 +126,30 @@
                                 android:textSize="20sp" />
 
 
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content">
+                            <!--                            <LinearLayout-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content">-->
 
-                                <com.google.android.material.textview.MaterialTextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/tv_see_all"
-                                    android:textColor="@color/tv_see_all_color"
-                                    android:textSize="14sp" />
+                            <!--                                <com.google.android.material.textview.MaterialTextView-->
+                            <!--                                    android:layout_width="wrap_content"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    android:text="@string/tv_see_all"-->
+                            <!--                                    android:textColor="@color/tv_see_all_color"-->
+                            <!--                                    android:textSize="14sp" />-->
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
-                            </LinearLayout>
+                            <!--                                <ImageView-->
+                            <!--                                    android:layout_width="wrap_content"-->
+                            <!--                                    android:layout_height="wrap_content"-->
+                            <!--                                    app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />-->
+                            <!--                            </LinearLayout>-->
                         </LinearLayout>
 
+                        <include
+                            android:id="@+id/loading_most_rate"
+                            layout="@layout/fragment_loading_circular_progress" />
+
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_featured"
+                            android:id="@+id/rv_high_rate"
                             android:layout_width="match_parent"
                             android:layout_height="230dp"
                             android:layout_below="@id/ll_featured"
@@ -181,26 +184,30 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:fontFamily="@font/roboto"
-                                android:text="@string/header_best_sell_text"
+                                android:text="@string/text_most_view_in_month"
                                 android:textColor="@color/section_text_color"
                                 android:textSize="20sp" />
 
 
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/tv_see_all"
-                                android:textColor="@color/tv_see_all_color"
-                                android:textSize="14sp" />
+                            <!--                            <com.google.android.material.textview.MaterialTextView-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:text="@string/tv_see_all"-->
+                            <!--                                android:textColor="@color/tv_see_all_color"-->
+                            <!--                                android:textSize="14sp" />-->
 
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />
+                            <!--                            <ImageView-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                app:srcCompat="@drawable/ic_arrow_forward_black_24dp" />-->
                         </LinearLayout>
 
+                        <include
+                            android:id="@+id/loading_most_view"
+                            layout="@layout/fragment_loading_circular_progress" />
+
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_bestSell"
+                            android:id="@+id/rv_high_view"
                             android:layout_width="match_parent"
                             android:layout_height="225dp"
                             android:layout_below="@id/ll_bestSell"
@@ -241,8 +248,12 @@
 
                         </LinearLayout>
 
+                        <include
+                            android:id="@+id/loading_recently"
+                            layout="@layout/fragment_loading_circular_progress" />
+
                         <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_suggestProduct"
+                            android:id="@+id/rv_recently"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/ll_suggestProduct"

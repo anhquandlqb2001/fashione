@@ -62,4 +62,5 @@
     <string name="notification_title">Fashione</string>
     <string name="text_notification_type_order_status">Cập nhật đơn hàng</string>
     <string name="text_new_prod">Hàng mới nhập</string>
+    <string name="text_most_view_in_month">Xem nhiều trong tháng</string>
 </resources>

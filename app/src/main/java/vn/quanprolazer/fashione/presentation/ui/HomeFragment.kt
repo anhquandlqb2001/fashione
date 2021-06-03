@@ -76,13 +76,14 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.apply {
-            fetchHighRateProduct()
-            fetchRecentProduct()
-            fetchHighViewProduct()
-        }
+        loadData()
 
         observeCategory()
+
+        binding.swiperefresh.setOnRefreshListener {
+            loadData()
+            binding.swiperefresh.isRefreshing = false
+        }
 
         // Product Featured Section
         setupProductHighRateSection()
@@ -114,6 +115,14 @@ class HomeFragment : Fragment() {
         setupSearchByTextNavigateEvent()
 
         handleException()
+    }
+
+    private fun loadData() {
+        viewModel.apply {
+            fetchHighRateProduct()
+            fetchRecentProduct()
+            fetchHighViewProduct()
+        }
     }
 
     private fun observeCategory() {
@@ -184,38 +193,52 @@ class HomeFragment : Fragment() {
         val productRecentAdapter = ProductAdapter(ProductAdapter.OnClickListener {
             viewModel.onClickProduct(it)
         })
-        binding.rvSuggestProduct.adapter = productRecentAdapter
+        binding.rvRecently.adapter = productRecentAdapter
         viewModel.recentProducts.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
-                    is Resource.Success -> productRecentAdapter.submitList(it.data)
-                    is Resource.Loading -> {
+                    is Resource.Success -> {
+                        productRecentAdapter.submitList(it.data)
+                        binding.loadingRecently.cpLoading.visibility = View.GONE
                     }
-                    is Resource.Error -> Timber.e(it.exception)
+                    is Resource.Loading -> {
+                        binding.loadingRecently.cpLoading.visibility = View.VISIBLE
+                    }
+                    is Resource.Error -> {
+                        binding.loadingRecently.cpLoading.visibility = View.GONE
+                        Timber.e(it.exception)
+                    }
                 }
             }
         })
 
-        binding.rvSuggestProduct.addItemDecoration(
+        binding.rvRecently.addItemDecoration(
             MarginItemDecoration(resources.getDimensionPixelSize(R.dimen.margin), 2)
         )
 
         val productSuggestLayoutManager = GridLayoutManager(context, 2)
-        binding.rvSuggestProduct.layoutManager = productSuggestLayoutManager
+        binding.rvRecently.layoutManager = productSuggestLayoutManager
     }
 
     private fun setupProductHighViewSection() {
-        val productHightViewAdapter = ProductAdapter(ProductAdapter.OnClickListener {
+        val productHighViewAdapter = ProductAdapter(ProductAdapter.OnClickListener {
             viewModel.onClickProduct(it)
         })
-        binding.rvBestSell.adapter = productHightViewAdapter
+        binding.rvHighView.adapter = productHighViewAdapter
         viewModel.highViewProducts.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
-                    is Resource.Success -> productHightViewAdapter.submitList(it.data)
-                    is Resource.Loading -> {
+                    is Resource.Success -> {
+                        productHighViewAdapter.submitList(it.data)
+                        binding.loadingMostView.cpLoading.visibility = View.GONE
                     }
-                    is Resource.Error -> Timber.e(it.exception)
+                    is Resource.Loading -> {
+                        binding.loadingMostView.cpLoading.visibility = View.VISIBLE
+                    }
+                    is Resource.Error -> {
+                        binding.loadingMostView.cpLoading.visibility = View.GONE
+                        Timber.e(it.exception)
+                    }
                 }
             }
         })
@@ -226,14 +249,21 @@ class HomeFragment : Fragment() {
             viewModel.onClickProduct(it)
         })
 
-        binding.rvFeatured.adapter = productHighRateAdapter
+        binding.rvHighRate.adapter = productHighRateAdapter
         viewModel.highRateProducts.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
-                    is Resource.Success -> productHighRateAdapter.submitList(it.data)
-                    is Resource.Loading -> {
+                    is Resource.Success -> {
+                        productHighRateAdapter.submitList(it.data)
+                        binding.loadingMostRate.cpLoading.visibility = View.GONE
                     }
-                    is Resource.Error -> Timber.e(it.exception)
+                    is Resource.Loading -> {
+                        binding.loadingMostRate.cpLoading.visibility = View.VISIBLE
+                    }
+                    is Resource.Error -> {
+                        binding.loadingMostRate.cpLoading.visibility = View.GONE
+                        Timber.e(it.exception)
+                    }
                 }
             }
         })
