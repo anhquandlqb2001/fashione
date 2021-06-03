@@ -9,7 +9,6 @@ package vn.quanprolazer.fashione.data.network.services.firestores
 import kotlinx.coroutines.flow.Flow
 import vn.quanprolazer.fashione.data.network.models.NetworkCartItem
 import vn.quanprolazer.fashione.domain.models.AddToCartItem
-import vn.quanprolazer.fashione.domain.models.Resource
 
 interface CartService {
     suspend fun getCartItemCount(userId: String): Flow<Int>

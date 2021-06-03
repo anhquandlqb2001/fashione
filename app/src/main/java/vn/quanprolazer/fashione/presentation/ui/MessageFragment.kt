@@ -7,6 +7,8 @@
 package vn.quanprolazer.fashione.presentation.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,11 +51,17 @@ class MessageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.status.observe(viewLifecycleOwner, {
+        viewModel.apply {
+            fetchMessage()
+            observeRecentlyIncomingMessage()
+        }
+
+        viewModel.messages.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        binding.etMessage.text?.clear()
+                        adapter.bindMessages(it.data)
+                        scrollToBottom(it.data.size - 1)
                     }
                     is Resource.Loading -> {
                     }
@@ -62,6 +70,45 @@ class MessageFragment : Fragment() {
             }
         })
 
+        viewModel.status.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.etMessage.text?.clear()
+                        binding.etMessage.clearFocus()
+                        adapter.updateNewOutgoingMessage(it.data)
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            scrollToBottom(adapter.itemCount - 1)
+                        }, 500)
+                    }
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                }
+            }
+        })
+
+        viewModel.recentlyIncomingMessage.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        adapter.updateNewIncomingMessage(it.data)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            scrollToBottom(adapter.itemCount - 1)
+                        }, 500)
+                    }
+                    is Resource.Error -> Timber.e(it.exception)
+                    Resource.Loading -> {
+                    }
+                }
+            }
+        })
+
+    }
+
+    private fun scrollToBottom(position: Int) {
+        binding.recyclerGchat.scrollToPosition(position)
     }
 
     override fun onDestroy() {

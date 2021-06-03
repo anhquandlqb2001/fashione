@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import vn.quanprolazer.fashione.databinding.ListItemNotificationGroupBinding
 import vn.quanprolazer.fashione.domain.models.NotificationOverview
-import vn.quanprolazer.fashione.domain.models.NotificationTypeEnum
 
 class NotificationGroupAdapter(private val listener: NotificationGroupItemListener) :
     ListAdapter<NotificationOverview, NotificationGroupAdapter.NotificationGroupViewHolder>(

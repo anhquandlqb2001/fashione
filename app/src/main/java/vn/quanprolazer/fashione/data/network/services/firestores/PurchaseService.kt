@@ -15,7 +15,10 @@ interface PurchaseService {
 
     suspend fun getOrderStatus(userId: String): List<NetworkOrderStatus>
 
-    suspend fun getOrderItemStatus(currentOrderItemStatusIds: List<String>, status: NetworkOrderItemStatusType): List<NetworkOrderItemStatus>
+    suspend fun getOrderItemStatus(
+        currentOrderItemStatusIds: List<String>,
+        status: NetworkOrderItemStatusType
+    ): List<NetworkOrderItemStatus>
 
     suspend fun getOrderItems(orderItemIds: List<String>): List<NetworkOrderItem>
 }

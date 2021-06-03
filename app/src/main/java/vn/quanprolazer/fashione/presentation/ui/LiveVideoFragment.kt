@@ -12,7 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.google.android.exoplayer2.*
+import com.google.android.exoplayer2.ExoPlaybackException
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.hls.HlsMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
@@ -23,6 +26,7 @@ import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 class LiveVideoFragment : Fragment() {
 
     private var _binding: FragmentVideoPlayerBinding? = null
+
     /** This property is only valid between onCreateView and onDestroyView. */
     private val binding get() = _binding!!
 

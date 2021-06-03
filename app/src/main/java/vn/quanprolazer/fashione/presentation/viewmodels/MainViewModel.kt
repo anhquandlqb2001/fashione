@@ -15,8 +15,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import vn.quanprolazer.fashione.domain.models.NotificationOverview
-import vn.quanprolazer.fashione.domain.models.NotificationOverviewResponse
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.CartRepository
 import vn.quanprolazer.fashione.domain.repositories.NotificationRepository

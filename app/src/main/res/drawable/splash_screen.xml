@@ -8,7 +8,9 @@
     <item>
         <color android:color="@color/white" />
     </item>
-    <item android:gravity="center" >
-        <bitmap android:src="@drawable/splash_screen_anim" android:gravity="center" />
+    <item android:gravity="center">
+        <bitmap
+            android:src="@drawable/splash_screen_anim"
+            android:gravity="center" />
     </item>
 </layer-list>

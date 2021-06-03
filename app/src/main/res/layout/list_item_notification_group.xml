@@ -13,7 +13,7 @@
         <variable
             name="notificationOverview"
             type="vn.quanprolazer.fashione.domain.models.NotificationOverview" />
-        
+
         <variable
             name="listener"
             type="vn.quanprolazer.fashione.presentation.adapters.NotificationGroupItemListener" />
@@ -88,6 +88,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
                 <TextView
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"

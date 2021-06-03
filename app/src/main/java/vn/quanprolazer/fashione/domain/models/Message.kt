@@ -15,7 +15,7 @@ data class Message(
     val message: String,
     val userId: String = "",
     val username: String = "",
-    val direction: MessageDirect = MessageDirect.OUTGOING,
+    var direction: MessageDirect = MessageDirect.OUTGOING,
     val createdAt: Timestamp
 )
 

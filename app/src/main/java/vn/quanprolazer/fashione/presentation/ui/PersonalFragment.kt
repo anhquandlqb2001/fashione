@@ -56,7 +56,11 @@ class PersonalFragment : Fragment() {
         viewModel.navigateToPurchaseMenuByDeliveryUI.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController()
-                    .navigate(PersonalFragmentDirections.actionPersonalFragmentToPurchaseMenuFragment(it))
+                    .navigate(
+                        PersonalFragmentDirections.actionPersonalFragmentToPurchaseMenuFragment(
+                            it
+                        )
+                    )
                 viewModel.doneNavigateToPurchaseMenuByDeliveryUI()
             }
         })

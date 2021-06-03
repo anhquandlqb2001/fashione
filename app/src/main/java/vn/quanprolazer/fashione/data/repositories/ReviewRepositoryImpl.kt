@@ -18,7 +18,6 @@ import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.retrofits.OrderService
 import vn.quanprolazer.fashione.data.network.services.retrofits.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
-import vn.quanprolazer.fashione.domain.repositories.OrderRepository
 import vn.quanprolazer.fashione.domain.repositories.ReviewRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
 

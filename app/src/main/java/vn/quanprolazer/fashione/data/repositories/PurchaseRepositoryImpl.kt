@@ -13,7 +13,6 @@ import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.PurchaseService
 import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
-import vn.quanprolazer.fashione.domain.models.toDataModel
 import vn.quanprolazer.fashione.domain.repositories.PurchaseRepository
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
 import javax.inject.Inject

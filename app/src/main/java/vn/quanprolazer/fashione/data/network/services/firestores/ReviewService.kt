@@ -6,10 +6,9 @@
 
 package vn.quanprolazer.fashione.data.network.services.firestores
 
-import vn.quanprolazer.fashione.data.network.models.NetworkReviewStatus
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.NetworkReviewFirestore
-import vn.quanprolazer.fashione.domain.models.Resource
+import vn.quanprolazer.fashione.data.network.models.NetworkReviewStatus
 
 interface ReviewService {
     suspend fun addReview(review: NetworkReviewFirestore): String

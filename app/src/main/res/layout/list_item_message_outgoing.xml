@@ -23,7 +23,7 @@
 
         <TextView
             android:id="@+id/text_gchat_date_me"
-            timestamp="@{message.createdAt}"
+            timestampToDate="@{message.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -74,11 +74,11 @@
 
         <TextView
             android:id="@+id/text_gchat_timestamp_me"
+            timestampToHour="@{message.createdAt}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10:00"
             android:textColor="#C0C0C0"
-            android:textSize="10sp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="@+id/card_gchat_message_me"
             app:layout_constraintEnd_toStartOf="@+id/card_gchat_message_me" />
 

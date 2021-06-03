@@ -7,10 +7,7 @@
 package vn.quanprolazer.fashione.data.network.services.firestores
 
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.NetworkReviewFirestore

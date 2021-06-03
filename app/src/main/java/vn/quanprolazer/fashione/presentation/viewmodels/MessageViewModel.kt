@@ -9,7 +9,10 @@ package vn.quanprolazer.fashione.presentation.viewmodels
 import androidx.lifecycle.*
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.domain.models.Message
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.MessageRepository
@@ -49,6 +52,30 @@ class MessageViewModel @Inject constructor(private val messageRepository: Messag
         }
     }
 
-    private val _status: MutableLiveData<Resource<Boolean>> by lazy { MutableLiveData<Resource<Boolean>>() }
-    val status: LiveData<Resource<Boolean>> get() = _status
+    private val _status: MutableLiveData<Resource<Message>> by lazy { MutableLiveData() }
+    val status: LiveData<Resource<Message>> get() = _status
+
+    private val _messages: MutableLiveData<Resource<List<Message>>> by lazy { MutableLiveData() }
+
+    val messages: LiveData<Resource<List<Message>>> get() = _messages
+
+    fun fetchMessage() {
+        _messages.value = Resource.Loading
+        viewModelScope.launch {
+            _messages.value = messageRepository.getMessages()
+        }
+    }
+
+    private val _recentlyIncomingMessage: MutableLiveData<Resource<Message>> by lazy {
+        MutableLiveData()
+    }
+
+    val recentlyIncomingMessage: LiveData<Resource<Message>> get() = _recentlyIncomingMessage
+
+    fun observeRecentlyIncomingMessage() {
+        viewModelScope.launch {
+            messageRepository.getRecentlyIncomingMessage().catch { Timber.e(it) }
+                .collect { _recentlyIncomingMessage.value = it }
+        }
+    }
 }

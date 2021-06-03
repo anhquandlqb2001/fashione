@@ -51,7 +51,7 @@ class MessageAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(MessageDif
         }
     }
 
-    fun updateMessages(list: List<Message>?) {
+    fun bindMessages(list: List<Message>?) {
         adapterScope.launch {
             val items = mutableListOf<DataItem>()
             list?.map { message ->
@@ -64,6 +64,34 @@ class MessageAdapter : ListAdapter<DataItem, RecyclerView.ViewHolder>(MessageDif
                 submitList(items)
             }
         }
+    }
+
+    fun updateNewIncomingMessage(message: Message) {
+        adapterScope.launch {
+            val item = DataItem.IncomingMessage(message)
+            val items = mutableListOf<DataItem>()
+            items.addAll(currentList)
+            items.add(item)
+            withContext(Dispatchers.Default) {
+                submitList(items)
+            }
+        }
+    }
+
+    fun updateNewOutgoingMessage(message: Message) {
+        adapterScope.launch {
+            val item = DataItem.OutgoingMessage(message)
+            val items: MutableList<DataItem> = mutableListOf()
+            items.addAll(currentList)
+            items.add(item)
+            withContext(Dispatchers.Default) {
+                submitList(items)
+            }
+        }
+    }
+
+    override fun submitList(list: MutableList<DataItem>?) {
+        super.submitList(list)
     }
 
     override fun getItemViewType(position: Int): Int {

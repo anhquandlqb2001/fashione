@@ -7,8 +7,8 @@
 package vn.quanprolazer.fashione.domain.repositories
 
 import kotlinx.coroutines.flow.Flow
-import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.models.LiveVideo
+import vn.quanprolazer.fashione.domain.models.Resource
 
 interface VideoRepository {
 

@@ -186,7 +186,7 @@ fun <T> MutableLiveData<MutableList<T>>.removeItemAt(index: Int) {
     }
 }
 
-fun fromTimestamp(timestamp: Timestamp): String {
-    val sdf = SimpleDateFormat("MM/dd/yyyy HH:mm", Locale.CHINESE)
+fun fromTimestamp(timestamp: Timestamp, pattern: String = "dd/MM/yyyy HH:mm"): String {
+    val sdf = SimpleDateFormat(pattern, Locale.CHINESE)
     return sdf.format(timestamp.toDate())
 }

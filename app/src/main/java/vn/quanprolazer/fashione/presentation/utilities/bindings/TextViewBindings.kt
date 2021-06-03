@@ -209,3 +209,17 @@ fun TextView.timestamp(timestamp: Timestamp?) {
         text = fromTimestamp(timestamp)
     }
 }
+
+@BindingAdapter("timestampToDate")
+fun TextView.timestampToDate(timestamp: Timestamp?) {
+    timestamp?.let {
+        text = fromTimestamp(timestamp, pattern = "dd/MM/yyyy")
+    }
+}
+
+@BindingAdapter("timestampToHour")
+fun TextView.timestampToHour(timestamp: Timestamp?) {
+    timestamp?.let {
+        text = fromTimestamp(timestamp, pattern = "HH:mm")
+    }
+}

@@ -124,7 +124,7 @@
                 android:onClick="@{() -> purchaseItemListener.onClick(purchaseItem)}"
                 android:text="@string/text_re_order" />
 
-<!--            purchaseReviewStatus="@{purchaseItem.reviewStatus}"-->
+            <!--            purchaseReviewStatus="@{purchaseItem.reviewStatus}"-->
 
             <LinearLayout
                 purchaseReviewStatus="@{purchaseItem.reviewStatus}"

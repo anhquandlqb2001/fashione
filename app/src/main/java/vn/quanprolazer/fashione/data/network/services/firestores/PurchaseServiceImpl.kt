@@ -22,8 +22,8 @@ class PurchaseServiceImpl : PurchaseService {
         val db = FirebaseFirestore.getInstance()
         return db.collection("order_statuses").whereEqualTo("user_id", userId).get()
             .await().documents.mapNotNull {
-            it.toObject((NetworkOrderStatus::class.java))
-        }
+                it.toObject((NetworkOrderStatus::class.java))
+            }
     }
 
     override suspend fun getOrderItemStatus(
@@ -31,10 +31,11 @@ class PurchaseServiceImpl : PurchaseService {
         status: NetworkOrderItemStatusType
     ): List<NetworkOrderItemStatus> {
         val db = FirebaseFirestore.getInstance()
-        return db.collection("order_item_statuses").whereIn(FieldPath.documentId(), currentOrderItemStatusIds)
+        return db.collection("order_item_statuses")
+            .whereIn(FieldPath.documentId(), currentOrderItemStatusIds)
             .whereEqualTo("status", status.name).get().await().documents.mapNotNull {
-            it.toObject((NetworkOrderItemStatus::class.java))
-        }
+                it.toObject((NetworkOrderItemStatus::class.java))
+            }
     }
 
     override suspend fun getOrderItems(orderItemIds: List<String>): List<NetworkOrderItem> {

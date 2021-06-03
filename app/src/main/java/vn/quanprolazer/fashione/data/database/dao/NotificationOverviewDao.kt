@@ -11,7 +11,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import vn.quanprolazer.fashione.data.database.models.NotificationOverviewEntity
-import vn.quanprolazer.fashione.domain.models.NotificationOverview
 
 @Dao
 interface NotificationOverviewDao {

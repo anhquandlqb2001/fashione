@@ -19,8 +19,8 @@ import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentExtendNotificationBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.NotificationExtendItemAdapter
-import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
+import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.presentation.viewmodels.ExtendNotificationViewModel
 import javax.inject.Inject
 

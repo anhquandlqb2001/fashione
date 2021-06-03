@@ -15,8 +15,6 @@ import kotlinx.coroutines.launch
 import vn.quanprolazer.fashione.domain.models.CartItem
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.CartRepository
-import vn.quanprolazer.fashione.domain.repositories.ProductRepository
-import vn.quanprolazer.fashione.presentation.utilities.mapInPlace
 import vn.quanprolazer.fashione.presentation.utilities.notifyUpdate
 import javax.inject.Inject
 

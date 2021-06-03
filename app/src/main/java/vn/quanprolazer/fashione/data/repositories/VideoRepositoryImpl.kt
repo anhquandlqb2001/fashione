@@ -11,8 +11,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
 import vn.quanprolazer.fashione.data.network.services.firestores.VideoService
-import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.models.LiveVideo
+import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.VideoRepository
 
 class VideoRepositoryImpl(private val videoService: VideoService) : VideoRepository {

@@ -22,6 +22,9 @@ data class NetworkMessage(
     @get:PropertyName("user_id")
     var userId: String = "",
     val username: String = "",
+    @set:PropertyName("receiver_id")
+    @get:PropertyName("receiver_id")
+    var receiverId: String = "",
     @set:PropertyName("created_at")
     @get:PropertyName("created_at")
     var createdAt: Timestamp = Timestamp.now()
