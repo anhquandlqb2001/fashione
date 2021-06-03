@@ -71,4 +71,9 @@ class ServiceModule {
     @Singleton
     fun provideNotificationServiceRetrofit(@Named("nodejs") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService =
         retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideProductServiceRetrofit(@Named("nodejs") retrofit: Retrofit): vn.quanprolazer.fashione.data.network.services.retrofits.ProductService =
+        retrofit.create(vn.quanprolazer.fashione.data.network.services.retrofits.ProductService::class.java)
 }

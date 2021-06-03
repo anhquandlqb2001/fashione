@@ -53,6 +53,11 @@ data class NetworkProductResponse(
     val lastVisibleId: String?
 )
 
+@Serializable
+data class NetworkHighViewProductResponse(
+    val ids: List<String>
+)
+
 /**
  * Model name: product_details
  */

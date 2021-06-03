@@ -99,6 +99,18 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    private val _highViewProducts: MutableLiveData<Resource<List<Product>>>
+            by lazy { MutableLiveData<Resource<List<Product>>>() }
+
+    val highViewProducts: LiveData<Resource<List<Product>>> get() = _highViewProducts
+
+    fun fetchHighViewProduct() {
+        _highViewProducts.value = Resource.Loading
+        viewModelScope.launch {
+            _highViewProducts.value = productRepository.getHighViewProducts()
+        }
+    }
+
     /**
      * Variable to store exception when get data from repository
      * Can be null

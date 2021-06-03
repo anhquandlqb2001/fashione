@@ -24,6 +24,7 @@ import kotlin.math.round
 class ProductRepositoryImpl @AssistedInject constructor(
     private val productService: ProductService,
     private val reviewService: ReviewService,
+    private val productRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.ProductService,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
@@ -78,6 +79,15 @@ class ProductRepositoryImpl @AssistedInject constructor(
             productService.getProductsByCategoryId(categoryId)
         }
         Resource.Success(response.map { it.toDomainModel() })
+    } catch (e: Exception) {
+        Resource.Error(e)
+    }
+
+    override suspend fun getHighViewProducts() = try {
+        withContext(dispatcher) {
+            val ids = productRetrofitService.getHighViewProductIds().ids
+            Resource.Success(productService.getProducts(ids).map { it.toDomainModel() })
+        }
     } catch (e: Exception) {
         Resource.Error(e)
     }

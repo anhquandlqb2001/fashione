@@ -32,9 +32,10 @@ class RepositoryModule {
     @Provides
     fun provideProductRepository(
         productService: ProductService,
-        reviewServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
+        reviewServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.ReviewService,
+        productRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.ProductService
     ): ProductRepository =
-        ProductRepositoryImpl(productService, reviewServiceFirestore)
+        ProductRepositoryImpl(productService, reviewServiceFirestore, productRetrofitService)
 
     @Singleton
     @Provides

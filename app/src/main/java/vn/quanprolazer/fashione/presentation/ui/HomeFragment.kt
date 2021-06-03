@@ -80,6 +80,7 @@ class HomeFragment : Fragment() {
         viewModel.apply {
             fetchHighRateProduct()
             fetchRecentProduct()
+            fetchHighViewProduct()
         }
 
         observeCategory()
@@ -90,7 +91,7 @@ class HomeFragment : Fragment() {
 
 
         // Product Best Sell Section
-        setupProductBestSellSection()
+        setupProductHighViewSection()
         // End Product Best Sell Section
 
         // Product Suggest Section
@@ -181,14 +182,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupProductRecentSection() {
-        val productSuggestAdapter = ProductAdapter(OnClickListener {
+        val productRecentAdapter = ProductAdapter(OnClickListener {
             viewModel.onClickProduct(it)
         })
-        binding.rvSuggestProduct.adapter = productSuggestAdapter
+        binding.rvSuggestProduct.adapter = productRecentAdapter
         viewModel.recentProducts.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
-                    is Resource.Success -> productSuggestAdapter.submitList(it.data)
+                    is Resource.Success -> productRecentAdapter.submitList(it.data)
                     is Resource.Loading -> {
                     }
                     is Resource.Error -> Timber.e(it.exception)
@@ -204,15 +205,15 @@ class HomeFragment : Fragment() {
         binding.rvSuggestProduct.layoutManager = productSuggestLayoutManager
     }
 
-    private fun setupProductBestSellSection() {
-        val productBestSellAdapter = ProductAdapter(OnClickListener {
+    private fun setupProductHighViewSection() {
+        val productHightViewAdapter = ProductAdapter(OnClickListener {
             viewModel.onClickProduct(it)
         })
-        binding.rvBestSell.adapter = productBestSellAdapter
-        viewModel.recentProducts.observe(viewLifecycleOwner, {
+        binding.rvBestSell.adapter = productHightViewAdapter
+        viewModel.highViewProducts.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
-                    is Resource.Success -> productBestSellAdapter.submitList(it.data)
+                    is Resource.Success -> productHightViewAdapter.submitList(it.data)
                     is Resource.Loading -> {
                     }
                     is Resource.Error -> Timber.e(it.exception)
@@ -222,15 +223,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupProductHighRateSection() {
-        val productFeaturedAdapter = ProductAdapter(OnClickListener {
+        val productHighRateAdapter = ProductAdapter(OnClickListener {
             viewModel.onClickProduct(it)
         })
 
-        binding.rvFeatured.adapter = productFeaturedAdapter
+        binding.rvFeatured.adapter = productHighRateAdapter
         viewModel.highRateProducts.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
-                    is Resource.Success -> productFeaturedAdapter.submitList(it.data)
+                    is Resource.Success -> productHighRateAdapter.submitList(it.data)
                     is Resource.Loading -> {
                     }
                     is Resource.Error -> Timber.e(it.exception)

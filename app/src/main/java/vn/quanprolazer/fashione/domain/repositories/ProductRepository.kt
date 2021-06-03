@@ -16,6 +16,8 @@ interface ProductRepository {
 
     suspend fun getProductsByCategoryId(categoryId: String): Resource<List<Product>>
 
+    suspend fun getHighViewProducts(): Resource<List<Product>>
+
     suspend fun findProductsByQuery(query: String): Resource<List<Product>>
 
     suspend fun getProductDetailByProductId(productId: String): Resource<ProductDetail>
