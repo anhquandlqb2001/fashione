@@ -151,6 +151,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     binding.navigationView.menu.findItem(R.id.menu_item_personal).isVisible = true
+                    binding.navigationView.menu.findItem(R.id.menu_item_message).isVisible = true
                     menuItem.title = getString(R.string.sign_out_text)
                 }
                 else -> {
@@ -160,6 +161,7 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     binding.navigationView.menu.findItem(R.id.menu_item_personal).isVisible = false
+                    binding.navigationView.menu.findItem(R.id.menu_item_message).isVisible = false
                     menuItem.title = getString(R.string.login)
                 }
             }
