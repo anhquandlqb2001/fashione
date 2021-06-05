@@ -71,57 +71,35 @@ class CheckoutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvCheckout.addItemDecoration(
-            DividerItemDecoration(
-                context, DividerItemDecoration.VERTICAL
-            )
-        )
-        binding.rvCheckout.addItemDecoration(MarginItemDecoration(20))
-        binding.rvCheckout.adapter = adapter
+        setupCheckoutRecycleView()
+        
+        observeCheckoutItems()
 
+        observeToChoosePickupAddress()
 
-        checkoutViewModel.checkoutItems.observe(viewLifecycleOwner, {
+        observeGetDefaultPickupAddressId()
+
+        observePickupAddress()
+
+        observePickupAddressId()
+
+        observeNavigateToOrderSuccess()
+
+        checkoutViewModel.totalProductPrice.observe(viewLifecycleOwner, {
             it?.let {
-                adapter.submitList(it)
+                checkoutViewModel.updateProductPrice(it)
             }
         })
 
-        checkoutViewModel.navigateToPickupAddress.observe(viewLifecycleOwner, {
+        checkoutViewModel.totalShipPrice.observe(viewLifecycleOwner, {
             it?.let {
-                this.findNavController()
-                    .navigate(CheckoutFragmentDirections.actionCheckoutFragmentToPickupAddressFragment())
-                checkoutViewModel.doneNavigate()
+                checkoutViewModel.updateShipPrice(it)
             }
         })
 
-        checkoutViewModel.defaultCheckoutAddress.observe(viewLifecycleOwner, {
-            it?.let {
-                when (it) {
-                    is Resource.Loading -> {
-                    }
-                    is Resource.Success -> {
-                        binding.address = it.data
-                        checkoutViewModel.updateAddressId(it.data.id)
-                    }
-                    is Resource.Error -> {
-                        if (it.exception.message == "NOT_FOUND") {
-                            binding.llAddressData.visibility = View.GONE
-                            binding.tvNoDefault.visibility = View.VISIBLE
-                        }
-                    }
-                }
-            }
-        })
+    }
 
-        checkoutSharedViewModel.addressPickup.observe(viewLifecycleOwner, {
-            it?.let {
-                binding.llAddressData.visibility = View.VISIBLE
-                binding.tvNoDefault.visibility = View.GONE
-                binding.address = it
-                checkoutViewModel.updateAddressId(it.id)
-            }
-        })
-
+    private fun observeNavigateToOrderSuccess() {
         checkoutViewModel.navigateToOrderSuccess.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
@@ -142,19 +120,76 @@ class CheckoutFragment : Fragment() {
                 }
             }
         })
+    }
 
-        checkoutViewModel.totalProductPrice.observe(viewLifecycleOwner, {
-            it?.let {
-                checkoutViewModel.updateProductPrice(it)
+    private fun observePickupAddressId() {
+        checkoutViewModel.pickupAddressId.observe(viewLifecycleOwner, {
+            binding.llConfirm.visibility = if (it.isNullOrEmpty()) {
+                View.GONE
+            } else {
+                View.VISIBLE
             }
         })
+    }
 
-        checkoutViewModel.totalShipPrice.observe(viewLifecycleOwner, {
+    private fun observePickupAddress() {
+        checkoutSharedViewModel.addressPickup.observe(viewLifecycleOwner, {
             it?.let {
-                checkoutViewModel.updateShipPrice(it)
+                binding.llAddressData.visibility = View.VISIBLE
+                binding.tvNoDefault.visibility = View.GONE
+                binding.address = it
+                checkoutViewModel.updateAddressId(it.id)
             }
         })
+    }
 
+    private fun observeGetDefaultPickupAddressId() {
+        checkoutViewModel.defaultCheckoutAddress.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Loading -> {
+                    }
+                    is Resource.Success -> {
+                        binding.address = it.data
+                        checkoutViewModel.updateAddressId(it.data.id)
+                    }
+                    is Resource.Error -> {
+                        if (it.exception.message == "NOT_FOUND") {
+                            binding.llAddressData.visibility = View.GONE
+                            binding.tvNoDefault.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        })
+    }
+
+    private fun observeToChoosePickupAddress() {
+        checkoutViewModel.navigateToPickupAddress.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController()
+                    .navigate(CheckoutFragmentDirections.actionCheckoutFragmentToPickupAddressFragment())
+                checkoutViewModel.doneNavigate()
+            }
+        })
+    }
+
+    private fun observeCheckoutItems() {
+        checkoutViewModel.checkoutItems.observe(viewLifecycleOwner, {
+            it?.let {
+                adapter.submitList(it)
+            }
+        })
+    }
+
+    private fun setupCheckoutRecycleView() {
+        binding.rvCheckout.addItemDecoration(
+            DividerItemDecoration(
+                context, DividerItemDecoration.VERTICAL
+            )
+        )
+        binding.rvCheckout.addItemDecoration(MarginItemDecoration(20))
+        binding.rvCheckout.adapter = adapter
     }
 
     override fun onDestroy() {

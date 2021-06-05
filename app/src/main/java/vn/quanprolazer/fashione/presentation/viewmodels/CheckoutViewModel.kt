@@ -68,6 +68,7 @@ class CheckoutViewModel @AssistedInject constructor(
     val defaultCheckoutAddress: LiveData<Resource<PickupAddress>> get() = _defaultCheckoutAddress
 
     private val _pickupAddressId: MutableLiveData<String> by lazy { MutableLiveData() }
+    val pickupAddressId: LiveData<String> get() = _pickupAddressId
 
     fun updateAddressId(addressId: String) {
         _pickupAddressId.value = addressId
