@@ -8,6 +8,7 @@ package vn.quanprolazer.fashione.presentation.utilities.bindings
 
 import android.net.Uri
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.request.RequestOptions
@@ -23,6 +24,8 @@ fun ImageView.loadImage(imageUrl: String?) {
         GlideApp.with(context).load(imgUri).apply(
             RequestOptions().placeholder(R.drawable.loading_anim).error(R.drawable.ic_broken)
         ).into(this)
+    } ?: run {
+        setImageDrawable(ContextCompat.getDrawable(context, R.drawable.outline_account_circle_blue_100_36dp))
     }
 }
 
@@ -32,6 +35,8 @@ fun ImageView.loadImage(imageUri: Uri?) {
         GlideApp.with(context).load(imageUri).apply(
             RequestOptions().placeholder(R.drawable.loading_anim).error(R.drawable.ic_broken)
         ).into(this)
+    } ?: run {
+        setImageDrawable(ContextCompat.getDrawable(context, R.drawable.outline_account_circle_blue_100_36dp))
     }
 }
 
