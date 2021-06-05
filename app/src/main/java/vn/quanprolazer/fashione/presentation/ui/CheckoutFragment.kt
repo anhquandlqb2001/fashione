@@ -124,10 +124,19 @@ class CheckoutFragment : Fragment() {
 
     private fun observePickupAddressId() {
         checkoutViewModel.pickupAddressId.observe(viewLifecycleOwner, {
-            binding.llConfirm.visibility = if (it.isNullOrEmpty()) {
-                View.GONE
+            if (it.isNullOrEmpty()) {
+                binding.apply {
+                    llConfirm.visibility = View.GONE
+                    llPickupAddress.visibility = View.GONE
+                    tvPickupAddressRequire.visibility = View.VISIBLE
+
+                }
             } else {
-                View.VISIBLE
+                binding.apply {
+                    llConfirm.visibility = View.VISIBLE
+                    llPickupAddress.visibility = View.VISIBLE
+                    tvPickupAddressRequire.visibility = View.GONE
+                }
             }
         })
     }

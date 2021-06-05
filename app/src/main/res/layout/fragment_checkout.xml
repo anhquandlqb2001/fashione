@@ -71,31 +71,46 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:visibility="visible"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/address_text"
                             android:textSize="16sp" />
 
                         <TextView
-                            phone_number="@{address.phoneNumber}"
-                            receiver_name="@{address.name}"
+                            android:id="@+id/tv_pickup_address_require"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/text_require_pickup_address" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_pickup_address"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
-                            android:textSize="14sp"
-                            tools:text="Quan Phan | 0889297731" />
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
-                        <TextView
-                            address="@{address.address}"
-                            district_or_town="@{address.districtOrTown}"
-                            privince_or_city="@{address.provinceOrCity}"
-                            subdistrict_or_village="@{address.subdistrictOrVillage}"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxEms="15"
-                            android:singleLine="false"
-                            android:textSize="14sp"
-                            tools:text="73 Nguyen Tao, Hoa Hai, Da Nang" />
+                            <TextView
+                                phone_number="@{address.phoneNumber}"
+                                receiver_name="@{address.name}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="14sp"
+                                tools:text="Quan Phan | 0889297731" />
+
+                            <TextView
+                                address="@{address.address}"
+                                district_or_town="@{address.districtOrTown}"
+                                privince_or_city="@{address.provinceOrCity}"
+                                subdistrict_or_village="@{address.subdistrictOrVillage}"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:maxEms="15"
+                                android:singleLine="false"
+                                android:textSize="14sp"
+                                tools:text="73 Nguyen Tao, Hoa Hai, Da Nang" />
+                        </LinearLayout>
                     </LinearLayout>
 
                     <ImageView
