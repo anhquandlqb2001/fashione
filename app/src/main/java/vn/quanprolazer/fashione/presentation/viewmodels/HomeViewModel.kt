@@ -53,7 +53,11 @@ class HomeViewModel @Inject constructor(
     /**
      * Variable to store if next recent product is exist
      */
-    private var recentProductDocumentId: String? = null
+    private var _recentProductDocumentId: String? = null
+    val recentProductDocumentId: String? get() = _recentProductDocumentId
+    fun updateNextRecentProductDocumentId(id: String?) {
+        _recentProductDocumentId = id
+    }
 
     /**
      * Variable to store list of available product
@@ -73,14 +77,36 @@ class HomeViewModel @Inject constructor(
     fun fetchRecentProduct() {
         _recentProducts.value = Resource.Loading
         viewModelScope.launch {
-            when (val data = productRepository.getRecentProducts(recentProductDocumentId)) {
+            when (val data = productRepository.getRecentProducts(null)) {
                 is Resource.Success -> {
                     _recentProducts.value = Resource.Success(data.data.products)
-                    recentProductDocumentId = data.data.lastVisibleId
+                    updateNextRecentProductDocumentId(data.data.lastVisibleId)
                 }
                 is Resource.Error -> {
                     _recentProducts.value = Resource.Error(data.exception)
-                    recentProductDocumentId = null
+                    updateNextRecentProductDocumentId(null)
+                }
+            }
+        }
+    }
+
+    private val _newRecentProducts: MutableLiveData<Resource<MutableList<Product>>>
+            by lazy { MutableLiveData<Resource<MutableList<Product>>>() }
+    val newRecentProducts: LiveData<Resource<MutableList<Product>>> get() = _newRecentProducts
+
+
+    fun fetchMoreRecentlyProducts() {
+        if (_recentProductDocumentId.isNullOrBlank()) return
+        _newRecentProducts.value = Resource.Loading
+        viewModelScope.launch {
+            when (val data = productRepository.getRecentProducts(_recentProductDocumentId)) {
+                is Resource.Success -> {
+                    _newRecentProducts.value = Resource.Success(data.data.products)
+                    updateNextRecentProductDocumentId(data.data.lastVisibleId)
+                }
+                is Resource.Error -> {
+                    _newRecentProducts.value = Resource.Error(data.exception)
+                    updateNextRecentProductDocumentId(null)
                 }
             }
         }

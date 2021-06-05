@@ -37,6 +37,13 @@ class ProductAdapter(private val clickListener: OnClickListener) :
         }
     }
 
+    fun addMoreItems(list: List<Product>) {
+        val items = mutableListOf<Product>()
+        items.addAll(currentList)
+        items.addAll(list)
+        submitList(items)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         return ProductViewHolder.from(parent)
     }

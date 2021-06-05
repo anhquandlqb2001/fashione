@@ -18,7 +18,7 @@ import java.util.*
 class ProductServiceImpl : ProductService {
 
     companion object {
-        private const val DEFAULT_HORIZONTAL_ITEM_COUNT = 10
+        private const val DEFAULT_HORIZONTAL_ITEM_COUNT = 4
     }
 
     override suspend fun getRecentProducts(): NetworkProductResponse {
@@ -26,7 +26,7 @@ class ProductServiceImpl : ProductService {
             .getInstance()
             .collection("products")
             .orderBy("created_at", Query.Direction.DESCENDING)
-            .limit((DEFAULT_HORIZONTAL_ITEM_COUNT + 1).toLong())
+            .limit((DEFAULT_HORIZONTAL_ITEM_COUNT).toLong())
             .get()
             .await()
             .documents.mapNotNull {
@@ -41,13 +41,11 @@ class ProductServiceImpl : ProductService {
     override suspend fun getRecentProducts(documentId: String): NetworkProductResponse {
         val collection = FirebaseFirestore.getInstance()
             .collection("products")
-        val ref = collection.document(documentId)
-        val networkProducts = FirebaseFirestore
-            .getInstance()
-            .collection("products")
+        val snapshot = collection.document(documentId).get().await()
+        val networkProducts = collection
             .orderBy("created_at", Query.Direction.DESCENDING)
-            .limit((DEFAULT_HORIZONTAL_ITEM_COUNT + 1).toLong())
-            .startAt(ref)
+            .limit((DEFAULT_HORIZONTAL_ITEM_COUNT).toLong())
+            .startAfter(snapshot)
             .get()
             .await()
             .documents.mapNotNull {
@@ -55,7 +53,7 @@ class ProductServiceImpl : ProductService {
             }
         return NetworkProductResponse(
             products = networkProducts,
-            lastVisibleId = networkProducts[DEFAULT_HORIZONTAL_ITEM_COUNT].id
+            lastVisibleId = getLastVisibleDocumentId(networkProducts)
         )
     }
 
@@ -133,7 +131,7 @@ class ProductServiceImpl : ProductService {
             .await().documents.mapNotNull { it.toObject(NetworkProductImage::class.java) }[0]
 
     fun getLastVisibleDocumentId(prods: List<NetworkProduct>): String? {
-        if (prods.size == DEFAULT_HORIZONTAL_ITEM_COUNT) return prods[prods.size - 1].id;
+        if (prods.size == DEFAULT_HORIZONTAL_ITEM_COUNT) return prods[prods.size - 1].id
         return null
     }
 }

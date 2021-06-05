@@ -7,9 +7,12 @@
 package vn.quanprolazer.fashione.presentation.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -23,6 +26,7 @@ import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.CategoryAdapter
 import vn.quanprolazer.fashione.presentation.adapters.OnClickCategoryListener
 import vn.quanprolazer.fashione.presentation.adapters.ProductAdapter
+import vn.quanprolazer.fashione.presentation.utilities.HEIGHT_PRE_LOAD_RECENTLY_PRODUCT
 import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
 import vn.quanprolazer.fashione.presentation.utilities.onDone
 import vn.quanprolazer.fashione.presentation.viewmodels.HomeViewModel
@@ -44,6 +48,12 @@ class HomeFragment : Fragment() {
         })
     }
 
+    private val productRecentAdapter: ProductAdapter by lazy {
+        ProductAdapter(ProductAdapter.OnClickListener {
+            viewModel.onClickProduct(it)
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -58,6 +68,19 @@ class HomeFragment : Fragment() {
 
         binding.rvCategory.adapter = categoryAdapter
 
+        binding.rvRecently.isNestedScrollingEnabled = false
+        binding.rvHighRate.isNestedScrollingEnabled = false
+        binding.rvHighView.isNestedScrollingEnabled = false
+
+        binding.nsvMain.setOnScrollChangeListener(NestedScrollView.OnScrollChangeListener { v, _, scrollY, _, _ ->
+            if ((scrollY + HEIGHT_PRE_LOAD_RECENTLY_PRODUCT)
+                >= v.getChildAt(0).measuredHeight - v.measuredHeight
+                && !(viewModel.recentProductDocumentId.isNullOrEmpty())
+            ) {
+                viewModel.fetchMoreRecentlyProducts()
+                viewModel.updateNextRecentProductDocumentId(null)
+            }
+        })
         binding.viewModel = viewModel
 
         return binding.root
@@ -114,7 +137,31 @@ class HomeFragment : Fragment() {
 
         setupSearchByTextNavigateEvent()
 
+        observeNewRecentlyProducts()
+
         handleException()
+    }
+
+    private fun observeNewRecentlyProducts() {
+        viewModel.newRecentProducts.observe(viewLifecycleOwner, {
+            it?.let {
+                when (it) {
+                    is Resource.Success -> {
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            productRecentAdapter.addMoreItems(it.data)
+                            binding.cpiRecentlyProdLoading.visibility = View.INVISIBLE
+                        }, 800)
+                    }
+                    is Resource.Error -> {
+                        binding.cpiRecentlyProdLoading.visibility = View.GONE
+                        Timber.e(it.exception)
+                    }
+                    Resource.Loading -> {
+                        binding.cpiRecentlyProdLoading.visibility = View.VISIBLE
+                    }
+                }
+            }
+        })
     }
 
     private fun loadData() {
@@ -190,9 +237,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupProductRecentSection() {
-        val productRecentAdapter = ProductAdapter(ProductAdapter.OnClickListener {
-            viewModel.onClickProduct(it)
-        })
+
         binding.rvRecently.adapter = productRecentAdapter
         viewModel.recentProducts.observe(viewLifecycleOwner, {
             it?.let {

@@ -25,6 +25,10 @@ private val PUNCTUATION = listOf(", ", "; ", ": ", " ")
 
 const val PRODUCT_NAME_LIMIT = 10
 
+/**
+ * Pre-load data for recyclerview recently product
+ */
+const val HEIGHT_PRE_LOAD_RECENTLY_PRODUCT = 200
 
 /**
  * Truncate long text with a preference for word boundaries and without trailing punctuation.

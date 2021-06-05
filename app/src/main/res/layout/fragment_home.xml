@@ -21,7 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nsv_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -253,12 +254,25 @@
                             layout="@layout/fragment_loading_circular_progress" />
 
                         <androidx.recyclerview.widget.RecyclerView
+                            tools:itemCount="1"
                             android:id="@+id/rv_recently"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/ll_suggestProduct"
                             android:layout_marginTop="16dp"
                             tools:listitem="@layout/list_item_product" />
+
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:id="@+id/cpi_recently_prod_loading"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/rv_recently"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:indeterminate="true"
+                            android:visibility="gone"
+                            app:indicatorColor="@color/teal_700"
+                            tools:visibility="visible" />
 
                     </RelativeLayout>
 
@@ -280,7 +294,7 @@
                     app:layout_constraintGuide_end="16sp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </layout>
