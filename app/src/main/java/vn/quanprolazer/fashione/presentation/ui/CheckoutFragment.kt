@@ -72,7 +72,7 @@ class CheckoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupCheckoutRecycleView()
-        
+
         observeCheckoutItems()
 
         observeToChoosePickupAddress()
