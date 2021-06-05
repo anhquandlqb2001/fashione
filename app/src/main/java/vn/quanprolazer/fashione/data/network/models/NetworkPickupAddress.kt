@@ -7,11 +7,13 @@
 package vn.quanprolazer.fashione.data.network.models
 
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.PropertyName
 import vn.quanprolazer.fashione.domain.models.PickupAddress
 
 data class NetworkPickupAddress(
     @DocumentId
+    @Exclude
     var id: String = "",
     @set:PropertyName("user_id")
     @get:PropertyName("user_id")

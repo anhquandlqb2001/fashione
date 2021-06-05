@@ -7,6 +7,8 @@
 package vn.quanprolazer.fashione.presentation.ui
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,14 +16,19 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentAddPickupAddressBinding
 import vn.quanprolazer.fashione.domain.models.BaseAddressPickupImpl
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.PickupAddressSpinnerAdapter
+import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 import vn.quanprolazer.fashione.presentation.viewmodels.AddPickupAddressViewModel
+import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutSharedViewModel
 
 
 @AndroidEntryPoint
@@ -32,6 +39,8 @@ class AddPickupAddressFragment : Fragment() {
     private val binding: FragmentAddPickupAddressBinding get() = _binding!!
 
     private val viewModel: AddPickupAddressViewModel by viewModels()
+
+    private val checkoutSharedViewModel: CheckoutSharedViewModel by activityViewModels()
 
     private val provinceOrCityAdapter: PickupAddressSpinnerAdapter by lazy {
         PickupAddressSpinnerAdapter(
@@ -57,6 +66,8 @@ class AddPickupAddressFragment : Fragment() {
         )
     }
 
+    private val loadingDialog: LoadingDialog by lazy { LoadingDialog(requireActivity()) }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -80,12 +91,20 @@ class AddPickupAddressFragment : Fragment() {
             it?.let {
                 when (it) {
                     is Resource.Success -> {
-                        binding.btnSave.text = "OK"
-                        binding.cpLoading.visibility = View.GONE
+                        checkoutSharedViewModel.updateAddressPickup(it.data)
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            loadingDialog.hideDialog()
+                            this.findNavController().popBackStack(R.id.checkoutFragment, false)
+                        }, 800)
                     }
                     is Resource.Loading -> {
-                        binding.btnSave.text = ""
-                        binding.cpLoading.visibility = View.VISIBLE
+                        loadingDialog.showDialog()
+                        binding.btnSave.isEnabled = false
+                    }
+                    is Resource.Error -> {
+                        binding.btnSave.isEnabled = false
+                        loadingDialog.hideDialog()
+                        Timber.e(it.exception)
                     }
                 }
             }

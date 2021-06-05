@@ -88,15 +88,16 @@ class AddPickupAddressViewModel @Inject constructor(
 
     val addPickupAddress: LiveData<NewPickupAddress> get() = _addPickupAddress
 
-    private val _onSavePickupAddress: MutableLiveData<Resource<Boolean>> by lazy {
+    private val _onSavePickupAddress: MutableLiveData<Resource<PickupAddress>> by lazy {
         MutableLiveData()
     }
-    val onSavePickupAddress: LiveData<Resource<Boolean>> get() = _onSavePickupAddress
+    val onSavePickupAddress: LiveData<Resource<PickupAddress>> get() = _onSavePickupAddress
 
     fun onClickSave() {
         _onSavePickupAddress.value = Resource.Loading
 
         _addPickupAddress.value = NewPickupAddress(
+            id = "",
             userRepository.getUser().value?.uid.toString(),
             receiverName.value.toString(),
             phoneNumber.value.toString(),

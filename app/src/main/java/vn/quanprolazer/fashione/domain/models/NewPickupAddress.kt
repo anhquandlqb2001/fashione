@@ -6,11 +6,14 @@
 
 package vn.quanprolazer.fashione.domain.models
 
+import com.google.firebase.firestore.Exclude
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class NewPickupAddress(
+    @Exclude
+    val id: String = "",
     @SerialName("user_id")
     var userId: String,
     var name: String,
@@ -25,4 +28,16 @@ data class NewPickupAddress(
     var address: String,
     @SerialName("address_type")
     var addressType: String
+)
+
+internal fun NewPickupAddress.toDomainModel() = PickupAddress(
+    id = id,
+    name = name,
+    phoneNumber = phoneNumber,
+    provinceOrCity = provinceOrCity,
+    districtOrTown = districtOrTown,
+    subdistrictOrVillage = subdistrictOrVillage,
+    address = address,
+    addressType = addressType,
+    default = false
 )

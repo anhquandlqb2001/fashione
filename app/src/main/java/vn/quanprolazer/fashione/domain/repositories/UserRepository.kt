@@ -21,7 +21,7 @@ interface UserRepository {
 
     suspend fun getToken(): String?
 
-    suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<Boolean>
+    suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<PickupAddress>
 
     suspend fun getPickupAddresses(): Resource<List<PickupAddress>>
 

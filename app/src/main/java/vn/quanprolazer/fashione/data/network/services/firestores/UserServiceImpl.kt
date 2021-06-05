@@ -13,10 +13,12 @@ import vn.quanprolazer.fashione.data.network.toHashMap
 import vn.quanprolazer.fashione.domain.models.NewPickupAddress
 
 class UserServiceImpl : UserService {
-    override suspend fun addPickupAddress(pickupAddress: NewPickupAddress) {
-        FirebaseFirestore.getInstance().collection("addresses").add(pickupAddress.toHashMap())
-            .await()
+    override suspend fun addPickupAddress(pickupAddress: NewPickupAddress): String {
+        return FirebaseFirestore.getInstance().collection("addresses")
+            .add(pickupAddress.toHashMap())
+            .await().id
     }
+
 
     override suspend fun getPickupAddresses(userId: String) =
         FirebaseFirestore.getInstance().collection("addresses").get().await().documents.mapNotNull {

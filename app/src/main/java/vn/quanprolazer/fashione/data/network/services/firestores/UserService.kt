@@ -11,7 +11,7 @@ import vn.quanprolazer.fashione.domain.models.NewPickupAddress
 
 interface UserService {
 
-    suspend fun addPickupAddress(pickupAddress: NewPickupAddress)
+    suspend fun addPickupAddress(pickupAddress: NewPickupAddress): String
 
     suspend fun getPickupAddresses(userId: String): List<NetworkPickupAddress>
 

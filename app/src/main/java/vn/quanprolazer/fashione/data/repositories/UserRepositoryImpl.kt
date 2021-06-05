@@ -33,15 +33,16 @@ class UserRepositoryImpl @Inject constructor(
 
     override fun getUser() = FirebaseUserLiveData
 
-    override suspend fun addPickupAddress(pickupAddress: NewPickupAddress) = try {
-        withContext(Dispatchers.IO) {
-            userService.addPickupAddress(pickupAddress)
+    override suspend fun addPickupAddress(pickupAddress: NewPickupAddress): Resource<PickupAddress> =
+        try {
+            withContext(Dispatchers.IO) {
+                val id = userService.addPickupAddress(pickupAddress)
+                Resource.Success(pickupAddress.copy(id = id).toDomainModel())
+            }
+        } catch (e: Exception) {
+            Timber.e(e)
+            Resource.Error(e)
         }
-        Resource.Success(true)
-    } catch (e: Exception) {
-        Timber.e(e)
-        Resource.Error(e)
-    }
 
     override suspend fun getPickupAddresses(): Resource<List<PickupAddress>> {
         val user = getUser().value ?: return Resource.Error(Exception("NOT_LOGIN"))
