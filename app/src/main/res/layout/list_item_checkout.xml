@@ -16,10 +16,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_marginTop="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-
+        
         <ImageView
             android:id="@+id/imageView2"
             imageUrl="@{checkoutItem.cartItemImg}"
@@ -32,11 +32,15 @@
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:maxEms="10"
+            android:maxLines="2"
+            android:singleLine="false"
             android:text="@{checkoutItem.productName}"
             android:textSize="16sp"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toEndOf="@+id/imageView2"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Quan bo kaki" />
@@ -47,7 +51,7 @@
             variantValue="@{checkoutItem.variantValue}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:textSize="12sp"
             app:layout_constraintStart_toStartOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
@@ -55,22 +59,20 @@
 
         <TextView
             android:id="@+id/textView5"
-            productPrice="@{checkoutItem.price}"
+            toPrice="@{checkoutItem.price}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView2"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
             tools:text="16.000d" />
 
         <TextView
+            android:layout_marginEnd="8dp"
             setQty="@{checkoutItem.quantity}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/textView5"
+            app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+            app:layout_constraintTop_toTopOf="@+id/textView5"
             tools:text="x1" />
 
         <LinearLayout
@@ -79,15 +81,23 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@+id/imageView2"
             app:layout_constraintTop_toBottomOf="@id/imageView2">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/text_total_price_checkout_item" />
 
             <TextView
                 variantPrice="@{checkoutItem.price}"
                 variantQty="@{checkoutItem.quantity}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="120.000d" />
+                tools:text="d120.000" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

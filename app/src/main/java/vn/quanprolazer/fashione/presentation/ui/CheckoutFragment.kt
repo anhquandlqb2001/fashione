@@ -22,7 +22,7 @@ import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.CheckoutItemAdapter
 import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
-import vn.quanprolazer.fashione.presentation.utilities.MarginItemDecoration
+import vn.quanprolazer.fashione.presentation.utilities.SpacesItemDecoration
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutSharedViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutViewModel
 import javax.inject.Inject
@@ -188,7 +188,7 @@ class CheckoutFragment : Fragment() {
                 context, DividerItemDecoration.VERTICAL
             )
         )
-        binding.rvCheckout.addItemDecoration(MarginItemDecoration(20))
+        binding.rvCheckout.addItemDecoration(SpacesItemDecoration(20))
         binding.rvCheckout.adapter = adapter
     }
 

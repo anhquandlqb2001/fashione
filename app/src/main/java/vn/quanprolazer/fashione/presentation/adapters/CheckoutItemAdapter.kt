@@ -19,7 +19,7 @@ class CheckoutViewHolder(private val binding: ListItemCheckoutBinding) :
     companion object {
         fun from(parent: ViewGroup): CheckoutViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
-            val binding = ListItemCheckoutBinding.inflate(layoutInflater)
+            val binding = ListItemCheckoutBinding.inflate(layoutInflater, parent, false)
             return CheckoutViewHolder(binding)
         }
     }
