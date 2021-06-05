@@ -15,9 +15,9 @@ import vn.quanprolazer.fashione.domain.models.AuthenticationState
 @BindingAdapter("shouldDisplayBuyButton")
 fun Button.shouldDisplayBuyButton(state: AuthenticationState?) {
     state?.let {
-        when (state) {
-            AuthenticationState.AUTHENTICATED -> visibility = View.VISIBLE
-            else -> visibility = View.GONE
+        visibility = when (state) {
+            AuthenticationState.AUTHENTICATED -> View.VISIBLE
+            else -> View.GONE
         }
     }
 }
@@ -30,5 +30,12 @@ fun Button.addToCartVisible(orderQty: Number?) {
         } else {
             View.INVISIBLE
         }
+    }
+}
+
+@BindingAdapter("shouldDisplayDecreaseQtyButton")
+fun Button.shouldDisplayDecreaseQtyButton(cartItemQty: Int?) {
+    cartItemQty?.let {
+        isEnabled = cartItemQty > 1
     }
 }

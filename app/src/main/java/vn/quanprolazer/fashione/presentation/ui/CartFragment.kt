@@ -116,7 +116,6 @@ class CartFragment : Fragment() {
 
         checkoutSharedViewModel.orderData.observe(viewLifecycleOwner, {
             it?.let {
-                Timber.i(it.items.isEmpty().toString())
                 if (it.items.isEmpty()) {
                     updateBottomCheckoutVisibility(false)
                 } else {

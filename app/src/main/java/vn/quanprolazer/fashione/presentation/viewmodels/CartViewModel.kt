@@ -33,7 +33,11 @@ class CartViewModel @Inject constructor(
 
     val cartItems: LiveData<Resource<MutableList<CartItem>>> get() = _cartItems
 
+    /**
+     * @param [value] fixed quantity
+     */
     fun onQuantityControlClick(cartItem: CartItem, value: Int) {
+        if (value <= 0) return
         viewModelScope.launch {
             cartRepository.updateCartItem(cartItem.id, value)
         }

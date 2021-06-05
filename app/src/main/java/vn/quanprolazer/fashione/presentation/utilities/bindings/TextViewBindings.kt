@@ -202,7 +202,6 @@ fun TextView.setProductVariantQty(qty: Number?) {
     }
 }
 
-
 @BindingAdapter("timestamp")
 fun TextView.timestamp(timestamp: Timestamp?) {
     timestamp?.let {

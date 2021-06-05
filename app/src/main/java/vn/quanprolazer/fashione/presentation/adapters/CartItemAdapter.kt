@@ -64,10 +64,6 @@ abstract class CartItemListener() {
     abstract fun checkBoxClick(cartItem: CartItem)
 }
 
-//= quantityControlClickListener(
-//cartItem, value
-//)
-
 object CartItemDiffCallback : DiffUtil.ItemCallback<CartItem>() {
     override fun areItemsTheSame(oldItem: CartItem, newItem: CartItem): Boolean {
         return oldItem.id == newItem.id
