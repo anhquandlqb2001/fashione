@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vn.quanprolazer.fashione.R
@@ -102,9 +103,14 @@ class AddPickupAddressFragment : Fragment() {
                         binding.btnSave.isEnabled = false
                     }
                     is Resource.Error -> {
-                        binding.btnSave.isEnabled = false
-                        loadingDialog.hideDialog()
+                        binding.btnSave.isEnabled = true
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.text_add_pickup_address_error),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                         Timber.e(it.exception)
+                        loadingDialog.hideDialog()
                     }
                 }
             }

@@ -35,7 +35,7 @@ class PickupAddressSpinnerAdapter(
     }
 
     fun refreshList(freshData: Array<BaseAddressPickupImpl>) {
-        data = freshData
+        data += freshData
         notifyDataSetChanged()
     }
 

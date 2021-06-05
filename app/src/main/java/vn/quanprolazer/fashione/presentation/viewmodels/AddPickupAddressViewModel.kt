@@ -33,17 +33,30 @@ class AddPickupAddressViewModel @Inject constructor(
         addRule("Số điện thoại là bắt buộc") { it.isNullOrBlank() }
         addRule("Số điện thoại không hợp lệ") { it?.length!! <= 8 }
     }
-    private val _provinceOrCity = MutableLiveData<String>()
+
+    private val _provinceOrCity = MutableLiveData<String>(null)
+    private val provinceOrCityValidator = LiveDataValidator(_provinceOrCity).apply {
+        addRule("") { it.isNullOrBlank() }
+    }
+
     fun updateProvinceOrCityFormField(string: String) {
         _provinceOrCity.value = string
     }
 
-    private val _districtOrTown = MutableLiveData<String>()
+    private val _districtOrTown = MutableLiveData<String>(null)
+    private val districtOrTownValidator = LiveDataValidator(_districtOrTown).apply {
+        addRule("") { it.isNullOrBlank() }
+    }
+
     fun updateDistrictOrTownFormField(string: String) {
         _districtOrTown.value = string
     }
 
-    private val _subdistrictOrVillage = MutableLiveData<String>()
+    private val _subdistrictOrVillage = MutableLiveData<String>(null)
+    private val subdistrictOrVillageValidator = LiveDataValidator(_districtOrTown).apply {
+        addRule("") { it.isNullOrBlank() }
+    }
+
     fun updateSubdistrictOrVillageFormField(string: String) {
         _subdistrictOrVillage.value = string
     }
@@ -64,11 +77,21 @@ class AddPickupAddressViewModel @Inject constructor(
         isPickupAddressFormValidMediator.addSource(receiverName) { validateForm() }
         isPickupAddressFormValidMediator.addSource(phoneNumber) { validateForm() }
         isPickupAddressFormValidMediator.addSource(address) { validateForm() }
+        isPickupAddressFormValidMediator.addSource(_provinceOrCity) { validateForm() }
+        isPickupAddressFormValidMediator.addSource(_subdistrictOrVillage) { validateForm() }
+        isPickupAddressFormValidMediator.addSource(_districtOrTown) { validateForm() }
     }
 
     //This is called whenever the form fields changes
     private fun validateForm() {
-        val validators = listOf(receiverNameValidator, phoneNumberValidator, addressValidator)
+        val validators = listOf(
+            receiverNameValidator,
+            phoneNumberValidator,
+            addressValidator,
+            provinceOrCityValidator,
+            districtOrTownValidator,
+            subdistrictOrVillageValidator
+        )
         val validatorResolver = LiveDataValidatorResolver(validators)
         isPickupAddressFormValidMediator.value = validatorResolver.isValid()
     }
