@@ -16,16 +16,15 @@
 
     </data>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
             <androidx.recyclerview.widget.RecyclerView
+                android:layout_above="@id/btn_add"
+                android:layout_below="@id/btn_add"
+                android:layout_alignParentTop="true"
                 android:id="@+id/rv_pickup_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -33,12 +32,13 @@
                 tools:listitem="@layout/list_item_pickup_address" />
 
             <Button
+                android:id="@+id/btn_add"
+                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="16dp"
                 android:onClick="@{() -> viewModel.onNavigateToAddPickupAddress()}"
-                android:text="Thêm địa chỉ mới" />
-        </LinearLayout>
-    </ScrollView>
+                android:text="@string/text_add_new_pickup_address" />
+        </RelativeLayout>
 </layout>

@@ -68,18 +68,10 @@
                 android:layout_marginStart="8dp"
                 android:maxEms="10"
                 android:singleLine="false"
-                android:text="73 nguyen tao, hoa hai, ngu hanh son"
+                tools:text="73 nguyen tao, hoa hai, ngu hanh son"
                 android:textSize="14sp"
                 app:layout_constraintStart_toEndOf="@+id/textView7"
                 app:layout_constraintTop_toTopOf="@+id/textView7" />
-
-            <View
-                android:id="@+id/divider4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:background="?android:attr/listDivider"
-                app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

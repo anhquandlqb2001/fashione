@@ -15,6 +15,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.get
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.RecyclerView
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
 import vn.quanprolazer.fashione.R
@@ -23,6 +25,7 @@ import vn.quanprolazer.fashione.domain.models.PickupAddress
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.OnPickupAddressListener
 import vn.quanprolazer.fashione.presentation.adapters.PickupAddressAdapter
+import vn.quanprolazer.fashione.presentation.utilities.SpacesItemDecoration
 import vn.quanprolazer.fashione.presentation.viewmodels.AddPickupAddressSharedViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutSharedViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.PickupAddressViewModel
@@ -70,7 +73,11 @@ class PickupAddressFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.rvPickupAddress.adapter = pickupAddressAdapter
+        binding.rvPickupAddress.apply {
+            adapter = pickupAddressAdapter
+            addItemDecoration(DividerItemDecoration(context, RecyclerView.VERTICAL))
+            addItemDecoration(SpacesItemDecoration(20))
+        }
 
         viewModel.fetchPickupAddresses()
 

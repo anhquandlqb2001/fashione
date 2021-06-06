@@ -68,4 +68,5 @@
     <string name="text_total_price_checkout_item">Tổng tiền:</string>
     <string name="text_require_pickup_address">Vui lòng chọn địa chỉ nhận hàng</string>
     <string name="text_add_pickup_address_error">Vui lòng thử lại</string>
+    <string name="text_add_new_pickup_address">Thêm địa chỉ mới</string>
 </resources>
