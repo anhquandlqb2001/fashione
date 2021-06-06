@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 import vn.quanprolazer.fashione.databinding.FragmentPersonalBinding
 import vn.quanprolazer.fashione.domain.models.OrderItemStatusType
 import vn.quanprolazer.fashione.domain.models.Resource
@@ -45,26 +46,22 @@ class PersonalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        viewModel.navigateToPurchaseMenu.observe(viewLifecycleOwner, {
+        observeNavigateToPurchaseDefault()
+
+        observeNavigateToPurchaseSpecifyTab()
+
+        observeDeliveryStatus()
+
+        viewModel.navigateToPickupAddress.observe(viewLifecycleOwner, {
             it?.let {
                 this.findNavController()
-                    .navigate(PersonalFragmentDirections.actionPersonalFragmentToPurchaseMenuFragment())
-                viewModel.doneNavigateToPurchaseMenu()
+                    .navigate(PersonalFragmentDirections.actionPersonalFragmentToPickupAddressFragment())
+                viewModel.doneNavigateToPickupAddress()
             }
         })
+    }
 
-        viewModel.navigateToPurchaseMenuByDeliveryUI.observe(viewLifecycleOwner, {
-            it?.let {
-                this.findNavController()
-                    .navigate(
-                        PersonalFragmentDirections.actionPersonalFragmentToPurchaseMenuFragment(
-                            it
-                        )
-                    )
-                viewModel.doneNavigateToPurchaseMenuByDeliveryUI()
-            }
-        })
-
+    private fun observeDeliveryStatus() {
         viewModel.deliveryStatus.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
@@ -91,13 +88,43 @@ class PersonalFragment : Fragment() {
                                         it.data.find { deliveryStatus -> deliveryStatus.status == OrderItemStatusType.DELIVERED }
                                     binding.ibvDelivered.badgeValue = expect?.quantity ?: 0
                                 }
+                                else -> {
+                                }
                             }
                         }
+                    }
+                    is Resource.Error -> {
+                        Timber.e(it.exception)
+                    }
+                    Resource.Loading -> {
                     }
                 }
             }
         })
+    }
 
+    private fun observeNavigateToPurchaseSpecifyTab() {
+        viewModel.navigateToPurchaseMenuByDeliveryUI.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController()
+                    .navigate(
+                        PersonalFragmentDirections.actionPersonalFragmentToPurchaseMenuFragment(
+                            it
+                        )
+                    )
+                viewModel.doneNavigateToPurchaseMenuByDeliveryUI()
+            }
+        })
+    }
+
+    private fun observeNavigateToPurchaseDefault() {
+        viewModel.navigateToPurchaseMenu.observe(viewLifecycleOwner, {
+            it?.let {
+                this.findNavController()
+                    .navigate(PersonalFragmentDirections.actionPersonalFragmentToPurchaseMenuFragment())
+                viewModel.doneNavigateToPurchaseMenu()
+            }
+        })
     }
 
     override fun onDestroy() {

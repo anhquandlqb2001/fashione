@@ -61,4 +61,15 @@ class PersonalViewModel @Inject constructor(
     }
 
     val deliveryStatus: LiveData<Resource<List<DeliveryStatus>>> get() = _deliveryStatus
+
+    private val _navigateToPickupAddress: MutableLiveData<Boolean> by lazy { MutableLiveData() }
+    val navigateToPickupAddress: LiveData<Boolean> get() = _navigateToPickupAddress
+
+    fun onNavigateToPickupAddress() {
+        _navigateToPickupAddress.value = true
+    }
+
+    fun doneNavigateToPickupAddress() {
+        _navigateToPickupAddress.value = null
+    }
 }
