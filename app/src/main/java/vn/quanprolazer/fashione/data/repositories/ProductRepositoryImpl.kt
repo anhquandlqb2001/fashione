@@ -21,6 +21,7 @@ import vn.quanprolazer.fashione.data.network.services.firestores.ProductService
 import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
 import vn.quanprolazer.fashione.domain.repositories.ProductRepository
+import java.util.*
 import java.util.concurrent.TimeUnit
 import kotlin.math.round
 
@@ -98,7 +99,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
     }
 
     private suspend fun refreshMostViewProductIds() {
-        val idExists = productMostViewIdDao.hasId(FRESH_TIMEOUT)
+        val idExists = productMostViewIdDao.hasId(System.currentTimeMillis().minus(FRESH_TIMEOUT))
         if (idExists == 0) {
             withContext(dispatcher) {
                 val recentProductIds = productRetrofitService.getHighViewProductIds().ids

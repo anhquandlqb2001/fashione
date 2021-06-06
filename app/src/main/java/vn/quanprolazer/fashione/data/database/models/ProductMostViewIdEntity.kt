@@ -17,5 +17,5 @@ data class ProductMostViewIdEntity(
     val id: Long,
     val ids: List<String>,
     @SerialName(value = "last_update")
-    var lastUpdate: Date = Date(System.currentTimeMillis())
+    var lastUpdate: Long = System.currentTimeMillis()
 )
