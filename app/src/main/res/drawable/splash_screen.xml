@@ -5,12 +5,12 @@
   -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item>
         <color android:color="@color/white" />
     </item>
-    <item android:gravity="center">
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/splash_screen_anim" />
-    </item>
+    <item
+        android:gravity="center"
+        android:drawable="@drawable/ic_fashione_brand" android:width="83dp"
+        android:height="76dp" />
 </layer-list>
