@@ -28,6 +28,7 @@ import vn.quanprolazer.fashione.domain.models.BaseAddressPickupImpl
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.PickupAddressSpinnerAdapter
 import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
+import vn.quanprolazer.fashione.presentation.viewmodels.AddPickupAddressSharedViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.AddPickupAddressViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutSharedViewModel
 
@@ -42,6 +43,8 @@ class AddPickupAddressFragment : Fragment() {
     private val viewModel: AddPickupAddressViewModel by viewModels()
 
     private val checkoutSharedViewModel: CheckoutSharedViewModel by activityViewModels()
+
+    private val addPickupAddressSharedViewModel: AddPickupAddressSharedViewModel by activityViewModels()
 
     private val provinceOrCityAdapter: PickupAddressSpinnerAdapter by lazy {
         PickupAddressSpinnerAdapter(
@@ -88,6 +91,11 @@ class AddPickupAddressFragment : Fragment() {
         setupDistrictOrTownSpinner()
         setupSubdistrictOrTownSpinner()
 
+//        Timber.i(
+//            this.findNavController().previousBackStackEntry?.destination?.id.toString()
+//        )
+//        Timber.i(this.findNavController().graph[R.id.pickupAddressFragment].id.toString())
+
         viewModel.onSavePickupAddress.observe(viewLifecycleOwner, {
             it?.let {
                 when (it) {
@@ -95,7 +103,8 @@ class AddPickupAddressFragment : Fragment() {
                         checkoutSharedViewModel.updateAddressPickup(it.data)
                         Handler(Looper.getMainLooper()).postDelayed({
                             loadingDialog.hideDialog()
-                            this.findNavController().popBackStack(R.id.checkoutFragment, false)
+                            this.findNavController()
+                                .popBackStack(addPickupAddressSharedViewModel.destination, false)
                         }, 800)
                     }
                     is Resource.Loading -> {

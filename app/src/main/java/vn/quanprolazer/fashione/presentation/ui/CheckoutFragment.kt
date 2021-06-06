@@ -16,13 +16,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.get
 import androidx.recyclerview.widget.DividerItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
+import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentCheckoutBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.CheckoutItemAdapter
 import vn.quanprolazer.fashione.presentation.utilities.LoadingDialog
 import vn.quanprolazer.fashione.presentation.utilities.SpacesItemDecoration
+import vn.quanprolazer.fashione.presentation.viewmodels.AddPickupAddressSharedViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutSharedViewModel
 import vn.quanprolazer.fashione.presentation.viewmodels.CheckoutViewModel
 import javax.inject.Inject
@@ -43,6 +46,8 @@ class CheckoutFragment : Fragment() {
             CheckoutFragmentArgs.fromBundle(requireArguments()).checkoutItems.toList()
         )
     }
+
+    private val addPickupAddressSharedViewModel: AddPickupAddressSharedViewModel by activityViewModels()
 
     private val checkoutSharedViewModel: CheckoutSharedViewModel by activityViewModels()
 
@@ -178,6 +183,7 @@ class CheckoutFragment : Fragment() {
             it?.let {
                 this.findNavController()
                     .navigate(CheckoutFragmentDirections.actionCheckoutFragmentToPickupAddressFragment())
+                addPickupAddressSharedViewModel.setDestinationToNavigate(this.findNavController().graph[R.id.checkoutFragment].id)
                 checkoutViewModel.doneNavigate()
             }
         })

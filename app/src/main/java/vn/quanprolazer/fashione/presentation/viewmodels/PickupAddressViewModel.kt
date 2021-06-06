@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import vn.quanprolazer.fashione.domain.models.PickupAddress
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.domain.repositories.UserRepository
@@ -36,11 +37,14 @@ class PickupAddressViewModel @Inject constructor(private val userRepository: Use
     }
 
     private val _pickupAddresses: MutableLiveData<Resource<List<PickupAddress>>> by lazy {
-        val liveData = MutableLiveData<Resource<List<PickupAddress>>>()
+        MutableLiveData()
+    }
+
+    fun fetchPickupAddresses() {
+        _pickupAddresses.value = Resource.Loading
         viewModelScope.launch {
-            liveData.value = userRepository.getPickupAddresses()
+            _pickupAddresses.value = userRepository.getPickupAddresses()
         }
-        return@lazy liveData
     }
 
     val pickupAddresses: LiveData<Resource<List<PickupAddress>>> get() = _pickupAddresses
@@ -54,6 +58,10 @@ class PickupAddressViewModel @Inject constructor(private val userRepository: Use
 
     fun doneNavigateBackToCheckout() {
         _navigateBackToCheckout.value = null
+    }
+
+    fun resetLiveData() {
+        _pickupAddresses.value = null
     }
 
 }
