@@ -15,8 +15,8 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import vn.quanprolazer.fashione.data.network.models.NetworkCartItem
-import vn.quanprolazer.fashione.data.network.toHashMap
 import vn.quanprolazer.fashione.domain.models.AddToCartItem
+import vn.quanprolazer.fashione.helpers.toHashMap
 
 class CartServiceImpl : CartService {
     @ExperimentalCoroutinesApi

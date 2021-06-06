@@ -12,7 +12,7 @@ import kotlinx.coroutines.tasks.await
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.NetworkReviewFirestore
 import vn.quanprolazer.fashione.data.network.models.NetworkReviewStatus
-import vn.quanprolazer.fashione.data.network.toHashMap
+import vn.quanprolazer.fashione.helpers.toHashMap
 
 class ReviewServiceImpl : ReviewService {
 

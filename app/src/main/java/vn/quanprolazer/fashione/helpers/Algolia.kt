@@ -4,7 +4,7 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.data.network
+package vn.quanprolazer.fashione.helpers
 
 import com.algolia.search.saas.Client
 import com.algolia.search.saas.Index

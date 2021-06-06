@@ -10,7 +10,7 @@ import com.algolia.search.saas.Query
 import kotlinx.coroutines.Job
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import vn.quanprolazer.fashione.data.network.Algolia
+import vn.quanprolazer.fashione.helpers.Algolia
 import vn.quanprolazer.fashione.data.network.models.NetworkAlgoliaProduct
 
 object SearchServiceImpl : SearchService {

@@ -9,8 +9,8 @@ package vn.quanprolazer.fashione.data.network.services.firestores
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import vn.quanprolazer.fashione.data.network.models.NetworkPickupAddress
-import vn.quanprolazer.fashione.data.network.toHashMap
 import vn.quanprolazer.fashione.domain.models.NewPickupAddress
+import vn.quanprolazer.fashione.helpers.toHashMap
 
 class UserServiceImpl : UserService {
     override suspend fun addPickupAddress(pickupAddress: NewPickupAddress): String {
