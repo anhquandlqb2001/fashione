@@ -11,8 +11,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
-import vn.quanprolazer.fashione.data.network.services.SearchService
-import vn.quanprolazer.fashione.data.network.services.SearchServiceImpl
+import vn.quanprolazer.fashione.data.network.services.searchs.SearchService
+import vn.quanprolazer.fashione.data.network.services.searchs.SearchServiceImpl
 import vn.quanprolazer.fashione.data.network.services.firestores.*
 import vn.quanprolazer.fashione.data.network.services.retrofits.PickupAddressService
 import javax.inject.Named

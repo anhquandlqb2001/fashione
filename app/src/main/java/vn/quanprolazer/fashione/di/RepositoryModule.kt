@@ -12,7 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import vn.quanprolazer.fashione.data.database.dao.NotificationOverviewDao
 import vn.quanprolazer.fashione.data.database.dao.ProductMostViewIdDao
-import vn.quanprolazer.fashione.data.network.services.SearchService
+import vn.quanprolazer.fashione.data.network.services.searchs.SearchService
 import vn.quanprolazer.fashione.data.network.services.firestores.*
 import vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService
 import vn.quanprolazer.fashione.data.network.services.retrofits.PickupAddressService

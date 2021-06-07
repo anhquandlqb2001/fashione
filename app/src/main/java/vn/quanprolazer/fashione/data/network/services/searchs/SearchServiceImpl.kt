@@ -4,14 +4,14 @@
  * An android shopping app writing in Kotlin
  */
 
-package vn.quanprolazer.fashione.data.network.services
+package vn.quanprolazer.fashione.data.network.services.searchs
 
 import com.algolia.search.saas.Query
 import kotlinx.coroutines.Job
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import vn.quanprolazer.fashione.helpers.Algolia
 import vn.quanprolazer.fashione.data.network.models.NetworkAlgoliaProduct
+import vn.quanprolazer.fashione.helpers.Algolia
 
 object SearchServiceImpl : SearchService {
 
@@ -19,8 +19,12 @@ object SearchServiceImpl : SearchService {
 
     override val coroutineContext = Job()
 
-    override suspend fun findProductsByQuery(query: String): List<NetworkAlgoliaProduct> {
-        val response = index.search(Query(query), null)
+    override suspend fun findProductsByQuery(
+        query: String,
+        page: Int,
+        perPage: Int
+    ): List<NetworkAlgoliaProduct> {
+        val response = index.search(Query(query).setPage(page).setHitsPerPage(perPage), null)
         return Json { ignoreUnknownKeys = true }.decodeFromString(
             response!!.get("hits").toString()
         )

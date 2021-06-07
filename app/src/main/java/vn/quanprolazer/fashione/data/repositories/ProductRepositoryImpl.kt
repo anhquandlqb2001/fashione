@@ -16,7 +16,7 @@ import vn.quanprolazer.fashione.data.database.dao.ProductMostViewIdDao
 import vn.quanprolazer.fashione.data.database.models.ProductMostViewIdEntity
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
-import vn.quanprolazer.fashione.data.network.services.SearchService
+import vn.quanprolazer.fashione.data.network.services.searchs.SearchService
 import vn.quanprolazer.fashione.data.network.services.firestores.ProductService
 import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
