@@ -12,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import vn.quanprolazer.fashione.data.database.dao.NotificationOverviewDao
 import vn.quanprolazer.fashione.data.database.dao.ProductMostViewIdDao
+import vn.quanprolazer.fashione.data.network.services.SearchService
 import vn.quanprolazer.fashione.data.network.services.firestores.*
 import vn.quanprolazer.fashione.data.network.services.retrofits.NotificationService
 import vn.quanprolazer.fashione.data.network.services.retrofits.PickupAddressService
@@ -35,13 +36,15 @@ class RepositoryModule {
         productService: ProductService,
         reviewServiceFirestore: vn.quanprolazer.fashione.data.network.services.firestores.ReviewService,
         productRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.ProductService,
-        productMostViewIdDao: ProductMostViewIdDao
+        productMostViewIdDao: ProductMostViewIdDao,
+        searchService: SearchService
     ): ProductRepository =
         ProductRepositoryImpl(
             productService,
             reviewServiceFirestore,
             productRetrofitService,
-            productMostViewIdDao
+            productMostViewIdDao,
+            searchService
         )
 
     @Singleton

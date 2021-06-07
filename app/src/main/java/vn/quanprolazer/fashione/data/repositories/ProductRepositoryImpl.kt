@@ -16,7 +16,7 @@ import vn.quanprolazer.fashione.data.database.dao.ProductMostViewIdDao
 import vn.quanprolazer.fashione.data.database.models.ProductMostViewIdEntity
 import vn.quanprolazer.fashione.data.network.models.NetworkRating
 import vn.quanprolazer.fashione.data.network.models.toDomainModel
-import vn.quanprolazer.fashione.data.network.services.SearchServiceImpl
+import vn.quanprolazer.fashione.data.network.services.SearchService
 import vn.quanprolazer.fashione.data.network.services.firestores.ProductService
 import vn.quanprolazer.fashione.data.network.services.firestores.ReviewService
 import vn.quanprolazer.fashione.domain.models.*
@@ -30,6 +30,7 @@ class ProductRepositoryImpl @AssistedInject constructor(
     private val reviewService: ReviewService,
     private val productRetrofitService: vn.quanprolazer.fashione.data.network.services.retrofits.ProductService,
     private val productMostViewIdDao: ProductMostViewIdDao,
+    private val searchService: SearchService,
     @Assisted private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : ProductRepository {
 
@@ -120,9 +121,11 @@ class ProductRepositoryImpl @AssistedInject constructor(
 
     override suspend fun findProductsByQuery(query: String) = try {
         val response = withContext(dispatcher) {
-            SearchServiceImpl.findProductsByQuery(query)
+            searchService.findProductsByQuery(query)
         }
-        Resource.Success(response.map { it.toDomainModel() })
+        val productIds = response.map { it.id }
+        val networkProducts = productService.getProducts(productIds)
+        Resource.Success(networkProducts.map { it.toDomainModel() })
     } catch (e: Exception) {
         Timber.e(e)
         Resource.Error(e)
