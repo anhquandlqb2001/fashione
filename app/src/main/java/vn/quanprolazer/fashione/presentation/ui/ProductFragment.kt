@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import timber.log.Timber
+import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.databinding.FragmentProductDetailBinding
 import vn.quanprolazer.fashione.domain.models.Resource
 import vn.quanprolazer.fashione.presentation.adapters.ProductImageAdapter
@@ -106,10 +107,14 @@ class ProductFragment : Fragment() {
                 when (it) {
                     is Resource.Success -> {
                         binding.ratingBar2.rating = it.data.averageRate
-                        binding.tvCountRate.text =
-                            "${it.data.averageRate}/5 (${it.data.countRate} đánh giá)"
+                        binding.tvCountRate.text = getString(
+                            R.string.text_review_rate,
+                            it.data.averageRate.toString(),
+                            it.data.countRate.toString()
+                        )
 
-                        binding.tvReviewCount.text = "${it.data.countRate} đánh giá"
+                        binding.tvReviewCount.text =
+                            getString(R.string.text_review_count, it.data.countRate.toString())
                         binding.tvRateNum.text = it.data.averageRate.toString()
                     }
                     is Resource.Loading -> {

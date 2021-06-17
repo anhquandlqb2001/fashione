@@ -96,4 +96,6 @@
     <string name="text_frag_add_address_pickup">Add pickup address</string>
     <string name="text_notification">Notifications</string>
     <string name="text_video_playing">Video playing</string>
+    <string name="text_review_count">%s review(s)</string>
+    <string name="text_review_rate">%s/5.0 (%s reviews)</string>
 </resources>

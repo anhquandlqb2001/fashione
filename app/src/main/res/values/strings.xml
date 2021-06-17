@@ -112,4 +112,6 @@
     <string name="text_frag_add_address_pickup">Thêm địa chỉ nhận hàng</string>
     <string name="text_notification">Thông báo</string>
     <string name="text_video_playing">Đang phát video</string>
+    <string name="text_review_count">%s đánh giá</string>
+    <string name="text_review_rate">%s/5.0 (%s đánh giá)</string>
 </resources>
