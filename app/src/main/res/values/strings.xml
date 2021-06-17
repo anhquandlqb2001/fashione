@@ -9,13 +9,13 @@
     <string name="menu_item_home_text">Trang chủ</string>
     <string name="menu_item_profile_text">Cá nhân</string>
     <string name="menu_item_cart_text">Giỏ hàng</string>
-    <string name="content_description_notification_icon">Notification icon</string>
+    <string name="content_description_notification_icon" translatable="false">Notification icon</string>
     <string name="search_product_text">Tìm kiếm sản phẩm</string>
     <string name="header_category_text">Danh mục</string>
     <string name="header_featured_text">Đặc sắc</string>
     <string name="tv_see_all">Xem tất cả</string>
     <string name="header_best_sell_text">Bán chạy nhất</string>
-    <string name="header_suggest_product_text">Gợi ý hôm nay</string>
+    <string name="header_suggest_product_text" translatable="false">Gợi ý hôm nay</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="text_choose_color">Chọn màu</string>
     <string name="text_choose_size">Chọn kích cỡ</string>
@@ -58,13 +58,13 @@
     <string name="text_purchase">Đơn mua</string>
     <string name="text_purchase_history">Xem lịch sử mua hàng</string>
     <string name="text_re_order">Mua lại</string>
-    <string name="app_notification_channel_id">app_channel</string>
-    <string name="notification_title">Fashione</string>
+    <string name="app_notification_channel_id" translatable="false">app_channel</string>
+    <string name="notification_title" translatable="false">Fashione</string>
     <string name="text_notification_type_order_status">Cập nhật đơn hàng</string>
     <string name="text_new_prod">Hàng mới nhập</string>
     <string name="text_most_view_in_month">Xem nhiều trong tháng</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="text_total_price_checkout_item">Tổng tiền:</string>
     <string name="text_require_pickup_address">Vui lòng chọn địa chỉ nhận hàng</string>
     <string name="text_add_pickup_address_error">Vui lòng thử lại</string>
@@ -97,11 +97,11 @@
     <string name="text_admin">admin</string>
     <string name="text_add_review_now">Đánh giá sản phẩm ngay</string>
 
-    <string name="text_quantity">x%s</string>
-    <string name="text_address_pickup_contact">%s - %s</string>
-    <string name="text_address_pickup">%s, %s, %s, %s</string>
-    <string name="text_overview_rate">%s/5</string>
-    <string name="text_review_date">%s | %s - %s</string>
-    <string name="text_order_type">Loại: %s - %s</string>
-    <string name="text_variant_quantity">%s sản phẩm</string>
+    <string name="text_quantity" translatable="false">x%s</string>
+    <string name="text_address_pickup_contact" translatable="false">%s - %s</string>
+    <string name="text_address_pickup" translatable="false">%s, %s, %s, %s</string>
+    <string name="text_overview_rate" translatable="false">%s/5</string>
+    <string name="text_review_date" translatable="false">%s | %s - %s</string>
+    <string name="text_order_type" translatable="false">Loại: %s - %s</string>
+    <string name="text_variant_quantity" translatable="false">%s sản phẩm</string>
 </resources>

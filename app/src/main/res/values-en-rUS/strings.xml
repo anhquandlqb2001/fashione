@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Author: quanprolazer
+  ~ Project: Fashione
+  ~ An android shopping app writing in Kotlin
+  -->
+
+<resources>
+    <string name="app_name">Fashione</string>
+    <string name="menu_item_home_text" translatable="false">Home</string>
+    <string name="menu_item_profile_text">Personal</string>
+    <string name="menu_item_cart_text">Cart</string>
+    <string name="search_product_text">Search</string>
+    <string name="header_category_text">Category</string>
+    <string name="header_featured_text">Featured</string>
+    <string name="tv_see_all">See all</string>
+    <string name="header_best_sell_text">Best sell</string>
+    <string name="text_choose_color">Choose color</string>
+    <string name="text_choose_size">Choose size</string>
+    <string name="text_add_to_cart">ADD TO CART</string>
+    <string name="login">Login</string>
+    <string name="sign_out_text">Logout</string>
+    <string name="text_buy_now">Buy now</string>
+    <string name="menu_item_personal_sub_title">Personal</string>
+    <string name="text_blank_cart">Empty</string>
+    <string name="delete_success_text">Item deleted</string>
+    <string name="snack_bar_undo_text">Undo</string>
+    <string name="pay_text">Purchase</string>
+    <string name="total_price_text">Total: %s</string>
+    <string name="address_text">Address pickup</string>
+    <string name="txt_address">Address</string>
+    <string name="txt_receiver_name">Name</string>
+    <string name="txt_phone_number">Phone number</string>
+    <string name="txt_receiver_name_input">Add name</string>
+    <string name="txt_phone_number_input">Add phone number</string>
+    <string name="txt_address_input">Add address</string>
+    <string name="txt_personal_type">Personal</string>
+    <string name="txt_organization_type">Organ</string>
+    <string name="btn_save">Save</string>
+    <string name="txt_pickup_tye">Choose address type:</string>
+    <string name="txt_subdistrict_or_village">Subdistrict/Village</string>
+    <string name="txt_district_or_town">District/Town</string>
+    <string name="txt_province_or_city">Province/City</string>
+    <string name="text_update_address_pickup">Edit</string>
+    <string name="text_no_default">Choose pickup address</string>
+    <string name="text_confirm">Order</string>
+    <string name="text_total_price">Total</string>
+    <string name="text_total_text">Total</string>
+    <string name="text_ship_price">Ship price</string>
+    <string name="texT_product_price_text">Totoal product price</string>
+    <string name="text_payment_choose">Payment type</string>
+    <string name="text_cod">COD</string>
+    <string name="text_back_to_home">Back to home</string>
+    <string name="text_order_success">Order succeeded</string>
+    <string name="text_purchase">Purchase</string>
+    <string name="text_purchase_history">Purchase history</string>
+    <string name="text_re_order">Rebuy</string>
+    <string name="text_notification_type_order_status">Order status</string>
+    <string name="text_new_prod">Recently</string>
+    <string name="text_most_view_in_month">Most viewed montly</string>
+    <string name="text_total_price_checkout_item">Total price:</string>
+    <string name="text_require_pickup_address">Please choose pickup address</string>
+    <string name="text_add_pickup_address_error">Please try again</string>
+    <string name="text_add_new_pickup_address">Add new address</string>
+    <string name="text_decrement">-</string>
+    <string name="text_increment">+</string>
+    <string name="text_not_login">Not login yet</string>
+    <string name="text_empty_notification">Empty notification</string>
+    <string name="text_empty">" "</string>
+    <string name="text_enter_message">Enter message</string>
+    <string name="text_send_message">Send</string>
+    <string name="text_confirming">Confirming</string>
+    <string name="text_collecting">Collecting</string>
+    <string name="text_delivering">Delivering</string>
+    <string name="text_add_review">Add review</string>
+    <string name="text_pickup_address">Pickup address</string>
+    <string name="text_description">Description</string>
+    <string name="text_reviews">Reviews</string>
+    <string name="text_see_all">See all</string>
+    <string name="text_not_review_yet">Empty review</string>
+    <string name="text_end_review">Nothing more</string>
+    <string name="text_not_live_videos">No live videos now</string>
+    <string name="text_review">Review</string>
+    <string name="text_review_title">Review title</string>
+    <string name="text_add_review_title">Add review title</string>
+    <string name="text_review_body">Review content</string>
+    <string name="text_add_review_body">Add review content</string>
+    <string name="text_add_review_confirm">Confirm</string>
+    <string name="text_empty_cart_invite">Thank you</string>
+    <string name="text_admin">admin</string>
+    <string name="text_add_review_now">Add review now</string>
+</resources>
