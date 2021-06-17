@@ -17,13 +17,13 @@ This project for learning to build an android app with kotlin \
 
 # Result
 Home
-![Home](screenshots/home.jpg)
+![Home](screenshots/home_us.png)
 Product
-![Product](screenshots/product.jpg)
+![Product](screenshots/product_us.png)
 Cart
 ![Cart](screenshots/cart.jpg)
 Order
-![Order](screenshots/order.jpg)
+![Order](screenshots/purchase.png)
 Live video
 ![Live video](screenshots/livevideo.jpg)
 
