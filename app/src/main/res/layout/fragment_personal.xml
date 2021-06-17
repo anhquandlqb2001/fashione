@@ -153,8 +153,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Đang xác nhận"
-                            android:textSize="10sp" />
+                            android:text="@string/text_confirming"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -183,8 +183,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Chờ lấy hàng"
-                            android:textSize="10sp" />
+                            android:text="@string/text_collecting"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -213,8 +213,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Đang giao"
-                            android:textSize="10sp" />
+                            android:text="@string/text_delivering"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -244,8 +244,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="Đánh giá"
-                            android:textSize="10sp" />
+                            android:text="@string/text_add_review"
+                            android:textSize="12sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -277,7 +277,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_toEndOf="@id/iv_place"
-                        android:text="Địa chỉ nhận hàng" />
+                        android:text="@string/text_pickup_address" />
 
                     <ImageView
                         android:layout_width="wrap_content"

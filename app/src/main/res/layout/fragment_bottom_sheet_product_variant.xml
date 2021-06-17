@@ -40,7 +40,7 @@
                 android:layout_weight="2"
                 android:text="@string/text_choose_color"
                 android:textColor="#444"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.chip.ChipGroup
@@ -65,7 +65,7 @@
                 android:layout_weight="2"
                 android:text="@string/text_choose_size"
                 android:textColor="#444"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
 
@@ -92,7 +92,7 @@
                 <Button
                     style="@style/QuantityPickerButtonStyle"
                     android:onClick="@{() -> viewModel.onDecreaseQty()}"
-                    android:text="-" />
+                    android:text="@string/text_decrement" />
 
                 <TextView
                     android:id="@+id/tv_qty"
@@ -108,7 +108,7 @@
                 <Button
                     style="@style/QuantityPickerButtonStyle"
                     android:onClick="@{() -> viewModel.onIncreaseQty()}"
-                    android:text="+" />
+                    android:text="@string/text_increment" />
 
             </LinearLayout>
 

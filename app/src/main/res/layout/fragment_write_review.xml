@@ -70,7 +70,7 @@
                     android:id="@+id/tv_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đánh giá sản phẩm"
+                    android:text="@string/text_review"
                     android:textColor="@color/teal_700"
                     android:textSize="20sp" />
 
@@ -98,7 +98,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Tiêu đề đánh giá"
+                    android:text="@string/text_review_title"
                     android:textColor="@color/teal_700"
                     android:textSize="20sp" />
 
@@ -106,7 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:hint="Thêm tiêu đề đánh giá ở đây"
+                    android:hint="@string/text_add_review_title"
                     app:error="@{viewModel.reviewTitleValidator.error}"
                     app:errorEnabled="true">
 
@@ -127,7 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:text="Nội dung đánh giá"
+                    android:text="@string/text_review_body"
                     android:textColor="@color/teal_700"
                     android:textSize="20sp" />
 
@@ -135,7 +135,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:hint="Thêm ý kiến của bạn về sản phẩm"
+                    android:hint="@string/text_add_review_body"
                     app:error="@{viewModel.reviewContentValidator.error}"
                     app:errorEnabled="true">
 
@@ -158,7 +158,7 @@
                 android:enabled="@{viewModel.isAddReviewFormValidMediator()}"
                 android:onClick="@{() -> viewModel.onClickAddReview()}"
                 android:paddingHorizontal="25dp"
-                android:text="Xác nhận" />
+                android:text="@string/text_add_review_confirm" />
 
         </LinearLayout>
 

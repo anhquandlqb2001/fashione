@@ -137,7 +137,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Đánh giá sản phẩm ngay" />
+                    android:text="@string/text_add_review_now" />
 
                 <ImageView
                     android:layout_width="wrap_content"

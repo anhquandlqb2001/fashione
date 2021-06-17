@@ -99,7 +99,7 @@
                             android:background="@color/teal_700"
                             android:paddingHorizontal="10sp"
                             android:paddingVertical="5sp"
-                            android:text="5.0" />
+                            tools:text="5.0" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -108,14 +108,14 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/roboto"
                             android:visibility="invisible"
-                            android:text="Very good"
+                            tools:text="Very good"
                             android:textSize="16sp" />
 
                         <TextView
                             android:id="@+id/tv_review_count"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="23 reviews"
+                            tools:text="23 reviews"
                             android:textColor="@color/teal_700" />
 
                     </LinearLayout>
@@ -144,7 +144,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:text="Mô tả"
+                            android:text="@string/text_description"
                             android:textSize="16sp" />
 
                         <TextView
@@ -182,7 +182,7 @@
                                 android:id="@+id/tv_review_title"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="ĐÁNH GIÁ SẢN PHẨM"
+                                android:text="@string/text_reviews"
                                 android:textSize="14sp" />
 
                             <LinearLayout
@@ -221,7 +221,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
-                                    android:text="Xem tất cả"
+                                    android:text="@string/text_see_all"
                                     android:textSize="12sp" />
 
                                 <ImageView
@@ -252,7 +252,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:text="Chưa có nhận xét nào"
+                            android:text="@string/text_not_review_yet"
                             android:textSize="16sp"
                             android:visibility="gone" />
                     </LinearLayout>

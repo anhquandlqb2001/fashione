@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.LiveData
 import vn.quanprolazer.fashione.R
@@ -43,7 +44,7 @@ fun RelativeLayout.purchaseDelivered(status: OrderItemStatusType?) {
 @BindingAdapter("watched")
 fun RelativeLayout.watched(watched: Boolean?) {
     watched?.let {
-        if (watched) foreground = (resources.getDrawable(R.color.notification_watched))
+        if (watched) foreground = (ContextCompat.getDrawable(context, R.color.notification_watched))
         else null
     }
 }

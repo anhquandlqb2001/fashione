@@ -58,7 +58,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_toStartOf="@+id/button_gchat_send"
                 android:background="@android:color/transparent"
-                android:hint="Enter Message"
+                android:hint="@string/text_enter_message"
                 android:inputType="text"
                 android:maxLines="6"
                 app:error="@{viewModel.messageValidator.error}"
@@ -81,7 +81,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:enabled="@{viewModel.isMessageValid()}"
                 android:onClick="@{() -> viewModel.onSendMessage()}"
-                android:text="Send"
+                android:text="@string/text_send_message"
                 android:textColor="@color/colorPrimary" />
 
         </RelativeLayout>

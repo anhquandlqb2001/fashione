@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content"
                     shouldDisplayDecreaseQtyButton="@{cartItem.quantity}"
                     android:onClick="@{() -> clickListener.quantityControlClick(cartItem, cartItem.quantity - 1)}"
-                    android:text="-" />
+                    android:text="@string/text_decrement" />
 
                 <TextView
                     android:id="@+id/tv_qty"
@@ -124,7 +124,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:onClick="@{() -> clickListener.quantityControlClick(cartItem, cartItem.quantity + 1)}"
-                    android:text="+" />
+                    android:text="@string/text_increment" />
 
             </LinearLayout>
 

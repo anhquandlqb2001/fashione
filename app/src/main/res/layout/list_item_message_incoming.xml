@@ -40,7 +40,7 @@
             android:id="@+id/text_gchat_user_other"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="admin"
+            android:text="@string/text_admin"
             android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@id/card_gchat_message_other"
             app:layout_constraintStart_toStartOf="parent" />

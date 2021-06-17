@@ -41,12 +41,12 @@ fun TextView.setTotalPrice(orderQty: Number?, variantPrice: String?) {
 
 @BindingAdapter("setQty")
 fun TextView.setQty(qty: Number) {
-    text = "x${qty}"
+    text = resources.getString(R.string.text_quantity, qty.toString())
 }
 
 @BindingAdapter(value = ["receiver_name", "phone_number"])
 fun TextView.setQty(receiverName: String?, phoneNumber: String?) {
-    text = "$receiverName - $phoneNumber"
+    text = resources.getString(R.string.text_address_pickup_contact, receiverName, phoneNumber)
 }
 
 @BindingAdapter(value = ["address", "subdistrict_or_village", "privince_or_city", "district_or_town"])
@@ -56,7 +56,13 @@ fun TextView.pickupAddress(
     provinceOrCity: String?,
     districtOrTown: String?
 ) {
-    text = "$address, $subdistrictOrVillage, $provinceOrCity, $districtOrTown"
+    text = resources.getString(
+        R.string.text_address_pickup,
+        address,
+        subdistrictOrVillage,
+        provinceOrCity,
+        districtOrTown
+    )
 }
 
 @BindingAdapter(value = ["productPrice", "shipPrice"])
@@ -108,14 +114,19 @@ fun TextView.purchaseItemStatus(status: OrderItemStatusType?) {
 @BindingAdapter("rate")
 fun TextView.rate(rate: Int?) {
     rate?.let {
-        text = "${rate}/5"
+        text = resources.getString(R.string.text_overview_rate, rate.toString())
     }
 }
 
 @BindingAdapter(value = ["createdAt", "variantName", "variantValue"])
 fun TextView.reviewProduct(createdAt: String?, variantName: String?, variantValue: String?) {
     if (createdAt == null || variantName == null || variantValue == null) text = ""
-    text = "${fromTimestamp(Timestamp(Date(createdAt)))} | ${variantName} - ${variantValue}"
+    text = resources.getString(
+        R.string.text_review_date,
+        fromTimestamp(Timestamp(Date(createdAt))),
+        variantName,
+        variantValue
+    )
 }
 
 
@@ -123,7 +134,7 @@ fun TextView.reviewProduct(createdAt: String?, variantName: String?, variantValu
 fun TextView.variantOptionName(variantName: String?, variantValue: String?) {
     if (variantName == null || variantValue == null) return
 
-    val texToDisplay = "Loại: $variantName - $variantValue"
+    val texToDisplay = resources.getString(R.string.text_order_type, variantName, variantValue)
 
     text = texToDisplay.smartTruncate(20)
 
@@ -196,7 +207,7 @@ fun TextView.setProductVariantQty(qty: Number?) {
             visibility = View.INVISIBLE
         } else {
             visibility = View.VISIBLE
-            text = "$qty sản phẩm"
+            text = resources.getString(R.string.text_variant_quantity, qty.toString())
 
         }
     }

@@ -36,7 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
-                    android:hint=" "
+                    android:hint="@string/text_empty"
                     android:textColorHint="@color/text_black"
                     app:boxStrokeColor="@color/black_light"
                     app:hintTextColor="@color/text_black"
