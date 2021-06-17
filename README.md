@@ -7,7 +7,7 @@ This project for learning to build an android app with kotlin \
 - Clean Architecture
 ### Techs
 - Kotlin
-- Courotine
+- Coroutine
 - Dependency injection with Hilt
 - Firebase
 	- Firestore

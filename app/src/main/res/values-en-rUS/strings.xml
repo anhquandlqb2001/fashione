@@ -90,4 +90,10 @@
     <string name="text_add_review_now">Add review now</string>
     <string name="text_live_video">Live video</string>
     <string name="text_message">Messager</string>
+    <string name="text_delivered">Delivered</string>
+    <string name="text_completed">Completed</string>
+    <string name="text_frag_address_pickup">Pickup address</string>
+    <string name="text_frag_add_address_pickup">Add pickup address</string>
+    <string name="text_notification">Notifications</string>
+    <string name="text_video_playing">Video playing</string>
 </resources>

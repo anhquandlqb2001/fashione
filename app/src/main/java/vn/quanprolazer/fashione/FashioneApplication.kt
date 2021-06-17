@@ -7,6 +7,7 @@
 package vn.quanprolazer.fashione
 
 import android.app.Application
+import android.content.Context
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -19,6 +20,10 @@ class FashioneApplication : Application() {
 
     private val applicationScope = CoroutineScope(Dispatchers.Default)
 
+    companion object {
+        lateinit var instance: FashioneApplication private set
+    }
+
     private fun delayedInit() {
         applicationScope.launch {
             Timber.plant(Timber.DebugTree())
@@ -27,6 +32,7 @@ class FashioneApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        instance = this
         delayedInit()
     }
 

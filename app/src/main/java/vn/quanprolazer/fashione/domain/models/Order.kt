@@ -6,11 +6,16 @@
 
 package vn.quanprolazer.fashione.domain.models
 
+import android.content.res.Resources
+import androidx.core.content.ContextCompat
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import vn.quanprolazer.fashione.FashioneApplication
+import vn.quanprolazer.fashione.R
 import vn.quanprolazer.fashione.data.network.models.NetworkOrder
 import vn.quanprolazer.fashione.data.network.models.NetworkOrderItem
 import vn.quanprolazer.fashione.data.network.models.NetworkOrderItemStatusType
+import vn.quanprolazer.fashione.helpers.Strings
 
 
 data class Order(
@@ -60,19 +65,19 @@ internal fun OrderItem.toDataModel() = NetworkOrderItem(
 @Serializable
 enum class OrderItemStatusType(val status: String? = null) {
     @SerialName("CONFIRMING")
-    CONFIRMING("Đang xác nhận"),
+    CONFIRMING(Strings.get(R.string.text_confirming)),
 
     @SerialName("COLLECTING")
-    COLLECTING("Chờ lấy hàng"),
+    COLLECTING(Strings.get(R.string.text_collecting)),
 
     @SerialName("DELIVERING")
-    DELIVERING(("Đang vận chuyển")),
+    DELIVERING(Strings.get(R.string.text_delivering)),
 
     @SerialName("DELIVERED")
-    DELIVERED(("Đã giao")),
+    DELIVERED(Strings.get(R.string.text_delivered)),
 
     @SerialName("COMPLETE")
-    COMPLETE("Hoàn thành")
+    COMPLETE(Strings.get(R.string.text_completed))
 }
 
 internal fun OrderItemStatusType.toDataModel() = NetworkOrderItemStatusType.valueOf(this.name)

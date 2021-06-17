@@ -79,6 +79,8 @@
     <string name="text_confirming">Đang xác nhận</string>
     <string name="text_collecting">Chờ lấy hàng</string>
     <string name="text_delivering">Đang giao</string>
+    <string name="text_delivered">Đã giao</string>
+    <string name="text_completed">Hoàn thành</string>
     <string name="text_add_review">Đánh giá</string>
     <string name="text_pickup_address">Địa chỉ nhận hàng</string>
     <string name="text_description">Mô tả</string>
@@ -106,4 +108,8 @@
     <string name="text_variant_quantity" translatable="false">%s sản phẩm</string>
     <string name="text_live_video">Trực tiếp</string>
     <string name="text_message">Nhắn tin</string>
+    <string name="text_frag_address_pickup">Địa chỉ nhận hàng</string>
+    <string name="text_frag_add_address_pickup">Thêm địa chỉ nhận hàng</string>
+    <string name="text_notification">Thông báo</string>
+    <string name="text_video_playing">Đang phát video</string>
 </resources>

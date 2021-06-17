@@ -238,31 +238,31 @@ class MainActivity : AppCompatActivity() {
                     binding.ivNotification.visibility = View.VISIBLE
                 }
                 R.id.pickupAddressFragment -> {
-                    setupFragmentWithoutIcon(toolBar, "Địa chỉ nhận hàng")
+                    setupFragmentWithoutIcon(toolBar, getString(R.string.text_pickup_address))
                 }
                 R.id.addPickupAddressFragment -> {
-                    setupFragmentWithoutIcon(toolBar, "Thêm địa chỉ nhận hàng")
+                    setupFragmentWithoutIcon(toolBar, getString(R.string.text_add_new_pickup_address))
                 }
                 R.id.personalFragment -> {
-                    setupFragmentWithoutIcon(toolBar, "Cá nhận")
+                    setupFragmentWithoutIcon(toolBar, getString(R.string.menu_item_personal_sub_title))
                 }
                 R.id.purchaseMenuFragment -> {
-                    setupFragmentWithoutIcon(toolBar, "Đơn mua")
+                    setupFragmentWithoutIcon(toolBar, getString(R.string.text_purchase))
                 }
                 R.id.writeReviewFragment -> {
-                    setupFragmentWithoutIcon(toolBar, "Đánh giá sản phẩm")
+                    setupFragmentWithoutIcon(toolBar, getString(R.string.text_add_review))
                 }
                 R.id.reviewFragment -> {
-                    setupFragmentWithoutIcon(toolBar, "Đánh giá")
+                    setupFragmentWithoutIcon(toolBar, getString(R.string.text_add_review))
                 }
                 R.id.notificationFragment -> {
-                    setupFragmentWithoutIcon(toolBar, "Thông báo")
+                    setupFragmentWithoutIcon(toolBar, getString(R.string.text_notification))
                 }
                 R.id.videosFragment -> {
-                    setupFragmentWithoutIcon(toolBar, "Trực tiếp")
+                    setupFragmentWithoutIcon(toolBar, getString(R.string.text_live_video))
                 }
-                R.id.videoPlayerFragment -> setupFragmentWithoutIcon(toolBar, "Đang phát video")
-                R.id.cartFragment -> setupFragmentWithoutIcon(toolBar, "Giỏ hàng")
+                R.id.videoPlayerFragment -> setupFragmentWithoutIcon(toolBar, getString(R.string.text_video_playing))
+                R.id.cartFragment -> setupFragmentWithoutIcon(toolBar, getString(R.string.menu_item_cart_text))
                 else -> {
                     customActionBarTitleVisibility(View.GONE)
                     binding.ivCart.visibility = View.GONE
