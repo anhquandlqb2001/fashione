@@ -88,4 +88,6 @@
     <string name="text_empty_cart_invite">Thank you</string>
     <string name="text_admin">admin</string>
     <string name="text_add_review_now">Add review now</string>
+    <string name="text_live_video">Live video</string>
+    <string name="text_message">Messager</string>
 </resources>

@@ -104,4 +104,6 @@
     <string name="text_review_date" translatable="false">%s | %s - %s</string>
     <string name="text_order_type" translatable="false">Loại: %s - %s</string>
     <string name="text_variant_quantity" translatable="false">%s sản phẩm</string>
+    <string name="text_live_video">Trực tiếp</string>
+    <string name="text_message">Nhắn tin</string>
 </resources>

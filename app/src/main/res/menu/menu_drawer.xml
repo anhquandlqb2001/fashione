@@ -16,7 +16,7 @@
             android:title="@string/menu_item_cart_text" />
         <item
             android:id="@+id/menu_item_videos"
-            android:title="Trực tiếp" />
+            android:title="@string/text_live_video" />
     </group>
 
     <group>
@@ -24,7 +24,7 @@
             <menu>
                 <item
                     android:id="@+id/menu_item_message"
-                    android:title="Nhắn tin" />
+                    android:title="@string/text_message" />
                 <item
                     android:id="@+id/menu_item_personal"
                     android:title="@string/menu_item_profile_text" />
