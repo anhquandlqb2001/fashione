@@ -14,6 +14,20 @@ This project for learning to build an android app with kotlin \
 	- Firebase cloud messaging
 	- Firebase analytic
 - Firestore realtime with kotlin flow
+- Algolia
+
+### Functions
+- Fulltext search
+- Authentication
+- Cart
+- Order
+- Order delivery status
+- Pickup address
+- Add review
+- Messaging with admin
+- Live video
+- Push notification
+- Notifications
 
 # Result
 Home
