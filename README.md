@@ -1,6 +1,6 @@
 # Android - Kotlin
 
-This project for learning to build an android app with kotlin \
+This project for learning to build an android app with kotlin 
 ### Architecture
 - MVVM
 - Repository Pattern
@@ -30,15 +30,15 @@ This project for learning to build an android app with kotlin \
 - Notifications
 
 # Result
-Home
-![Home](screenshots/home_us.png)
-Product
-![Product](screenshots/product_us.png)
-Cart
-![Cart](screenshots/cart.jpg)
-Order
-![Order](screenshots/purchase.png)
-Live video
-![Live video](screenshots/livevideo.jpg)
+Home \
+<img src="screenshots/home_us.png" width=300 height=500 > \
+Product \
+<img src="screenshots/product_us.png" width=300 height=500 > \
+Cart \
+<img src="screenshots/cart.jpg" width=300 height=500 > \
+Purchase \
+<img src="screenshots/purchase.png" width=300 height=500 > \
+Live video \
+<img src="screenshots/livevideo.jpg" width=300 height=500 >
 
 [and more](/screenshots)
